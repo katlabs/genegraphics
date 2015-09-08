@@ -66,14 +66,14 @@
 			$scope.$watch('graphSettings.labelPosition', function(newVal) {
 				if (newVal === 'above' || newVal === 'below') {
 					for (var i = 0; i < $scope.geneData.length; i++){
-						if ($scope.geneData[i].labelcolorchanged === false) {
+						if ($scope.geneData[i].labelcolorchanged === false && $scope.geneData[i].labelposchanged === false) {
 							$scope.geneData[i].labelcolor = "#000000";
 						}
 					}
 				}
 				else if (newVal === 'middle') {
 					for (var i = 0; i < $scope.geneData.length; i++){
-						if ($scope.geneData[i].labelcolorchanged === false) {
+						if ($scope.geneData[i].labelcolorchanged === false && $scope.geneData[i].labelposchanged === false) {
 							$scope.geneData[i].labelcolor = colorService.getTextColor($scope.geneData[i].color);
 						}
 					}
