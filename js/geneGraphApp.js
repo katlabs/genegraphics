@@ -10,6 +10,10 @@
 		]);
 
 	geneGraphApp.run(function($rootScope) {
+		
+		document.getElementById("graphcontainer").style.height = window.innerHeight - 350 + "px";
+		console.log(document.getElementById("graphcontainer").style.height);
+		
 		document.addEventListener("keyup", function(e) {
 				if (e.keyCode === 27)
 						$rootScope.$broadcast("escapePressed", e.target);

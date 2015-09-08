@@ -14,7 +14,7 @@
 
 					var svg = d3.select(iElement[0])
 							.append("svg")
-							.attr("width", scope.settings.graphwidth + 20);
+							.attr("width", scope.settings.graphwidth);
 					
 					var maxwidth = 0;
 					
@@ -53,6 +53,8 @@
 						// remove all previous items before render
 						svg.selectAll("*").remove();
 						
+						console.log(scope.data);
+						
 						if (data.length <= 0) {
 							return;
 						}
@@ -89,6 +91,7 @@
 									currLane -= 1;
 								}
 								lastLaneOffset = laneOffset;
+								
 								return buffer* ((currLane+1)+laneOffset) + ((laneOffset+1)*buffer) + (featureheight*(currLane + laneOffset));
 							}
 							else {
@@ -99,14 +102,14 @@
 						var getFeatureStart = function(d, i) {
 							if (shiftgenes == true && keepgaps == false) {
 								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
-										console.log(data[i].currLane);
+										//console.log(data[i].currLane);
 										prevend = 0;
 								}
 								return prevend + 1;
 							}
 							else if (shiftgenes == true && keepgaps == true) {
 								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
-										console.log(data[i].currLane);
+										//console.log(data[i].currLane);
 										prevend = 0;
 								}
 								if (i < 1 || (scope.data[i].currLane !== scope.data[i-1].currLane)){
@@ -125,14 +128,14 @@
 						var getFeatureEnd = function(d, i) {
 							if (shiftgenes == true && keepgaps == false) {
 								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
-										console.log(data[i].currLane);
+										//console.log(data[i].currLane);
 										prevend = 0;
 								}
 								return prevend + 1 + ((d.size / maxwidth) * graphwidth);
 							}
 							else if (shiftgenes == true && keepgaps == true) {
 								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
-										console.log(data[i].currLane);
+										//console.log(data[i].currLane);
 										prevend = 0;
 								}
 								if (i < 1 || (scope.data[i].currLane !== scope.data[i-1].currLane)){
@@ -140,7 +143,7 @@
 								}
 								else
 									var gap = ((Math.min(d.start, d.stop) - Math.max(scope.data[i-1].start, scope.data[i-1].stop))/maxwidth) *graphwidth;
-								console.log("gap: " + gap);
+								//console.log("gap: " + gap);
 								return prevend + 1 + gap + ((d.size / maxwidth) * graphwidth);
 							}
 							else {
@@ -169,7 +172,6 @@
 										var x3 = getFeatureEnd(d, i);
 									else if (d.strand === '-')
 										var x3 = getFeatureStart(d, i);
-									//console.log(prevend + " " + x1 + " " + x3);
 									prevend = Math.max(x1, x3);
 									var y3 = y1+(featureheight)/2;
 									var x2 = ((x3 - x1) * 0.8) + x1;
@@ -178,6 +180,15 @@
 									var y4 = y1+featureheight;
 									var x5 = x1;
 									var y5 = y4;
+									
+									if (x1 > scope.settings.graphwidth) {
+										svg.attr("width", x1);
+										console.log(">>>>" + x1);
+									}
+									if (x3 > scope.settings.graphwidth) {
+										svg.attr("width", x3);
+										console.log(">>>>" + x3);
+									}
 
 									if(y4 > globalMaxY) { globalMaxY = y4 + 35; }
 									
@@ -234,10 +245,13 @@
 								.attr("dominant-baseline", function(d, i) {
 									return "text-after-edge";
 								})
-								.attr("y", function(d, i){return whichLane(d, i) - 35;})
+								.attr("y", function(d, i){
+									currLane = 0;
+									lastLaneOffset = -1;
+									return whichLane(d, i) - 35;})
 								.attr("x", function(d, i){return 0;})
 								.text(function(d, i){
-									console.log(d.genome); 
+									//console.log(d.genome); 
 									if(prevCurrLane < d.currLane) {
 										prevCurrLane = d.currLane;
 										return d.genome;

@@ -6,8 +6,8 @@
 		geneService, colorService) {
 			$scope.graphSettings = {};
 			$scope.graphSettings.title = "Genome Neighborhood Graphic";
-			$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth;
-			$scope.graphSettings.graphwidthoriginal = document.getElementById('graphcontainer').offsetWidth;
+			$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 20;
+			$scope.graphSettings.graphwidthoriginal = document.getElementById('graphcontainer').offsetWidth - 20;
 			$scope.graphSettings.graphwidthpercent = 100;
 			$scope.graphSettings.maxwidth = 0;
 			$scope.graphSettings.featureheight = 50;
@@ -186,9 +186,6 @@
 				$rootScope.$on("menuClicked", function(e) {
 					$scope.keepMenu = true;
 				});
-				// $rootScope.$on("graphClicked", function(e) {
-					// $scope.keepMenu = true;
-				// });
 				$scope.$on("geneClicked", function(e) {
 					$scope.keepMenu = true;
 					$scope.$apply($scope.showMenu(e));
