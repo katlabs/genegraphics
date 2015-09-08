@@ -45,6 +45,12 @@ body > h1 {
 	margin-bottom: 10px;
 }
 
+#titlecontainer {
+  font-family: Arial;
+  color: #47a3da;
+  font-size: 1.9em;
+}
+
 #menuButton {
 	position: fixed;
 	bottom: 5%;
