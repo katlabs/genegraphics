@@ -1,0 +1,16 @@
+Genome	ID	Start	Stop	Size (nt)	Strand	Function	FC	SS	Set	CL
+Sinorhizobium fredii	fig|380.5.peg.34	33077	35926	2850	+	[Protein-PII] uridylyltransferase (EC 2.7.7.59)	 	8,10	 	
+Sinorhizobium fredii	fig|380.5.peg.35	37530	35923	1608	-	Proposed peptidoglycan lipid II flippase MurJ	 	 	 		 	 	
+Sinorhizobium fredii	fig|380.5.peg.37	39171	38107	1065	-	Tryptophanyl-tRNA synthetase (EC 6.1.1.2)	 	20	 	
+Sinorhizobium fredii	fig|380.5.peg.38	39248	39715	468	+	Universal stress protein UspA and related nucleotide-binding proteins	5	 	 	
+Sinorhizobium fredii	fig|380.5.peg.39	39823	40389	567	+	hypothetical protein	7	 	 	
+Sinorhizobium fredii	fig|380.5.peg.40	41286	40618	669	-	TsaB protein, required for threonylcarbamoyladenosine (t(6)A) formation in tRNA	10	3,4,6,7,17,18,19	 	
+Sinorhizobium fredii	fig|380.5.peg.41	41368	41865	498	+	Ribosomal-protein-S18p-alanine acetyltransferase (EC 2.3.1.-)	7	3,4,6,7	 	
+Sinorhizobium fredii	fig|380.5.peg.42	42009	42824	816	+	1-acyl-sn-glycerol-3-phosphate acyltransferase (EC 2.3.1.51)	6	1,11	 	
+Sinorhizobium fredii	fig|380.5.peg.43	42903	44303	1401	+	tRNA-i(6)A37 methylthiotransferase	 	15,16,21,22	1	
+Sinorhizobium fredii	fig|380.5.peg.44	44434	45474	1041	+	Phosphate starvation-inducible protein PhoH, predicted ATPase	17	1,2	 	
+Sinorhizobium fredii	fig|380.5.peg.45	45492	46013	522	+	Metal-dependent hydrolase YbeY, involved in rRNA and/or ribosome maturation and assembly	12	1,2	 	
+Sinorhizobium fredii	fig|380.5.peg.46	46010	47170	1161	+	Magnesium and cobalt efflux protein CorC	15	1,2,5	 	
+Sinorhizobium fredii	fig|380.5.peg.47	47771	47196	576	-	Mll7752 protein	 	9	 	
+Sinorhizobium fredii	fig|380.5.peg.48	48175	49770	1596	+	Apolipoprotein N-acyltransferase (EC 2.3.1.-) / Copper homeostasis protein CutE	12	1,5,12	 	
+Sinorhizobium fredii	fig|380.5.peg.50	51819	50551	1269	-	S-adenosylmethionine synthetase (EC 2.5.1.6)	 	13,14	 	

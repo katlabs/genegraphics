@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Gene Graphics</title>
+		<link rel="stylesheet" type="text/css" href="styles/main.css">
+		<link rel="stylesheet" type="text/css" href="styles/spectrum.css">
+	</head>
+	<body ng-app="geneGraphApp" >
+		<div ng-controller="menuCtrl">
+			<div ng-controller="graphCtrl">
+				<menu id="navMenu" visible="bottomVisible" alignment="bottom" ng-cloak>
+					<div class="menutitle"><h3>Menu</h3>
+					</div>
+					<div>
+						<h3>Graph Settings</h3>
+						<table>
+							<tr>
+								<td>
+									Image width:
+								</td>
+								<td>
+									Gene height:
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="range" id="widthslider" min="10" max="300" ng-model="graphSettings.graphwidthpercent" ng-change="changeGraphWidth(graphSettings.graphwidthpercent);">
+								</td>
+								<td>
+									<input type="range" orient="vertical" id="featheightslider" min="5" max="100" ng-model="graphSettings.featureheight" ng-change="changeFeatureHeight(graphSettings.featureheight);">
+								</td>
+							</tr>
+						</table>
+						Lane settings:<br>
+						<label><input type="checkbox" ng-model="graphSettings.multilane" ng-click="clickMultiLane()" >Multiple lanes for overlapping genes</label><br>
+						<label ng-hide="graphSettings.multilane"><input type="checkbox" ng-model="graphSettings.shiftgenes" ng-click="clickShiftgenes()" >Shift overlapping genes</label><br>
+						<label ng-show="graphSettings.shiftgenes"><input type="checkbox" ng-model="graphSettings.keepgaps" >Keep gaps between genes</label><br>
+					</div>
+					<div>
+						Global Default Label Options:<br>
+						<select ng-model="graphSettings.fontFamily">
+							<option value='Arial, Helvetica, sans-serif'>Arial</option>
+							<option value='"Arial Black", Gadget, sans-serif'>Arial Black</option>
+							<option value='"Comic Sans MS", cursive, sans-serif'>Comic Sans MS</option>
+							<option value='"Courier New", Courier, monospace'>Courier New</option>
+							<option value='Georgia, serif'>Georgia</option>
+							<option value='Impact, Charcoal, sans-serif'>Impact<r/option>
+							<option value='"Lucida Console", Monaco, monospace'>Lucida Console</option>
+							<option value='Tahoma, Geneva, sans-serif'>Tahoma</option>
+							<option value='"Times New Roman", Times, serif'>Times New Roman</option>
+							<option value='"Trebuchet MS", Helvetica, sans-serif'>Trebuchet MS</option>
+							<option value='Verdana, Geneva, sans-serif'>Verdana</option>
+						</select>
+						<span style="white-space:nowrap"><input type="number" ng-model="graphSettings.fontSize" min="5" max="32"> px</span><br>
+						<label style="white-space:nowrap"><input type="radio" name="labelPosition" value="above" ng-model="graphSettings.labelPosition" >Above</label>
+						<label style="white-space:nowrap"><input type="radio" name="labelPosition" value="middle" ng-model="graphSettings.labelPosition" >Middle</label>
+						<label style="white-space:nowrap"><input type="radio" name="labelPosition" value="below" ng-model="graphSettings.labelPosition" >Below</label>
+						<br>
+						<button type="button" value="hide all labels" ng-click="changeAllLabels(true);">hide all labels</button>
+						<button type="button" value="show all labels" ng-click="changeAllLabels(false);">show all labels</button><br>
+						<button type="button" value="black labels" ng-click="colorAllLabels('#000000');">black labels</button>
+						<button type="button" value="white labels" ng-click="colorAllLabels('#ffffff');">white labels</button>
+					</div>
+					<div ng-show="selectedGene >= 0">
+						<h3>Gene {{selectedGene +1}}</h3> 
+						Name: <input type="text" ng-model="geneData[selectedGene]['name']" /><br>
+						Colors<br>
+						Gene: <spectrum-colorpicker format="'hex'" ng-model="geneData[selectedGene]['color']"></spectrum-colorpicker><input type="text" ng-model="geneData[selectedGene]['color']"><br>
+						Label: <spectrum-colorpicker format="'hex'" ng-model="geneData[selectedGene]['labelcolor']" ng-change="changeLabelColor(selectedGene);" ></spectrum-colorpicker><input type="text" ng-model="geneData[selectedGene]['labelcolor']"><br>
+						Hide label: <input type="checkbox" ng-model="geneData[selectedGene]['labelhidden']">
+					</div>
+					<div ng-hide="selectedGene >= 0">
+						Click on a gene to change it.
+					</div>
+				</menu>
+				<div id="titlecontainer" ng-cloak>
+					<span>{{graphSettings.title}}</span>
+				</div>
+				<div ng-controller="FileCtrl">
+					<label class="fileinlabel">
+						<input type="file" on-read-file="parseFile($fileContent, $fileType)" />
+						<span>Choose File</span>
+					</label>
+				</div>
+				<div id="graphcontainer">
+					<d3-genes data="geneData" settings="graphSettings" on-click="selectGene(index)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
+				</div>
+				<div id="exportcontainer" ng-export ng-show="geneData[0]">
+				</div>
+			</div>
+			<img id="menuButton" src="data/menu.svg" height="50" width="50" ng-click="showMenu($event)">
+		</div>
+		<script src="js/lib/jquery-2.1.4.min.js"></script>
+		<script src="js/lib/angular.min.js"></script>
+		<script src="js/lib/spectrum.js"></script>
+		<script src="js/lib/angular-spectrum-colorpicker.min.js"></script>
+		<script src="js/lib/Blob.js"></script>
+		<script src="js/lib/canvas-toBlob.js"></script>
+		<script src="js/lib/FileSaver.min.js"></script>
+		<script src="js/geneGraphApp.js"></script>
+		<script src="js/services.js"></script>
+		<script src="js/controllers.js"></script>
+		<script src="js/directives.js"></script>
+	</body>
+</html>

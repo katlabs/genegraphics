@@ -1,0 +1,26 @@
+Genome	ID	Start	Stop	Size (nt)	Strand	Function	Gene Name
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1820	324686	325216	531	+	Gluconokinase (EC 2.7.1.12)	gntK
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1821	326263	325244	1020	-	Alcohol dehydrogenase (EC 1.1.1.1)	adh
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.rna.24	326486	326567	82	+	 	leuX
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.4587	327072	327272	201	+	FIG01046728: hypothetical protein	mobile
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1823	327385	327624	240	+	CcdA protein (antitoxin to CcdB)	ccdA
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1824	327627	327935	309	+	CcdB toxin protein	ccdB
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1825	327904	328020	117	+	 	
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1826	328501	328352	150	-	hypothetical protein	hyp
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1827	329161	330117	957	+	tgtA5 cluster protein 2	cl2
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1828	330191	331441	1251	+	archaeosine tRNA-ribosyltransferase (EC 2.4.2.-) type 5	tgtA5
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1829	331438	332565	1128	+	tgtA5 cluster protein 1	cl1
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1830	333144	335924	2781	+	"COG0553: Superfamily II DNA/RNA helicases, SNF2 family"	snf2
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1831	335937	338387	2451	+	ATP-dependent DNA helicase RecQ	recQ
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1832	338387	339286	900	+	hypothetical protein	hyp
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1833	339283	342435	3153	+	COG0419: ATPase involved in DNA repair	atpase
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1834	342422	343156	735	+	hypothetical protein	hyp
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1835	343156	347673	4518	+	Lhr-like helicases	lhr
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1836	347670	348215	546	+	PLD-like domain	pld
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1837	348215	350386	2171	+	tgtA5 cluster protein 3	cl3
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.4588	350784	350422	363	-	"6-carboxytetrahydropterin synthase (EC 4.1.2.50) @ Queuosine biosynthesis QueD, PTPS-I"	QueD
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1840	350934	351233	300	+	Fosfomycin resistance protein FosA	fosA
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1841	351586	352461	876	+	HNH nuclease	hnh
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1842	353655	352939	717	-	Transcriptional regulatory protein YeeN	yeeN
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1843	353753	353884	132	+	 	
+Salmonella enterica subsp. enterica serovar Montevideo str.	fig|745015.3.peg.1844	355840	354215	1626	-	3-demethylubiquinone-9 3-methyltransferase (EC 2.1.1.64)	ubiG

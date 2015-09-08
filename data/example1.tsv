@@ -1,0 +1,7 @@
+Genome	ID	Start	Stop	Size (nt)	Strand	Function	Gene Name	Color
+Nocardia cyriacigeorgica	fig|135487.3.peg.3712	4095488	4093965	1524	-	GTP-binding protein HflX	HflX	#687699
+Nocardia cyriacigeorgica	fig|135487.3.peg.3713	4096476	4095577	900	-	Diaminopimelate epimerase	DapF	#637700
+Nocardia cyriacigeorgica	fig|135487.3.peg.3714	4097333	4096500	834	-	tRNA/rRNA methyltransferase (SpoU)	SpoU	#FF8877
+Nocardia cyriacigeorgica	fig|135487.3.peg.3715	4098298	4097330	969	-	tRNA dimethylallyltransferase (EC 2.5.1.75)	miaA	#3366CC
+Nocardia cyriacigeorgica	fig|135487.3.peg.3716	4099146	4098295	852	-	hypothetical protein		#0033FF
+Nocardia cyriacigeorgica	fig|135487.3.peg.3717	4099316	4100689	1374	+	ATPase involved in DNA repair	ATPase	#666666
