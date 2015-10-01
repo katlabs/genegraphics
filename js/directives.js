@@ -242,6 +242,20 @@
 								.attr("fill", "#000000")
 								.attr("font-family", function(){return scope.settings.fontFamily;})
 								.attr("font-size", function(){return scope.settings.fontSize + "px";})
+								.attr("font-style", function(){
+									if (scope.settings.fontStyle.indexOf('italic') > -1){
+										return 'italic';
+									}
+									else
+										return 'normal';
+									})
+								.attr("font-weight", function(){
+									if (scope.settings.fontStyle.indexOf('bold') > -1){
+										return 'bold';
+									}
+									else
+										return 'normal';
+									})
 								.attr("dominant-baseline", function(d, i) {
 									return "text-after-edge";
 								})
@@ -269,6 +283,20 @@
 								})
 								.attr("font-family", function(){return scope.settings.fontFamily;})
 								.attr("font-size", function(){return scope.settings.fontSize + "px";})
+								.attr("font-style", function(){
+									if (scope.settings.fontStyle.indexOf('italic') > -1){
+										return 'italic';
+									}
+									else
+										return 'normal';
+									})
+								.attr("font-weight", function(){
+									if (scope.settings.fontStyle.indexOf('bold') > -1){
+										return 'bold';
+									}
+									else
+										return 'normal';
+									})
 								.attr("dominant-baseline", function(d, i) {
 									if (d.labelposchanged === true){
 										return;

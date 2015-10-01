@@ -24,10 +24,18 @@
 							</tr>
 							<tr>
 								<td>
-									<input type="range" id="widthslider" min="10" max="300" ng-model="graphSettings.graphwidthpercent" ng-change="changeGraphWidth(graphSettings.graphwidthpercent);">
+									<input type="range" id="widthslider" min="10" max="300" ng-model="graphSettings.graphwidthpercent" ng-change="changeGraphWidthPercent(graphSettings.graphwidthpercent);">
 								</td>
 								<td>
 									<input type="range" orient="vertical" id="featheightslider" min="5" max="100" ng-model="graphSettings.featureheight" ng-change="changeFeatureHeight(graphSettings.featureheight);">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" id="widthtxt" ng-model="graphSettings.graphwidth" ng-change="changeGraphWidth(graphSettings.graphwidth);"> px
+								</td>
+								<td>
+									<input type="text" id="featureheighttxt" ng-model="graphSettings.featureheight" ng-change="changeFeatureHeight(graphSettings.featureheight);"> px
 								</td>
 							</tr>
 						</table>
@@ -50,6 +58,12 @@
 							<option value='"Times New Roman", Times, serif'>Times New Roman</option>
 							<option value='"Trebuchet MS", Helvetica, sans-serif'>Trebuchet MS</option>
 							<option value='Verdana, Geneva, sans-serif'>Verdana</option>
+						</select>
+						<select ng-model="graphSettings.fontStyle">
+							<option value='normal'>Normal</option>
+							<option value='italic'><i>Italic</i></option>
+							<option value='bold'><b>Bold</b></option>
+							<option value='bold,italic'><b><i>Bold/Italic</b></i></option>
 						</select>
 						<span style="white-space:nowrap"><input type="number" ng-model="graphSettings.fontSize" min="5" max="32"> px</span><br>
 						<label style="white-space:nowrap"><input type="radio" name="labelPosition" value="above" ng-model="graphSettings.labelPosition" >Above</label>

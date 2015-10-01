@@ -12,6 +12,7 @@
 			$scope.graphSettings.maxwidth = 0;
 			$scope.graphSettings.featureheight = 50;
 			$scope.graphSettings.fontFamily = 'Arial, Helvetica, sans-serif';
+			$scope.graphSettings.fontStyle = 'normal';
       $scope.graphSettings.fontSize = 18;
       $scope.graphSettings.labelPosition = 'middle';
 			$scope.graphSettings.multilane = true;
@@ -33,8 +34,11 @@
 				$scope.selectedGene = parseInt(index);
         $scope.$apply();
 			};
+			$scope.changeGraphWidthPercent = function(newWidth){
+				$scope.graphSettings.graphwidth = Math.round((parseInt(newWidth) / 100) * $scope.graphSettings.graphwidthoriginal);
+			};
 			$scope.changeGraphWidth = function(newWidth){
-				$scope.graphSettings.graphwidth = (parseInt(newWidth) / 100) * $scope.graphSettings.graphwidthoriginal;
+				$scope.graphSettings.graphwidth = parseInt(newWidth);
 			};
 			$scope.changeFeatureHeight = function(newHeight){
 				$scope.graphSettings.featureheight = parseInt(newHeight);
