@@ -9,13 +9,16 @@
 					data: "=",
 					settings: "=settings",
 					onClick: "&onClick",
+					onClickGenome: "&onClickGenome"
 				},
 				link: function(scope, iElement, iAttrs) {
-
+					
+					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
 							.append("svg")
 							.attr("width", scope.settings.graphwidth);
 					
+					// maximum width of the data
 					var maxwidth = 0;
 					
 					// on window resize, re-render d3 canvas
@@ -30,15 +33,18 @@
 						}
 					);
 					
+					// re-render when there is a change in the data
 					scope.$watch('data', function(newVals, oldVals) {
 						scope.settings.maxwidth = geneService.getMaxWidth(newVals);
 						return scope.render(newVals);
 					}, true);
 					
+					// re-render when there is a change in the settings
 					scope.$watch('settings', function(newVals, oldVals) {
 						return scope.render(scope.data);
 					}, true);
-
+					
+					// re-render when the graph width or gene height sliders are moved
 					scope.$watchGroup(['settings.graphwidth', 'settings.featureheight'], function(newVals, oldVals, scope) {
 							scope.settings.maxwidth = geneService.getMaxWidth(scope.data);
 							scope.data = geneService.hideSmallGeneLabels(scope.data, scope.settings.maxwidth, scope.settings.graphwidth);
@@ -53,14 +59,15 @@
 						// remove all previous items before render
 						svg.selectAll("*").remove();
 						
-						console.log(scope.data);
+						//console.log(scope.data);
 						
+						// do nothing if there is no data
 						if (data.length <= 0) {
 							return;
 						}
 						
 						console.log("rendering graph...");
-
+						
 						var graphwidth = parseInt(scope.settings.graphwidth);
 						var featureheight = parseInt(scope.settings.featureheight);
 						var maxwidth = scope.settings.maxwidth;
@@ -72,11 +79,12 @@
 						var currLane = 0;
 						var lastLaneOffset = -1;
 						var globalMaxY = 0;
-
+						
+						
 						var whichLane = function(d, i) {
-
+						// Function to determine the first y position of the feature
 							var laneOffset = d.currLane;
-
+							
 							if (multilane == true){
 								if (lastLaneOffset != laneOffset) {
 									currLane = 0;
@@ -95,7 +103,8 @@
 								return buffer* ((currLane+1)+laneOffset) + ((laneOffset+1)*buffer) + (featureheight*(currLane + laneOffset));
 							}
 							else {
-								return buffer * (laneOffset+1) + ((laneOffset+1)*buffer) + (featureheight*laneOffset);
+								//return buffer * (laneOffset+1) + ((laneOffset+1)*buffer) + (featureheight*laneOffset);
+								return buffer * (laneOffset+1) + ((laneOffset+1)*buffer);
 							}
 						}
 						var prevend = 0;
@@ -155,6 +164,7 @@
 															.x(function(d) { return d.x; })
 															.y(function(d) { return d.y; })
 															.interpolate("linear");
+															
 						//create the arrow for genes
 						svg.selectAll("path")
 							.data(data)
@@ -235,42 +245,61 @@
 																									});
 																									
 					var prevCurrLane = -1;
+					
 					svg.selectAll("text.genomelabel")
 							.data(data)
 							.enter()
 								.append("text")
-								.attr("fill", "#000000")
-								.attr("font-family", function(){return scope.settings.fontFamily;})
-								.attr("font-size", function(){return scope.settings.fontSize + "px";})
-								.attr("font-style", function(){
-									if (scope.settings.fontStyle.indexOf('italic') > -1){
-										return 'italic';
+								.each(function(d) {
+									var text = d3.select(this)
+														.attr("fill", "#000000")
+														.attr("font-family", function(){return scope.settings.fontFamily;})
+														.attr("font-size", function(){return scope.settings.fontSize + "px";})
+														.attr("dominant-baseline", function(d, i) {return "text-after-edge";})
+														.attr("y", function(d, i){
+																			currLane = 0;
+																			lastLaneOffset = -1;
+																			return whichLane(d, i) - 35;})
+														.attr("x", function(d, i){return 0;})
+														
+									for (var n = 0; n < d.genome.length; n++) {
+										text.append("tspan")
+												.on("click", function(d, i){ 
+													for (var j = 0; j < d.genome.length; j++){
+														if (d3.select(this)[0][0].textContent === d.genome[j] + " "){
+															var wind = j;
+														}
+													}
+													for (var j = 0; j < scope.data.length; j++){
+														if (d.genome == scope.data[j].genome){
+															var gind = j;
+														}
+													}
+													console.log(gind);
+													return scope.onClickGenome({genomeindex: gind, wordindex: wind});})
+												.attr("font-style", function(){
+													if (d.genomestyles[n] === "italic" || d.genomestyles[n] === "bold,italic"){
+														return 'italic';
+													}
+													else
+														return 'normal';
+												})
+												.attr("font-weight", function(){
+													if (d.genomestyles[n] === "bold" || d.genomestyles[n] === "bold, italic"){
+														return 'bold';
+													}
+													else
+														return 'normal';
+												})
+												.text(function(d,i){
+													if(prevCurrLane < d.currLane) {
+														return d.genome[n] + " ";
+													}
+													else return;
+												})
 									}
-									else
-										return 'normal';
-									})
-								.attr("font-weight", function(){
-									if (scope.settings.fontStyle.indexOf('bold') > -1){
-										return 'bold';
-									}
-									else
-										return 'normal';
-									})
-								.attr("dominant-baseline", function(d, i) {
-									return "text-after-edge";
+									prevCurrLane = d.currLane;
 								})
-								.attr("y", function(d, i){
-									currLane = 0;
-									lastLaneOffset = -1;
-									return whichLane(d, i) - 35;})
-								.attr("x", function(d, i){return 0;})
-								.text(function(d, i){
-									//console.log(d.genome); 
-									if(prevCurrLane < d.currLane) {
-										prevCurrLane = d.currLane;
-										return d.genome;
-									}
-									else return;});
 									
 					 svg.selectAll("text.genelabel")
 							.data(data)
@@ -283,15 +312,29 @@
 								})
 								.attr("font-family", function(){return scope.settings.fontFamily;})
 								.attr("font-size", function(){return scope.settings.fontSize + "px";})
-								.attr("font-style", function(){
-									if (scope.settings.fontStyle.indexOf('italic') > -1){
+								.attr("font-style", function(d, i){
+									if (d.labelstylechanged === false){
+										if (scope.settings.fontStyle === "italic" || scope.settings.fontStyle === "bold,italic"){
+											return 'italic';
+										}
+										else
+											return 'normal';
+									}
+									else if (d.labelstyle === "italic" || d.labelstyle === "bold,italic"){
 										return 'italic';
 									}
 									else
 										return 'normal';
 									})
-								.attr("font-weight", function(){
-									if (scope.settings.fontStyle.indexOf('bold') > -1){
+								.attr("font-weight", function(d, i){
+									if (d.labelstylechanged === false){
+										if (scope.settings.fontStyle === "bold" || scope.settings.fontStyle === "bold,italic"){
+											return 'bold';
+										}
+										else
+											return 'normal';
+									}
+									else if (d.labelstyle === "bold" || d.labelstyle === "bold,italic"){
 										return 'bold';
 									}
 									else

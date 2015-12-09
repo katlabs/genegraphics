@@ -31,7 +31,15 @@
 			
 			$scope.selectGene = function(index){
 				$scope.$emit('geneClicked');
+				$scope.selectedGenome = -1;
 				$scope.selectedGene = parseInt(index);
+        $scope.$apply();
+			};
+			$scope.selectGenome = function(genomeindex, wordindex){
+				$scope.$emit('geneClicked');
+				$scope.selectedGene = -1;
+				$scope.selectedGenome = parseInt(genomeindex);
+				$scope.selectedWord = parseInt(wordindex);
         $scope.$apply();
 			};
 			$scope.changeGraphWidthPercent = function(newWidth){
@@ -45,6 +53,16 @@
 			};
 			$scope.changeLabelColor = function(selectedGene){
 				$scope.geneData[selectedGene].labelcolorchanged = true;
+			}
+			$scope.changeLabelStyle = function(selectedGene){
+				$scope.geneData[selectedGene].labelstylechanged = true;
+			}
+			$scope.changeDefaultStyle = function(){
+				for (var i = 0; i < $scope.geneData.length; i++){
+					if ($scope.geneData[i].labelstylechanged === false){
+						$scope.geneData[i].labelstyle = $scope.graphSettings.fontStyle;
+					}
+				}
 			}
 			$scope.clickMultiLane = function(){
 				if ($scope.graphSettings.multilane == true){
@@ -127,9 +145,16 @@
 				var maxVertOff = 0; // A counter to keep track of how many offets we'd made
 				
 				for (var i = 1; i < lines.length; i++){
-					var gene = {genome:null, start:null, stop:null, size:null, strand:null, name:null, color:null, labelcolor:null, labelhidden:false,  labelcolorchanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
+					var gene = {genome:null, genomestyles:null, start:null, stop:null, size:null, strand:null, name:null, color:null, labelcolor:null, labelstyle: 'normal', labelhidden:false,  labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
 					var columns = lines[i].split('\t');
-					var genome = columns[headerpos['genome']];
+					
+					var genome = columns[headerpos['genome']].split(" ");
+					var genomestyles = [];
+					gene['genome'] = genome;
+					for (var j = 0; j < genome.length; j++){
+						genomestyles.push("italic");
+					}
+					console.log(gene['genome']);
 					for (var key in gene) {
 						if(!offset.hasOwnProperty(genome)) {
 						 //console.log("--" + genome + " - " + maxVertOff);
@@ -137,7 +162,7 @@
 						 maxVertOff+=2;
 						 offset[genome] = Math.min(parseInt(columns[headerpos['start']]), parseInt(columns[headerpos['stop']]));
 						}
-						if ((key === 'name' || key === 'strand' || key === 'color' || key === 'genome') && headerpos[key] !== null){
+						if ((key === 'name' || key === 'strand' || key === 'color') && headerpos[key] !== null){
 							gene[key] = columns[headerpos[key]];
 						}
 						else if((key === 'start' || key === 'stop') && headerpos[key] !== null){
@@ -168,6 +193,7 @@
 						}
 						gene['currLane']=vertOff[genome];
 					}
+					gene["genomestyles"] = genomestyles;
 					$scope.data.push(gene);
 				}
 				geneService.updateGene($scope.data);
