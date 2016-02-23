@@ -384,6 +384,11 @@
 							.append("button")
 							.html("Export PNG")
 							.on("click",svgToPNG);
+					
+					d3.select(element[0])
+							.append("button")
+							.html("Export SVG")
+							.on("click",saveSVG);
 							
 					function svgToPNG(){
 						var svg = d3.select("svg"),
@@ -406,6 +411,16 @@
 							saveAs(blob, "newgenegraphic.png");
 						});
 					};
+					
+					function saveSVG(){
+						var svg = d3.select("svg").node();
+						
+						var svgxml = (new XMLSerializer).serializeToString(svg);
+						
+						var myblob = new Blob([svgxml], {type:"application/svg+xml;charset=" + svg.characterSet});
+						saveAs(myblob, "newgenegraphic.svg");
+					};
+						
 				}
 			};
 		}])
