@@ -170,7 +170,7 @@
 							.data(data)
 							.enter()
 								.append("path")
-								.on("click", function(d, i){ return scope.onClick({index: i});})
+								.on("contextmenu", function(d, i){  d3.event.preventDefault(); return scope.onClick({index: i, x: event.clientX, y: event.clientY});})
 								.attr("d", function(d, i) {
 									// get start and stop positions relative to max size
 									if (d.strand === '+')
@@ -264,7 +264,8 @@
 														
 									for (var n = 0; n < d.genome.length; n++) {
 										text.append("tspan")
-												.on("click", function(d, i){ 
+												.on("contextmenu", function(d, i){ 
+													d3.event.preventDefault();
 													for (var j = 0; j < d.genome.length; j++){
 														if (d3.select(this)[0][0].textContent === d.genome[j] + " "){
 															var wind = j;
@@ -276,7 +277,7 @@
 														}
 													}
 													console.log(gind);
-													return scope.onClickGenome({genomeindex: gind, wordindex: wind});})
+													return scope.onClickGenome({genomeindex: gind, wordindex: wind, x: event.clientX, y: event.clientY});})
 												.attr("font-style", function(){
 													if (d.genomestyles[n] === "italic" || d.genomestyles[n] === "bold,italic"){
 														return 'italic';
@@ -366,6 +367,7 @@
 										return 'hidden';
 									}
 								})
+								.attr("cursor", "move")
 								.text(function(d){return d.name;});
 								
 							svg.attr("height", globalMaxY);
@@ -374,28 +376,21 @@
 			};
 		}])
 		
-		.directive('ngExport', ['d3', function(d3) {
+		.directive('ngExportpng', ['d3', function(d3) {
 			return {
-				restrict: 'A',
+				restrict: 'AE',
 				scope: false,
 				link: function(scope, element, attrs){
-
-					d3.select(element[0])
-							.append("button")
-							.html("Export PNG")
-							.on("click",svgToPNG);
 					
 					d3.select(element[0])
-							.append("button")
-							.html("Export SVG")
-							.on("click",saveSVG);
-							
+						.on("click", svgToPNG);
+					
 					function svgToPNG(){
 						var svg = d3.select("svg"),
 								img = new Image(),
 								serializer = new XMLSerializer(),
 								svgStr = serializer.serializeToString(svg[0][0]);
-								
+						
 						img.src = 'data:image/svg+xml;base64,'+window.btoa(svgStr);
 						var w = svg.attr('width');
 						var h = svg.attr('height');
@@ -411,6 +406,19 @@
 							saveAs(blob, "newgenegraphic.png");
 						});
 					};
+					
+				}
+			};
+		}])
+		
+		.directive('ngExportsvg', ['d3', function(d3) {
+			return {
+				restrict: 'AE',
+				scope: false,
+				link: function(scope, element, attrs){
+					
+					d3.select(element[0])
+						.on("click", saveSVG);
 					
 					function saveSVG(){
 						var svg = d3.select("svg").node();
@@ -455,17 +463,4 @@
 				}
 			};
 		})
-		
-		
-		.directive("menu", function() {
-				return {
-						restrict: "E",
-						template: "<div ng-class='{ show: visible, bottom: alignment === \"bottom\", right: alignment === \"right\" }' ng-transclude></div>",
-						transclude: true,
-						scope: {
-								visible: "=",
-								alignment: "@"
-						}
-				};
-		});
 }());

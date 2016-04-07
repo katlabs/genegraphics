@@ -1,133 +1,27 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8"/>
 		<title>Gene Graphics</title>
 		<link rel="stylesheet" type="text/css" href="styles/main.css">
 		<link rel="stylesheet" type="text/css" href="styles/spectrum.css">
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
-	<body ng-app="geneGraphApp" >
-		<div ng-controller="menuCtrl">
-			<div ng-controller="graphCtrl">
-				<menu id="navMenu" visible="bottomVisible" alignment="bottom" ng-cloak>
-					<div class="menutitle"><h3>Menu</h3>
-					</div>
-					<div>
-						<h3>Graph Settings</h3>
-						<table>
-							<tr>
-								<td>
-									Image width:
-								</td>
-								<td>
-									Gene height:
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="range" id="widthslider" min="10" max="300" ng-model="graphSettings.graphwidthpercent" ng-change="changeGraphWidthPercent(graphSettings.graphwidthpercent);">
-								</td>
-								<td>
-									<input type="range" orient="vertical" id="featheightslider" min="5" max="100" ng-model="graphSettings.featureheight" ng-change="changeFeatureHeight(graphSettings.featureheight);">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="text" id="widthtxt" ng-model="graphSettings.graphwidth" ng-change="changeGraphWidth(graphSettings.graphwidth);"> px
-								</td>
-								<td>
-									<input type="text" id="featureheighttxt" ng-model="graphSettings.featureheight" ng-change="changeFeatureHeight(graphSettings.featureheight);"> px
-								</td>
-							</tr>
-						</table>
-						Lane settings:<br>
-						<label><input type="checkbox" ng-model="graphSettings.multilane" ng-click="clickMultiLane()" >Multiple lanes for overlapping genes</label><br>
-						<label ng-hide="graphSettings.multilane"><input type="checkbox" ng-model="graphSettings.shiftgenes" ng-click="clickShiftgenes()" >Shift overlapping genes</label><br>
-						<label ng-show="graphSettings.shiftgenes"><input type="checkbox" ng-model="graphSettings.keepgaps" >Keep gaps between genes</label><br>
-					</div>
-					<div>
-						Default font:<br>
-						<select ng-model="graphSettings.fontFamily">
-							<option value='Arial, Helvetica, sans-serif'>Arial</option>
-							<option value='"Arial Black", Gadget, sans-serif'>Arial Black</option>
-							<option value='"Comic Sans MS", cursive, sans-serif'>Comic Sans MS</option>
-							<option value='"Courier New", Courier, monospace'>Courier New</option>
-							<option value='Georgia, serif'>Georgia</option>
-							<option value='Impact, Charcoal, sans-serif'>Impact<r/option>
-							<option value='"Lucida Console", Monaco, monospace'>Lucida Console</option>
-							<option value='Tahoma, Geneva, sans-serif'>Tahoma</option>
-							<option value='"Times New Roman", Times, serif'>Times New Roman</option>
-							<option value='"Trebuchet MS", Helvetica, sans-serif'>Trebuchet MS</option>
-							<option value='Verdana, Geneva, sans-serif'>Verdana</option>
-						</select><br>
-						Default font size:<br>
-						<span style="white-space:nowrap"><input type="number" ng-model="graphSettings.fontSize" min="5" max="32"> px</span><br>
-						Default style for gene labels:<br>
-						<select ng-model="graphSettings.fontStyle" ng-change="changeDefaultStyle()">
-							<option value='normal'>Normal</option>
-							<option value='italic'><i>Italic</i></option>
-							<option value='bold'><b>Bold</b></option>
-							<option value='bold,italic'><b><i>Bold/Italic</b></i></option>
-						</select><br>
-						Default gene label position:<br>
-						<label style="white-space:nowrap"><input type="radio" name="labelPosition" value="above" ng-model="graphSettings.labelPosition" >Above</label>
-						<label style="white-space:nowrap"><input type="radio" name="labelPosition" value="middle" ng-model="graphSettings.labelPosition" >Middle</label>
-						<label style="white-space:nowrap"><input type="radio" name="labelPosition" value="below" ng-model="graphSettings.labelPosition" >Below</label>
-						<br>
-						<button type="button" value="hide all labels" ng-click="changeAllLabels(true);">hide all labels</button>
-						<button type="button" value="show all labels" ng-click="changeAllLabels(false);">show all labels</button><br>
-						<button type="button" value="black labels" ng-click="colorAllLabels('#000000');">black labels</button>
-						<button type="button" value="white labels" ng-click="colorAllLabels('#ffffff');">white labels</button>
-					</div>
-					<div ng-show="selectedGene >= 0">
-						<h3>Selected gene options</h3> 
-						Name: <input type="text" ng-model="geneData[selectedGene]['name']" /><br>
-						Colors<br>
-						Gene: <spectrum-colorpicker format="'hex'" ng-model="geneData[selectedGene]['color']"></spectrum-colorpicker><input type="text" ng-model="geneData[selectedGene]['color']"><br>
-						Label: <spectrum-colorpicker format="'hex'" ng-model="geneData[selectedGene]['labelcolor']" ng-change="changeLabelColor(selectedGene);" ></spectrum-colorpicker><input type="text" ng-model="geneData[selectedGene]['labelcolor']">
-						<select ng-model="geneData[selectedGene]['labelstyle']" ng-change="changeLabelStyle(selectedGene)">
-							<option value='normal'>Normal</option>
-							<option value='italic'><i>Italic</i></option>
-							<option value='bold'><b>Bold</b></option>
-							<option value='bold,italic'><b><i>Bold/Italic</b></i></option>
-						</select><br>
-						Hide label: <input type="checkbox" ng-model="geneData[selectedGene]['labelhidden']">
-					</div>
-					<div ng-show="selectedGenome >= 0">
-						<h3> Edit Genome Name </h3>
-						Edit the font style of the genome name by word.<br>
-						Word selected: {{geneData[selectedGenome]['genome'][selectedWord]}}<br>
-						Style: 
-						<select ng-model="geneData[selectedGenome]['genomestyles'][selectedWord]">
-							<option value='normal'>Normal</option>
-							<option value='italic'><i>Italic</i></option>
-							<option value='bold'><b>Bold</b></option>
-							<option value='bold,italic'><b><i>Bold/Italic</b></i></option>
-						</select>
-					</div>
-					<div ng-hide="selectedGene >= 0 || selectedGenome >= 0">
-						Click on a gene to change it.
-					</div>
-				</menu>
-				<div id="titlecontainer" ng-cloak>
-					<span>{{graphSettings.title}}</span>
-				</div>
-				<div ng-controller="FileCtrl">
-					<label class="fileinlabel">
-						<input type="file" on-read-file="parseFile($fileContent, $fileType)" />
-						<span>Choose File</span>
-					</label>
-				</div>
-				<br>
-				<div id="graphcontainer">
-					<d3-genes data="geneData" settings="graphSettings" on-click="selectGene(index)" on-click-genome="selectGenome(genomeindex, wordindex)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
-				</div>
-				<div id="exportcontainer" ng-export ng-show="geneData[0]">
-				</div>
-			</div>
-			<img id="menuButton" src="data/menu.svg" height="50" width="50" ng-click="showMenu($event)">
-		</div>
+	<body ng-app="geneGraphApp" class="tabsClass">
+		<md-content ng-controller="tabsCtrl">
+			<md-tabs md-dynamic-height="" md-border-bottom="">
+				<md-tab ng-repeat="tab in tabs" label="{{tab.title}}">
+					<div ng-include="tab.content"></div>
+				</md-tab>
+				</md-tabs>
+			</md-content>
 		<script src="js/lib/jquery-2.1.4.min.js"></script>
 		<script src="js/lib/angular.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
 		<script src="js/lib/spectrum.js"></script>
 		<script src="js/lib/angular-spectrum-colorpicker.min.js"></script>
 		<script src="js/lib/Blob.js"></script>

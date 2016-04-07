@@ -1,0 +1,155 @@
+<md-content class="md-padding">
+	<div ng-controller="graphCtrl">
+	<md-toolbar class="md-menu-toolbar">
+	<md-menu-bar>
+		<md-menu>
+			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
+				Input
+			</button>
+			<md-menu-content width="100px">
+				<md-menu-item ng-controller="FileCtrl">
+					<input type="file" name="file" id="file" class="inputfile" on-read-file="parseFile($fileContent, $fileType)"/>
+					<label for="file" ng-transclude class="md-button md-ink-ripple" role="menuitem">
+						Choose a File
+					</label>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button>
+							Choose a Genome
+					</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
+		<md-menu>
+			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
+				Graph Settings
+			</button>
+			<md-menu-content width="150px">
+				<h3>Size settings</h3>
+				<md-menu-item>
+					<span>Image width</span>
+					<span><input type="number" id="widthtxt" step=10 ng-model="graphSettings.graphwidth" ng-change="changeGraphWidth(graphSettings.graphwidth);" > px</span>
+				</md-menu-item>
+				<md-menu-item>
+					<span>Gene height</span>
+					<span><input type="number" id="featureheighttxt" ng-model="graphSettings.featureheight" ng-change="changeFeatureHeight(graphSettings.featureheight);"> px</span>
+				</md-menu-item>
+				<md-menu-divider></md-menu-divider>
+				<h3>Lane settings</h3>
+				<md-menu-item>
+				<span><md-checkbox ng-model="graphSettings.multilane" ng-click="clickMultiLane()">
+					Multiple lanes for overlapping genes</span>
+				</md-menu-item>
+				<md-menu-item>
+				<span><md-checkbox ng-disabled="graphSettings.multilane" ng-model="graphSettings.shiftgenes" ng-click="clickShiftgenes()">
+					Shift overlapping genes</span>
+				</md-menu-item>
+				<md-menu-item>
+				<span><md-checkbox ng-disabled="!graphSettings.shiftgenes" ng-model="graphSettings.keepgaps" >
+					keep gaps between genes</span>
+				</md-menu-item>
+		</md-menu>
+		<md-menu>
+			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
+				Label Settings
+			</button>
+			<md-menu-content>
+				<h3>Font Defaults</h3>
+				<md-menu-item>
+					<span>Font size</span>
+					<span style="white-space:nowrap"><input type="number" ng-model="graphSettings.fontSize" min="5" max="32"> px</span><br>
+				</md-menu-item>
+				<md-menu-item>
+					<md-menu>
+						<md-button ng-click="$mdOpenMenu()">Font Family</md-button>
+							<md-menu-content>
+							<md-radio-group ng-model="graphSettings.fontFamily">
+								<md-radio-button ng-repeat="d in graphSettings.fontFamilyOptions" ng-value="d.value" aria-label="{{ d.name }}"> {{d.name}} </md-radio-button>
+							</md-radio-group>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-item>
+				<md-menu-item>
+					<md-menu>
+						<md-button ng-click="$mdOpenMenu()">Font Style</md-button>
+							<md-menu-content>
+							<md-radio-group ng-model="graphSettings.fontStyle">
+								<md-radio-button ng-repeat="d in graphSettings.fontStyleOptions" ng-value="d.value" aria-label="{{ d.name }}"> {{d.name}} </md-radio-button>
+							</md-radio-group>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-item>
+				<md-menu-divider></md-menu-divider>
+				<h3>Label Defaults</h3>
+				<md-menu-item>
+					<md-menu>
+						<md-button ng-click="$mdOpenMenu()">Position</md-button>
+						<md-menu-content>
+							<md-radio-group ng-model="graphSettings.labelPosition">
+								<md-radio-button value="above" ng-model="graphSettings.labelPosition" >Above</md-radio-button>
+								<md-radio-button value="middle" ng-model="graphSettings.labelPosition" >Middle</md-radio-button>
+								<md-radio-button value="below" ng-model="graphSettings.labelPosition" >Below</md-radio-button>
+							</md-radio-group>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button type="button" value="hide all labels" ng-click="changeAllLabels(true);">Hide all labels</md-button>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button type="button" value="show all labels" ng-click="changeAllLabels(false);">Show all labels</md-button>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button type="button" value="black labels" ng-click="colorAllLabels('#000000');">Black labels</md-button>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button type="button" value="white labels" ng-click="colorAllLabels('#ffffff');">White labels</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
+		<md-menu>
+			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
+				Export
+			</button>
+			<md-menu-content>
+				<md-menu-item>
+					<md-button ng-exportpng>Export PNG</md-button>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button ng-exportsvg>Export SVG</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
+		<span> [File Name will go here] </span>
+	</md-menu-bar>
+</md-toolbar>
+	<div id="graphcontainer">
+		<d3-genes data="geneData" settings="graphSettings" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(genomeindex, wordindex, x, y)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
+	</div>
+	<div id="geneMenu" ng-click="$emit('menuClicked', event.target)">
+		<div ng-show="(selectedGene >= 0) && menuVisible == true">
+			<h3>Selected gene options</h3> 
+			Name: <input type="text" ng-model="geneData[selectedGene]['name']" /><br>
+			Colors<br>
+			Gene: <spectrum-colorpicker format="'hex'" ng-model="geneData[selectedGene]['color']"></spectrum-colorpicker><input type="text" ng-model="geneData[selectedGene]['color']"><br>
+			Label: <spectrum-colorpicker format="'hex'" ng-model="geneData[selectedGene]['labelcolor']" ng-change="changeLabelColor(selectedGene);" ></spectrum-colorpicker><input type="text" ng-model="geneData[selectedGene]['labelcolor']">
+			<select ng-model="geneData[selectedGene]['labelstyle']" ng-change="changeLabelStyle(selectedGene)">
+				<option value='normal'>Normal</option>
+				<option value='italic'><i>Italic</i></option>
+				<option value='bold'><b>Bold</b></option>
+				<option value='bold,italic'><b><i>Bold/Italic</b></i></option>
+			</select><br>
+			Hide label: <input type="checkbox" ng-model="geneData[selectedGene]['labelhidden']">
+		</div>
+		<div ng-show="selectedGenome >= 0 && menuVisible == true">
+			Style: 
+			<select ng-model="geneData[selectedGenome]['genomestyles'][selectedWord]">
+				<option value='normal'>Normal</option>
+				<option value='italic'><i>Italic</i></option>
+				<option value='bold'><b>Bold</b></option>
+				<option value='bold,italic'><b><i>Bold/Italic</b></i></option>
+			</select>
+		</div>
+	</div>
+</div>
+</md-content>

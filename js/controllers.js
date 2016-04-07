@@ -4,15 +4,49 @@
 	angular.module('geneGraphApp.controllers')
 		.controller('graphCtrl', ['$scope', 'geneService', 'colorService', function($scope,
 		geneService, colorService) {
+			
+			// Set up graph container size
+			document.getElementById("graphcontainer").style.height = window.innerHeight - 200 + "px";
+			console.log(document.getElementById("graphcontainer").style.height);
+			
+			// Add some event listeners
+			document.addEventListener("click", function(e) {
+				$scope.$broadcast("documentClicked", e.target);
+			});
+			document.getElementById("graphcontainer").addEventListener("click", function(e) {
+				$scope.$broadcast("graphClicked", e.target);
+			});
+			
+			
+			$scope.keepMenu = false;
+			$scope.menuVisible = false;
 			$scope.graphSettings = {};
-			$scope.graphSettings.title = "Genome Neighborhood Graphic";
 			$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 20;
 			$scope.graphSettings.graphwidthoriginal = document.getElementById('graphcontainer').offsetWidth - 20;
 			$scope.graphSettings.graphwidthpercent = 100;
 			$scope.graphSettings.maxwidth = 0;
 			$scope.graphSettings.featureheight = 50;
 			$scope.graphSettings.fontFamily = 'Arial, Helvetica, sans-serif';
+			$scope.graphSettings.fontFamilyOptions = [
+				{value:'Arial, Helvetica, sans-serif', name:"Arial"},
+				{value:'"Arial Black", Gadget, sans-serif', name:"Arial Black"},
+				{value:'"Comic Sans MS", cursive, sans-serif', name:"Comic Sans MS"},
+				{value:'"Courier New", Courier, monospace', name:"Courier New"},
+				{value:'Georgia, serif', name:"Georgia"},
+				{value:'Impact, Charcoal, sans-serif', name:"Impact"},
+				{value:'"Lucida Console", Monaco, monospace', name:"Lucida Console"},
+				{value:'Tahoma, Geneva, sans-serif', name:"Tahoma"},
+				{value:'"Times New Roman", Times, serif', name:"Times New Roman"},
+				{value:'"Trebuchet MS", Helvetica, sans-serif', name:"Trebuchet MS"},
+				{value:'Verdana, Geneva, sans-serif', name:"Verdana"}
+			]
 			$scope.graphSettings.fontStyle = 'normal';
+			$scope.graphSettings.fontStyleOptions = [
+				{value:'normal', name:"Normal"},
+				{value:'italic', name:"Italic"},
+				{value:'bold', name:"Bold"},
+				{value:'bold,italic', name:"Bold/Italic"}
+			]
       $scope.graphSettings.fontSize = 18;
       $scope.graphSettings.labelPosition = 'middle';
 			$scope.graphSettings.multilane = true;
@@ -29,14 +63,22 @@
 			});
 			
 			
-			$scope.selectGene = function(index){
+			$scope.selectGene = function(index, x, y){
 				$scope.$emit('geneClicked');
+				$("#geneMenu").css("left", x);
+				$("#geneMenu").css("top", y);
+				console.log("menuVisible = true");
+				$scope.menuVisible = true;
 				$scope.selectedGenome = -1;
 				$scope.selectedGene = parseInt(index);
         $scope.$apply();
 			};
-			$scope.selectGenome = function(genomeindex, wordindex){
+			$scope.selectGenome = function(genomeindex, wordindex, x, y){
 				$scope.$emit('geneClicked');
+				$("#geneMenu").css("left", x);
+				$("#geneMenu").css("top", y);
+				console.log("menuVisible = true");
+				$scope.menuVisible = true;
 				$scope.selectedGene = -1;
 				$scope.selectedGenome = parseInt(genomeindex);
 				$scope.selectedWord = parseInt(wordindex);
@@ -101,8 +143,46 @@
 					}
 				}
 			});
+			$scope.close = function() {
+				$scope.menuVisible = false;
+				$scope.keepMenu = false;
+			}
+			$scope.$on("menuClicked", function(e) {
+				console.log("ctrl menu clicked");
+				$scope.keepMenu = true;
+				e.stopPropagation();
+			});
+			$scope.$on("documentClicked", _docClick);
+			
+			function _docClick() {
+				console.log("doc Click");
+				if (!$scope.keepMenu) {
+					console.log("keepMenu = false");
+					if ($scope.menuVisible == true) {
+						console.log("menuVisible = true");
+						$scope.keepMenu = false;
+						$scope.$apply();
+					}
+					console.log("closing menu...");
+					$scope.$apply(function(){
+						$scope.close();
+					});
+				}
+				else if ($scope.keepMenu) {
+					$scope.keepMenu = false;
+					return;
+				}
+				$scope.$apply();
+			}
 		}])
-		
+		.controller('tabsCtrl', ['$scope', function($scope) {
+			$scope.tabs = [
+				{title: 'Description', content:'views/description.html'},
+				{title: 'Gene Graphics App', content:'views/app.html'},
+				{title: 'Documentation', content:'views/doc.html'},
+				{title: 'Tutorial', content:'views/tutorial.html'}
+			];
+		}])
 		.controller("FileCtrl", ['$scope', 'geneService', 'colorService', function($scope, geneService, colorService){
 			$scope.parseFile = function($fileContent){
 				$scope.content = $fileContent;
@@ -201,37 +281,4 @@
 			}
 		}])
 		
-		.controller("menuCtrl", function($scope, $rootScope) {
-				$scope.bottomVisible = false;
-				$scope.keepMenu = false;
-
-				$scope.close = function() {
-					$scope.bottomVisible = false;
-				};
-
-				$scope.showMenu = function(e) {
-					$scope.bottomVisible = true;
-					e.stopPropagation();
-				};
-				$rootScope.$on("menuClicked", function(e) {
-					$scope.keepMenu = true;
-				});
-				$scope.$on("geneClicked", function(e) {
-					$scope.keepMenu = true;
-					$scope.$apply($scope.showMenu(e));
-				})
-				$rootScope.$on("documentClicked", _close);
-				$rootScope.$on("escapePressed", _close);
-
-				function _close() {
-					if (!$scope.keepMenu) {
-						$scope.$apply(function() {
-							$scope.close(); 
-						});
-					}
-					else {
-						$scope.keepMenu= false;
-					}
-				}
-		});
 }());
