@@ -9,13 +9,17 @@
 					data: "=",
 					settings: "=settings",
 					onClick: "&onClick",
-					onClickGenome: "&onClickGenome"
+					onClickGenome: "&onClickGenome",
+					onMouseOverGene: "&onMouseOverGene"
 				},
 				link: function(scope, iElement, iAttrs) {
 					
 					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
 							.append("svg")
+							//.attr("version", "1.1")
+							//.attr("xmlns", "http://www.w3.org/2000/svg")
+							//.attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
 							.attr("width", scope.settings.graphwidth);
 					
 					// maximum width of the data
@@ -66,7 +70,7 @@
 							return;
 						}
 						
-						console.log("rendering graph...");
+						//console.log("rendering graph...");
 						
 						var graphwidth = parseInt(scope.settings.graphwidth);
 						var featureheight = parseInt(scope.settings.featureheight);
@@ -171,6 +175,7 @@
 							.enter()
 								.append("path")
 								.on("contextmenu", function(d, i){  d3.event.preventDefault(); return scope.onClick({index: i, x: event.clientX, y: event.clientY});})
+								.on("mouseover", function(d, i){ console.log(d.genefunction); return scope.onMouseOverGene({newfunction:d.genefunction});})
 								.attr("d", function(d, i) {
 									// get start and stop positions relative to max size
 									if (d.strand === '+')
@@ -433,6 +438,55 @@
 			};
 		}])
 		
+		.directive('ngExporttsv', ['d3', function(d3) {
+			return {
+				restrict: 'AE',
+				scope: {
+					data: "=",
+					settings: "=settings",
+				},
+				link: function(scope, element, attrs) {
+					
+					d3.select(element[0])
+						.on("click", saveTSV);
+						
+					function saveTSV(){
+						var outputtext = "genome\tgenomestyles\tcurrLane\tlabelcolor\tlabelcolorchanged\tlabelhidden\tlabelpos\tlabelposchanged\tlabelsize\tlabelstyle\tlabelstylechanged\tname\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
+						var genelines = "";
+						for (var i = 0; i < scope.data.length; i++) {
+							var genomename = scope.data[i].genome.join(" ");
+							var genomestyles = scope.data[i].genomestyles.join(" ");
+							genelines += genomename + "\t";
+							genelines += genomestyles + "\t";
+							genelines += scope.data[i].currLane + "\t";
+							genelines += scope.data[i].labelcolor + "\t";
+							genelines += scope.data[i].labelcolorchanged + "\t";
+							genelines += scope.data[i].labelhidden + "\t";
+							genelines += scope.data[i].labelpos.x + "," + scope.data[i].labelpos.x + "\t";
+							genelines += scope.data[i].labelposchanged + "\t";
+							genelines += scope.data[i].labelsize + "\t";
+							genelines += scope.data[i].labelstyle + "\t";
+							genelines += scope.data[i].labelstylechanged + "\t";
+							genelines += scope.data[i].name + "\t";
+							genelines += scope.data[i].color + "\t";
+							genelines += scope.data[i].size + "\t";
+							genelines += scope.data[i].start + "\t";
+							genelines += scope.data[i].stop + "\t";
+							genelines += scope.data[i].strand + "\n";
+							genelines += scope.data[i].genefunction + "\n";
+						}
+						
+						outputtext += genelines;
+						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"fontFamily\":\"" + scope.settings.fontFamily + "\",\"fontSize\":\"" + scope.settings.fontSize + "\",\"fontStyle\":\"" + scope.settings.fontStyle + "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"labelPosition\":\"" + scope.settings.labelPosition + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\"}";
+						console.log(scope.data);
+						console.log(scope.settings);
+						var myblob = new Blob([outputtext], {type: 'text/plain'});
+						saveAs(myblob, "newgenegraphic.tsv");
+					}
+				}
+			}
+		}])
+		
 		.directive('onReadFile', function ($parse) {
 			return {
 				restrict: 'A',
@@ -449,13 +503,13 @@
 						var fileType = /[^.]+$/.exec(file.name);
 						
 						reader.onload = function(onLoadEvent) {
-							if (fileType == 'tsv') {
+							if (fileType == 'tsv' || fileType == 'gb') {
 								scope.$apply(function() {
 									fn(scope, {$fileContent:onLoadEvent.target.result, $fileType:fileType});
 								});
 							}
 							else {
-								alert("File must be a tsv file.");
+								alert("File must be a valid file type.");
 							}
 						};
 						reader.readAsText(file);

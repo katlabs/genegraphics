@@ -9,12 +9,12 @@
 			<md-menu-content width="100px">
 				<md-menu-item ng-controller="FileCtrl">
 					<input type="file" name="file" id="file" class="inputfile" on-read-file="parseFile($fileContent, $fileType)"/>
-					<label for="file" ng-transclude class="md-button md-ink-ripple" role="menuitem">
+					<label for="file" class="md-button md-ink-ripple" role="menuitem">
 						Choose a File
 					</label>
 				</md-menu-item>
-				<md-menu-item>
-					<md-button>
+				<md-menu-item ng-controller="FileCtrl">
+					<md-button ng-click="getWebGenome()">
 							Choose a Genome
 					</md-button>
 				</md-menu-item>
@@ -118,13 +118,17 @@
 				<md-menu-item>
 					<md-button ng-exportsvg>Export SVG</md-button>
 				</md-menu-item>
+				<md-menu-item>
+					<md-button ng-exporttsv data="geneData" settings="graphSettings">Export TSV</md-button>
+				</md-menu-item>
 			</md-menu-content>
 		</md-menu>
-		<span> [File Name will go here] </span>
+		<span> [{{graphSettings.lastFile}}] </span>
+		<span style="float:right;">{{graphSettings.displayedFunction}}</span>
 	</md-menu-bar>
 </md-toolbar>
 	<div id="graphcontainer">
-		<d3-genes data="geneData" settings="graphSettings" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(genomeindex, wordindex, x, y)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
+		<d3-genes data="geneData" settings="graphSettings" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(genomeindex, wordindex, x, y)" on-mouse-over-gene="changeDisplayedFunction(newfunction)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
 	</div>
 	<div id="geneMenu" ng-click="$emit('menuClicked', event.target)">
 		<div ng-show="(selectedGene >= 0) && menuVisible == true">
