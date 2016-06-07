@@ -486,7 +486,7 @@
 				
 				if(!genbank) { return; }
 				
-				var baseURL = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&seq_start=1&seq_stop=8000&id=";
+				var baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&seq_start=1&seq_stop=8000&id=";
 				
 				console.log(baseURL+genbank);
 				$http.get(baseURL + genbank).then(function parsePage(response) {
