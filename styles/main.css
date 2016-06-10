@@ -81,6 +81,45 @@ body > h1 {
   overflow: auto;
 }
 
+#popupmenucontainer {
+	position: absolute;
+	visibility: hidden;
+	top: 30%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  width: 200px;
+  height: 150px;
+}
+
+#popupmenu {
+  position: relative;
+  visibility: hidden;
+  background-clip: padding-box;
+	padding: 20px;
+  border: 4px solid transparent;
+	border-radius: 16px;
+  font-family: Arial;
+  color: #000000; */
+	border: 4px solid transparent;
+    border-radius: 16px;
+    background: #CCCCCC;
+    background-clip: padding-box;
+    padding: 10px;
+  /*box-shadow: 0 3px 9px black, inset 0 0 9px white;*/
+}
+
+#popupmenu::after {
+	position: absolute;
+	visibility: hidden;
+	top: -4px; bottom: -4px;
+	left: -4px; right: -4px;
+  background: linear-gradient(#47a4da, #0d77b6);
+	content: '';
+	z-index: -1;
+	border-radius: 16px;
+}
+
 button {
   background: #47a4da;
   background-image: -webkit-linear-gradient(top, #47a4da, #0d77b6);

@@ -315,6 +315,7 @@
 									gene[key].y = parseFloat(getpositions[1]);
 								}
 								if (key === 'genomestyles' && headerpos[key] !== null){
+									console.log(columns);
 									genomestyles = columns[headerpos[key]].split(" ");
 								}
 								else if((key === 'start' || key === 'stop') && headerpos[key] !== null){

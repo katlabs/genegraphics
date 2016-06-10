@@ -472,7 +472,7 @@
 							genelines += scope.data[i].size + "\t";
 							genelines += scope.data[i].start + "\t";
 							genelines += scope.data[i].stop + "\t";
-							genelines += scope.data[i].strand + "\n";
+							genelines += scope.data[i].strand + "\t";
 							genelines += scope.data[i].genefunction + "\n";
 						}
 						

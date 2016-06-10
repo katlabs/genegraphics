@@ -130,6 +130,7 @@
 	<div id="graphcontainer">
 		<d3-genes data="geneData" settings="graphSettings" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(genomeindex, wordindex, x, y)" on-mouse-over-gene="changeDisplayedFunction(newfunction)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
 	</div>
+	<div id="popupmenucontainer" ><div id="popupmenu">The quick brown fox blah blah blah</div></div>
 	<div id="geneMenu" ng-click="$emit('menuClicked', event.target)">
 		<div ng-show="(selectedGene >= 0) && menuVisible == true">
 			<h3>Selected gene options</h3> 
