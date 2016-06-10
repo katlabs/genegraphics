@@ -41,6 +41,19 @@
 	}])
 	.factory("colorService", [ function(){
 		var colorService = {};
+		colorService.getHashColor = function(strToHash) {
+			var hash = MD5(strToHash);
+			var i = 0;
+			do { 
+			 var clr = '#' + hash.substr(i, 6);
+			 i++;
+			 if(i>25) {
+				 alert ( "Cannot find acceptable color value from name hash." );
+				 return "#e762f3";
+			 }
+			} while(colorService.toGrey(clr)<32 || colorService.toGrey(clr)>(256-32))
+			return clr;
+		}
 		colorService.getRandomColor = function() {
 			do {
 				var randomcolor = '#' + (Math.random().toString(16) + '0000000').slice(2, 8)

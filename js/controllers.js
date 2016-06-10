@@ -342,7 +342,8 @@
 									gene[key] = ""
 								}
 								else if(key === 'color' && headerpos[key] === null){
-									gene[key] = colorService.getRandomColor();
+									//gene[key] = colorService.getRandomColor();
+									gene[key] = colorService.getHashColor(gene['genefunction']);
 								}
 								else if(key === 'labelcolor' && headerpos[key] === null){
 									gene[key] = colorService.getTextColor(gene['color']);
@@ -404,18 +405,30 @@
 											var matches = lines[k].trim().match(/\/([\w|\W]*)=([\w|\W]*)/);
 											
 											//console.log("  " + matches[0]);
-										
+											
+											var matchval = matches[2];
+											
+											if(matchval.indexOf('"') != -1) {
+												while(matchval.substr(matchval.length-1,1) != '"') {
+													k++;
+													matchval = matchval + ' ' + lines[k].trim();
+												}
+												console.log("Found Match: " + matchval);
+												console.log("  " + matches[1]);
+												matchval = matchval.substr(0, matchval.length)
+											}
+											
 											if (matches[1] == "locus_tag"){
-												locus_tag = matches[2];
+												locus_tag = matchval;
 											}
 											else if (matches[1] == "gene"){
-												genename = matches[2];
+												genename = matchval;
 											}
 											else if (matches[1] == "protein_id"){
-												protein_id = matches[2];
+												protein_id = matchval;
 											}
 											else if (matches[1] == "product"){
-												product = matches[2];
+												product = matchval;
 											}
 										}
 										
@@ -435,13 +448,13 @@
 									var genome = organism.split(" ");
 									var genomestyles = [];
 									
-									var gene = {currLane:0, genome:genome, genomestyles:null, start:startPos, stop:endPos, size:Math.abs(startPos-endPos), strand:strand, name:genename.slice(1, genename.length-1), genefunction:product.slice(1, genename.length-1), color:null, labelcolor:null, labelstyle:'normal', labelhidden:false,  labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
+									var gene = {currLane:0, genome:genome, genomestyles:null, start:startPos, stop:endPos, size:Math.abs(startPos-endPos), strand:strand, name:genename.slice(1, genename.length-1), genefunction:product.slice(1, product.length-1), color:null, labelcolor:null, labelstyle:'normal', labelhidden:false,  labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
 									
 									for (var j = 0; j < genome.length; j++){
 										genomestyles.push("italic");
 									}
 									
-									gene["color"] = colorService.getRandomColor();
+									gene["color"] = colorService.getHashColor(gene['genefunction']);
 									gene["labelcolor"] = colorService.getTextColor(gene['color']);
 									
 									gene["genomestyles"] = genomestyles;
