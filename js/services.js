@@ -6,9 +6,20 @@
 		var geneSvc = {};
 		
 		geneSvc.geneData = [];
+		geneSvc.maxVertOff = 0;
 		
-		geneSvc.updateGene = function(gData) {
-			this.geneData = gData;
+		geneSvc.updateGene = function(gData, maxVertOff) {
+			this.maxVertOff += maxVertOff;
+			this.geneData = gData.reduce( function(coll, item){
+				coll.push( item);
+				return coll;
+			}, this.geneData);
+			$rootScope.$broadcast('updateGeneData');
+		}
+		
+		geneSvc.clearGenes = function() {
+			this.maxVertOff = 0;
+			this.geneData = [];
 			$rootScope.$broadcast('updateGeneData');
 		}
 		
@@ -38,6 +49,15 @@
 		}
 		
 		return geneSvc;
+	}])
+	.factory("popupMenuService", [ '$rootScope', function($rootScope){
+		var popupMenuService = {};
+		popupMenuService.menuVisible;
+		popupMenuService.updateMenuStatus = function(newStatus){
+			this.menuVisible = newStatus;
+			$rootScope.$broadcast('updateMenuStatus');
+		}
+		return popupMenuService;
 	}])
 	.factory("colorService", [ function(){
 		var colorService = {};

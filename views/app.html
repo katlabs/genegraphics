@@ -6,16 +6,21 @@
 			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
 				Input
 			</button>
-			<md-menu-content width="100px">
-				<md-menu-item ng-controller="FileCtrl">
+			<md-menu-content width="100px" ng-controller="FileCtrl">
+				<md-menu-item >
 					<input type="file" name="file" id="file" class="inputfile" on-read-file="parseFile($fileContent, $fileType)"/>
 					<label for="file" class="md-button md-ink-ripple" role="menuitem">
 						Choose a File
 					</label>
 				</md-menu-item>
-				<md-menu-item ng-controller="FileCtrl">
-					<md-button ng-click="getWebGenome()">
+				<md-menu-item>
+					<md-button ng-click="showWebGenomePopup();">
 							Choose a Genome
+					</md-button>
+				</md-menu-item>
+				<md-menu-item >
+					<md-button ng-click="clearAllGenomes();">
+							Clear All Genomes
 					</md-button>
 				</md-menu-item>
 			</md-menu-content>
@@ -123,15 +128,32 @@
 				</md-menu-item>
 			</md-menu-content>
 		</md-menu>
-		<span> [{{graphSettings.lastFile}}] </span>
 		<span style="float:right;">{{graphSettings.displayedFunction}}</span>
 	</md-menu-bar>
 </md-toolbar>
 	<div id="graphcontainer">
 		<d3-genes data="geneData" settings="graphSettings" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(genomeindex, wordindex, x, y)" on-mouse-over-gene="changeDisplayedFunction(newfunction)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
 	</div>
-	<div id="popupmenucontainer" ><div id="popupmenu">The quick brown fox blah blah blah</div></div>
-	<div id="geneMenu" ng-click="$emit('menuClicked', event.target)">
+	<div> Files: 
+		<span ng-hide="graphSettings.currentFilesList.length">No file chosen</span>
+		<span ng-repeat="file in graphSettings.currentFilesList">{{file}}{{$last ? '' : ', '}}</span>
+	</div>
+	<div id="popupmenu" ng-controller="FileCtrl" ng-show="showPopupMenu">
+		<button class="xoutbutton" ng-click="closePopup(-1);">
+				X
+		</button>
+		Import Genbank File from NCBI<br>
+		Genbank ID: <input type="text" ng-model="genbankID" style="width: 140px;"/><br>
+		Region:<br> 
+		<form action="">
+			<input type="radio" name="sequence" label="whole" value="whole" ng-model="seqRange" selected="true">Whole sequence<br>
+			<input type="radio" name="sequence" label="custom" value="custom" ng-model="seqRange" >Custom region:<br>	
+		</form>
+			from: <input type="number" ng-model="seqRangeStart"> to: <input type="number" ng-model="seqRangeEnd"><br>
+		<button ng-click="submitNCBIQuery();" style="right:0;">Submit</button><br>
+		<span id="statusmessage">{{statusMessage}}</span>
+	</div>
+	<div id="geneMenu" ng-click="$emit('menuClicked', event.target)" ng-show="menuVisible == true">
 		<div ng-show="(selectedGene >= 0) && menuVisible == true">
 			<h3>Selected gene options</h3> 
 			Name: <input type="text" ng-model="geneData[selectedGene]['name']" /><br>
@@ -145,8 +167,13 @@
 				<option value='bold,italic'><b><i>Bold/Italic</b></i></option>
 			</select><br>
 			Hide label: <input type="checkbox" ng-model="geneData[selectedGene]['labelhidden']">
+			Hide gene: <input type="checkbox" ng-model="geneData[selectedGene]['genehidden']"><br>
+			<button ng-click="copyGeneAttrs(selectedGene);">Copy Gene Colors</button>
+			<button ng-click="pasteGeneAttrs(selectedGene);">Paste Gene Colors</button>
+			
 		</div>
 		<div ng-show="selectedGenome >= 0 && menuVisible == true">
+			{{geneData[selectedGenome]['genome'][selectedWord]}}<br>
 			Style: 
 			<select ng-model="geneData[selectedGenome]['genomestyles'][selectedWord]">
 				<option value='normal'>Normal</option>

@@ -53,8 +53,10 @@
 			$scope.graphSettings.shiftgenes = false;
 			$scope.graphSettings.keepgaps = false;
 			$scope.graphSettings.currLane = 0;
-			$scope.graphSettings.lastFile = "No File Chosen";
 			$scope.graphSettings.displayedFunction = "";
+			$scope.graphSettings.currentFilesList = [];
+			$scope.graphSettings.addScale = true;
+			$scope.geneClipboard = {};
       
 			$scope.geneData = geneService.geneData;
       
@@ -88,7 +90,6 @@
 			};
 			$scope.changeDisplayedFunction = function(newfunction){
 				$scope.graphSettings.displayedFunction = newfunction;
-				console.log($scope.graphSettings.displayedFunction);
 				$scope.$apply();
 			};
 
@@ -107,6 +108,17 @@
 			$scope.changeLabelStyle = function(selectedGene){
 				$scope.geneData[selectedGene].labelstylechanged = true;
 			}
+			
+			$scope.copyGeneAttrs = function(selectedGene){
+				$scope.geneClipboard['color'] = $scope.geneData[selectedGene]['color'];
+				$scope.geneClipboard['labelcolor'] = $scope.geneData[selectedGene]['labelcolor'];
+			}
+			
+			$scope.pasteGeneAttrs = function(selectedGene){
+				$scope.geneData[selectedGene]['color'] = $scope.geneClipboard['color'];
+				$scope.geneData[selectedGene]['labelcolor'] = $scope.geneClipboard['labelcolor'];
+			}
+			
 			$scope.changeDefaultStyle = function(){
 				for (var i = 0; i < $scope.geneData.length; i++){
 					if ($scope.geneData[i].labelstylechanged === false){
@@ -191,12 +203,14 @@
 				{title: 'Tutorial', content:'views/tutorial.html'}
 			];
 		}])
-		.controller("FileCtrl", ['$scope',  '$http', 'geneService', 'colorService', function($scope, $http, geneService, colorService){
-			
+		.controller("FileCtrl", ['$scope',  '$http', 'geneService', 'colorService', 'popupMenuService', function($scope, $http, geneService, colorService, popupMenuService){
+			$scope.data = [];
+			$scope.showPopupMenu = popupMenuService.menuVisible;
 			$scope.parseTSV = function(lines){
 					var header = lines[0];
 					var headercols = header.split('\t');
-					var headerpos = {genome:null, genomestyles:null, currLane:null, labelcolor:null, labelcolorchanged:null, labelhidden:null, labelpos:null, labelposchanged:null, labelsize:null, labelstyle:null, labelstylechanged:null, name:null, genefunction:null, color:null, size:null, start:null, stop:null, strand:null};
+					var headerpos = {genome:null, genomestyles:null, currLane:null, labelcolor:null, labelcolorchanged:null, labelhidden:null, genehidden:null, labelpos:null, labelposchanged:null, labelsize:null, labelstyle:null, labelstylechanged:null, name:null, genefunction:null, color:null, size:null, start:null, stop:null, strand:null};
+					$scope.maxVertOff = geneService.maxVertOff;
 					for(var i = 0; i < headercols.length; i++){
 						//console.log(i);
 						var currHeaderCol = headercols[i].toLowerCase().replace(/ /g, '');
@@ -216,6 +230,9 @@
 						}
 						else if (currHeaderCol === 'labelhidden'){
 							headerpos.labelhidden = i;
+						}
+						else if (currHeaderCol === 'genehidden'){
+							headerpos.genehidden = i;
 						}
 						else if (currHeaderCol === 'labelpos'){
 							headerpos.labelpos = i;
@@ -255,10 +272,9 @@
 						}
 						
 					}
-					$scope.data = [];
+				
 					var offset = {};
 					var vertOff = {};
-					var maxVertOff = 0; // A counter to keep track of how many offets we'd made
 					
 					for (var i = 1; i < lines.length; i++){
 						
@@ -284,7 +300,7 @@
 							console.log($scope.graphSettings);
 						}
 						else {
-							var gene = {genome:null, genomestyles:null, start:null, stop:null, size:null, strand:null, name:null, genefunction:null, color:null, labelcolor:null, labelstyle:'normal', labelhidden:false,  labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
+							var gene = {genome:null, genomestyles:null, start:null, stop:null, size:null, strand:null, name:null, genefunction:null, color:null, labelcolor:null, labelstyle:'normal', labelhidden:false, genehidden:false,  labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
 							var columns = lines[i].split('\t');
 							
 							var genome = columns[headerpos['genome']].split(" ");
@@ -296,15 +312,15 @@
 							//console.log(gene['genome']);
 							for (var key in gene) {
 								if(!offset.hasOwnProperty(genome)) {
-								 //console.log("--" + genome + " - " + maxVertOff);
-								 vertOff[genome] = maxVertOff;
-								 maxVertOff+=2;
+								 //console.log("--" + genome + " - " + $scope.maxVertOff);
+								 vertOff[genome] = $scope.maxVertOff;
+								 $scope.maxVertOff+=2;
 								 offset[genome] = Math.min(parseInt(columns[headerpos['start']]), parseInt(columns[headerpos['stop']]));
 								}
 								if ((key === 'name' || key === 'genefunction' || key === 'strand' || key === 'color' || key === 'labelcolor' || key === 'labelstyle') && headerpos[key] !== null){
 									gene[key] = columns[headerpos[key]];
 								}
-								if ((key === 'labelhidden' || key === 'labelcolorchanged' || key === 'labelstylechanged' || key === 'labelposchanged') && headerpos[key] !== null){
+								if ((key === 'labelhidden' || key === 'genehidden' || key === 'labelcolorchanged' || key === 'labelstylechanged' || key === 'labelposchanged') && headerpos[key] !== null){
 									if (columns[headerpos[key]].toLowerCase() === "true"){
 										gene[key] = true;
 									}
@@ -354,15 +370,15 @@
 							$scope.data.push(gene);
 						}
 					}
-					geneService.updateGene($scope.data);
+					geneService.updateGene($scope.data, $scope.maxVertOff);
 				}
 				
 			$scope.parseGB = function(lines) {
-					$scope.data = [];
 					var organism = "";
 					var i = 0;
 					var j;
 					var k;
+					$scope.maxVertOff = geneService.maxVertOff;
 					while (i < lines.length) {
 						var offset = "";
 						if ("ORGANISM" === lines[i].slice(2,10)){
@@ -413,8 +429,6 @@
 													k++;
 													matchval = matchval + ' ' + lines[k].trim();
 												}
-												console.log("Found Match: " + matchval);
-												console.log("  " + matches[1]);
 												matchval = matchval.substr(0, matchval.length)
 											}
 											
@@ -448,7 +462,7 @@
 									var genome = organism.split(" ");
 									var genomestyles = [];
 									
-									var gene = {currLane:0, genome:genome, genomestyles:null, start:startPos, stop:endPos, size:Math.abs(startPos-endPos), strand:strand, name:genename.slice(1, genename.length-1), genefunction:product.slice(1, product.length-1), color:null, labelcolor:null, labelstyle:'normal', labelhidden:false,  labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
+									var gene = {currLane:$scope.maxVertOff, genome:genome, genomestyles:null, start:startPos, stop:endPos, size:Math.abs(startPos-endPos), strand:strand, name:genename.slice(1, genename.length-1), genefunction:product.slice(1, product.length-1), color:null, labelcolor:null, labelstyle:'normal', labelhidden:false, genehidden:false, labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
 									
 									for (var j = 0; j < genome.length; j++){
 										genomestyles.push("italic");
@@ -458,8 +472,6 @@
 									gene["labelcolor"] = colorService.getTextColor(gene['color']);
 									
 									gene["genomestyles"] = genomestyles;
-									
-									console.log(gene);
 									
 									$scope.data.push(gene);
 									
@@ -471,15 +483,15 @@
 						}
 						i = i+1;
 					}
-					geneService.updateGene($scope.data);
+					$scope.maxVertOff+=2;
+					geneService.updateGene($scope.data, $scope.maxVertOff);
 				}
 				
 			
 			$scope.parseFile = function($fileContent, $fileType){
 				$scope.content = $fileContent;
 				$scope.filetype = $fileType;
-				$scope.graphSettings.lastFile = $fileType.input;
-				console.log($scope.graphSettings.lastFile);
+				$scope.graphSettings.currentFilesList.push($fileType.input);
 				console.log($scope.filetype);
 				var lines = $scope.content.match(/[^\r\n]+/g);
 				// Create a vertical genome offset
@@ -487,40 +499,93 @@
 					console.log("Match tsv");
 					$scope.parseTSV(lines);
 				}
-				else if ($scope.filetype[0] = 'gb'){
+				else if ($scope.filetype[0] === 'gb' || $scope.filetype[0] === 'gff' || $scope.filetype[0] === 'gbk'){
 					console.log("Match genbank");
 					$scope.parseGB(lines);
 				}
 				
+			}
 
+			$scope.$on('updateMenuStatus', function(){
+				$scope.showPopupMenu = popupMenuService.menuVisible;
+			});
+			$scope.openPopup = function(){
+				popupMenuService.updateMenuStatus(true);
+			}
+			$scope.closePopup = function(err){
+				popupMenuService.updateMenuStatus(false);
+				if (err == -1) {
+					return;
+				}
+				else if (err == 0) {
+					return;
+				}
 			}
 			
-			$scope.getWebGenome = function(){
-				var genbank = prompt("Enter genbank ID...");
-				
-				if(!genbank) { return; }
-				
-				var baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&seq_start=1&seq_stop=8000&id=";
-				
-				console.log(baseURL+genbank);
-				$http.get(baseURL + genbank).then(function parsePage(response) {
+			$scope.genbankID;
+			$scope.seqRange = "whole";
+			$scope.seqRangeStart;
+			$scope.seqRangeEnd;
+			$scope.statusMessage = "";
+			var baseURL;
+			
+			$scope.submitNCBIQuery = function(){
+				$scope.statusMessage = "Loading file...";
+				if(!$scope.genbankID){
+					$scope.statusMessage = "Please enter a genbank ID.";
+					return;
+				}
+				if ($scope.seqRange == "whole") {
+					baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&id=";
+				}
+				else if ($scope.seqRange == "custom") {
+					if(!($scope.seqRangeStart < $scope.seqRangeEnd)){
+						$scope.statusMessage = "Please enter a valid custom range.";
+						return;
+					}
+					baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&seq_start=" 
+					+ $scope.seqRangeStart + 
+					"&seq_stop=" 
+					+ $scope.seqRangeEnd + 
+					"&id=";
+				}
+				$http.get(baseURL + $scope.genbankID).then(function parsePage(response) {
 					if(response.status == 200) {
 						var lines = response.data.match(/[^\r\n]+/g);
 						if(lines[0].substr(0,5)!="LOCUS") {
-							alert("Invalid file format retrieved!");
-						} else {
+							$scope.statusMessage = "Invalid file format retrieved!";
+							return;
+						} 
+						else if (response.data.length > 500000) {
+							$scope.statusMessage = "File retrieved is too large to display, please select a custom range.";
+							return;
+						}
+						else {
+							console.log(response.data.length);
+							$scope.statusMessage = "";
+							$scope.closePopup(0);
+							$scope.graphSettings.currentFilesList.push("NCBI query: " + $scope.genbankID);
 							$scope.parseGB(lines);
-						}						
+						}
 					}else{
-						alert(response.statusText);
+						$scope.statusMessage = response.statusText;
 					}
 				}, function errorCallback(response) {
-					alert(response.statusText);
+					$scope.statusMessage = response.statusText;
 				});
-			};
-				
-					
+			}
 			
+			
+			$scope.showWebGenomePopup = function(){
+				$scope.openPopup();
+			};
+			
+			$scope.clearAllGenomes = function(){
+				geneService.clearGenes();
+				$scope.graphSettings.displayedFunction = "";
+				$scope.graphSettings.currentFilesList = [];
+			};
+
 		}])
 
 

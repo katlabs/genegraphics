@@ -25,28 +25,24 @@ ng\:form{
 
 #geneMenu {
 	position: absolute;
-	background: #47a4da;
-  background-image: -webkit-linear-gradient(top, #47a4da, #0d77b6);
-  background-image: -moz-linear-gradient(top, #47a4da, #0d77b6);
-  background-image: -ms-linear-gradient(top, #47a4da, #0d77b6);
-  background-image: -o-linear-gradient(top, #47a4da, #0d77b6);
-  background-image: linear-gradient(to bottom, #47a4da, #0d77b6);
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0px;
-  -webkit-box-shadow: 0px 1px 3px #387091;
-  -moz-box-shadow: 0px 1px 3px #387091;
-  box-shadow: 0px 1px 3px #387091;
-  font-family: Arial;
-  color: #ffffff;
-	border: solid #387091 1px;
+	background-clip: padding-box;
+	background-color: #FFFFFF;
+	padding: 20px;
+	border: 4px solid;
+	border-radius: 16px;
+	-webkit-border-radius: 16px;
+	-moz-border-radius: 16px;
+	border-color: #47a4da;
+	box-shadow: 5px 5px 2.5px #387091;
+	-webkit-box-shadow: 5px 5px 2.5px #387091;
+	-moz-box-shadow: 5px 5px 2.5px #387091;
 }
 
 input[type="number"] {
-   width:60px;
+	 width:60px;
 }
 input[type="text"] {
-   width:60px;
+	 width:60px;
 }
 
 .inputfile {
@@ -72,83 +68,72 @@ body > h1 {
 }
 
 #titlecontainer {
-  font-family: Arial;
-  color: #47a3da;
-  font-size: 1.9em;
+	font-family: Arial;
+	color: #47a3da;
+	font-size: 1.9em;
 }
 
 #graphcontainer {
-  overflow: auto;
-}
-
-#popupmenucontainer {
-	position: absolute;
-	visibility: hidden;
-	top: 30%;
-  left: 50%;
-  margin-top: -50px;
-  margin-left: -50px;
-  width: 200px;
-  height: 150px;
+	overflow: auto;
 }
 
 #popupmenu {
-  position: relative;
-  visibility: hidden;
-  background-clip: padding-box;
-	padding: 20px;
-  border: 4px solid transparent;
-	border-radius: 16px;
-  font-family: Arial;
-  color: #000000; */
-	border: 4px solid transparent;
-    border-radius: 16px;
-    background: #CCCCCC;
-    background-clip: padding-box;
-    padding: 10px;
-  /*box-shadow: 0 3px 9px black, inset 0 0 9px white;*/
-}
-
-#popupmenu::after {
 	position: absolute;
-	visibility: hidden;
-	top: -4px; bottom: -4px;
-	left: -4px; right: -4px;
-  background: linear-gradient(#47a4da, #0d77b6);
-	content: '';
-	z-index: -1;
+	top: 20%;
+	left: 35%;
+	margin-top: -50px;
+	margin-left: -50px;
+	width: 250px;
+	height: 150px;
+	background-clip: padding-box;
+	background-color: #FFFFFF;
+	padding: 20px;
+	border: 4px solid;
 	border-radius: 16px;
+	-webkit-border-radius: 16px;
+	-moz-border-radius: 16px;
+	border-color: #47a4da;
+	box-shadow: 5px 5px 2.5px #387091;
+	-webkit-box-shadow: 5px 5px 2.5px #387091;
+	-moz-box-shadow: 5px 5px 2.5px #387091;
 }
 
 button {
-  background: #47a4da;
-  background-image: -webkit-linear-gradient(top, #47a4da, #0d77b6);
-  background-image: -moz-linear-gradient(top, #47a4da, #0d77b6);
-  background-image: -ms-linear-gradient(top, #47a4da, #0d77b6);
-  background-image: -o-linear-gradient(top, #47a4da, #0d77b6);
-  background-image: linear-gradient(to bottom, #47a4da, #0d77b6);
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0px;
-  -webkit-box-shadow: 0px 1px 3px #387091;
-  -moz-box-shadow: 0px 1px 3px #387091;
-  box-shadow: 0px 1px 3px #387091;
-  font-family: Arial;
-  color: #ffffff;
-  padding: 0px 0px 0px 0px;
+	background: #47a4da;
+	background-image: -webkit-linear-gradient(top, #47a4da, #0d77b6);
+	background-image: -moz-linear-gradient(top, #47a4da, #0d77b6);
+	background-image: -ms-linear-gradient(top, #47a4da, #0d77b6);
+	background-image: -o-linear-gradient(top, #47a4da, #0d77b6);
+	background-image: linear-gradient(to bottom, #47a4da, #0d77b6);
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0px;
+	-webkit-box-shadow: 0px 1px 3px #387091;
+	-moz-box-shadow: 0px 1px 3px #387091;
+	box-shadow: 0px 1px 3px #387091;
+	font-family: Arial;
+	color: #ffffff;
+	padding: 0px 0px 0px 0px;
 	border: solid #387091 1px;
-  text-decoration: none;
+	text-decoration: none;
 	display: inline-block;
 }
 
+button.xoutbutton {
+	position:absolute; 
+	top:5px; 
+	right:5px; 
+	border-radius:16px;
+}
+
 button:hover{
-  background: #51a8db;
-  text-decoration: none;
+	background: #51a8db;
+	text-decoration: none;
 }
 
 button:[aria-expanded="true"]{
-  background: #51a8db;
-  text-decoration: none;
+	background: #51a8db;
+	text-decoration: none;
 }
 
 input[type=range][orient=vertical]
@@ -160,6 +145,9 @@ input[type=range][orient=vertical]
 		padding: 0 5px;
 }
 
+#statusmessage{
+	color: red;
+}
 
 .tabsClass md-content {
 	background-color: transparent !important; }

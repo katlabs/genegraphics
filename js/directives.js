@@ -17,9 +17,6 @@
 					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
 							.append("svg")
-							//.attr("version", "1.1")
-							//.attr("xmlns", "http://www.w3.org/2000/svg")
-							//.attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
 							.attr("width", scope.settings.graphwidth);
 					
 					// maximum width of the data
@@ -174,8 +171,8 @@
 							.data(data)
 							.enter()
 								.append("path")
-								.on("contextmenu", function(d, i){  d3.event.preventDefault(); return scope.onClick({index: i, x: event.clientX, y: event.clientY});})
-								.on("mouseover", function(d, i){ console.log(d.genefunction); return scope.onMouseOverGene({newfunction:d.genefunction});})
+								.on("contextmenu", function(d, i){ d3.event.preventDefault(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});})
+								.on("mouseover", function(d, i){ return scope.onMouseOverGene({newfunction:d.genefunction});})
 								.attr("d", function(d, i) {
 									// get start and stop positions relative to max size
 									if (d.strand === '+')
@@ -198,11 +195,9 @@
 									
 									if (x1 > scope.settings.graphwidth) {
 										svg.attr("width", x1);
-										console.log(">>>>" + x1);
 									}
 									if (x3 > scope.settings.graphwidth) {
 										svg.attr("width", x3);
-										console.log(">>>>" + x3);
 									}
 
 									if(y4 > globalMaxY) { globalMaxY = y4 + 35; }
@@ -237,6 +232,14 @@
 								})
 								.attr("stroke", "black")
 								.attr("stroke-width", "2")
+								.attr("visibility", function(d, i){ 
+									if (d.genehidden === false){
+										return 'visible';
+									}
+									else if (d.genehidden === true) {
+										return 'hidden';
+									}
+								})
 								
 					var drag = d3.behavior.drag()
 										.on('drag', function(d, i) { 
@@ -282,7 +285,7 @@
 														}
 													}
 													console.log(gind);
-													return scope.onClickGenome({genomeindex: gind, wordindex: wind, x: event.clientX, y: event.clientY});})
+													return scope.onClickGenome({genomeindex: gind, wordindex: wind, x: d3.event.clientX, y: d3.event.clientY});})
 												.attr("font-style", function(){
 													if (d.genomestyles[n] === "italic" || d.genomestyles[n] === "bold,italic"){
 														return 'italic';
@@ -365,10 +368,10 @@
 								.attr("y", function(d, i){return d.labelpos.y;})
 								.attr("x", function(d, i){return d.labelpos.x;})
 								.attr("visibility", function(d, i){ 
-									if (d.labelhidden === false){
+									if (d.labelhidden === false && d.genehidden === false){
 										return 'visible';
 									}
-									else if (d.labelhidden === true) {
+									else if (d.labelhidden === true || d.genehidden === true) {
 										return 'hidden';
 									}
 								})
