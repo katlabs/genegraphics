@@ -9,9 +9,9 @@
 		geneSvc.maxVertOff = 0;
 		
 		geneSvc.updateGene = function(gData, maxVertOff) {
-			this.maxVertOff += maxVertOff;
+			this.maxVertOff += 2;
 			this.geneData = gData.reduce( function(coll, item){
-				coll.push( item);
+				coll.push(item);
 				return coll;
 			}, this.geneData);
 			$rootScope.$broadcast('updateGeneData');

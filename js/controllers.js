@@ -483,7 +483,6 @@
 						}
 						i = i+1;
 					}
-					$scope.maxVertOff+=2;
 					geneService.updateGene($scope.data, $scope.maxVertOff);
 				}
 				
@@ -505,7 +504,11 @@
 				}
 				
 			}
-
+			
+			$scope.$on('updateGeneData', function(){
+        $scope.data = geneService.geneData;
+      })
+			
 			$scope.$on('updateMenuStatus', function(){
 				$scope.showPopupMenu = popupMenuService.menuVisible;
 			});
@@ -582,8 +585,10 @@
 			
 			$scope.clearAllGenomes = function(){
 				geneService.clearGenes();
+				$scope.data =[];
 				$scope.graphSettings.displayedFunction = "";
 				$scope.graphSettings.currentFilesList = [];
+				console.log("cleared");
 			};
 
 		}])

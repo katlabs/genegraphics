@@ -85,6 +85,11 @@
 						var whichLane = function(d, i) {
 						// Function to determine the first y position of the feature
 							var laneOffset = d.currLane;
+							//console.log(i);
+							if(i==0){
+								lastLaneOffset = -1;
+							}
+							//console.log(lastLaneOffset);
 							
 							if (multilane == true){
 								if (lastLaneOffset != laneOffset) {
@@ -168,12 +173,14 @@
 															
 						//create the arrow for genes
 						svg.selectAll("path")
-							.data(data)
+							.data(scope.data)
 							.enter()
 								.append("path")
 								.on("contextmenu", function(d, i){ d3.event.preventDefault(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});})
 								.on("mouseover", function(d, i){ return scope.onMouseOverGene({newfunction:d.genefunction});})
 								.attr("d", function(d, i) {
+									console.log(d);
+									//console.log(d.name);
 									// get start and stop positions relative to max size
 									if (d.strand === '+')
 										var x1 = getFeatureStart(d, i);
@@ -192,6 +199,8 @@
 									var y4 = y1+featureheight;
 									var x5 = x1;
 									var y5 = y4;
+									
+									//console.log(y1);
 									
 									if (x1 > scope.settings.graphwidth) {
 										svg.attr("width", x1);
@@ -255,7 +264,7 @@
 					var prevCurrLane = -1;
 					
 					svg.selectAll("text.genomelabel")
-							.data(data)
+							.data(scope.data)
 							.enter()
 								.append("text")
 								.each(function(d) {
@@ -311,7 +320,7 @@
 								})
 									
 					 svg.selectAll("text.genelabel")
-							.data(data)
+							.data(scope.data)
 							.enter()
 								.append("text")
 								.call(drag)
