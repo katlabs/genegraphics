@@ -1,7 +1,7 @@
 <md-content class="md-padding">
 	<div ng-controller="graphCtrl">
 	<md-toolbar class="md-menu-toolbar">
-	<md-menu-bar>
+	<md-menu-bar id="mainmenubar">
 		<md-menu>
 			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
 				Input
@@ -33,11 +33,14 @@
 				<h3>Size settings</h3>
 				<md-menu-item>
 					<span>Image width</span>
-					<span><input type="number" id="widthtxt" step=10 ng-model="graphSettings.graphwidth" ng-change="changeGraphWidth(graphSettings.graphwidth);" > px</span>
+					<span><input type="text" id="widthtxt" step=10 ng-model="graphSettings.graphwidth" update-on-enter ng-model-options="{ updateOn: 'blur' }" ng-change="changeGraphWidth(graphSettings.graphwidth);" > px</span>
 				</md-menu-item>
 				<md-menu-item>
 					<span>Gene height</span>
-					<span><input type="number" id="featureheighttxt" ng-model="graphSettings.featureheight" ng-change="changeFeatureHeight(graphSettings.featureheight);"> px</span>
+					<span><input type="text" id="featureheighttxt" ng-model="graphSettings.featureheight" update-on-enter ng-model-options="{ updateOn: 'blur' }" ng-change="changeFeatureHeight(graphSettings.featureheight);"> px</span>
+				</md-menu-item>
+				<md-menu-item>
+					<span style = "font-style:italic; font-size:10px">Press [Enter] to apply changes.</span>
 				</md-menu-item>
 				<md-menu-divider></md-menu-divider>
 				<h3>Lane settings</h3>
@@ -53,6 +56,13 @@
 				<span><md-checkbox ng-disabled="!graphSettings.shiftgenes" ng-model="graphSettings.keepgaps" >
 					keep gaps between genes</span>
 				</md-menu-item>
+				<md-menu-divider></md-menu-divider>
+				<h3>Scale</h3>
+				<md-menu-item>
+				<span><md-checkbox ng-model="graphSettings.scaleOn">
+					Scale on</span>
+				</md-menu-item>
+			</md-menu-content>
 		</md-menu>
 		<md-menu>
 			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
@@ -112,27 +122,28 @@
 				</md-menu-item>
 			</md-menu-content>
 		</md-menu>
-		<md-menu>
+		<md-menu id="exportmenu">
 			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
 				Export
 			</button>
 			<md-menu-content>
-				<md-menu-item>
+				<md-menu-item id="exportpng">
 					<md-button ng-exportpng>Export PNG</md-button>
 				</md-menu-item>
-				<md-menu-item>
+				<md-menu-item id="exportsvg">
 					<md-button ng-exportsvg>Export SVG</md-button>
 				</md-menu-item>
-				<md-menu-item>
+				<md-menu-item id="exporttsv">
 					<md-button ng-exporttsv data="geneData" settings="graphSettings">Export TSV</md-button>
 				</md-menu-item>
 			</md-menu-content>
 		</md-menu>
 		<span style="float:right;">{{graphSettings.displayedFunction}}</span>
 	</md-menu-bar>
+	<div id="flashdl"></div>
 </md-toolbar>
 	<div id="graphcontainer">
-		<d3-genes data="geneData" settings="graphSettings" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(genomeindex, wordindex, x, y)" on-mouse-over-gene="changeDisplayedFunction(newfunction)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
+		<d3-genes data="geneData" settings="graphSettings" genomeshidestatus="genomesHideStatus" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(genomeindex, wordindex, x, y)" on-mouse-over-gene="changeDisplayedFunction(newfunction)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
 	</div>
 	<div> Files: 
 		<span ng-hide="graphSettings.currentFilesList.length">No file chosen</span>

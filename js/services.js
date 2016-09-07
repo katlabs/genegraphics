@@ -9,7 +9,8 @@
 		geneSvc.maxVertOff = 0;
 		
 		geneSvc.updateGene = function(gData, maxVertOff) {
-			this.maxVertOff += 2;
+			console.log("updateGene");
+			this.maxVertOff = gData[gData.length-1]['currLane'] + 2;
 			this.geneData = gData.reduce( function(coll, item){
 				coll.push(item);
 				return coll;
@@ -61,7 +62,10 @@
 	}])
 	.factory("colorService", [ function(){
 		var colorService = {};
+		var whiteThreshold = 140;
+		
 		colorService.getHashColor = function(strToHash) {
+			//console.log("Hash Input: " + strToHash);
 			var hash = MD5(strToHash);
 			var i = 0;
 			do { 
@@ -71,25 +75,35 @@
 				 alert ( "Cannot find acceptable color value from name hash." );
 				 return "#e762f3";
 			 }
-			} while(colorService.toGrey(clr)<32 || colorService.toGrey(clr)>(256-32))
+			} while(colorService.toGrey(clr)<whiteThreshold || colorService.toGrey(clr)>(256-32))
 			return clr;
 		}
 		colorService.getRandomColor = function() {
 			do {
 				var randomcolor = '#' + (Math.random().toString(16) + '0000000').slice(2, 8)
-			} while(colorService.toGrey(randomcolor)<32 || colorService.toGrey(randomcolor)>(256-32))
+			} while(colorService.toGrey(randomcolor)<whiteThreshold || colorService.toGrey(randomcolor)>(256-32))
+			// This change was done to only allow light backgrounds so that text
+			// would always default to black
+			//} while(colorService.toGrey(randomcolor)<32 || colorService.toGrey(randomcolor)>(256-32))
+				
 			return randomcolor;
 		}
 		colorService.toGrey = function(color) {
 			var R = parseInt(color.slice(1,3), 16);
 			var G = parseInt(color.slice(3,5), 16);
 			var B = parseInt(color.slice(5,7), 16);
-			return (R*0.299)+(G*0.587)+(B*0.114);
+			/* console.log("== Colors");
+			console.log(R);
+			console.log(G);
+			console.log(B); */
+			return (R+G+B)/3;
+			//return (R*0.21)+(G*0.72)+(B*0.07);
+			//return (R*0.299)+(G*0.587)+(B*0.114);
 		}
 		colorService.getTextColor = function(bgcolor) {
 			var grey = colorService.toGrey(bgcolor);
 			
-			if(grey>140)
+			if(grey>whiteThreshold)
 				return "#000000";
 			return "#FFFFFF";
 		}
