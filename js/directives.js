@@ -137,7 +137,10 @@
 								return buffer* ((currLane+1)+laneOffset) + ((laneOffset+1)*buffer) + (featureheight*(currLane + laneOffset));
 							}
 							else {
-								return buffer * (laneOffset+1) + ((laneOffset+1)*buffer);
+								if (scope.settings.scaleOn == false){
+									return 2*buffer*(laneOffset+1);
+								}
+								return 2*buffer*(laneOffset+2);
 							}
 						}
 						var prevend = 0;
