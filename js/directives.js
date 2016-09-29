@@ -58,7 +58,7 @@
 						return scope.render(newVals);
 					}, true);
 					
-					scope.$watch('settings.scaleOn', function(newVal, oldVal) {
+					scope.$watch('settings', function(newVal, oldVal) {
 						if (newVal != oldVal){
 							return scope.render(scope.data);
 						}
