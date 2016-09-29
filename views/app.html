@@ -122,25 +122,11 @@
 				</md-menu-item>
 			</md-menu-content>
 		</md-menu>
-		<md-menu id="exportmenu">
-			<button ng-click="$mdOpenMenu()" class="md-raised md-primary">
-				Export
-			</button>
-			<md-menu-content>
-				<md-menu-item id="exportpng">
-					<md-button ng-exportpng>Export PNG</md-button>
-				</md-menu-item>
-				<md-menu-item id="exportsvg">
-					<md-button ng-exportsvg>Export SVG</md-button>
-				</md-menu-item>
-				<md-menu-item id="exporttsv">
-					<md-button ng-exporttsv data="geneData" settings="graphSettings">Export TSV</md-button>
-				</md-menu-item>
-			</md-menu-content>
-		</md-menu>
+		<button ng-exportbutton class="md-raised md-primary" ng-click="openExportPanel();" data="geneData" settings="graphSettings" showexportpanel="showExportPanel">
+			Export
+		</button>
 		<span style="float:right;">{{graphSettings.displayedFunction}}</span>
 	</md-menu-bar>
-	<div id="flashdl"></div>
 </md-toolbar>
 	<div id="graphcontainer">
 		<d3-genes data="geneData" settings="graphSettings" genomeshidestatus="genomesHideStatus" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(genomeindex, wordindex, x, y)" on-mouse-over-gene="changeDisplayedFunction(newfunction)" on-drag="dragLabel(i, newx, newy)"></d3-genes>
@@ -163,6 +149,15 @@
 			from: <input type="number" ng-model="seqRangeStart"> to: <input type="number" ng-model="seqRangeEnd"><br>
 		<button ng-click="submitNCBIQuery();" style="right:0;">Submit</button><br>
 		<span id="statusmessage">{{statusMessage}}</span>
+	</div>
+	<div id="exportpanel" ng-show="showExportPanel">
+		<button class="xoutbutton" ng-click="closeExportPanel();">
+				X
+		</button>
+		To save a file, right click on the link and choose "Save As". (On Mac:⌘ + click and "Download linked file as..." Then, give the file a name and the correct file extension on the save prompt.)<br><br>
+		<a id="pnglink" href="" download="newgenegraphic.png">Export PNG</a><br><br>
+		<a id="svglink" href="" download="newgenegraphic.svg">Export SVG</a><br><br>
+		<a id="tsvlink" href="" download="newgenegraphic.tsv">Export TSV</a><br>
 	</div>
 	<div id="geneMenu" ng-click="$emit('menuClicked', event.target)" ng-show="menuVisible == true">
 		<div ng-show="(selectedGene >= 0) && menuVisible == true">

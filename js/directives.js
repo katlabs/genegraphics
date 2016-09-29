@@ -452,161 +452,45 @@
 				}
 			};
 		}])
-		
-		.directive('ngExportpng', ['d3', function(d3) {
-			return {
-				restrict: 'AE',
-				scope: false,
-	
-				link: function(scope, element, attrs){
-					
-					d3.select(element[0])
-						.on("click", svgToPNG);
-
-					function svgtoPNGdurl() {
-						var svg = d3.select("svg"),
-								img = new Image(),
-								serializer = new XMLSerializer(),
-								svgStr = serializer.serializeToString(svg[0][0]);
-						
-						img.src = 'data:image/svg+xml;base64,'+window.btoa(svgStr);
-						var w = svg.attr('width');
-						var h = svg.attr('height');
-						
-						var canvas = document.createElement("canvas");
-						element.append(canvas);
-
-						canvas.width = w;
-						canvas.height = h;
-						canvas.style.display="none";
-						canvas.getContext("2d").drawImage(img,0,0,w,h);
-						var datau = canvas.toDataURL();
-
-						return datau.replace("data:image/png;base64,","");
-					};
-					
-					function svgToPNG(){
-						var svg = d3.select("svg"),
-								img = new Image(),
-								serializer = new XMLSerializer(),
-								svgStr = serializer.serializeToString(svg[0][0]);
-						
-						img.src = 'data:image/svg+xml;base64,'+window.btoa(svgStr);
-						var w = svg.attr('width');
-						var h = svg.attr('height');
-						
-						var canvas = document.createElement("canvas");
-						element.append(canvas);
-
-						canvas.width = w;
-						canvas.height = h;
-						canvas.style.display="none";
-						canvas.getContext("2d").drawImage(img,0,0,w,h);
-						canvas.toBlob(function(blob) {
-							console.log(blob);
-							saveAs(blob, "newgenegraphic.png");
-						});
-					};
-					
-					// Kludge for Safari to download using flash.
-					window.setTimeout(svgtoPNGsafari, 2000);
-					function svgtoPNGsafari() {
-						var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-						if(isSafari) {
-							if(!swfobject.hasFlashPlayerVersion("9.0.18")) {
-								alert("Safari requires Flash Player for Export functions.  Please install Flash.");
-								return;
-							}
-							// Have to remove the html exportmenu
-							//var child = document.getElementById("exportmenu");
-							//child.parentNode.removeChild(child);
-							
-							Downloadify.create('exportpng',{
-								swf: "media/downloadify.swf",
-								downloadImage: "images/exportpng.png",
-								width: 280,
-								height: 32,
-								filename: "newgenegraphic.png",
-								data: function() { return svgtoPNGdurl(); },
-								dataType: 'base64',
-								transparent: false,
-								append: false
-								});
-						 }
-					};
-					
-				}
-			};
-		}])
-		
-		.directive('ngExportsvg', ['d3', function(d3) {
-			return {
-				restrict: 'AE',
-				scope: false,
-				link: function(scope, element, attrs){
-					
-					d3.select(element[0])
-						.on("click", saveSVG);
-					
-					function saveSVG(){
-						var svg = d3.select("svg").node();
-						
-						var svgxml = (new XMLSerializer).serializeToString(svg);
-						
-						var myblob = new Blob([svgxml], {type:"application/svg+xml;charset=" + svg.characterSet});
-						saveAs(myblob, "newgenegraphic.svg");
-					};
-					
-					function returnSVG(){
-						var svg = d3.select("svg").node();
-						
-						var svgxml = (new XMLSerializer).serializeToString(svg);
-						
-						return svgxml;
-					}
-					
-					// Kludge for Safari to download using flash.
-					window.setTimeout(saveSVGsafari, 2000);
-					function saveSVGsafari() {
-						var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-						if(isSafari) {
-							if(!swfobject.hasFlashPlayerVersion("9.0.18")) {
-								return;
-							}
-							
-							Downloadify.create('exportsvg',{
-								swf: "media/downloadify.swf",
-								downloadImage: "images/exportsvg.png",
-								width: 280,
-								height: 32,
-								filename: "newgenegraphic.svg",
-								data: function() { return returnSVG(); },
-								dataType: 'string',
-								transparent: false,
-								append: false
-								});
-						 }
-					};
-						
-				}
-			};
-		}])
-		
-		.directive('ngExporttsv', ['d3', function(d3) {
+		.directive('ngExportbutton', ['d3', function(d3) {
 			return {
 				restrict: 'AE',
 				scope: {
-					data: "=",
+					data: "=data",
 					settings: "=settings",
+					showexportpanel: "=showexportpanel"
 				},
-				link: function(scope, element, attrs) {
+				link: function(scope, element, attrs){
 					
-					d3.select(element[0])
-						.on("click", saveTSV);
+					element.bind('click', function exportFiles() {
+						console.log(scope);
+						if (scope.data == null){
+							console.log(scope.data);
+							return;
+						}
 						
-					function returnTSV(){
+						// Create SVG URI
+						var svg = d3.select("svg");
+						var svguri = 'data:image/svg+xml;base64,'+window.btoa(unescape(encodeURIComponent((new XMLSerializer).serializeToString(svg[0][0]))));
+						document.getElementById("svglink").href = svguri;
+						
+						// Create PNG URI
+						var img = new Image();
+						img.src = svguri;
+						var w = svg.attr('width');
+						var h = svg.attr('height');
+						var canvas = document.createElement("canvas");
+						element.append(canvas);
+						canvas.width = w;
+						canvas.height = h;
+						canvas.style.display="none";
+						img.onload = function(){
+							canvas.getContext("2d").drawImage(img,0,0,w,h);
+							var pnguri = canvas.toDataURL();
+							document.getElementById("pnglink").href = pnguri;
+						}
+						
+						// Create TSV URI
 						var outputtext = "genome\tgenomestyles\tcurrLane\tlabelcolor\tlabelcolorchanged\tlabelhidden\tlabelpos\tlabelposchanged\tlabelsize\tlabelstyle\tlabelstylechanged\tname\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
 						var genelines = "";
 						for (var i = 0; i < scope.data.length; i++) {
@@ -631,46 +515,17 @@
 							genelines += scope.data[i].strand + "\t";
 							genelines += scope.data[i].genefunction + "\n";
 						}
-						
 						outputtext += genelines;
 						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"fontFamily\":\"" + scope.settings.fontFamily + "\",\"fontSize\":\"" + scope.settings.fontSize + "\",\"fontStyle\":\"" + scope.settings.fontStyle + "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"labelPosition\":\"" + scope.settings.labelPosition + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\"}";
+						var tsvuri = "data:," + encodeURI(outputtext);
+						document.getElementById("tsvlink").href = tsvuri;
 						
-						return outputtext;
-					}
-						
-					function saveTSV(){
-						var outputtext = returnTSV();
-						var myblob = new Blob([outputtext], {type: 'text/plain'});
-						saveAs(myblob, "newgenegraphic.tsv");
-					}
-					
-					// Kludge for Safari to download using flash.
-					window.setTimeout(saveSVGsafari, 2050);
-					function saveSVGsafari() {
-						var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-						if(isSafari) {
-							if(!swfobject.hasFlashPlayerVersion("9.0.18")) {
-								return;
-							}
-							
-							Downloadify.create('exporttsv',{
-								swf: "media/downloadify.swf",
-								downloadImage: "images/exporttsv.png",
-								width: 280,
-								height: 32,
-								filename: "newgenegraphic.tsv",
-								data: function() { return returnTSV(); },
-								dataType: 'string',
-								transparent: false,
-								append: false
-								});
-						 }
-					};
+						scope.showexportpanel = true;
+						console.log(scope.showexportpanel);
+					});
 				}
 			}
 		}])
-		
 		.directive('onReadFile', function ($parse) {
 			return {
 				restrict: 'A',

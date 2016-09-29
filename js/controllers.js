@@ -2,8 +2,8 @@
 'use strict';
 
 	angular.module('geneGraphApp.controllers')
-		.controller('graphCtrl', ['$scope', 'geneService', 'colorService', function($scope,
-		geneService, colorService) {
+		.controller('graphCtrl', ['$scope', 'geneService', 'colorService', 'd3', function($scope,
+		geneService, colorService, d3) {
 			
 			// Set up graph container size
 			document.getElementById("graphcontainer").style.height = window.innerHeight - 200 + "px";
@@ -58,7 +58,12 @@
 			$scope.graphSettings.currentFilesList = [];
 			$scope.graphSettings.addScale = true;
 			$scope.geneClipboard = {};
-      
+			$scope.showExportPanel = false;
+			$scope.closeExportPanel = function(){
+				$scope.showExportPanel = false;
+			}
+			
+			
 			$scope.geneData = geneService.geneData;
 			
 			$scope.minMenuSize = 296;
@@ -202,6 +207,7 @@
 				}
 				$scope.$apply();
 			}
+			
 		}])
 		.controller('tabsCtrl', ['$scope', function($scope) {
 			$scope.tabs = [
