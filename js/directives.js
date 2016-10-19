@@ -466,7 +466,7 @@
 				link: function(scope, element, attrs){
 					
 					element.bind('click', function exportFiles() {
-						console.log(scope);
+
 						if (scope.data == null){
 							console.log(scope.data);
 							return;
@@ -524,7 +524,6 @@
 						document.getElementById("tsvlink").href = tsvuri;
 						
 						scope.showexportpanel = true;
-						console.log(scope.showexportpanel);
 					});
 				}
 			}

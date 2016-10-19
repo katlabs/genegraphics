@@ -598,20 +598,75 @@
 				});
 			}
 			
-			
 			$scope.showWebGenomePopup = function(){
 				$scope.openPopup();
 			};
 			
 			$scope.clearAllGenomes = function(){
-				geneService.clearGenes();
-				$scope.data =[];
-				$scope.graphSettings.displayedFunction = "";
-				$scope.graphSettings.currentFilesList = [];
-				console.log("cleared");
+				var ret = confirm("Do you really want to clear all data?");
+				if (ret == true){
+					geneService.clearGenes();
+					$scope.data =[];
+					$scope.graphSettings.displayedFunction = "";
+					$scope.graphSettings.currentFilesList = [];
+					console.log("cleared");
+				}
+				else {
+					return;
+				}
 			};
 
 		}])
-
+		.controller('tutorialCtrl', function ($scope, $sce) {
+			$scope.slides = [];
+			$scope.console = console;
+			$scope.tutorial1 = [
+			{image: 'images/tutorial1/img0.png', description: $sce.trustAsHtml('We will be creating an image similar to part b of this Supplementary Figure 4 from the paper <a href="http://www.nature.com/nchembio/journal/v12/n8/full/nchembio.2108.html">"A family of metal-dependent phosphatases implicated in metabolite damage-control"</a>.')},
+			{image: 'images/tutorial1/img1.png', description: $sce.trustAsHtml('Navigate your web browser to <a href="http://pubseed.theseed.org/">http://pubseed.theseed.org/</a>.')},
+			{image: 'images/tutorial1/img2.png', description: $sce.trustAsHtml('Use the search box to find "Methanococcus vannieli DUF89". Click the feature link for the first result.')},
+			{image: 'images/tutorial1/img3.png', description: $sce.trustAsHtml('On the feature page, scroll down to see the Compare Regions tool.')},
+			{image: 'images/tutorial1/img4.png', description: $sce.trustAsHtml('Click on the "Advanced" button in Display options. Edit the Number of Regions to 1000, and then change the Pinned CDS selection option to "PGfams". Then, press the "draw" button.')},
+			{image: 'images/tutorial1/img5.png', description: $sce.trustAsHtml('After the Visual Region Information loads with the new settings, click the "uncheck all" button. Then, go through the genomes listed and find the ones that you want to include in the final image. For this tutorial, we need nine genomes. After you have checked them all, click on the "update with selected" button.')},
+			{image: 'images/tutorial1/img6.png', description: $sce.trustAsHtml('The result should show just the nine genomes that you selected.')},
+			{image: 'images/tutorial1/img7.png', description: $sce.trustAsHtml('We can get rid of some of the extra genes by limiting the Region Size to 6000 bp as shown. Click "draw" to load again.')},
+			{image: 'images/tutorial1/img8.png', description: $sce.trustAsHtml('Click on the Tabular Region Information tab, then click on the "export table" button.')},
+			{image: 'images/tutorial1/img9.png', description: $sce.trustAsHtml('Open the file you exported in a spreadsheet editor.')},
+			{image: 'images/tutorial1/img10.png', description: $sce.trustAsHtml('We can delete the last three columns, since the genegraphics tool does not use them for any purpose. However, it is not a problem to leave the extra columns in the file, the genegraphics tool can still read it.')},
+			{image: 'images/tutorial1/img11.png', description: $sce.trustAsHtml('It is easiest to delete any unwanted genes from the file before uploading.')},
+			{image: 'images/tutorial1/img12.png', description: $sce.trustAsHtml('The result should look like this.')},
+			{image: 'images/tutorial1/img13.png', description: $sce.trustAsHtml('Edit the genome names in the file by using the "Replace All" function.')},
+			{image: 'images/tutorial1/img14.png', description: $sce.trustAsHtml('This is what your file should look like so far.')},
+			{image: 'images/tutorial1/img15.png', description: $sce.trustAsHtml('We can also add a column to name some of our genes. These nmes will show up as the gene labels in our image. After you are done editing the file, save it once again as a TSV file (or a TXT file with a TSV extension).')},
+			{image: 'images/tutorial1/img16.png', description: $sce.trustAsHtml('Now, upload the file to the genegraphics tool by clicking File, then "Choose a File". A prompt will ask you to choose the file you would like to upload. Select the file you previously saved.')},
+			{image: 'images/tutorial1/img17.png', description: $sce.trustAsHtml('Click on Graph Settings, then edit the Image width and the Gene height. These settings determine the width of the final image and the height of the genes, respectively.')},
+			{image: 'images/tutorial1/img18.png', description: $sce.trustAsHtml('Uncheck the box that says "Multiple lanes for overlapping genes." This will pull all of the genes onto one lane, even when they overlap.')},
+			{image: 'images/tutorial1/img19.png', description: $sce.trustAsHtml('Either right click or double click on genes to bring up options for that gene. Here, you can edit the name of the gene and its colors. Change the first DUF89 gene color to red, and change its label color to white. Then select "Copy Gene Colors". This will copy the color settings so that you can paste them to other genes.')},
+			{image: 'images/tutorial1/img20.png', description: $sce.trustAsHtml('Right click or double click on the other DUF89 genes and select "Paste Gene Colors" in order to transfer the same colors to the other DUF89 genes.')},
+			{image: 'images/tutorial1/img21.png', description: $sce.trustAsHtml('Follow the same procedures to change all of the purine synthesis genes to the same color. Then, change all of the other genes whose functions are not relevent to white.')},
+			{image: 'images/tutorial1/img22.png', description: $sce.trustAsHtml('Click on Label Settings, then choose Font Style and select Italic in order to italicize all of the gene labels.')},
+			{image: 'images/tutorial1/img23.png', description: $sce.trustAsHtml('We neglected some gene names in our file, but we can edit the names of the rest of the genes by right clicking or double clicking on the gene.')},
+			{image: 'images/tutorial1/img24.png', description: $sce.trustAsHtml('You can toggle the scale on and off by clicking Graph Settings and checking or unchecking Scale on. For this image, turn the scale off.')},
+			{image: 'images/tutorial1/img25.png', description: $sce.trustAsHtml('Click on the Export button and you will see a pop-up with the export links. Follow the instructions on the pop-up based on your operating system to save the PNG file.')},
+			{image: 'images/tutorial1/img26.png', description: $sce.trustAsHtml('Your final image should look like this. You have finished this tutorial!')}
+			];
+			$scope.currentIndex=0;
+			
+			$scope.setCurrentSlideIndex = function(index) {
+				$scope.currentIndex = index;
+			};
+			
+			$scope.isCurrentSlideIndex = function(index) {
+				return $scope.currentIndex == index;
+			};
+			
+			$scope.prevSlide = function(){
+				$scope.currentIndex = ($scope.currentIndex < $scope.slides.length - 1) ? ++$scope.currentIndex : 0;
+			};
+			
+			$scope.nextSlide = function() {
+				$scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.slides.length -1;
+			};
+			
+		});
 
 }());

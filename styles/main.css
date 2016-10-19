@@ -67,6 +67,20 @@ body > h1 {
 	margin-bottom: 10px;
 }
 
+p.slideDesc {
+	width: 1000px;
+	height: 100px;
+}
+
+p.tutDesc {
+	width: 600px;
+}
+
+img.slide {
+	width: 1000px;
+	height: 500px;
+}
+
 #titlecontainer {
 	font-family: Arial;
 	color: #47a3da;
@@ -119,6 +133,32 @@ body > h1 {
 	-moz-box-shadow: 5px 5px 2.5px #387091;
 }
 
+#tutorialcontainer {
+	position: fixed;
+	top: 110px;
+	left: 10%;
+	height: 80%;
+	margin-top: -50px;
+	background-clip: padding-box;
+	background-color: #FFFFFF;
+	padding: 20px;
+	border: 4px solid;
+	border-radius: 16px;
+	-webkit-border-radius: 16px;
+	-moz-border-radius: 16px;
+	border-color: #47a4da;
+	box-shadow: 5px 5px 2.5px #387091;
+	-webkit-box-shadow: 5px 5px 2.5px #387091;
+	-moz-box-shadow: 5px 5px 2.5px #387091;
+}
+
+#navbuttonpanel {
+	position: absolute;
+	text-align: center;
+	top: 95%;
+	left: 50%;
+}
+
 button {
 	background: #47a4da;
 	background-image: -webkit-linear-gradient(top, #47a4da, #0d77b6);
@@ -145,11 +185,23 @@ button.xoutbutton {
 	top:5px; 
 	right:5px; 
 	border-radius:16px;
+	width: 18px;
+}
+
+button.navarrow {
+	height: 25px;
+	width: 25px;
 }
 
 button:hover{
 	background: #51a8db;
 	text-decoration: none;
+}
+
+button:disabled{
+	background: #adcadb;
+	color: #e1e8ed;
+	border: solid #95a4ad 1px;
 }
 
 button:[aria-expanded="true"]{
@@ -171,7 +223,8 @@ input[type=range][orient=vertical]
 }
 
 .tabsClass md-content {
-	background-color: transparent !important; }
+	background-color: transparent !important;
+	height: 100%;}
 .tabsClass md-content md-tabs {
 	background: #FFFFFF;
 	border: 1px solid #cbe4ea; }
