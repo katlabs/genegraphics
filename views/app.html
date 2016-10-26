@@ -18,6 +18,23 @@
 							Choose a Genome
 					</md-button>
 				</md-menu-item>
+				<md-menu-item>
+					<md-menu>
+						<md-button ng-click="$mdOpenMenu()">Tutorial Files</md-button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-click="tutorialFile('data/tutorial1/tutorial1_inputTable.tsv','tsv');">
+									Tutorial 1 Unfinished
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="tutorialFile('data/tutorial1/tutorial1_finalproduct.tsv','tsv');">
+									Tutorial 1 Finished
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-item>
 				<md-menu-item >
 					<md-button ng-click="clearAllGenomes();">
 							Clear All Genomes

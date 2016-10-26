@@ -1,0 +1,74 @@
+Genome	ID	Start	Stop	Size (nt)	Strand	Function	FC	SS	Set
+Methanococcus vannieli vannielii SB	fig|406327.7.peg.587	613754	614626	873	+	Formylmethanofuran dehydrogenase (tungsten) subunit C (EC 1.2.99.5)	 	4	15
+Methanococcus vannieli vannielii SB	fig|406327.7.peg.588	614763	615266	504	+	6-carboxytetrahydropterin synthase (EC 4.1.2.50)	 	5	12
+Methanococcus vannieli vannielii SB	fig|406327.7.peg.589	615363	615929	567	+	CBS domain protein	 	 	9
+Methanococcus vannieli vannielii SB	fig|406327.7.peg.590	615948	616787	840	+	CBS domain protein	 	 	8
+Methanococcus vannieli vannielii SB	fig|406327.7.peg.591	616847	617815	969	+	DUF89 protein CxxC subfamily	 	 	1
+Methanococcus vannieli vannielii SB	fig|406327.7.peg.592	617881	618930	1050	+	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)	 	1	4
+Methanococcus vannieli vannielii SB	fig|406327.7.peg.593	618962	620626	1665	+	Phenylalanyl-tRNA synthetase beta chain (EC 6.1.1.20)	 	6	13
+Methanococcus maripaludis C6	fig|444158.3.peg.1404	1324575	1322911	1665	-	Phenylalanyl-tRNA synthetase beta chain (EC 6.1.1.20)	 	6	13
+Methanococcus maripaludis C6	fig|444158.3.peg.1405	1325664	1324615	1050	-	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)	 	1	4
+Methanococcus maripaludis C6	fig|444158.3.peg.1406	1326622	1325726	897	-	DUF89 protein CxxC subfamily	 	 	1
+Methanococcus maripaludis C6	fig|444158.3.peg.1407	1327570	1326731	840	-	CBS domain protein	 	 	8
+Methanococcus maripaludis C6	fig|444158.3.peg.1408	1328153	1327593	561	-	CBS domain protein	 	 	9
+Methanococcus maripaludis C6	fig|444158.3.peg.1409	1328747	1328244	504	-	6-carboxytetrahydropterin synthase (EC 4.1.2.50)	 	5	12
+Methanococcus maripaludis C6	fig|444158.3.peg.1410	1329657	1328839	819	-	Formylmethanofuran dehydrogenase (tungsten) subunit C (EC 1.2.99.5)	 	4	15
+Methanocaldococcus jannaschii DSM 2661	fig|243232.1.peg.202	190941	191114	174	+	DNA-directed RNA polymerase subunit K (EC 2.7.7.6)	 	19	 
+Methanocaldococcus jannaschii DSM 2661	fig|243232.1.peg.203	191315	192259	945	+	M. jannaschii predicted coding region MJ0198	 	 	 
+Methanocaldococcus jannaschii DSM 2661	fig|243232.1.peg.204	192373	192570	198	+	Ferredoxin / DUF89-clustered redox	 	20	 
+Methanocaldococcus jannaschii DSM 2661	fig|243232.1.peg.205	192864	192616	249	-	[NiFe] hydrogenase metallocenter assembly protein HypC / DUF89-clustered Fe-S assembly-repair	 	16	 
+Methanocaldococcus jannaschii DSM 2661	fig|243232.1.peg.206	193483	193001	483	-	Uncharacterized protein MJ0201	 	 	 
+Methanocaldococcus jannaschii DSM 2661	fig|243232.1.peg.207	193540	194454	915	+	DUF89 protein CxxC subfamily	 	 	1
+Methanocaldococcus jannaschii DSM 2661	fig|243232.1.peg.208	194575	195627	1053	+	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)	 	1	4
+Methanocaldococcus jannaschii DSM 2661	fig|243232.1.peg.209	195727	197142	1416	+	Amidophosphoribosyltransferase (EC 2.4.2.14)	 	1,2	11
+Methanosphaera stadtmanae DSM 3091	fig|339860.6.peg.1074	1292226	1291009	1218	-	Protease	 	 	5
+Methanosphaera stadtmanae DSM 3091	fig|339860.6.peg.1075	1293690	1292278	1413	-	Amidophosphoribosyltransferase (EC 2.4.2.14)	 	2	11
+Methanosphaera stadtmanae DSM 3091	fig|339860.6.peg.1076	1294418	1293855	564	-	Iron-sulfur flavoprotein	 	 	 
+Methanosphaera stadtmanae DSM 3091	fig|339860.6.peg.1077	1294693	1295559	867	+	DUF89 protein CxxC subfamily	 	 	1
+Methanosphaera stadtmanae DSM 3091	fig|339860.6.peg.1078	1296322	1295564	759	-	Transcriptional regulator, TrmB family	 	 	 
+Methanosphaera stadtmanae DSM 3091	fig|339860.6.peg.1079	1296406	1297752	1347	+	Hydroxylamine reductase (EC 1.7.99.1)	 	17	 
+Methanosphaera stadtmanae DSM 3091	fig|339860.6.peg.1080	1298877	1297771	1107	-	hypothetical protein	 	 	 
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.308	202018	200792	1227	-	Deoxyguanosinetriphosphate triphosphohydrolase (EC 3.1.5.1)	 	18	 
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.309	202433	202005	429	-	ferric uptake regulatory protein	 	 	 
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.310	203451	202507	945	-	Methionyl-tRNA formyltransferase (EC 2.1.2.9)	 	7,10,23	 
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.311	204052	203432	621	-	Sua5/YciO/YrdC/YwlC	 	 	 
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.312	204938	204042	897	-	DUF89 protein CxxC subfamily	 	 	1
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.313	205275	204940	336	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)	 	1	2
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.314	206275	205307	969	-	hypothetical protein	 	 	 
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.315	206336	206908	573	+	Translation elongation factor P	 	22	 
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.316	206919	207371	453	+	Biotin carboxyl carrier protein of acetyl-CoA carboxylase	 	3	 
+Thermovibrio ammonificans HB-1	fig|648996.5.peg.317	207380	208726	1347	+	Biotin carboxylase of acetyl-CoA carboxylase (EC 6.3.4.14)	 	3,8	 
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1575	2879	3541	663	+	hypothetical protein	 	 	 
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1576	3543	4826	1284	+	Peptidase U32	 	 	5
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1577	4836	5333	498	+	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)	 	1	2
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1578	5333	5815	483	+	hypothetical protein	 	 	7
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1579	5794	6036	243	+	glutaredoxin / DUF89-clustered redox	 	 	6
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1580	6033	6899	867	+	DUF89 protein CxxC subfamily	 	 	1
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1581	6899	7753	855	+	Glycyl-tRNA synthetase alpha chain (EC 6.1.1.14)	 	 	3
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1582	7737	8159	423	+	Rhodanese domain protein / Ankyrin	 	 	 
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1583	8149	8865	717	+	FIG137478: Hypothetical protein	 	 	10
+Caminibacter mediatlanticus TB-2	fig|391592.5.peg.1584	8892	9614	723	+	DUF164, FlgZ-type, Sigma54 activator zinc-ribbon domain protein	 	 	14
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1580	1528277	1527114	1164	-	3-deoxy-D-manno-octulosonic acid transferase (EC 2.4.99.12)(EC 2.4.99.13)	 	13,14,15	 
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1581	1529000	1528287	714	-	DUF164, FlgZ-type, Sigma54 activator zinc-ribbon domain protein	 	 	14
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1582	1529718	1529002	717	-	GTP cyclohydrolase 1 type 2 homolog YbgI	 	 	10
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1583	1530580	1529708	873	-	Glycyl-tRNA synthetase alpha chain (EC 6.1.1.14)	 	 	3
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1584	1530828	1530577	252	-	glutaredoxin / DUF89-clustered redox	 	 	6
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1585	1531706	1530840	867	-	DUF89 protein CxxC subfamily	 	 	1
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1586	1532199	1531690	510	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)	 	1	2
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1587	1532421	1532209	213	-	hypothetical protein	 	 	 
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1588	1533715	1532462	1254	-	Putative protease	 	 	5
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1589	1534202	1533720	483	-	hypothetical protein	 	 	 
+Nitratiruptor sp. SB155-2	fig|387092.5.peg.1590	1534264	1535082	819	+	Histidinol-phosphatase (EC 3.1.3.15)	 	11,12	 
+Lachnospiraceae bacterium 1_4_56FAA	fig|658655.3.peg.3210	1720	3093	1374	+	Gluconate dehydratase (EC 4.2.1.39)	 	9	 
+Lachnospiraceae bacterium 1_4_56FAA	fig|658655.3.peg.3211	3117	3983	867	+	hypothetical protein	 	 	 
+Lachnospiraceae bacterium 1_4_56FAA	fig|658655.3.peg.3212	4230	5243	1014	+	hypothetical protein	 	 	 
+Lachnospiraceae bacterium 1_4_56FAA	fig|658655.3.peg.3213	5271	6161	891	+	DUF89 protein CxxC subfamily	 	 	1
+Lachnospiraceae bacterium 1_4_56FAA	fig|658655.3.peg.3214	6145	6831	687	+	DUF89-clustered Fe-S assembly-repair	 	 	 
+Lachnospiraceae bacterium 1_4_56FAA	fig|658655.3.peg.3215	6976	7689	714	+	IMP cyclohydrolase (EC 3.5.4.10)	 	 	 
+Lachnospiraceae bacterium 1_4_56FAA	fig|658655.3.peg.3216	7712	8890	1179	+	Phosphoribosylaminoimidazolecarboxamide formyltransferase (EC 2.1.2.3)	 	1	 
+Helicobacter cinaedi ATCC BAA-847	fig|1206745.3.peg.440	411318	409219	2100	-	FIG00710412: hypothetical protein	 	 	 
+Helicobacter cinaedi ATCC BAA-847	fig|1206745.3.peg.441	412205	411318	888	-	Glycyl-tRNA synthetase alpha chain (EC 6.1.1.14)	 	 	3
+Helicobacter cinaedi ATCC BAA-847	fig|1206745.3.peg.442	413169	412207	963	-	DUF89 protein CxxC subfamily	 	 	1
+Helicobacter cinaedi ATCC BAA-847	fig|1206745.3.peg.443	413651	413166	486	-	FIG00712103: hypothetical protein	 	 	7
+Helicobacter cinaedi ATCC BAA-847	fig|1206745.3.peg.444	414155	413661	495	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)	 	1	2
+Helicobacter cinaedi ATCC BAA-847	fig|1206745.3.peg.445	415723	414224	1500	-	Threonine synthase (EC 4.2.3.1)	 	21	 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>Gene Graphics</title>
+		<link rel="stylesheet" type="text/css" href="styles/main.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	</head>
+	<body>
+		<h1>Tutorial 1: DUF89 Subfamily I Neighborhoods</h1>
+		<p>In this tutorial, we are going to reproduce a figure similar to one that has been published. The figure to recreate can be found in the supplemental material associated with the publication Huang, et al., 2016, as <b>Supplementary Figure 4B</b>. You can access it here: <a href=http://www.nature.com/nchembio/journal/v12/n8/abs/nchembio.2108.html#supplementary-information">http://www.nature.com/nchembio/journal/v12/n8/abs/nchembio.2108.html#supplementary-information</a></p>
+		<p>Huang, L., Khusnutdinova, A., Nocek, B., Brown, G., Xu, X., Cui, H., Petit, P., Flick, R., Zallot, R., Balmant, K., Ziemak, M.J., Shanklin, J., de Crécy-Lagard, V., Fiehn, O., Gregory, J.F., Joachimiak, A., Savchenko, A., Yakunin, A.F., Hanson, A.D., 2016. A family of metal-dependent phosphatases implicated in metabolite damage-control. Nat. Chem. Biol. 12, 621–7. doi:10.1038/nchembio.2108</p>
+		<p>The image presented below is the one we will reproduce.</p>
+		<img src="images/tutorial1/img0.png">
+		<p>The image presented below is the final product generated with Gene Graphics, following this tutorial.</p>
+		<img src="images/tutorial1/img26.png">
+		<p>The original publication identified a new family of phosphatases. With this Figure, we want to illustrate that genes encoding the phosphatase DUF89 are often found closely associated, on the genome of several non-closely related bacteria, with genes involved in the purine synthesis (i.e. purM, purF, GuaB, purE, IMPC and AICARF).</p>
+		<p>For this tutorial, we are going use the public SEED database (pubSEED) to obtain the necessary genome information to create the Figure. Access the SEED database at <a href="http://pubseed.theseed.org">http://pubseed.theseed.org</a>.</p>
+		<img src="images/tutorial1/img1.png">
+		<p>From the homepage, use the search box to obtain the needed information about the gene DUF89 from Methanococcus vannieli. The first result for this search is the gene we are looking for, that encodes the protein “DUF89 protein CxxC subfamily”, from the genome Methanococcus vannieli vannielii SB.</p>
+		<img src="images/tutorial1/img2.png">
+		<p>Browsing to the associated FIG page (<a href="http://pubseed.theseed.org/?page=Annotation&feature=fig%7C406327.7.peg.591">fig|406327.7.peg.591</a>), will bring you to the individual gene page information. Going down, on the webpage, once the “Compare Regions” has loaded, the neighboring genes of our gene of interest can be visualized. The red arrow represents the queried gene, while colored arrows represent conserved neighboring genes and grey arrows correspond to genes that are not conserved among the genomes displayed.</p>
+		<img src="images/tutorial1/img3.png">
+		<p>To be able to extract the information needed, we need to access the advanced tab, and edit a few settings.</p>
+		<img src="images/tutorial1/img4.png">
+		<p>We need to have shown to us, more genomes on the “Compare Regions” area, by changing the number of regions (similar to genome) to 1000. In addition, we want to focus on the defined orthologous families “PGfams”, by switching the “Pinned CDS selection” to the appropriate setting, and then press the “update with selected” button.</p>
+		<p>We are now going to need to selected the genomes of interest, for our figure. We basically want to have genomes from taxonomically diverse bacteria, to show that the gene relations are well conserved. Because by default, all genomes are selected, we need to unselect these by clicking the “uncheck all” button.</p>
+		<p>We are then going to select the following genomes:<br>
+				M. vannieli van (Methanococcus vannieli vannielii SB)<br>
+				M. maripaludis (Methanococcus maripaludis C6)<br>
+				M. jannaschii D (Methanocaldococcus jannaschii DSM 2661)<br>
+				M. stadtmanae D (Methanosphaera stadtmanae DSM 3091)<br>
+				T. ammonificans (Thermovibrio ammonificans HB-1)<br>
+				C. mediatlantic (Caminibacter mediatlanticus TB-2)<br>
+				N. sp. SB155-2 (Nitratiruptor sp. SB155-2)<br>
+				L. bacterium 1_ (Lachnospiraceae bacterium 1 4 56FAA)<br>
+				H. cinaedi ATCC (Helicobacter cinaedi ATCC BAA-847)<br>
+				And press the “update with selected” button.</p>
+		<p>The following selection is obtained:</p>
+		<img src="images/tutorial1/img6.png">
+		<p>To focus on the close neighbors of our gene of interest (red arrow), zooming in, in the genome browser, is useful. The “Region size” is reduced to 6000 bp.</p>
+		<img src="images/tutorial1/img7.png">
+		<p>The information regarding the positions of all the genes presented in the image is available, in a tabular format, in the “Tabular Region Information” tab.</p>
+		<img src="images/tutorial1/img8.png">
+		<p>We need to export the table as a TSV file (Tab-separated values) that we will edit in a spreadsheet application, such as Microsoft Excel. The exported table can be directly obtained <a href="data/tutorial1/tutorial1_SEEDexport.tsv">here</a>.</p>
+		<img src="images/tutorial1/img9.png">
+		<p>The edits are going to consist of removing the information not needed. We specifically want to keep the data regarding our gene of interest DUF89, and the genes identified as interesting, in our case, because they belong to the purine synthesis pathway.</p>
+		<p>Note that this table is a direct representation of the gene order, and thus, if a gene of no interest is sandwiched between genes of interest, removing it should be avoided, as it will create a gap in the representation produced. For example, in the publication figure produced (and in the original published figure), these genes are the ones deliberately showed as grey arrows.</p>
+		<p>The three last columns are not needed and can be deleted.</p>
+		<img src="images/tutorial1/img10.png">
+		<p>Only the genes of interest (and sometimes, genes without interest but that are positioned between genes of interest) should be kept.</p>
+		<img src="images/tutorial1/img11.png">
+		<p>In our case, the full table corresponding to the information that will be used to generate the figure is presented below.</p>
+		<img src="images/tutorial1/img12.png">
+		<p>The next steps correspond to edits regarding species names and functional names, and the introduction of gene names, to make the figure more appealing and clear.</p>
+		<p>The figure we want to reproduce presents simplified species names, that are enriched with the major taxon corresponding from which the bacteria belong. The “find and replace” function is used to edit more than one line at a time.</p>
+		<img src="images/tutorial1/img13.png">
+		<p>The table presented below shows all the species name edited and enriched with taxonomic information.</p>
+		<img src="images/tutorial1/img14.png">
+		<p>An additional column, which is going to correspond to the gene symbol, presented on the corresponding arrow in the produced figure, is added. Here, we omit, on purpose, several gene names, to demonstrate how gene name can be edited directly in gene graphics.</p>
+		<img src="images/tutorial1/img15.png">
+		<p>An example of the edited file can be found <a href="data/tutorial1/tutorial1_inputTable.tsv">here</a>. The produced file should be saved and stored, and will now be used and further edited in “Gene Graphics” at <a href="https://cogitokat.github.io/genegraphics/">https://cogitokat.github.io/genegraphics/</a>.</p>
+		<p>In “Gene Graphics”, load the edited table by going to the “Input” tab, and then press the “Choose a file” button, and then, upload the edited table file.</p>
+		<img src="images/tutorial1/img16.png">
+		<p>From the “Graph settings” tab, several parameters influencing the produced image can be edited. For example, the “Image width” and “Gene height” can be set according to your preferences. In here, we choose a width of 500 pixels, and a gene height of 30 pixels.</p>
+		<img src="images/tutorial1/img17.png">
+		<p>We then want all the genes of one genomes be horizontally aligned. For this to happen, the “Multiple lanes for overlapping genes” box is unchecked.</p>
+		<img src="images/tutorial1/img18.png">
+		<p>Note that automatically and by default, all the genes with the exact same functional role, will be colored similarly. In the original figure, the DUF89 encoding genes are colored in red, with white font. You can edit the arrow’s color, and the font used for the gene symbol, and copy these parameters. You can use direct color names, such as “red” and “white” for ease of use.</p>
+		<img src="images/tutorial1/img19.png">
+		<p>The copied parameters can then be applied to other genes, and all the DUF89 genes can be homogenized.</p>
+		<img src="images/tutorial1/img20.png">
+		<p>Following the same principle and in accordance with the original figure, all the purine synthesis encoding genes can be colored in light blue, and all the genes for which we have little interest can be colored in grey.</p>
+		<img src="images/tutorial1/img21.png">
+		<p>When working on bacteria, gene names are commonly italicized. Label settings can be changed accordingly.</p>
+		<img src="images/tutorial1/img22.png">
+		<p>The gene names corresponding to IMPC and AICARF, that were purposely forgotten while editing the table, can be edited. To edit a gene name, simply double click on an arrow, and then change the name in the according dialog box.</p>
+		<img src="images/tutorial1/img23.png">
+		<p>A scale can be added, as a reference for the gene size.</p>
+		<img src="images/tutorial1/img24.png">
+		<p>The final produced image can be exported, as a SVG file or as a PNG file, by clicking on the “Export” button. The edits done in the “Gene Graphics” application, can also be exported as a TSV file, which will produce a table, as the one we previously edited. This can be useful if an image is started, but is not yet finished. Reloading the produced TSV file will allow you to continue your edits.</p>
+		<p>The final image produced can be found <a href="data/tutorial1/tutorial1_finalproduct.svg">here</a> as a SVG file and <a href="data/tutorial1/tutorial1_finalproduct.png">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial1/tutorial1_finalproduct.tsv">here</a>.</p>
+		<p>Sample images:</p>
+		<img src="images/tutorial1/img26.png">
+	</body>
+</html>
