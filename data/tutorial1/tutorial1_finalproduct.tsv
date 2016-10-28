@@ -1,28 +1,28 @@
 genome	genomestyles	currLane	labelcolor	labelcolorchanged	labelhidden	labelpos	labelposchanged	labelsize	labelstyle	labelstylechanged	name	color	size	start	stop	strand	function
-Methanococcus vannieli (E)	italic italic italic	0	#ffffff	true	false	5,5	false	20	normal	false	DUF89	#e81c1a	969	0	968	+	DUF89 protein CxxC subfamily
-Methanococcus vannieli (E)	italic italic italic	0	#000000	false	false	176.42857142857142,176.42857142857142	false	20	normal	false	purM	#a9d0e6	1050	1034	2083	+	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)
-Methanococcus maripaludis (E)	italic italic italic	2	#000000	false	false	34.783089251174346,34.783089251174346	false	20	normal	false	purM	#a9d0e6	1050	1049	0	-	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)
-Methanococcus maripaludis (E)	italic italic italic	2	#ffffff	false	false	213.90439347886155,213.90439347886155	false	20	normal	false	DUF89	#e81c1a	897	2007	1111	-	DUF89 protein CxxC subfamily
-Methanococcus maripaludis (E)	italic italic italic	2	#000000	false	false	378.6349820392374,378.6349820392374	false	20	normal	false	guaB	#a9d0e6	840	2955	2116	-	CBS domain protein
-Methanocaldococcus jannaschii (E)	italic italic italic	4	#ffffff	false	false	5,5	false	20	normal	false	DUF89	#e81c1a	915	0	914	+	DUF89 protein CxxC subfamily
-Methanocaldococcus jannaschii (E)	italic italic italic	4	#000000	false	false	176.5943630837248,176.5943630837248	false	20	normal	false	purM	#a9d0e6	1053	1035	2087	+	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)
-Methanocaldococcus jannaschii (E)	italic italic italic	4	#000000	false	false	367.5863498203924,367.5863498203924	false	20	normal	false	purF	#a9d0e6	1416	2187	3602	+	Amidophosphoribosyltransferase (EC 2.4.2.14)
-Methanosphaera stadtmanae (E)	italic italic italic	6	#000000	false	false	46.819563415308096,46.819563415308096	false	20	normal	false	purF	#a9d0e6	1413	1412	0	-	Amidophosphoribosyltransferase (EC 2.4.2.14)
-Methanosphaera stadtmanae (E)	italic italic italic	6	#000000	false	false	280.12158054711244,280.12158054711244	false	20	normal	false		#f0f5f7	564	2140	1577	-	Iron-sulfur flavoprotein
-Methanosphaera stadtmanae (E)	italic italic italic	6	#ffffff	false	false	405.38684719535786,405.38684719535786	false	20	normal	false	DUF89	#e81c1a	867	2415	3281	+	DUF89 protein CxxC subfamily
-Thermovibrio ammonificans (A)	italic italic italic	8	#ffffff	false	false	29.70986460348162,29.70986460348162	false	20	normal	false	DUF89	#e81c1a	897	896	0	-	DUF89 protein CxxC subfamily
-Thermovibrio ammonificans (A)	italic italic italic	8	#000000	false	false	159.98894722298976,159.98894722298976	false	20	normal	false	purE	#a9d0e6	336	1233	898	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)
-Caminibacter mediatlanticus (P)	italic italic italic	10	#000000	false	false	5,5	false	20	normal	false	purE	#a9d0e6	498	0	497	+	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)
-Caminibacter mediatlanticus (P)	italic italic italic	10	#000000	false	false	87.39845261121857,87.39845261121857	false	20	normal	false		#f0f5f7	483	497	979	+	hypothetical protein
-Caminibacter mediatlanticus (P)	italic italic italic	10	#000000	false	false	163.82840563691627,163.82840563691627	false	20	normal	false		#f0f5f7	243	958	1200	+	glutaredoxin / DUF89-clustered redox
-Caminibacter mediatlanticus (P)	italic italic italic	10	#ffffff	false	false	203.45261121856868,203.45261121856868	false	20	normal	false	DUF89	#e81c1a	867	1197	2063	+	DUF89 protein CxxC subfamily
-Nitratiruptor sp. SB155-2 (P)	italic italic italic italic	12	#ffffff	false	false	24,24	true	20	normal	false	DUF89	#e81c1a	867	866	0	-	DUF89 protein CxxC subfamily
-Nitratiruptor sp. SB155-2 (P)	italic italic italic italic	12	#000000	false	false	157.80049737496546,157.80049737496546	false	20	normal	false	purE	#a9d0e6	510	1359	850	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)
-Lachnospiraceae bacterium (F)	italic italic italic	14	#ffffff	false	false	5,5	false	20	normal	false	DUF89	#e81c1a	891	0	890	+	DUF89 protein CxxC subfamily
-Lachnospiraceae bacterium (F)	italic italic italic	14	#000000	false	false	149.90190660403425,149.90190660403425	false	20	normal	false		#f0f5f7	687	874	1560	+	DUF89-clustered Fe-S assembly-repair
-Lachnospiraceae bacterium (F)	italic italic italic	14	#000000	false	false	287.67477203647417,287.67477203647417	false	20	normal	false	IMPC	#a9d0e6	714	1705	2418	+	IMP cyclohydrolase (EC 3.5.4.10)
-Lachnospiraceae bacterium (F)	italic italic italic	14	#000000	false	false	409.6974302293451,409.6974302293451	false	20	normal	false	AICARF	#a9d0e6	1179	2441	3619	+	Phosphoribosylaminoimidazolecarboxamide formyltransferase (EC 2.1.2.3)
-Helicobacter cinaedi (P)	italic italic italic	16	#ffffff	false	false	31.89831445150594,31.89831445150594	false	20	normal	false	DUF89	#e81c1a	963	962	0	-	DUF89 protein CxxC subfamily
-Helicobacter cinaedi (P)	italic italic italic	16	#000000	false	false	175.07598784194528,175.07598784194528	false	20	normal	false		#f0f5f7	486	1444	959	-	FIG00712103: hypothetical protein
-Helicobacter cinaedi (P)	italic italic italic	16	#000000	false	false	257.4412821221332,257.4412821221332	false	20	normal	false	purE	#a9d0e6	495	1948	1454	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)
-GraphSettings:{"graphwidth":"600","featureheight":"30","fontFamily":"Arial, Helvetica, sans-serif","fontSize":"18","fontStyle":"italic","keepgaps":"false","labelPosition":"middle","multilane":"false","shiftgenes":"false"}
+Methanococcus vannieli (E)	italic italic italic	0	#ffffff	true	false	5,5	false	20	normal	false	DUF89	#ff0000	969	0	968	+	DUF89 protein CxxC subfamily
+Methanococcus vannieli (E)	italic italic italic	0	#000000	false	false	176.42857142857142,176.42857142857142	false	20	normal	false	purM	#85c1e3	1050	1034	2083	+	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)
+Methanococcus maripaludis (E)	italic italic italic	2	#000000	false	false	34.783089251174346,34.783089251174346	false	20	normal	false	purM	#85c1e3	1050	1049	0	-	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)
+Methanococcus maripaludis (E)	italic italic italic	2	#ffffff	false	false	213.90439347886155,213.90439347886155	false	20	normal	false	DUF89	#ff0000	897	2007	1111	-	DUF89 protein CxxC subfamily
+Methanococcus maripaludis (E)	italic italic italic	2	#000000	false	false	378.6349820392374,378.6349820392374	false	20	normal	false	guaB	#85c1e3	840	2955	2116	-	CBS domain protein
+Methanocaldococcus jannaschii (E)	italic italic italic	4	#ffffff	false	false	5,5	false	20	normal	false	DUF89	#ff0000	915	0	914	+	DUF89 protein CxxC subfamily
+Methanocaldococcus jannaschii (E)	italic italic italic	4	#000000	false	false	176.5943630837248,176.5943630837248	false	20	normal	false	purM	#85c1e3	1053	1035	2087	+	Phosphoribosylformylglycinamidine cyclo-ligase (EC 6.3.3.1)
+Methanocaldococcus jannaschii (E)	italic italic italic	4	#000000	false	false	367.5863498203924,367.5863498203924	false	20	normal	false	purF	#85c1e3	1416	2187	3602	+	Amidophosphoribosyltransferase (EC 2.4.2.14)
+Methanosphaera stadtmanae (E)	italic italic italic	6	#000000	false	false	46.819563415308096,46.819563415308096	false	20	normal	false	purF	#85c1e3	1413	1412	0	-	Amidophosphoribosyltransferase (EC 2.4.2.14)
+Methanosphaera stadtmanae (E)	italic italic italic	6	#000000	false	false	280.12158054711244,280.12158054711244	false	20	normal	false		#f5f5f5	564	2140	1577	-	Iron-sulfur flavoprotein
+Methanosphaera stadtmanae (E)	italic italic italic	6	#ffffff	false	false	405.38684719535786,405.38684719535786	false	20	normal	false	DUF89	#ff0000	867	2415	3281	+	DUF89 protein CxxC subfamily
+Thermovibrio ammonificans (A)	italic italic italic	8	#ffffff	false	false	29.70986460348162,29.70986460348162	false	20	normal	false	DUF89	#ff0000	897	896	0	-	DUF89 protein CxxC subfamily
+Thermovibrio ammonificans (A)	italic italic italic	8	#000000	false	false	159.98894722298976,159.98894722298976	false	20	normal	false	purE	#85c1e3	336	1233	898	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)
+Caminibacter mediatlanticus (P)	italic italic italic	10	#000000	false	false	5,5	false	20	normal	false	purE	#85c1e3	498	0	497	+	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)
+Caminibacter mediatlanticus (P)	italic italic italic	10	#000000	false	false	87.39845261121857,87.39845261121857	false	20	normal	false		#f5f5f5	483	497	979	+	hypothetical protein
+Caminibacter mediatlanticus (P)	italic italic italic	10	#000000	false	true	163.82840563691627,163.82840563691627	false	20	normal	false		#f5f5f5	243	958	1200	+	glutaredoxin / DUF89-clustered redox
+Caminibacter mediatlanticus (P)	italic italic italic	10	#ffffff	false	false	203.45261121856868,203.45261121856868	false	20	normal	false	DUF89	#ff0000	867	1197	2063	+	DUF89 protein CxxC subfamily
+Nitratiruptor sp. SB155-2 (P)	italic italic italic italic	12	#ffffff	false	false	28.71511467256147,28.71511467256147	false	20	normal	false	DUF89	#ff0000	867	866	0	-	DUF89 protein CxxC subfamily
+Nitratiruptor sp. SB155-2 (P)	italic italic italic italic	12	#000000	false	false	157.80049737496546,157.80049737496546	false	20	normal	false	purE	#85c1e3	510	1359	850	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)
+Lachnospiraceae bacterium (F)	italic italic italic	14	#ffffff	false	false	5,5	false	20	normal	false	DUF89	#ff0000	891	0	890	+	DUF89 protein CxxC subfamily
+Lachnospiraceae bacterium (F)	italic italic italic	14	#000000	false	false	149.90190660403425,149.90190660403425	false	20	normal	false		#f5f5f5	687	874	1560	+	DUF89-clustered Fe-S assembly-repair
+Lachnospiraceae bacterium (F)	italic italic italic	14	#000000	false	false	287.67477203647417,287.67477203647417	false	20	normal	false	IMPC	#85c1e3	714	1705	2418	+	IMP cyclohydrolase (EC 3.5.4.10)
+Lachnospiraceae bacterium (F)	italic italic italic	14	#000000	false	false	409.6974302293451,409.6974302293451	false	20	normal	false	AICARF	#85c1e3	1179	2441	3619	+	Phosphoribosylaminoimidazolecarboxamide formyltransferase (EC 2.1.2.3)
+Helicobacter cinaedi (P)	italic italic italic	16	#ffffff	false	false	31.89831445150594,31.89831445150594	false	20	normal	false	DUF89	#ff0000	963	962	0	-	DUF89 protein CxxC subfamily
+Helicobacter cinaedi (P)	italic italic italic	16	#000000	false	false	175.07598784194528,175.07598784194528	false	20	normal	false		#f5f5f5	486	1444	959	-	FIG00712103: hypothetical protein
+Helicobacter cinaedi (P)	italic italic italic	16	#000000	false	false	257.4412821221332,257.4412821221332	false	20	normal	false	purE	#85c1e3	495	1948	1454	-	N5-carboxyaminoimidazole ribonucleotide mutase (EC 5.4.99.18)
+GraphSettings:{"graphwidth":"600","featureheight":"30","scaleOn":"false","fontFamily":"Arial, Helvetica, sans-serif","fontSize":"18","fontStyle":"italic","keepgaps":"false","labelPosition":"middle","multilane":"false","shiftgenes":"false"}

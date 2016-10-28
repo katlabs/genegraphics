@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box
+}
+
+body {
+	font-family: Arial;
+}
+
+h1 {
+	margin: auto;
+	text-align: center;
+}
+
+img {
+	display: block;
+	border: 3px solid rgb(13,119,182);
+	width: 75%;
+	margin: auto;
+}
+
+.bgcolored {
+	background-color: #d3eeff;
+	border: 1px solid rgb(13,119,182);
+	max-width: 75%;
+	padding: 4px;
+	margin: 4px auto 4px auto;
+}

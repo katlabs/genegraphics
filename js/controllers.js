@@ -47,6 +47,11 @@
 				{value:'bold', name:"Bold"},
 				{value:'bold,italic', name:"Bold/Italic"}
 			]
+			$scope.graphSettings.labelPosOptions = [
+				{value:'above', name:"Above"},
+				{value:'middle', name:"Middle"},
+				{value:'below', name:"Below"}
+			]
       $scope.graphSettings.fontSize = 18;
       $scope.graphSettings.labelPosition = 'middle';
 			$scope.graphSettings.multilane = true;
@@ -307,7 +312,7 @@
 								else if (key === 'fontFamily' || key === 'fontStyle' || key === 'labelPosition'){
 									$scope.graphSettings[key] = newsettings[key];
 								}
-								else if (key === 'keepgaps' || key === 'multilane' || key === 'shiftgenes'){
+								else if (key === 'keepgaps' || key === 'multilane' || key === 'shiftgenes' || key === 'scaleOn'){
 									if (newsettings[key].toLowerCase() === "true"){
 										$scope.graphSettings[key] = true;
 									}

@@ -519,7 +519,7 @@
 							genelines += scope.data[i].genefunction + "\n";
 						}
 						outputtext += genelines;
-						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"fontFamily\":\"" + scope.settings.fontFamily + "\",\"fontSize\":\"" + scope.settings.fontSize + "\",\"fontStyle\":\"" + scope.settings.fontStyle + "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"labelPosition\":\"" + scope.settings.labelPosition + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\"}";
+						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"scaleOn\":\"" + scope.settings.scaleOn +  "\",\"fontFamily\":\"" + scope.settings.fontFamily + "\",\"fontSize\":\"" + scope.settings.fontSize + "\",\"fontStyle\":\"" + scope.settings.fontStyle + "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"labelPosition\":\"" + scope.settings.labelPosition + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\"}";
 						var tsvuri = "data:," + encodeURI(outputtext);
 						document.getElementById("tsvlink").href = tsvuri;
 						
