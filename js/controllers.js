@@ -80,7 +80,6 @@
 			});
 			
 			$scope.selectGene = function(index, x, y){
-				$scope.$emit('geneClicked');
 				if( x + $scope.minMenuSize > window.innerWidth)
 				{
 					x = window.innerWidth - $scope.minMenuSize - 30;
@@ -89,12 +88,12 @@
 				$("#geneMenu").css("top", y);
 				//console.log("menuVisible = true");
 				$scope.menuVisible = true;
+				console.log("index = " + index);
 				$scope.selectedGenome = -1;
 				$scope.selectedGene = parseInt(index);
 				$scope.$apply();
 			};
 			$scope.selectGenome = function(genomeindex, wordindex, x, y){
-				$scope.$emit('geneClicked');
 				$("#geneMenu").css("left", x);
 				$("#geneMenu").css("top", y);
 				//console.log("menuVisible = true");
@@ -617,6 +616,7 @@
 				}).then(function sucessCallBack(response) {
 						console.log(response.data);
 						var filetype = [ftype];
+						filetype.input = url.split('/').pop();
 						$scope.parseFile(response.data, filetype);
 				}, function errorCallback(response) {
 					alert(response.statusText);

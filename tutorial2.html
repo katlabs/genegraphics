@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>Gene Graphics</title>
+		<link rel="stylesheet" type="text/css" href="styles/tutorials.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	</head>
+	<body>
+		<h1>Tutorial 2: </h1>
+		<div class="bgcolored"><p>In this tutorial, we will produce a simple figure showing a similar region in two genomes by accessing data from NCBI Genbank. The final image that will be produced is shown below.</p></div>
+		<img src="images/tutorial2/imgfinal.png">
+		<div class="bgcolored"><p>We will show a comparison between the neighborhoods of the <i>folK</i> gene in two genomes, <i>Acinetobacter baylyi sp. ADP1</i> and <i>Salmonella enterica</i>. Navigate to the "Gene Graphics" app at <a href="cogitokat.github.io/genegraphics">cogitokat.github.io/genegraphics</a>. Then, click on "Input" and "Choose a Genome". This option allows you to quickly import a whole genome or a specific region of a genome from NCBI Genbank.</p></div>
+		<img src="images/tutorial2/img0.png">
+		<div class="bgcolored"><p>Enter the Genbank ID, which is the same as the NCBI Accession, and the region to be imported. For our example, the Genbank ID is "NC_005966.1" and the region we want is from 2986058 to 2991851. Click "Submit" and wait for the data to be imported.</p></div>
+		<img src="images/tutorial2/img1.png">
+		<div class="bgcolored"><p>After the data is imported, you should see the following region on your screen:</p></div>
+		<img src="images/tutorial2/img2.png">
+		<div class="bgcolored"><p>Sometimes, you might want the reverse complement of region accessed from Genbank. The <i>Salmonella enterica</i> genome found in NCBI Genbank by default displays the region we are interested in reversed from the <i>Acinetobacter baylyi</i> region. We can use the NCBI interface to export a file that will show us the region in reverse complement, then upload it to the Gene Graphics tool. In a new tab or window, access the NCBI database homepage at <a href="https://www.ncbi.nlm.nih.gov/">https://www.ncbi.nlm.nih.gov/</a>. Select "Nucleotide" from the dropdown menu, and type "Salmanella enterica L2" into the search box. Click "Search".</p></div>
+		<img src="images/tutorial2/img3.png">
+		<div class="bgcolored"><p>Click on the result "Salmonella enterica strain L2, complete genome".</p></div>
+		<img src="images/tutorial2/img4.png">
+		<div class="bgcolored"><p>You will see a standard Genbank file. On the right, you will see a box that says "Change region shown". Click to open the options and choose "Selected region". The region we want for this example is from 583556 to 590090. Click "Update View". Then, under "Customize View", select the option "Show reverse complement" and click the "Update View" button underneath.</p></div>
+		<img src="images/tutorial2/img5.png">
+		<div class="bgcolored"><p>Now we can export our customized Genbank file. Select "Send" and choose "Complete Record", "File", the Genbank format, and click "Create File" to download it. The file is also available for download <a href="data/tutorial2/Acinetobacter_region1.gb">here</a>.</p></div>
+		<img src="images/tutorial2/img6.png">
+		<div class="bgcolored"><p>Next, return to the Gene Graphics tab and click "Choose a File". Follow the dialog options to upload your Genbank file.</p></div>
+		<img src="images/tutorial2/img7.png">
+		<div class="bgcolored"><p>Now that both regions are upoaded into the tool, the image can be edited. You may have noticed that our first region has an extra partial gene at the beginning. This is because this gene overlaps the first part of our region by a few bases. We can simply hide the gene by either clicking or right clicking on it and choosing "Hide gene".</p></div>
+		<img src="images/tutorial2/img8.png">
+		<div class="bgcolored"><p>Decrease the width of the image by clicking on "Graph Settings" and entering 1000 for the "Image Width". Change the height of the genes by decreasing "Gene height" to 30.</p></div>
+		<img src="images/tutorial2/img9.png">
+		<div class="bgcolored"><p>Uncheck the option "Multiple lanes for overlapping genes", and check the option "Shift overlapping genes".</p></div>
+		<img src="images/tutorial2/img10.png">
+		<div class="bgcolored"><p>Some of the genes in the region we selected have an unknown or irrelevant function, so we should use a neutral color such as gray. Click or right click on the first gene in the <i>Acinetobacter sp. ADP1</i> region and select a gray color. Then, click on the "Copy Gene Colors" button. This will copy the Gene and Label colors of this gene so that you can paste it to the other genes with unknown or irrelevant functions.</p></div>
+		<img src="images/tutorial2/img11.png">
+		<div class="bgcolored"><p>Click or right click on the last and second to last genes in the <i>Acinetobacter sp. ADP1</i> region and select "Paste Gene Colors". Do the same for the first and last gene in the <i>Salmanella enterica</i> region.</p></div>
+		<img src="images/tutorial2/img13.png">
+		<div class="bgcolored"><p>The Genbank file did not have gene names for many of the genes in our regions, but we can enter their names by clicking or right clicking on each gene and entering the name in the "Name" textbox. Change the name for panC as shown below.</p></div>
+		<img src="images/tutorial2/img14.png">
+		<div class="bgcolored"><p>The folK gene in <i>Acinetobacter sp. ADP1</i> was not annotated as folK, and its "product" is annotated slightly differently than the folK gene in <i>Salmanella enterica</i>. This results in the two genes having different colors, but we would like the colors to be the same. Change the name for the folK gene, shown below. Then, select "Copy Gene Colors".</p></div>
+		<img src="images/tutorial2/img15.png">
+		<div class="bgcolored"><p>Select the folK gene from <i>Salmanella enterica</i> and select "Paste Gene Colors".</p></div>
+		<img src="images/tutorial2/img16.png">
+		<div class="bgcolored"><p>Continue naming and editing the colors of the genes as shown in the following images.</p></div>
+		<img src="images/tutorial2/img17.png">
+		<img src="images/tutorial2/img18.png">
+		<img src="images/tutorial2/img19.png">
+		<div class="bgcolored"><p>Next, change the label positions so that they are above the genes by selecting "Label Settings" > "Position" and then selecting the "Above" option.</p></div>
+		<img src="images/tutorial2/img20.png">
+		<div class="bgcolored"><p>Change the font style to italic by clicking "Font Style" and choosing "Italic".</p></div>
+		<img src="images/tutorial2/img21.png">
+		<div class="bgcolored"><p>Change the font family by clicking "Font Family" and choosing "Veranda".</p></div>
+		<img src="images/tutorial2/img22.png">
+		<div class="bgcolored"><p>The final produced image can be exported, as a SVG file or as a PNG file, by clicking on the “Export” button. The edits done in the “Gene Graphics” application can also be exported as a TSV file, which will produce a table. This can be useful if an image is started, but is not yet finished. Reloading the produced TSV file will allow you to continue your edits.</p> 
+		<p>The final image produced can be found <a href="data/tutorial2/tutorial2_finalproduct.svg">here</a> as a SVG file and <a href="data/tutorial2/tutorial2_finalproduct.png">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial2/tutorial2_finalproduct.tsv">here</a>.</p></div>
+		<img src="images/tutorial2/img23.png">
+
+	</body>
+</html>

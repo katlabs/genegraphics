@@ -1,0 +1,17 @@
+genome	genomestyles	currLane	labelcolor	labelcolorchanged	labelhidden	labelpos	labelposchanged	labelsize	labelstyle	labelstylechanged	name	color	size	start	stop	strand	function
+Acinetobacter sp. ADP1	italic italic italic	0	#000000	false	true	1.1064207165661581,1.1064207165661581	false	20	normal	false		#b435d6	3	0	3	-	hypothetical protein
+Acinetobacter sp. ADP1	italic italic italic	0	#000000	false	false	32.720113515430995,32.720113515430995	false	20	normal	false		#cbcbcb	851	0	851	-	RNase adaptor protein RapZ
+Acinetobacter sp. ADP1	italic italic italic	0	#000000	false	false	184.44732174529975,184.44732174529975	false	20	normal	false	panC	#7adda9	845	873	1718	-	pantoate--beta-alanine ligase
+Acinetobacter sp. ADP1	italic italic italic	0	#000000	false	false	334.0461156438453,334.0461156438453	false	20	normal	false	panB	#ebd069	809	1722	2531	-	3-methyl-2-oxobutanoate hydroxymethyltransferase
+Acinetobacter sp. ADP1	italic italic italic	0	#000000	false	false	467.1496984746364,467.1496984746364	false	20	normal	false	folK	#d7b9d3	488	2569	3057	-	2-amino-4-hydroxy-6- hydroxymethyldihydropteridine diphosphokinase
+Acinetobacter sp. ADP1	italic italic italic	0	#000000	false	false	589.0791060659808,589.0791060659808	false	20	normal	false	pcnB	#b015f1	1457	3054	4511	-	polynucleotide adenylyltransferase PcnB
+Acinetobacter sp. ADP1	italic italic italic	0	#000000	false	false	810.5118836466833,810.5118836466833	false	20	normal	false		#cbcbcb	386	4636	5022	-	hypothetical protein
+Acinetobacter sp. ADP1	italic italic italic	0	#000000	false	false	893.4913089748138,893.4913089748138	false	20	normal	false		#cbcbcb	767	5026	5793	-	nucleoside triphosphate pyrophosphohydrolase
+Salmonella enterica	italic italic	2	#000000	false	false	6,6	false	20	normal	false		#cbcbcb	1229	0	1229	+	hypothetical protein
+Salmonella enterica	italic italic	2	#000000	false	false	233.4650585313941,233.4650585313941	false	20	normal	false	panG	#15e4e9	380	1236	1616	-	aspartate decarboxylase
+Salmonella enterica	italic italic	2	#000000	false	false	318.679318907414,318.679318907414	false	20	normal	false	panC	#7adda9	854	1711	2565	-	pantoate--beta-alanine ligase
+Salmonella enterica	italic italic	2	#000000	false	false	468.91663710535653,468.91663710535653	false	20	normal	false	panB	#ebd069	791	2691	3482	-	3-methyl-2-oxobutanoate hydroxymethyltransferase
+Salmonella enterica	italic italic	2	#000000	false	false	599.1468605888614,599.1468605888614	false	20	normal	false	folK	#d7b9d3	479	3603	4082	-	2-amino-4-hydroxy-6- hydroxymethyldihydropteridine pyrophosphokinase
+Salmonella enterica	italic italic	2	#000000	false	false	718.4157502660519,718.4157502660519	false	20	normal	false	pcnB	#b015f1	1418	4079	5497	-	poly(A) polymerase I
+Salmonella enterica	italic italic	2	#000000	false	false	952.406172401561,952.406172401561	false	20	normal	false		#cbcbcb	896	5638	6534	-	tRNA glutamyl-Q synthetase
+GraphSettings:{"graphwidth":"1000","featureheight":"30","scaleOn":"true","fontFamily":"Verdana, Geneva, sans-serif","fontSize":"18","fontStyle":"italic","keepgaps":"false","labelPosition":"above","multilane":"false","shiftgenes":"true"}

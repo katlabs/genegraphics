@@ -237,7 +237,7 @@
 							.data(scope.data)
 							.enter()
 								.append("path")
-								.on("contextmenu", function(d, i){ d3.event.preventDefault(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});})
+								.on("contextmenu", function(d, i){ d3.event.preventDefault(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY-30});})
 								.on("mouseover", function(d, i){ return scope.onMouseOverGene({newfunction:d.genefunction});})
 								.on("dblclick", function(d, i){ d3.event.preventDefault(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});})
 								.attr("d", function(d, i) {
@@ -357,7 +357,7 @@
 															var gind = j;
 														}
 													}
-													return scope.onClickGenome({genomeindex: gind, wordindex: wind, x: d3.event.clientX, y: d3.event.clientY});})
+													return scope.onClickGenome({genomeindex: gind, wordindex: wind, x: d3.event.clientX, y: d3.event.clientY-30});})
 												.attr("font-style", function(){
 													if (d.genomestyles[n] === "italic" || d.genomestyles[n] === "bold,italic"){
 														return 'italic';
