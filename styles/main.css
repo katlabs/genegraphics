@@ -101,6 +101,10 @@ body > h1 {
 	-moz-box-shadow: 5px 5px 2.5px #387091;
 }
 
+md-content {
+	z-index: 1;
+}
+
 .material-icons.blueicon {
 	color: rgb(13,119,182); 
 }

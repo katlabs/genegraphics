@@ -53,7 +53,6 @@
 					
 					// re-render when there is a change in the data
 					scope.$watch('data', function(newVals, oldVals) {
-						console.log(newVals);
 						scope.settings.maxwidth = geneService.getMaxWidth(newVals);
 						return scope.render(newVals);
 					}, true);
@@ -62,6 +61,12 @@
 						if (newVal != oldVal){
 							return scope.render(scope.data);
 						}
+					}, true);
+					
+					scope.$watch('settings.currentFilesList', function(){
+						console.log("scrolling");
+						var graphContainer = document.getElementById("graphcontainer");
+						graphContainer.scrollTop = graphContainer.scrollHeight;
 					}, true);
 					
 					// re-render when the graph width or gene height sliders are moved
@@ -237,9 +242,9 @@
 							.data(scope.data)
 							.enter()
 								.append("path")
-								.on("contextmenu", function(d, i){ d3.event.preventDefault(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY-30});})
+								//.on("contextmenu", function(d, i){ d3.event.preventDefault(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY-30});})
 								.on("mouseover", function(d, i){ return scope.onMouseOverGene({newfunction:d.genefunction});})
-								.on("dblclick", function(d, i){ d3.event.preventDefault(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});})
+								.on("click", function(d, i){ d3.event.stopPropagation(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});})
 								.attr("d", function(d, i) {
 									//console.log(d.genome);
 									// get start and stop positions relative to max size
@@ -342,44 +347,8 @@
 																			lastLaneOffset = -1;
 																			return whichLane(d, i) - 35;})
 														.attr("x", function(d, i){return 0;})
-														
-									for (var n = 0; n < d.genome.length; n++) {
-										text.append("tspan")
-												.on("contextmenu", function(d, i){ 
-													d3.event.preventDefault();
-													for (var j = 0; j < d.genome.length; j++){
-														if (d3.select(this)[0][0].textContent === d.genome[j] + " "){
-															var wind = j;
-														}
-													}
-													for (var j = 0; j < scope.data.length; j++){
-														if (d.genome == scope.data[j].genome){
-															var gind = j;
-														}
-													}
-													return scope.onClickGenome({genomeindex: gind, wordindex: wind, x: d3.event.clientX, y: d3.event.clientY-30});})
-												.attr("font-style", function(){
-													if (d.genomestyles[n] === "italic" || d.genomestyles[n] === "bold,italic"){
-														return 'italic';
-													}
-													else
-														return 'normal';
-												})
-												.attr("font-weight", function(){
-													if (d.genomestyles[n] === "bold" || d.genomestyles[n] === "bold, italic"){
-														return 'bold';
-													}
-													else
-														return 'normal';
-												})
-												.text(function(d,i){
-													if(prevCurrLane < d.currLane) {
-														return d.genome[n] + " ";
-													}
-													else return;
-												})
-									}
-									prevCurrLane = d.currLane;
+														.text(function(d,i){return d.genome;})
+								
 								})
 									
 					 svg.selectAll("text.genelabel")
@@ -494,13 +463,11 @@
 						}
 						
 						// Create TSV URI
-						var outputtext = "genome\tgenomestyles\tcurrLane\tlabelcolor\tlabelcolorchanged\tlabelhidden\tlabelpos\tlabelposchanged\tlabelsize\tlabelstyle\tlabelstylechanged\tname\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
+						var outputtext = "genome\tcurrLane\tlabelcolor\tlabelcolorchanged\tlabelhidden\tlabelpos\tlabelposchanged\tlabelsize\tlabelstyle\tlabelstylechanged\tname\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
 						var genelines = "";
 						for (var i = 0; i < scope.data.length; i++) {
-							var genomename = scope.data[i].genome.join(" ");
-							var genomestyles = scope.data[i].genomestyles.join(" ");
+							var genomename = scope.data[i].genome;
 							genelines += genomename + "\t";
-							genelines += genomestyles + "\t";
 							genelines += scope.data[i].currLane + "\t";
 							genelines += scope.data[i].labelcolor + "\t";
 							genelines += scope.data[i].labelcolorchanged + "\t";

@@ -9,16 +9,6 @@
 			document.getElementById("graphcontainer").style.height = window.innerHeight - 200 + "px";
 			//console.log(document.getElementById("graphcontainer").style.height);
 			
-			// Add some event listeners
-			document.addEventListener("click", function(e) {
-				$scope.$broadcast("documentClicked", e.target);
-			});
-			document.getElementById("graphcontainer").addEventListener("click", function(e) {
-				$scope.$broadcast("graphClicked", e.target);
-			});
-			
-			
-			$scope.keepMenu = false;
 			$scope.menuVisible = false;
 			$scope.graphSettings = {};
 			$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 20;
@@ -180,37 +170,15 @@
 					}
 				}
 			});
-			$scope.close = function() {
+			//geneMenu Events
+			$(window).click(function() {
 				$scope.menuVisible = false;
-				$scope.keepMenu = false;
-			}
-			$scope.$on("menuClicked", function(e) {
-				//console.log("ctrl menu clicked");
-				$scope.keepMenu = true;
-				e.stopPropagation();
-			});
-			$scope.$on("documentClicked", _docClick);
-			
-			function _docClick() {
-				//console.log("doc Click");
-				if (!$scope.keepMenu) {
-					//console.log("keepMenu = false");
-					if ($scope.menuVisible == true) {
-						//console.log("menuVisible = true");
-						$scope.keepMenu = false;
-						$scope.$apply();
-					}
-					//console.log("closing menu...");
-					$scope.$apply(function(){
-						$scope.close();
-					});
-				}
-				else if ($scope.keepMenu) {
-					$scope.keepMenu = false;
-					return;
-				}
 				$scope.$apply();
-			}
+			});
+				
+			$('#geneMenu').click(function(event){
+				event.stopPropagation();
+			});
 			
 		}])
 		.controller('tabsCtrl', ['$scope', function($scope) {
@@ -232,18 +200,14 @@
 					$scope.data = [];
 					var header = lines[0];
 					var headercols = header.split('\t');
-					var headerpos = {genome:null, genomestyles:null, currLane:null, labelcolor:null, labelcolorchanged:null, labelhidden:null, genehidden:null, labelpos:null, labelposchanged:null, labelsize:null, labelstyle:null, labelstylechanged:null, name:null, genefunction:null, color:null, size:null, start:null, stop:null, strand:null};
+					var headerpos = {genome:null, currLane:null, labelcolor:null, labelcolorchanged:null, labelhidden:null, genehidden:null, labelpos:null, labelposchanged:null, labelsize:null, labelstyle:null, labelstylechanged:null, name:null, genefunction:null, color:null, size:null, start:null, stop:null, strand:null};
 					$scope.maxVertOff = geneService.maxVertOff;
 					for(var i = 0; i < headercols.length; i++){
 						//console.log(i);
 						var currHeaderCol = headercols[i].toLowerCase().replace(/ /g, '');
 						//console.log(currHeaderCol);
 						if (currHeaderCol === 'genome'){
-							//console.log(i);
 							headerpos.genome = i;
-						}
-						else if (currHeaderCol === 'genomestyles'){
-							headerpos.genomestyles = i;
 						}
 						else if (currHeaderCol === 'labelcolor'){
 							headerpos.labelcolor = i;
@@ -323,16 +287,10 @@
 							console.log($scope.graphSettings);
 						}
 						else {
-							var gene = {genome:null, genomestyles:null, genomehidden:false, start:null, stop:null, size:null, strand:null, name:null, genefunction:null, color:null, labelcolor:null, labelstyle:'normal', labelhidden:false, genehidden:false,  labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
+							var gene = {genome:null, genomehidden:false, start:null, stop:null, size:null, strand:null, name:null, genefunction:null, color:null, labelcolor:null, labelstyle:'normal', labelhidden:false, genehidden:false,  labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
 							var columns = lines[i].split('\t');
 							
-							var genome = columns[headerpos['genome']].split(" ");
-							var genomestyles = [];
-							gene['genome'] = genome;
-							for (var j = 0; j < genome.length; j++){
-								genomestyles.push("italic");
-							}
-							//console.log(gene['genome']);
+							var genome = columns[headerpos['genome']];
 							for (var key in gene) {
 								if(!offset.hasOwnProperty(genome)) {
 								 //console.log("--" + genome + " - " + $scope.maxVertOff);
@@ -340,7 +298,7 @@
 								 $scope.maxVertOff+=2;
 								 offset[genome] = Math.min(parseInt(columns[headerpos['start']]), parseInt(columns[headerpos['stop']]));
 								}
-								if ((key === 'name' || key === 'genefunction' || key === 'strand' || key === 'color' || key === 'labelcolor' || key === 'labelstyle') && headerpos[key] !== null){
+								if ((key === 'name' || key === 'genefunction' || key === 'strand' || key === 'color' || key === 'labelcolor' || key === 'labelstyle' || key === 'genome') && headerpos[key] !== null){
 									gene[key] = columns[headerpos[key]];
 								}
 								if ((key === 'labelhidden' || key === 'genehidden' || key === 'labelcolorchanged' || key === 'labelstylechanged' || key === 'labelposchanged') && headerpos[key] !== null){
@@ -352,10 +310,6 @@
 									var getpositions = columns[headerpos[key]].split(",");
 									gene[key].x = parseFloat(getpositions[0]);
 									gene[key].y = parseFloat(getpositions[1]);
-								}
-								if (key === 'genomestyles' && headerpos[key] !== null){
-									console.log(columns);
-									genomestyles = columns[headerpos[key]].split(" ");
 								}
 								else if((key === 'start' || key === 'stop') && headerpos[key] !== null){
 									gene[key] = parseInt(columns[headerpos[key]]) - offset[genome];
@@ -389,7 +343,6 @@
 								}
 								gene['currLane']=vertOff[genome];
 							}
-							gene["genomestyles"] = genomestyles;
 							$scope.data.push(gene);
 						}
 					}
@@ -483,19 +436,13 @@
 									}
 									
 									// Create gene item and push
-									var genome = organism.split(" ");
+									var genome = organism
 									var genomestyles = [];
 									
-									var gene = {currLane:$scope.maxVertOff, genome:genome, genomehidden:false, genomestyles:null, start:startPos, stop:endPos, size:Math.abs(startPos-endPos), strand:strand, name:genename.slice(1, genename.length-1), genefunction:product.slice(1, product.length-1), color:null, labelcolor:null, labelstyle:'normal', labelhidden:false, genehidden:false, labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
-									
-									for (var j = 0; j < genome.length; j++){
-										genomestyles.push("italic");
-									}
+									var gene = {currLane:$scope.maxVertOff, genome:genome, genomehidden:false, start:startPos, stop:endPos, size:Math.abs(startPos-endPos), strand:strand, name:genename.slice(1, genename.length-1), genefunction:product.slice(1, product.length-1), color:null, labelcolor:null, labelstyle:'normal', labelhidden:false, genehidden:false, labelcolorchanged:false, labelstylechanged:false, labelpos:{x:null, y:null}, labelposchanged:false};
 									
 									gene["color"] = colorService.getHashColor(gene['genefunction']);
 									gene["labelcolor"] = colorService.getTextColor(gene['color']);
-									
-									gene["genomestyles"] = genomestyles;
 									
 									$scope.data.push(gene);
 									
@@ -521,6 +468,9 @@
 				if ($scope.filetype[0] === 'tsv'){
 					console.log("Match tsv");
 					$scope.parseTSV(lines);
+					console.log("scrolling...");
+					var graphContainer = document.getElementById("graphcontainer");
+					graphContainer.scrollTop = graphContainer.scrollHeight;
 				}
 				else if ($scope.filetype[0] === 'gb' || $scope.filetype[0] === 'gff' || $scope.filetype[0] === 'gbk'){
 					console.log("Match genbank");
@@ -529,7 +479,6 @@
 				else {
 					console.log("Error, not a known filetype");
 				}
-				
 			}
 			
 			$scope.$on('updateGeneData', function(){

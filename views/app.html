@@ -161,6 +161,7 @@
 		<span ng-hide="graphSettings.currentFilesList.length">No file chosen</span>
 		<span ng-repeat="file in graphSettings.currentFilesList">{{file}}{{$last ? '' : ', '}}</span>
 	</div>
+	<br>
 	<div id="popupbox" ng-controller="FileCtrl" ng-show="showPopupMenu">
 		<button class="xoutbutton md-fab md-mini" ng-click="closePopup(-1);">
 				<md-icon class="material-icons blueicon md-18">close</md-icon>
