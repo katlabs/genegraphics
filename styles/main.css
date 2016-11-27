@@ -138,11 +138,13 @@ md-content {
 .md-button.btn2 {
 	font-size: 14px;
 	text-transform: none;
+	color: #000000;
 }
 
 .md-button.btn3 {
 	font-size: 14px;
 	text-transform: none;
+	color: #000000;
 }
 
 .md-button.rbtn {
@@ -151,6 +153,7 @@ md-content {
 	width: 100%;
 	margin-left: 0px;
 	margin-right: 0px;
+	color: #000000;
 }
 
 .md-button.md-primary.md-raised.btn1:not([disabled]):hover {
