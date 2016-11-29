@@ -6,15 +6,27 @@
 		var geneSvc = {};
 		
 		geneSvc.geneData = [];
+		geneSvc.genomesHash = {};
 		geneSvc.maxVertOff = 0;
 		
 		geneSvc.updateGene = function(gData, maxVertOff) {
-			console.log("updateGene");
 			this.maxVertOff = gData[gData.length-1]['currLane'] + 2;
 			this.geneData = gData.reduce( function(coll, item){
 				coll.push(item);
 				return coll;
 			}, this.geneData);
+			this.updateGenomesHash(this.geneData);
+		}
+		
+		geneSvc.updateGenomesHash = function(gData) {
+			for (var i = 0; i < gData.length; i++) {
+				if (gData[i].genome in this.genomesHash){
+					this.genomesHash[gData[i].genome].push(i);
+				}
+				else {
+					this.genomesHash[gData[i].genome] = [i];
+				}
+			}
 			$rootScope.$broadcast('updateGeneData');
 		}
 		
@@ -53,20 +65,57 @@
 	}])
 	.factory("popupMenuService", [ '$rootScope', function($rootScope){
 		var popupMenuService = {};
-		popupMenuService.menuVisible;
+		
+		popupMenuService.MenuVisible;
+		popupMenuService.GBSelectVisible;
+		popupMenuService.ExportPanelVisible;
+		popupMenuService.GeneMenuVisible;
+		popupMenuService.GenomeMenuVisible;
+		
+		popupMenuService.updateGBSelect = function(newStatus){
+			this.GBSelectVisible = newStatus;
+			this.ExportPanelVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		popupMenuService.updateExportPanel = function(newStatus){
+			this.ExportPanelVisible = newStatus;
+			this.GBSelectVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		popupMenuService.updateGeneMenu = function(newStatus){
+			this.GeneMenuVisible = newStatus;
+			this.GBSelectVisible = false;
+			this.ExportPanelVisible = false;
+			this.GenomeMenuVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		popupMenuService.updateGenomeMenu = function(newStatus){
+			this.GenomeMenuVisible = newStatus;
+			this.GBSelectVisible = false;
+			this.GeneMenuVisible = false;
+			this.ExportPanelVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		
 		popupMenuService.updateMenuStatus = function(newStatus){
-			this.menuVisible = newStatus;
+			this.MenuVisible = newStatus;
 			$rootScope.$broadcast('updateMenuStatus');
 		}
+		
 		return popupMenuService;
 	}])
-	.factory("colorService", [ function(){
+	
+	.factory("colorService", [ 'md5', function(md5){
 		var colorService = {};
 		var whiteThreshold = 140;
 		
 		colorService.getHashColor = function(strToHash) {
 			//console.log("Hash Input: " + strToHash);
-			var hash = MD5(strToHash);
+			var hash = md5.createHash(strToHash);
 			var i = 0;
 			do { 
 			 var clr = '#' + hash.substr(i, 6);

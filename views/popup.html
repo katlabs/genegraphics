@@ -1,0 +1,42 @@
+<div id="popupbox" ng-show="showPopupMenu" ng-controller="popupCtrl">
+	<!-- The button to close the popup menu -->
+	<button class="xoutbutton md-fab md-mini" ng-click="closePopup();">
+		<md-icon class="material-icons blueicon md-18">close</md-icon>
+	</button>
+	<!-- Selection of genbank files -->
+	<div id="GBSelect" ng-show="showGBSelect">
+		<h4>Import Genbank File from NCBI</h4> 
+		Genbank ID: <input type="text" ng-model="genbankID" style="width: 140px;"/><br>
+		Region:<br> 
+		<form action="">
+			<input type="radio" name="sequence" label="whole" value="whole" ng-model="seqRange" selected="true">Whole sequence<br>
+			<input type="radio" name="sequence" label="custom" value="custom" ng-model="seqRange" >Custom region:<br>	
+		</form>
+			from: <input type="number" ng-model="seqRangeStart"> to: <input type="number" ng-model="seqRangeEnd"><br>
+		<button class="btn1 md-button md-raised md-primary" ng-click="submitNCBIQuery();" style="right:0;">Submit</button><br>
+		<span id="statusmessage">{{statusMessage}}</span>
+	</div>
+	<!-- Export panel -->
+	<div id="exportPanel" ng-show="showExportPanel">
+		<h4>Export Files</h4> 
+		To save a file, right click on the link and choose "Save As". (On Mac:⌘ + click and "Download linked file as..." Then, give the file a name and the correct file extension on the save prompt.)<br><br>
+		<a id="pnglink" href="" download="newgenegraphic.png">Export PNG</a><br><br>
+		<a id="svglink" href="" download="newgenegraphic.svg">Export SVG</a><br><br>
+		<a id="tsvlink" href="" download="newgenegraphic.tsv">Export TSV</a><br>
+	</div>
+	<!-- Menu for editing a gene -->
+	<div id="geneMenu" ng-show="showGeneMenu">
+		<h4>Edit Gene Properties</h4> 
+		<textarea ui-tinymce="tinymceOptions" ng-model="geneData[selectedGene]['name']"></textarea><br>
+		Gene: <spectrum-colorpicker ng-model="geneData[selectedGene]['color']" options="{showInitial: true, showInput: true, showButtons: false}" format="'hex'"></spectrum-colorpicker><br>
+		Hide label: <input type="checkbox" ng-model="geneData[selectedGene]['labelhidden']">
+		Hide gene: <input type="checkbox" ng-model="geneData[selectedGene]['genehidden']"><br>
+		<button class="btn1 md-button md-raised md-primary" ng-click="copyGeneAttrs(selectedGene);">Copy Gene Colors</button>
+		<button class="btn1 md-button md-raised md-primary" ng-click="pasteGeneAttrs(selectedGene);">Paste Gene Colors</button>
+	</div>
+	<!-- Menu for editing a genome name  -->
+	<div id="genomeMenu" ng-show="showGenomeMenu">
+		<h4>Edit Genome Name</h4> 
+		<textarea ui-tinymce="tinymceOptions" ng-model="genome.newGenome" ng-change="editGenomeName()"></textarea>
+	</div>
+</div>

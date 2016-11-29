@@ -3,6 +3,8 @@
 
 	// create the angular app
 	var geneGraphApp = angular.module('geneGraphApp', [
+		'ui.tinymce',
+		'angular-md5',
 		'ngAnimate',
 		'ngMaterial',
 		'angularSpectrumColorpicker',
