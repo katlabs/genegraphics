@@ -71,12 +71,22 @@
 		popupMenuService.ExportPanelVisible;
 		popupMenuService.GeneMenuVisible;
 		popupMenuService.GenomeMenuVisible;
+		popupMenuService.GraphSizeDialogVisible;
+		popupMenuService.LaneDialogVisible;
+		popupMenuService.ScaleDialogVisible;
+		popupMenuService.GlobalGenomeVisible;
+		popupMenuService.GlobalGeneVisible;
 		
 		popupMenuService.updateGBSelect = function(newStatus){
 			this.GBSelectVisible = newStatus;
 			this.ExportPanelVisible = false;
 			this.GeneMenuVisible = false;
 			this.GenomeMenuVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.LaneDialogVisible = false;
+			this.ScaleDialogVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateExportPanel = function(newStatus){
@@ -84,6 +94,11 @@
 			this.GBSelectVisible = false;
 			this.GeneMenuVisible = false;
 			this.GenomeMenuVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.LaneDialogVisible = false;
+			this.ScaleDialogVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateGeneMenu = function(newStatus){
@@ -91,6 +106,11 @@
 			this.GBSelectVisible = false;
 			this.ExportPanelVisible = false;
 			this.GenomeMenuVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.LaneDialogVisible = false;
+			this.ScaleDialogVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateGenomeMenu = function(newStatus){
@@ -98,6 +118,71 @@
 			this.GBSelectVisible = false;
 			this.GeneMenuVisible = false;
 			this.ExportPanelVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.LaneDialogVisible = false;
+			this.ScaleDialogVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		popupMenuService.updateGraphSizeDialog = function(newStatus){
+			this.GraphSizeDialogVisible = newStatus;
+			this.GBSelectVisible = false;
+			this.ExportPanelVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			this.LaneDialogVisible = false;
+			this.ScaleDialogVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		popupMenuService.updateLaneDialog = function(newStatus){
+			this.LaneDialogVisible = newStatus;
+			this.GraphSizeDialogVisible = false;
+			this.GBSelectVisible = false;
+			this.ExportPanelVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			this.ScaleDialogVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		popupMenuService.updateScaleDialog = function(newStatus){
+			this.ScaleDialogVisible = newStatus;
+			this.LaneDialogVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.GBSelectVisible = false;
+			this.ExportPanelVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		popupMenuService.updateGlobalGenome = function(newStatus){
+			this.GlobalGenomeVisible = newStatus;
+			this.ScaleDialogVisible = false;
+			this.LaneDialogVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.GBSelectVisible = false;
+			this.ExportPanelVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			this.GlobalGeneVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		popupMenuService.updateGlobalGene = function(newStatus){
+			this.GlobalGeneVisible = newStatus;
+			this.ScaleDialogVisible = false;
+			this.LaneDialogVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.GBSelectVisible = false;
+			this.ExportPanelVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			this.GlobalGenomeVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		

@@ -312,18 +312,18 @@
 									return lineFunction(points);
 								})
 								.attr("fill", function(d, i) {
-									return d.color;
+									if (d.genevisible == false){
+										return "transparent";
+									}
+									else return d.color;
 								})
-								.attr("stroke", "black")
+								.attr("stroke", function(d, i) {
+									if (d.genevisible == false){
+										return "transparent";
+									}
+									else return "black";
+								})
 								.attr("stroke-width", "2")
-								.attr("visibility", function(d, i){ 
-									if (d.genehidden === false){
-										return 'visible';
-									}
-									else if (d.genehidden === true) {
-										return 'hidden';
-									}
-								})
 								
 						var prevCurrLane = -1;
 						
@@ -364,13 +364,13 @@
 							.attr("class", "genelabel")
 							.attr("y", function(d, i){
 								var fontsize = getGeneFontSize(d, i);
-								if (scope.settings.labelPosition === 'middle') {
+								if (d.labelvertpos === 'middle') {
 									return (d.labelpos.y+(featureheight/2)-(fontsize/1.5));
 								}
-								else if (scope.settings.labelPosition === 'above') {
+								else if (d.labelvertpos === 'top') {
 									return d.labelpos.y - (fontsize*1.5);
 								}
-								else if (scope.settings.labelPosition === 'below') {
+								else if (d.labelvertpos === 'bottom') {
 									return d.labelpos.y + (featureheight);
 							}})
 							.attr("x", function(d, i){return d.labelpos.x;})
@@ -388,15 +388,13 @@
 								var x2 = ((x3 - x1) * 0.8) + x1;
 								var result = Math.abs(x1 - x2);
 								return result;} )
-							.attr("visibility", function(d, i){ 
-								if (d.labelhidden === false && d.genehidden === false){
-									return 'visible';
-								}
-								else if (d.labelhidden === true || d.genehidden === true) {
-									return 'hidden';
-								}})
 							.append("xhtml:body")
-							.html(function(d,i){return d.name;});
+							.html(function(d,i){
+								if (!d.genevisible || d.labelhidden){
+									return;
+								}
+								else return d.name;
+							});
 							
 							svg.attr("height", globalMaxY);
 					};
@@ -442,20 +440,18 @@
 						}
 						
 						// Create TSV URI
-						var outputtext = "genome\tcurrLane\tlabelcolor\tlabelcolorchanged\tlabelhidden\tlabelpos\tlabelposchanged\tlabelsize\tlabelstyle\tlabelstylechanged\tname\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
+						var outputtext = "genome\tcurrLane\tlabelhidden\tgenevisible\tgenomehidden\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tlabelhorzpos\tname\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
 						var genelines = "";
 						for (var i = 0; i < scope.data.length; i++) {
 							var genomename = scope.data[i].genome;
 							genelines += genomename + "\t";
 							genelines += scope.data[i].currLane + "\t";
-							genelines += scope.data[i].labelcolor + "\t";
-							genelines += scope.data[i].labelcolorchanged + "\t";
 							genelines += scope.data[i].labelhidden + "\t";
+							genelines += scope.data[i].genevisible + "\t";
+							genelines += scope.data[i].genomehidden + "\t";
+							genelines += scope.data[i].genelocked + "\t";
+							genelines += scope.data[i].genomelocked + "\t";
 							genelines += scope.data[i].labelpos.x + "," + scope.data[i].labelpos.x + "\t";
-							genelines += scope.data[i].labelposchanged + "\t";
-							genelines += scope.data[i].labelsize + "\t";
-							genelines += scope.data[i].labelstyle + "\t";
-							genelines += scope.data[i].labelstylechanged + "\t";
 							genelines += scope.data[i].name + "\t";
 							genelines += scope.data[i].color + "\t";
 							genelines += scope.data[i].size + "\t";
@@ -465,7 +461,7 @@
 							genelines += scope.data[i].genefunction + "\n";
 						}
 						outputtext += genelines;
-						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"scaleOn\":\"" + scope.settings.scaleOn +  "\",\"fontFamily\":\"" + scope.settings.fontFamily + "\",\"fontSize\":\"" + scope.settings.fontSize + "\",\"fontStyle\":\"" + scope.settings.fontStyle + "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"labelPosition\":\"" + scope.settings.labelPosition + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\"}";
+						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"scaleOn\":\"" + scope.settings.scaleOn +  "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\"}";
 						var tsvuri = "data:," + encodeURI(outputtext);
 						document.getElementById("tsvlink").href = tsvuri;
 						

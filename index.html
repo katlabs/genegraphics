@@ -10,9 +10,9 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 	<body ng-app="geneGraphApp" class="tabsClass">
-		<md-content ng-controller="tabsCtrl">
+		<md-content ng-controller="tabsCtrl as tCtrl">
 			<md-tabs md-dynamic-height="" md-border-bottom="">
-				<md-tab ng-repeat="tab in tabs" label="{{tab.title}}">
+				<md-tab ng-repeat="tab in tCtrl.tabs" label="{{tab.title}}">
 					<div ng-include="tab.content"></div>
 				</md-tab>
 				</md-tabs>

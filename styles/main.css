@@ -23,6 +23,14 @@ ng\:form{
     box-sizing: border-box
 }
 
+.iconbutton {
+	height: 40px;
+}
+
+md-menu.fontSizeMenu {
+	padding: 0 0 0 0;
+}
+
 #widthslider {
 	width: 100px;
 }
@@ -71,6 +79,7 @@ body > h1 {
 	z-index: 1000;
 	top: 200px;
 	left: 35%;
+	width: 400px;
 	margin-top: -50px;
 	margin-left: -50px;
 	background-clip: padding-box;
@@ -97,6 +106,10 @@ md-content {
 
 .material-icons.blueicon {
 	color: rgb(13,119,182); 
+}
+
+.material-icons.blackicon {
+	color: rgb(0,0,0); 
 }
 
 .material-icons.md-18 {

@@ -1,11 +1,17 @@
 <md-content class="md-padding">
-<div ng-controller="graphCtrl">
+<div ng-controller="graphCtrl as gCtrl">
 
 	<div ng-include="'views/toolbar.html'"></div>
 	
 	<!-- This is where the SVG will live -->
 	<div id="graphcontainer">
-		<d3-genes data="geneData" settings="graphSettings" genomes="genomesHash" on-click="selectGene(index, x, y)" on-click-genome="selectGenome(index, x, y)" on-mouse-over-gene="changeDisplayedFunction(newfunction)"></d3-genes>
+		<d3-genes data="geneData" 
+							settings="graphSettings" 
+							genomes="genomesHash" 
+							on-click="selectGene(index, x, y)" 
+							on-click-genome="selectGenome(index, x, y)" 
+							on-mouse-over-gene="changeDisplayedFunction(newfunction)">
+		</d3-genes>
 	</div>
 	
 	<!-- A little footer that shows what files have been uploaded -->

@@ -1,20 +1,21 @@
 <div id="popupbox" ng-show="showPopupMenu" ng-controller="popupCtrl">
 	<!-- The button to close the popup menu -->
-	<button class="xoutbutton md-fab md-mini" ng-click="closePopup();">
+	<button class="xoutbutton md-icon-button" ng-click="closePopup();">
 		<md-icon class="material-icons blueicon md-18">close</md-icon>
 	</button>
 	<!-- Selection of genbank files -->
 	<div id="GBSelect" ng-show="showGBSelect">
 		<h4>Import Genbank File from NCBI</h4> 
-		Genbank ID: <input type="text" ng-model="genbankID" style="width: 140px;"/><br>
+		Genbank ID: <input type="text" ng-model="gb.genbankID" style="width: 140px;"/><br>
 		Region:<br> 
 		<form action="">
-			<input type="radio" name="sequence" label="whole" value="whole" ng-model="seqRange" selected="true">Whole sequence<br>
-			<input type="radio" name="sequence" label="custom" value="custom" ng-model="seqRange" >Custom region:<br>	
+			<input type="radio" name="sequence" label="whole" value="whole" ng-model="gb.seqRange" selected="true">Whole sequence<br>
+			<input type="radio" name="sequence" label="custom" value="custom" ng-model="gb.seqRange" >Custom region:<br>	
 		</form>
-			from: <input type="number" ng-model="seqRangeStart"> to: <input type="number" ng-model="seqRangeEnd"><br>
+			from: <input type="number" ng-model="gb.seqRangeStart"> to: <input type="number" ng-model="gb.seqRangeEnd"><br>
 		<button class="btn1 md-button md-raised md-primary" ng-click="submitNCBIQuery();" style="right:0;">Submit</button><br>
-		<span id="statusmessage">{{statusMessage}}</span>
+		<md-progress-linear ng-show="gb.loadingFile" md-mode="indeterminate"></md-progress-linear>
+		<span id="statusmessage">{{gb.statusMessage}}</span>
 	</div>
 	<!-- Export panel -->
 	<div id="exportPanel" ng-show="showExportPanel">
@@ -28,9 +29,18 @@
 	<div id="geneMenu" ng-show="showGeneMenu">
 		<h4>Edit Gene Properties</h4> 
 		<textarea ui-tinymce="tinymceOptions" ng-model="geneData[selectedGene]['name']"></textarea><br>
-		Gene: <spectrum-colorpicker ng-model="geneData[selectedGene]['color']" options="{showInitial: true, showInput: true, showButtons: false}" format="'hex'"></spectrum-colorpicker><br>
-		Hide label: <input type="checkbox" ng-model="geneData[selectedGene]['labelhidden']">
-		Hide gene: <input type="checkbox" ng-model="geneData[selectedGene]['genehidden']"><br>
+		<div layout="row" ><md-switch id="genevisswitch" class="md-primary" ng-model="geneData[selectedGene]['genevisible']">
+			{{geneData[selectedGene]['genevisible'] === true ? "The gene is visible" : "The gene is hidden"}}
+			<md-tooltip>Gene visibility</md-tooltip>
+		</md-switch>
+		<div style="margin-top: 16px; position: absolute; right:50px;" >
+		<spectrum-colorpicker ng-model="geneData[selectedGene]['color']" 
+													options="{showInitial: true, showInput: true, showButtons: false}" 
+													format="'hex'">
+		</spectrum-colorpicker>
+		<md-tooltip>Gene color</md-tooltip>
+		</div>
+		</div><br>
 		<button class="btn1 md-button md-raised md-primary" ng-click="copyGeneAttrs(selectedGene);">Copy Gene Colors</button>
 		<button class="btn1 md-button md-raised md-primary" ng-click="pasteGeneAttrs(selectedGene);">Paste Gene Colors</button>
 	</div>
@@ -38,5 +48,193 @@
 	<div id="genomeMenu" ng-show="showGenomeMenu">
 		<h4>Edit Genome Name</h4> 
 		<textarea ui-tinymce="tinymceOptions" ng-model="genome.newGenome" ng-change="editGenomeName()"></textarea>
+	</div>
+	<!-- Dialog for graph size settings -->
+	<div id="graphSizeDialog" ng-show="showGraphSizeDialog">
+		<h4>Edit Graph Size Settings</h4> 
+		<span>
+			Image width
+		</span>
+		<span>
+			<input type="number" min="30" max="3000" id="widthtxt" ng-model="graphSettings.graphwidth" update-on-enter ng-model-options="{ updateOn: 'blur' }" ng-change="changeGraphWidth(graphSettings.graphwidth);" >
+			px
+		</span><br>
+		<span>Gene height</span>
+		<span><input type="number" min="5" max="200" id="featureheighttxt" ng-model="graphSettings.featureheight" update-on-enter ng-model-options="{ updateOn: 'blur' }" ng-change="changeFeatureHeight(graphSettings.featureheight);"> 
+			px
+		</span><br>
+		<button class="btn1 md-button md-raised md-primary" style="right:0;">Update</button>
+	</div>
+	<!-- Dialog for Lane Settings -->
+	<div id="laneDialog" ng-show="showLaneDialog">
+		<h4>Edit Lane Settings</h4> 
+		<md-switch class="md-primary" ng-model="graphSettings.multilane" ng-click="clickMultiLane()">
+			{{graphSettings.multilane === true ? "Overlapping genes move to a new lane" : "All genes will be on the same lane"}}
+		</md-switch>
+		<md-switch class="md-primary" ng-disabled="graphSettings.multilane" ng-model="graphSettings.shiftgenes" ng-click="clickShiftgenes()">
+			{{graphSettings.shiftgenes === true ? "Overlapping genes are shifted" : "Genes may overlap each other"}}
+		</md-switch>
+		<md-switch class="md-primary" ng-disabled="!graphSettings.shiftgenes || graphSettings.multilane" ng-model="graphSettings.keepgaps">
+			{{graphSettings.keepgaps === true ? "Gaps between genes are visible" : "No gaps are shown between genes"}}
+		</md-switch>
+	</div>
+	<!-- Dialog for Scale Settings -->
+	<div id="scaleDialog" ng-show="showScaleDialog">
+		<h4>Edit Scale Settings</h4>
+		<md-switch ng-model="graphSettings.scaleOn">
+			{{graphSettings.scaleOn === true ? "Scale is on" : "Scale is off"}}
+		</md-switch>
+	</div>
+	<!-- Global Dialog for Genome Labels -->
+	<div id="globalGenome" ng-show="showGlobalGenome">
+		<h4>Change Settings for All Genome Labels</h4>
+		<button id="alLeftGenomes" class="iconbutton md-icon-button" ng-click="globalAlign('genomes','left');">
+			<md-tooltip>
+				Align Left
+			</md-tooltip>
+			<md-icon class="material-icons">format_align_left</md-icon>
+		</button>
+		<button id="alCenterGenomes" class="iconbutton md-icon-button" ng-click="globalAlign('genomes','center');">
+			<md-tooltip>
+				Align Center
+			</md-tooltip>
+			<md-icon class="material-icons">format_align_center</md-icon>
+		</button>		
+		<button id="alRightGenomes" class="iconbutton md-icon-button" ng-click="globalAlign('genomes','right');">
+			<md-tooltip>
+				Align Right
+			</md-tooltip>
+			<md-icon class="material-icons">format_align_right</md-icon>
+		</button><br>
+		<div ng-controller="autoCompCtrl" layout="row" layout-align="start start" ng-cloak>
+			<md-autocomplete
+					class="fontFamily"
+					ng-disabled="false"
+					md-no-cache="false"
+					md-selected-item="selectedItem"
+					md-search-text="searchText"
+					md-selected-item-change="globalFontFamily('genomes', item)"
+					md-items="item in querySearch(searchText)"
+					md-item-text="item.name"
+					md-min-length="0"
+					placeholder="Font Family">
+				<md-item-template>
+					<span style="font-family: {{item.value}}" md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+				</md-item-template>
+				<md-not-found>
+					No Families matching "{{searchText}}" were found.
+				</md-not-found>
+			</md-autocomplete>
+			<md-menu class="fontSizeMenu md-position-mode="target-left bottom">
+				<button class="iconbutton md-icon-button" ng-click="openFontSizeMenu($mdOpenMenu, $event)">
+					<md-tooltip>
+						Font Size
+					</md-tooltip>
+					<md-icon class="material-icons">format_size</md-icon>
+				</button>
+				<md-menu-content width="2">
+					<md-menu-item ng-repeat="size in graphSettings.fontSizeOptions">
+						<button class="md-button btn2" ng-click="globalFontSize('genomes', size)">{{size}}</button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+			<button id="boldGenomes" class="iconbutton md-icon-button" ng-click="globalBold('genomes');">
+				<md-tooltip>
+					Bold
+				</md-tooltip>
+				<md-icon class="material-icons">format_bold</md-icon>
+			</button>
+			<button id="emGenomes" class="iconbutton md-icon-button" ng-click="globalEm('genomes');">
+				<md-tooltip>
+					Italic
+				</md-tooltip>
+				<md-icon class="material-icons">format_italic</md-icon>
+			</button>
+		</div>
+	</div>
+	<!-- Global Dialog for Gene Labels -->
+	<div id="globalGene" ng-show="showGlobalGene">
+		<h4>Change Settings for All Gene Labels</h4>
+		<button id="alLeftGenes" class="iconbutton md-icon-button" ng-click="globalAlign('genes','left');">
+			<md-tooltip>
+				Align Left
+			</md-tooltip>
+			<md-icon class="material-icons">format_align_left</md-icon>
+		</button>
+		<button id="alCenterGenes" class="iconbutton md-icon-button" ng-click="globalAlign('genes','center');">
+			<md-tooltip>
+				Align Center
+			</md-tooltip>
+			<md-icon class="material-icons">format_align_center</md-icon>
+		</button>		
+		<button id="alRightGenes" class="iconbutton md-icon-button" ng-click="globalAlign('genes','right');">
+			<md-tooltip>
+				Align Right
+			</md-tooltip>
+			<md-icon class="material-icons">format_align_right</md-icon>
+		</button>
+		<button id="alTopGenes" class="iconbutton md-icon-button" ng-click="globalAlign('genes','top');">
+			<md-tooltip>
+				Vertical Align Top
+			</md-tooltip>
+			<md-icon class="material-icons">vertical_align_top</md-icon>
+		</button>		
+		<button id="alMiddleGenes" class="iconbutton md-icon-button" ng-click="globalAlign('genes','middle');">
+			<md-tooltip>
+				Vertical Align Middle
+			</md-tooltip>
+			<md-icon class="material-icons">vertical_align_center</md-icon>
+		</button>		
+		<button id="alBottomGenes" class="iconbutton md-icon-button" ng-click="globalAlign('genes','bottom');">
+			<md-tooltip>
+				Vertical Align Bottom
+			</md-tooltip>
+			<md-icon class="material-icons">vertical_align_bottom</md-icon>
+		</button>	<br>
+		<div ng-controller="autoCompCtrl" layout="row" layout-align="start start" ng-cloak>
+			<md-autocomplete
+					class="fontFamily"
+					ng-disabled="false"
+					md-no-cache="false"
+					md-selected-item="selectedItem"
+					md-search-text="searchText"
+					md-selected-item-change="globalFontFamily('genes', item)"
+					md-items="item in querySearch(searchText)"
+					md-item-text="item.name"
+					md-min-length="0"
+					placeholder="Font Family">
+					<md-item-template>
+						<span style="font-family: {{item.value}}" md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+					</md-item-template>
+					<md-not-found>
+						No Families matching "{{searchText}}" were found.
+					</md-not-found>
+			</md-autocomplete>
+			<md-menu class="fontSizeMenu" md-position-mode="target-left bottom">
+				<button class="iconbutton md-icon-button" ng-click="openFontSizeMenu($mdOpenMenu, $event)">
+				<md-tooltip>
+					Font Size
+				</md-tooltip>
+					<md-icon class="material-icons">format_size</md-icon>
+				</button>
+				<md-menu-content width="2">
+					<md-menu-item ng-repeat="size in graphSettings.fontSizeOptions">
+						<button class="md-button btn2" ng-click="globalFontSize('genes', size)">{{size}}</button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+			<button id="boldGenes" class="iconbutton md-icon-button" ng-click="globalBold('genes');">
+				<md-tooltip>
+					Bold
+				</md-tooltip>
+				<md-icon class="material-icons">format_bold</md-icon>
+			</button>
+			<button id="emGenes" class="iconbutton md-icon-button" ng-click="globalEm('genes');">
+				<md-tooltip>
+					Italic
+				</md-tooltip>
+				<md-icon class="material-icons">format_italic</md-icon>
+			</button>
+		</div>
 	</div>
 </div>
