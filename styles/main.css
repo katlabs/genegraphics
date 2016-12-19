@@ -29,12 +29,12 @@ ng\:form{
 }
 
 ::-webkit-scrollbar-track {
-    background-color: rgba(57,57,57, .6);
+    background-color: rgba(57,57,57, .9);
     border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 8px;
-    background-color: rgba(156, 156, 156, .6);
+    background-color: rgba(156, 156, 156, .9);
 }
 
 .iconbutton {
