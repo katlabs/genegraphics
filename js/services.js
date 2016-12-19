@@ -20,11 +20,11 @@
 		
 		geneSvc.updateGenomesHash = function(gData) {
 			for (var i = 0; i < gData.length; i++) {
-				if (gData[i].genome in this.genomesHash){
-					this.genomesHash[gData[i].genome].push(i);
+				if (gData[i].genomehtml in this.genomesHash){
+					this.genomesHash[gData[i].genomehtml].push(i);
 				}
 				else {
-					this.genomesHash[gData[i].genome] = [i];
+					this.genomesHash[gData[i].genomehtml] = [i];
 				}
 			}
 			$rootScope.$broadcast('updateGeneData');

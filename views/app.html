@@ -13,7 +13,6 @@
 							on-mouse-over-gene="changeDisplayedFunction(newfunction)">
 		</d3-genes>
 	</div>
-	
 	<!-- A little footer that shows what files have been uploaded -->
 	<div>Files: 
 		<span ng-hide="graphSettings.currentFilesList.length">No file chosen</span>
@@ -23,6 +22,9 @@
 	
 	<!-- This popup box will be used for different types of menus -->
 	<div ng-include="'views/popup.html'" ng-controller="FileCtrl"></div>
+	
+	<!-- This popup box will be used to point out the scrollbar -->
+	<div ng-include="'views/scrollbaralert.html'"></div>
 
 </div>
 </md-content>

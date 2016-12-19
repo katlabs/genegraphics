@@ -23,6 +23,20 @@ ng\:form{
     box-sizing: border-box
 }
 
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(57,57,57, .6);
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgba(156, 156, 156, .6);
+}
+
 .iconbutton {
 	height: 40px;
 }
@@ -64,6 +78,11 @@ body > h1 {
 	margin-bottom: 10px;
 }
 
+#genefunction {
+	float: right;
+	color: #000000;
+}
+
 #titlecontainer {
 	font-family: Arial;
 	color: #47a3da;
@@ -79,20 +98,106 @@ body > h1 {
 	z-index: 1000;
 	top: 200px;
 	left: 35%;
-	width: 400px;
+	width: 410px;
 	margin-top: -50px;
 	margin-left: -50px;
 	background-clip: padding-box;
 	background-color: #FFFFFF;
-	padding: 30px;
-	border: 4px solid;
-	border-radius: 16px;
-	-webkit-border-radius: 16px;
-	-moz-border-radius: 16px;
-	border-color: #47a4da;
-	box-shadow: 5px 5px 2.5px #387091;
-	-webkit-box-shadow: 5px 5px 2.5px #387091;
-	-moz-box-shadow: 5px 5px 2.5px #387091;
+	padding: 11px;
+	border: 2px solid;
+	border-color: #0d77b6;
+	box-shadow: 5px 5px 2.5px #1d4359;
+	-webkit-box-shadow: 5px 5px 2.5px #1d4359;
+	-moz-box-shadow: 5px 5px 2.5px #1d4359;
+}
+
+#scrollpopup {
+	display: none;
+	position: absolute;
+	z-index: 2000;
+	top: 200px;
+	left: 30%;
+	margin-top: -50px;
+	margin-left: -50px;
+	background-color: rgba(255, 255, 255, 0.5);
+	padding: 11px;
+	border-radius: 35px;
+	-webkit-border-radius: 35px;
+	-moz-border-radius: 35px;
+}
+
+.material-icons.arrowicon {
+	color: rgb(13,119,182);
+	font-size: 150px;
+}
+
+#genevisswitch {
+	width: 200px;
+}
+
+:active {
+	outline: none;
+}
+
+:focus {
+	outline: none;
+}
+
+.icoIndivBtn {
+	border: none;
+	background-color: #ffffff;
+	display: inline-block;
+	text-align: center;
+	overflow: visible;
+	width: 32px;
+	height: 28px;
+}
+
+.icoFormatBtn {
+	line-height: 22px;
+	border: 1px solid #b1b1b1;
+	border-color: transparent transparent transparent transparent;
+	position: relative;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	background-color: #f0f0f0;
+	display: inline-block;
+	text-align: center;
+	overflow: visible;
+	width: 32px;
+	height: 28px;
+}
+
+.icoFormatBtn:hover {
+	border-color: #cccccc;
+}
+
+.icoFormatBtn:disabled {
+	background-color: #f0f0f0;
+	border-color: transparent transparent transparent transparent;
+}
+
+.customToolbar {
+	background: #f0f0f0;
+	border: 1px solid #b1b1b1;
+	height: 34px;
+	width: 225px;
+	margin: 0 auto;
+}
+
+.customBtnGrp {
+	display: inline-block;
+}
+
+.customBtnGrp:not(:first-child) {
+	border-left: 1px solid #d9d9d9;
+	padding-left: 3px;
+	margin-left: 3px;
+	display: inline-block;
+}
+
+.popupcontentsglb {
+	width: 250px;
+	margin: 0 auto;
 }
 
 foreignObject > body {
@@ -104,6 +209,21 @@ md-content {
 	z-index: 1;
 }
 
+md-autocomplete{
+	width: 225px;
+	margin: 0 auto;
+}
+
+md-autocomplete.md-default-theme button md-icon path, md-autocomplete button md-icon path {
+	fill: rgb(0,0,0);
+}
+md-autocomplete md-autocomplete-wrap button {
+	position: absolute;
+	margin: auto;
+	top: 4px;
+	right: 2px;
+}
+
 .material-icons.blueicon {
 	color: rgb(13,119,182); 
 }
@@ -112,8 +232,24 @@ md-content {
 	color: rgb(0,0,0); 
 }
 
+.material-icons.grayicon {
+	color: rgb(204, 204, 204); 
+}
+
+.material-icons.md-16 {
+	font-size: 20px;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-top;
+	line-height: 16px;
+}
+
 .material-icons.md-18 {
-	font-size: 18px;
+	font-size: 24px;
+	height: 18px;
+	width: 18px;
+	vertical-align: text-top;
+	line-height: 18px;
 }
 
 .xoutbutton {

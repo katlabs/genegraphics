@@ -32,7 +32,8 @@
 					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
 							.append("svg")
-							.attr("width", scope.settings.graphwidth);
+							.attr("width", scope.settings.graphwidth)
+							.attr("id", "svg");
 					
 					// maximum width of the data
 					var maxwidth = 0;
@@ -67,12 +68,7 @@
 					
 					// re-render when the graph width or gene height sliders are moved
 					scope.$watchGroup(['settings.graphwidth', 'settings.featureheight'], function(newVals, oldVals, scope) {
-							//console.log("watch graphwidth/featureheight");
 							scope.settings.maxwidth = geneService.getMaxWidth(scope.data);
-							scope.data = geneService.hideSmallGeneLabels(scope.data, scope.settings.maxwidth, scope.settings.graphwidth);
-							for (var i = 0; i < scope.data.length; i++){
-								scope.data[i].labelposchanged = false;
-							}
 							svg.attr("width", scope.settings.graphwidth);
 							return scope.render(scope.data);
 					});
@@ -324,6 +320,7 @@
 									else return "black";
 								})
 								.attr("stroke-width", "2")
+								.attr("z-index", 95)
 								
 						var prevCurrLane = -1;
 						
@@ -337,7 +334,7 @@
 							.enter()
 							.append("foreignObject")
 							.each(function(d,i) {
-								if ((isInArray(i, scope.genomes[d.genome])) && (i == Math.min.apply(null, scope.genomes[d.genome]))){
+								if ((isInArray(i, scope.genomes[d.genomehtml])) && (i == Math.min.apply(null, scope.genomes[d.genomehtml]))){
 									var ind = i;
 									var text = d3.select(this)
 										.on("click", function(){ d3.event.stopPropagation(); return scope.onClickGenome({index: ind, x: d3.event.clientX, y: d3.event.clientY});})
@@ -347,8 +344,9 @@
 										.attr("x", function(d, i){return 0;})
 										.attr("height", 35)
 										.attr("width", function() {return graphwidth-20;} )
+										.attr("z-index", 100)
 										.append("xhtml:body")
-											.html(d.genome)
+											.html(d.genomehtml)
 								}
 								else {
 									d3.select(this).remove();
@@ -376,7 +374,8 @@
 							.attr("x", function(d, i){return d.labelpos.x;})
 							.attr("height", function(d, i){
 								var fontsize = getGeneFontSize(d, i);
-								return fontsize+2;
+								console.log(fontsize+10);
+								return fontsize+10;
 							})
 							.attr("width", function(d,i) {
 								if (d.strand === '+') {
@@ -388,12 +387,13 @@
 								var x2 = ((x3 - x1) * 0.8) + x1;
 								var result = Math.abs(x1 - x2);
 								return result;} )
+							.attr("z-index", 100)
 							.append("xhtml:body")
 							.html(function(d,i){
 								if (!d.genevisible || d.labelhidden){
 									return;
 								}
-								else return d.name;
+								else return d.namehtml;
 							});
 							
 							svg.attr("height", globalMaxY);
