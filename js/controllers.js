@@ -46,6 +46,7 @@
 				showInitial: true, 
 				showInput: true, 
 				showButtons: false,
+				allowEmpty:true,
 				showPaletteOnly: true,
 				togglePaletteOnly: true,
 				togglePaletteMoreText: 'custom...',
@@ -75,7 +76,6 @@
 				min_height: 50,
 				max_height: 200,
 				width: 377,
-				forced_root_block: false,
 				elementpath: false,
 				body_class: 'editor',
 				content_css: 'styles/main.css',
@@ -830,7 +830,7 @@
 					$scope.data = [];
 					var header = lines[0];
 					var headercols = header.split('\t');
-					var headerpos = {genome:null, genomehtml:null, currLane:null, genevisible:null, genomehidden:null, genelocked:null, genomelocked:null, labelpos:null, labelvertpos:null, name:null, namehtml:null, genefunction:null, color:null, size:null, start:null, stop:null, strand:null};
+					var headerpos = {genome:null, genomehtml:null, currLane:null, genevisible:null, genelocked:null, genomelocked:null, labelpos:null, labelvertpos:null, name:null, namehtml:null, genefunction:null, color:null, size:null, start:null, stop:null, strand:null};
 					$scope.maxVertOff = geneService.maxVertOff;
 					for(var i = 0; i < headercols.length; i++){
 						var currHeaderCol = headercols[i].toLowerCase().replace(/ /g, '');
@@ -841,9 +841,6 @@
 							headerpos.genomehtml = i;
 						}
 						else if (currHeaderCol === 'genevisible'){
-							headerpos.genevisible = i;
-						}
-						else if (currHeaderCol === 'genomehidden'){
 							headerpos.genevisible = i;
 						}
 						else if (currHeaderCol === 'genelocked'){
@@ -862,7 +859,7 @@
 							headerpos.name = i;
 						}
 						else if (currHeaderCol === 'namehtml'){
-							headerpos.genomehtml = i;
+							headerpos.namehtml = i;
 						}
 						else if (currHeaderCol === "function"){
 							headerpos.genefunction = i;

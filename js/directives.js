@@ -166,11 +166,13 @@
 							return result;
 						}
 						
-						var buffer = (maxGenomeFontSize*1.33)+(maxGeneFontSize*1.33);
-						var scaleoffset = 35;
+						var genomeBuffer = (maxGenomeFontSize*1.8);
+						var geneBuffer = (maxGeneFontSize*1.8);
+						console.log(genomeBuffer);
+						console.log(geneBuffer);
+						var scaleBuffer = 70;
 						var whichLane = function(d, i) {
 						// Function to determine the first y position of the feature
-						
 							var laneOffset = d.currLane;
 							if(i==0){
 								lastLaneOffset = -1;
@@ -191,15 +193,15 @@
 								}
 								lastLaneOffset = laneOffset;
 								if (scope.settings.scaleOn == false){
-									return buffer*(currLane + laneOffset) + featureheight*(currLane + laneOffset);
+									return (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(featureheight+geneBuffer+genomeBuffer));
 								}
-								return scaleoffset + buffer*(currLane + laneOffset) + featureheight*(currLane + laneOffset);
+								return scaleBuffer + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(featureheight+geneBuffer+genomeBuffer));
 							}
 							else {
 								if (scope.settings.scaleOn == false){
-									return (buffer*laneOffset) + buffer*(laneOffset+1) + featureheight;
+									return (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(geneBuffer+genomeBuffer)*1.4);
 								}
-								return scaleoffset + (buffer*laneOffset) + buffer*(laneOffset+1) + featureheight;
+								return scaleBuffer + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(geneBuffer+genomeBuffer)*1.4);
 							}
 						}
 						var prevend = 0;
@@ -266,19 +268,19 @@
 						var getYGeneLabel = function(d, i){
 							var lane = whichLane(d, i);
 							if (d.labelvertpos == "top"){
-								return lane - (getGeneFontSize(d,i)*1.33) -5;
+								return lane - (getGeneFontSize(d,i)*1.8);
 							}
 							else if (d.labelvertpos == "middle"){
-								return lane + (featureheight/2) - (getGeneFontSize(d,i)*0.665);
+								return lane + (featureheight/2) - (getGeneFontSize(d,i)*1.8)/2;
 							}
 							else if (d.labelvertpos == "bottom"){
-								return lane + featureheight + 5;
+								return lane + featureheight;
 							}
 						}
 						
 						var getYGenomeLabel = function(d, i){
 							var lane = whichLane(d, i);
-							var result = lane - ((maxGeneFontSize*1.33) + (maxGenomeFontSize*1.33)) -5;
+							var result = lane - ((maxGeneFontSize*1.8) + (maxGenomeFontSize*1.8));
 							return result;
 						}
 						
@@ -424,11 +426,11 @@
 											return getYGenomeLabel(d, i);})
 										.attr("x", function(d, i){return 0;})
 										.attr("height", function(d,i){
-											return (maxGenomeFontSize*1.33)+(maxGeneFontSize*1.33);
+											return (maxGenomeFontSize*1.8)+(maxGeneFontSize*1.8);
 										})
 										.attr("width", function() {return graphwidth-20;} )
 										.attr("z-index", 100)
-										.append("xhtml:span")
+										.append("xhtml:body")
 											.html(d.genomehtml)
 								}
 								else {
@@ -468,14 +470,30 @@
 							svg.selectAll('.genelabel')
 							.each(function(d,i){
 								var fo = d3.select(this);
-									fo.attr("height", function(d,i){
-										var body = d3.select(this).select('span');
-										return body[0][0].getBoundingClientRect().height;
-									})
-									.attr("width", function(d,i){
-										var body = d3.select(this).select('span');
-										return body[0][0].getBoundingClientRect().width;
+								fo.attr("height", function(d,i){
+									var body = d3.select(this).select('span');
+									return body[0][0].getBoundingClientRect().height;
+								})
+								.attr("width", function(d,i){
+									if (d.strand === '+') {
+										var x1 = getFeatureStart(d, i);
+										var x3 = getFeatureEnd(d, i);}
+									if (d.strand === '-') {
+										var x1 = getFeatureEnd(d, i);
+										var x3 = getFeatureStart(d, i)}
+									var x2 = ((x3 - x1) * 0.8) + x1;
+									var featurewidth = Math.abs(x1 - x2);
+									
+									var span = d3.select(this).select('span');
+									var textwidth = span[0][0].getBoundingClientRect().width;
+									var newWidth = Math.max(featurewidth, textwidth);
+									
+									span.style("width", newWidth + "px");
+									
+									return newWidth;
 									});
+										
+									
 							});
 							
 							svg.attr("height", globalMaxY);

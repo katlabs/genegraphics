@@ -127,7 +127,13 @@ body {
 	font-size: 150px;
 }
 
-foreignObject>span>p {
+foreignObject>span>p, foreignObject>body>p {
+	margin: 0px;
+	display: inline-block;
+	width: 100%;
+}
+
+foreignObject>span {
 	margin: 0px;
 	display: inline-block;
 }
