@@ -49,6 +49,10 @@ md-menu.fontSizeMenu {
 	width: 100px;
 }
 
+.md-autocomplete-suggestions-container.md-default-theme li .highlight, .md-autocomplete-suggestions-container li .highlight {
+	color: #000000;
+}
+
 input[type="number"] {
 	 width:80px;
 }
@@ -68,14 +72,6 @@ input[type="text"] {
 body {
 	font-family: Arial;
 	font-size: 12pt;
-}
-body > span,
-body > h1 {
-	float: left;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	margin-bottom: 10px;
 }
 
 #genefunction {
@@ -129,6 +125,11 @@ body > h1 {
 .material-icons.arrowicon {
 	color: rgb(13,119,182);
 	font-size: 150px;
+}
+
+foreignObject>span>p {
+	margin: 0px;
+	display: inline-block;
 }
 
 #genevisswitch {
@@ -196,8 +197,18 @@ body > h1 {
 }
 
 .popupcontentsglb {
-	width: 250px;
+	width: 380px;
 	margin: 0 auto;
+}
+
+span#colorbox {
+	margin: 5px;
+	padding: 0px 10px;
+	border: 1px solid rgba(0, 0, 0, .8);
+}
+
+span#labeltext {
+	margin: 30px;
 }
 
 foreignObject > body {
@@ -209,9 +220,13 @@ md-content {
 	z-index: 1;
 }
 
-md-autocomplete{
+md-autocomplete.fontFamily{
 	width: 225px;
 	margin: 0 auto;
+}
+md-autocomplete.gbTextBox{
+	width: 350px;
+	margin: auto;
 }
 
 md-autocomplete.md-default-theme button md-icon path, md-autocomplete button md-icon path {

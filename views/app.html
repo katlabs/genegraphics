@@ -8,8 +8,10 @@
 		<d3-genes data="geneData" 
 							settings="graphSettings" 
 							genomes="genomesHash" 
+							copy="copy"
 							on-click="selectGene(index, x, y)" 
 							on-click-genome="selectGenome(index, x, y)" 
+							on-click-paste="addToClipboard(index)"
 							on-mouse-over-gene="changeDisplayedFunction(newfunction)">
 		</d3-genes>
 	</div>

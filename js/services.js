@@ -8,6 +8,8 @@
 		geneSvc.geneData = [];
 		geneSvc.genomesHash = {};
 		geneSvc.maxVertOff = 0;
+		geneSvc.maxGeneFontSize = "12";
+		geneSvc.maxGenomeFontSize = "12";
 		
 		geneSvc.updateGene = function(gData, maxVertOff) {
 			this.maxVertOff = gData[gData.length-1]['currLane'] + 2;
@@ -16,6 +18,20 @@
 				return coll;
 			}, this.geneData);
 			this.updateGenomesHash(this.geneData);
+			$rootScope.$broadcast('updateGeneData');
+		}
+		
+		geneSvc.updateGeneNames = function(){
+			for (var i = 0; i < this.geneData.length; i++) {
+				try {
+					var $tempdom = $(this.geneData[i]['namehtml']);
+					this.geneData[i].name = $tempdom[0].textContent;
+				}
+				catch (err) {
+					this.geneData[i].name = this.geneData[i].namehtml;
+				}
+			}
+			$rootScope.$broadcast('updateGeneData');
 		}
 		
 		geneSvc.updateGenomesHash = function(gData) {
@@ -27,7 +43,6 @@
 					this.genomesHash[gData[i].genomehtml] = [i];
 				}
 			}
-			$rootScope.$broadcast('updateGeneData');
 		}
 		
 		geneSvc.clearGenes = function() {
@@ -49,18 +64,6 @@
 			return maxwidth;
 		}
 		
-		geneSvc.hideSmallGeneLabels = function(data, maxwidth, graphwidth) {
-			for (var i = 0; i < data.length; i++){
-				var featureLength = ((data[i].size / maxwidth) * graphwidth);
-				if (featureLength < 45){
-					data[i].labelhidden = true;
-				}
-				else
-					data[i].labelhidden = false;
-			}
-			return data;
-		}
-		
 		return geneSvc;
 	}])
 	.factory("popupMenuService", [ '$rootScope', function($rootScope){
@@ -76,6 +79,7 @@
 		popupMenuService.ScaleDialogVisible;
 		popupMenuService.GlobalGenomeVisible;
 		popupMenuService.GlobalGeneVisible;
+		popupMenuService.GeneCPDialogVisible;
 		
 		popupMenuService.updateGBSelect = function(newStatus){
 			this.GBSelectVisible = newStatus;
@@ -87,6 +91,7 @@
 			this.ScaleDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateExportPanel = function(newStatus){
@@ -99,6 +104,7 @@
 			this.ScaleDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateGeneMenu = function(newStatus){
@@ -111,6 +117,7 @@
 			this.ScaleDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateGenomeMenu = function(newStatus){
@@ -123,6 +130,7 @@
 			this.ScaleDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateGraphSizeDialog = function(newStatus){
@@ -135,6 +143,7 @@
 			this.ScaleDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateLaneDialog = function(newStatus){
@@ -147,6 +156,7 @@
 			this.ScaleDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateScaleDialog = function(newStatus){
@@ -159,6 +169,7 @@
 			this.GenomeMenuVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateGlobalGenome = function(newStatus){
@@ -171,6 +182,7 @@
 			this.GeneMenuVisible = false;
 			this.GenomeMenuVisible = false;
 			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		popupMenuService.updateGlobalGene = function(newStatus){
@@ -183,6 +195,21 @@
 			this.GeneMenuVisible = false;
 			this.GenomeMenuVisible = false;
 			this.GlobalGenomeVisible = false;
+			this.GeneCPDialogVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+		
+		popupMenuService.updateGeneCPDialog = function(newStatus){
+			this.GeneCPDialogVisible = newStatus;
+			this.ScaleDialogVisible = false;
+			this.LaneDialogVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.GBSelectVisible = false;
+			this.ExportPanelVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
 		

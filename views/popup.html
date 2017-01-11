@@ -5,14 +5,33 @@
 	</button>
 	
 	<!-- Selection of genbank files -->
-	<div id="GBSelect" class="popupcontentsglb" ng-show="showGBSelect">
+	<div id="GBSelect" ng-controller="gbAutoCompCtrl" class="popupcontentsglb" ng-show="showGBSelect">
 		<h4>Import Genbank File from NCBI</h4> 
-		Genbank ID: <input type="text" ng-model="gb.genbankID" style="width: 140px;"/><br>
-		Region:<br> 
-		<form action="">
-			<input type="radio" name="sequence" label="whole" value="whole" ng-model="gb.seqRange" selected="true">Whole sequence<br>
-			<input type="radio" name="sequence" label="custom" value="custom" ng-model="gb.seqRange" >Custom region:<br>	
-		</form>
+		<div ng-controller="gbAutoCompCtrl" layout="column" ng-cloak>
+			<md-autocomplete
+					class="gbTextBox"
+					ng-disabled="false"
+					md-no-cache="false"
+					md-selected-item="selectedItem"
+					md-search-text="searchText"
+					md-selected-item-change="gbItemChanged(item, searchText)"
+					md-items="item in querySearch(searchText)"
+					md-item-text="item.display"
+					md-min-length="0"
+					placeholder="Enter organism name or Genbank ID">
+				<md-item-template>
+					<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.display}}</span>
+				</md-item-template>
+				<md-not-found>
+					{{searchText}}.
+				</md-not-found>
+			</md-autocomplete>
+		</div><br/>
+		Region: 
+		<md-radio-group ng-model="gb.seqRange">
+			<md-radio-button name="sequence" value="whole" class="md-primary">Whole sequence</md-radio-button>
+			<md-radio-button name="sequence" value="custom" class="md-primary">Custom region:</md-radio-button>
+		</md-radio-group>
 			from: <input type="number" ng-model="gb.seqRangeStart"> to: <input type="number" ng-model="gb.seqRangeEnd"><br>
 		<button class="btn1 md-button md-raised md-primary" ng-click="submitNCBIQuery();" style="right:0;">Submit</button><br>
 		<md-progress-linear ng-show="gb.loadingFile" md-mode="indeterminate"></md-progress-linear>
@@ -33,7 +52,7 @@
 		<div layout="row" layout-align="space-between center">
 			<h4>Edit Gene Properties</h4> 
 			<div>
-				<button class="icoIndivBtn md-icon-button">
+				<button class="icoIndivBtn md-icon-button" ng-click="openPopup('genecpDialog');">
 					<md-tooltip>
 						Copy color settings
 					</md-tooltip>
@@ -41,7 +60,7 @@
 				</button>
 				<button class="icoIndivBtn md-icon-button" ng-click="toggleLockGene(selectedGene)">
 					<md-tooltip>
-						Lock gene label
+						{{geneData[selectedGene]['genelocked'] === true ? 'Unlock' : 'Lock'}} gene label
 					</md-tooltip>
 					<md-icon class="material-icons md-18 blueicon">{{geneData[selectedGene]['genelocked'] === true ? 'lock_outline' : 'lock_open'}}</md-icon>
 				</button>
@@ -60,7 +79,7 @@
 				</spectrum-colorpicker>
 				<md-tooltip>Gene color</md-tooltip>
 			</div>
-		</div><br>
+		</div>
 	</div>
 	
 	<!-- Menu for editing a genome name  -->
@@ -69,7 +88,7 @@
 			<h4>Edit Genome Name</h4>
 			<button class="icoIndivBtn md-icon-button" ng-click="toggleLockGenome(genome.newGenome)">
 				<md-tooltip>
-					Lock genome label
+					{{geneData[genomesHash[genome.newGenome][0]]['genomelocked'] === true ? 'Unlock' : 'Lock'}} genome label
 				</md-tooltip>
 				<md-icon class="material-icons md-18 blueicon">{{geneData[genomesHash[genome.newGenome][0]]['genomelocked'] === true ? 'lock_outline' : 'lock_open'}}</md-icon>
 			</button>
@@ -199,9 +218,9 @@
 				<md-tooltip>Label color</md-tooltip>
 			</div>
 			<div id="TB2g3" class="customBtnGrp">
-				<button id="unlocklabels" class="icoFormatBtn md-icon-button">
+				<button id="unlocklabels" class="icoFormatBtn md-icon-button" ng-click="unlockLabels((showGlobalGenome ? 'genome' : 'gene'));">
 					<md-tooltip>
-						Unlock {{showGlobalGenome ? 'genome' : 'gene'}} labels
+						Unlock all {{showGlobalGenome ? 'genome' : 'gene'}} labels
 					</md-tooltip>
 					<md-icon class="material-icons md-16 blueicon">lock_open</md-icon>
 				</button>
@@ -227,5 +246,21 @@
 				</md-not-found>
 			</md-autocomplete>
 		</div>
+	</div>
+
+	<!-- Gene copy/paste Dialog -->
+	<div id="geneCPDialog" ng-show="showGeneCPDialog">
+		<h4>Paste gene color settings</h4>
+			Choose which attributes to apply, then click on each gene you would like the attributes applied to, and click "Paste".<br/><br/>
+			<div>
+				<md-checkbox ng-model="copy.settings.genecolor.value">
+					{{copy.settings.genecolor.label}}
+				</md-checkbox><span id="colorbox" style="background-color: {{geneData[selectedGene]['color']}};"></span><br/>
+				<md-checkbox ng-model="copy.settings.labeltext.value">
+					{{copy.settings.labeltext.label}}
+				</md-checkbox><span id="labeltext">{{geneData[selectedGene]['name']}}</span><br/>
+			</div>
+		<span >Selected <strong>{{copy.geneClipboard.length}}</strong> gene<span ng-if="copy.geneClipboard.length!=1">s</span>.</span>
+		<button class="btn1 md-button md-raised md-primary" ng-click="clickPaste()" style="position:absolute; right: 20px; bottom: 10px;">Paste</button>
 	</div>
 </div>

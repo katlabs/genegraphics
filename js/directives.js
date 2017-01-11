@@ -23,11 +23,15 @@
 					data: "=",
 					genomes: "=genomes",
 					settings: "=settings",
+					copy: "=copy",
 					onClick: "&onClick",
+					onClickPaste: "&onClickPaste",
 					onClickGenome: "&onClickGenome",
 					onMouseOverGene: "&onMouseOverGene"
 				},
 				link: function(scope, iElement, iAttrs) {
+					var maxGeneFontSize;
+					var	maxGenomeFontSize;
 					
 					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
@@ -53,11 +57,47 @@
 						}
 					);
 					
+					// get max font sizes
+					var maxFontSizes = function(gdata){
+						maxGeneFontSize = 0;
+						maxGenomeFontSize = 0;
+						for (var i=0; i < gdata.length; i++){
+							var genehtml = gdata[i]['namehtml'];
+							var re = /font-size:\s(\d+)pt;/g
+							var match = re.exec(genehtml)
+							while (match != null){
+								if (parseInt(match[1]) > maxGeneFontSize){
+									maxGeneFontSize = parseInt(match[1]);
+								}
+								match = re.exec(genehtml);
+							}
+							
+							var genomehtml = gdata[i]['genomehtml'];
+							var match = re.exec(genomehtml);
+							while (match != null){
+								if (parseInt(match[1]) > maxGenomeFontSize){
+									maxGenomeFontSize = parseInt(match[1]);
+								}
+								match = re.exec(genomehtml);
+							}
+						}
+						if (maxGeneFontSize==0){maxGeneFontSize=12};
+						if (maxGenomeFontSize==0){maxGenomeFontSize=12};
+					}
+					
 					// re-render when there is a change in the data
 					scope.$watch('data', function(newVals, oldVals) {
 						scope.settings.maxwidth = geneService.getMaxWidth(newVals);
 						geneService.updateGenomesHash(newVals);
+						geneService.updateGeneNames();
+						maxFontSizes(newVals);
 						return scope.render(newVals);
+					}, true);
+					
+					scope.$watch('copy.geneClipboard', function(newVal, oldVal) {
+						if (newVal != oldVal){
+							return scope.render(scope.data);
+						}
 					}, true);
 					
 					scope.$watch('settings', function(newVal, oldVal) {
@@ -76,18 +116,14 @@
 					scope.render = function(data){
 						
 						//console.log("render " + rennum);
-						rennum = rennum + 1;
+						//rennum = rennum + 1;
 						
 						svg.selectAll("*").remove();
-						
-						//console.log(scope.data);
 						
 						// do nothing if there is no data
 						if (data.length <= 0) {
 							return;
 						}
-						
-						//console.log("rendering graph...");
 						
 						var graphwidth = parseInt(scope.settings.graphwidth);
 						var featureheight = parseInt(scope.settings.featureheight);
@@ -101,40 +137,37 @@
 						var globalMaxY = 0;
 						
 						var getGeneFontSize = function(d, i){
-							var patt = /font-size: \d+/g;
-							var res = patt.exec(d.name);
-							if (res != null){
-								return parseInt(res[0].substring(11));
+							var result = 0;
+							var genehtml = d.namehtml;
+							var re = /font-size:\s(\d+)pt;/g
+							var match = re.exec(genehtml)
+							while (match != null){
+								if (parseInt(match[1]) > result){
+									result = parseInt(match[1]);
+								}
+								match = re.exec(genehtml);
 							}
-							else return 12;
+							if (result==0){result=12};
+							return result;
 						}
 						
 						var getGenomeFontSize = function(d, i){
-							var patt = /font-size: \d+/g;
-							var res = patt.exec(d.genome);
-							if (res != null){
-								return parseInt(res[0].substring(11));
+							var result = 0;
+							var genomehtml = d.genomehtml;
+							var re = /font-size:\s(\d+)pt;/g
+							var match = re.exec(genomehtml)
+							while (match != null){
+								if (parseInt(match[1]) > result){
+									result = parseInt(match[1]);
+								}
+								match = re.exec(genomehtml);
 							}
-							else return 12;
+							if (result==0){result=12};
+							return result;
 						}
 						
-						var maxGeneFontSize = 1;
-						var maxGenomeFontSize = 1;
-						
-						for (var j = 0; j < data.length; j++){
-							var geneFontSize = getGeneFontSize(data[j], j);
-							if (geneFontSize > maxGeneFontSize){
-								maxGeneFontSize = geneFontSize;
-							}
-							var genomeFontSize = getGenomeFontSize(data[j], j);
-							if (genomeFontSize > maxGenomeFontSize){
-								maxGenomeFontSize = genomeFontSize;
-							}
-						}
-						var buffer = (maxGeneFontSize+maxGenomeFontSize);
-						//console.log(scope.genomes);
-						//(maxGeneFontSize+3+maxGenomeFontSize*2)
-						
+						var buffer = (maxGenomeFontSize*1.33)+(maxGeneFontSize*1.33);
+						var scaleoffset = 35;
 						var whichLane = function(d, i) {
 						// Function to determine the first y position of the feature
 						
@@ -158,15 +191,15 @@
 								}
 								lastLaneOffset = laneOffset;
 								if (scope.settings.scaleOn == false){
-									return buffer* ((currLane)+laneOffset) + ((laneOffset+1)*buffer) + (featureheight*((currLane-1) + laneOffset));
+									return buffer*(currLane + laneOffset) + featureheight*(currLane + laneOffset);
 								}
-								return buffer* ((currLane+1)+laneOffset) + ((laneOffset+1)*buffer) + (featureheight*(currLane + laneOffset));
+								return scaleoffset + buffer*(currLane + laneOffset) + featureheight*(currLane + laneOffset);
 							}
 							else {
 								if (scope.settings.scaleOn == false){
-									return 2*buffer*(laneOffset+1);
+									return (buffer*laneOffset) + buffer*(laneOffset+1) + featureheight;
 								}
-								return 65+(2*buffer*(laneOffset+1));
+								return scaleoffset + (buffer*laneOffset) + buffer*(laneOffset+1) + featureheight;
 							}
 						}
 						var prevend = 0;
@@ -224,6 +257,31 @@
 							}
 						}
 						
+						var getYPath = function(d, i){
+							var lane = whichLane(d, i);
+							var result = lane;
+							return result;
+						}
+						
+						var getYGeneLabel = function(d, i){
+							var lane = whichLane(d, i);
+							if (d.labelvertpos == "top"){
+								return lane - (getGeneFontSize(d,i)*1.33) -5;
+							}
+							else if (d.labelvertpos == "middle"){
+								return lane + (featureheight/2) - (getGeneFontSize(d,i)*0.665);
+							}
+							else if (d.labelvertpos == "bottom"){
+								return lane + featureheight + 5;
+							}
+						}
+						
+						var getYGenomeLabel = function(d, i){
+							var lane = whichLane(d, i);
+							var result = lane - ((maxGeneFontSize*1.33) + (maxGenomeFontSize*1.33)) -5;
+							return result;
+						}
+						
 						var lineFunction = d3.svg.line()
 															.x(function(d) { return d.x; })
 															.y(function(d) { return d.y; })
@@ -264,14 +322,21 @@
 							.enter()
 								.append("path")
 								.on("mouseover", function(d, i){ return scope.onMouseOverGene({newfunction:d.genefunction});})
-								.on("click", function(d, i){ d3.event.stopPropagation(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});})
+								.on("click", function(d, i){ 
+									if(scope.settings.pastingGenes == true){
+										return scope.onClickPaste({index: i});
+									}
+									else {
+										return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});
+									} 
+								})
 								.attr("d", function(d, i) {
 									// get start and stop positions relative to max size
 									if (d.strand === '+')
 										var x1 = getFeatureStart(d, i);
 									else if (d.strand === '-')
 										var x1 = getFeatureEnd(d, i);
-									var y1 = whichLane(d, i);
+									var y1 = getYPath(d, i);
 									if (d.strand === '+')
 										var x3 = getFeatureEnd(d, i);
 									else if (d.strand === '-')
@@ -317,9 +382,17 @@
 									if (d.genevisible == false){
 										return "transparent";
 									}
+									else if(scope.settings.pastingGenes && (scope.copy.geneClipboard.indexOf(i) != -1)){
+										return "red";
+									}
 									else return "black";
 								})
-								.attr("stroke-width", "2")
+								.attr("stroke-width", function(d,i) { "2"
+									if (scope.settings.pastingGenes && (scope.copy.geneClipboard.indexOf(i) != -1)){
+										return "4";
+									}
+									else return "2";
+								})
 								.attr("z-index", 95)
 								
 						var prevCurrLane = -1;
@@ -337,15 +410,25 @@
 								if ((isInArray(i, scope.genomes[d.genomehtml])) && (i == Math.min.apply(null, scope.genomes[d.genomehtml]))){
 									var ind = i;
 									var text = d3.select(this)
-										.on("click", function(){ d3.event.stopPropagation(); return scope.onClickGenome({index: ind, x: d3.event.clientX, y: d3.event.clientY});})
+										.on("click", function(d, i){ 
+											d3.event.stopPropagation();
+											if(scope.settings.pastingGenes == true){
+												return;
+											}
+												else {
+												return scope.onClickGenome({index: ind, x: d3.event.clientX, y: d3.event.clientY});
+											}
+										})
 										.attr("class", "genomelabel")
 										.attr("y", function(d, i){
-											return whichLane(d, i)-buffer*1.3})
+											return getYGenomeLabel(d, i);})
 										.attr("x", function(d, i){return 0;})
-										.attr("height", 35)
+										.attr("height", function(d,i){
+											return (maxGenomeFontSize*1.33)+(maxGeneFontSize*1.33);
+										})
 										.attr("width", function() {return graphwidth-20;} )
 										.attr("z-index", 100)
-										.append("xhtml:body")
+										.append("xhtml:span")
 											.html(d.genomehtml)
 								}
 								else {
@@ -358,42 +441,41 @@
 							.enter()
 							.append("foreignObject")
 							.on("mouseover", function(d, i){ return scope.onMouseOverGene({newfunction:d.genefunction});})
-							.on("click", function(d, i){ d3.event.stopPropagation(); return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});})
-							.attr("class", "genelabel")
-							.attr("y", function(d, i){
-								var fontsize = getGeneFontSize(d, i);
-								if (d.labelvertpos === 'middle') {
-									return (d.labelpos.y+(featureheight/2)-(fontsize/1.5));
+							.on("click", function(d, i){ 
+								if(scope.settings.pastingGenes == true){
+									return scope.onClickPaste({index: i});
 								}
-								else if (d.labelvertpos === 'top') {
-									return d.labelpos.y - (fontsize*1.5);
+									else {
+									return scope.onClick({index: i, x: d3.event.clientX, y: d3.event.clientY});
 								}
-								else if (d.labelvertpos === 'bottom') {
-									return d.labelpos.y + (featureheight);
-							}})
-							.attr("x", function(d, i){return d.labelpos.x;})
-							.attr("height", function(d, i){
-								var fontsize = getGeneFontSize(d, i);
-								console.log(fontsize+10);
-								return fontsize+10;
 							})
-							.attr("width", function(d,i) {
-								if (d.strand === '+') {
-									var x1 = getFeatureStart(d, i);
-									var x3 = getFeatureEnd(d, i);}
-								if (d.strand === '-') {
-									var x1 = getFeatureEnd(d, i);
-									var x3 = getFeatureStart(d, i)}
-								var x2 = ((x3 - x1) * 0.8) + x1;
-								var result = Math.abs(x1 - x2);
-								return result;} )
+							.attr("class", "genelabel")
+							.attr("width", 300)
+							.attr("height", featureheight)
+							.attr("y", function(d, i){
+								return getYGeneLabel(d,i);
+							})
+							.attr("x", function(d, i){return d.labelpos.x;})
 							.attr("z-index", 100)
-							.append("xhtml:body")
+							.append("xhtml:span")
 							.html(function(d,i){
-								if (!d.genevisible || d.labelhidden){
+								if (!d.genevisible){
 									return;
 								}
 								else return d.namehtml;
+							});
+							
+							svg.selectAll('.genelabel')
+							.each(function(d,i){
+								var fo = d3.select(this);
+									fo.attr("height", function(d,i){
+										var body = d3.select(this).select('span');
+										return body[0][0].getBoundingClientRect().height;
+									})
+									.attr("width", function(d,i){
+										var body = d3.select(this).select('span');
+										return body[0][0].getBoundingClientRect().width;
+									});
 							});
 							
 							svg.attr("height", globalMaxY);
@@ -438,21 +520,20 @@
 							var pnguri = canvas.toDataURL();
 							document.getElementById("pnglink").href = pnguri;
 						}
-						
+
 						// Create TSV URI
-						var outputtext = "genome\tcurrLane\tlabelhidden\tgenevisible\tgenomehidden\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tlabelhorzpos\tname\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
+						var outputtext = "genome\tgenomehtml\tgenevisible\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tname\tnamehtml\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
 						var genelines = "";
 						for (var i = 0; i < scope.data.length; i++) {
-							var genomename = scope.data[i].genome;
-							genelines += genomename + "\t";
-							genelines += scope.data[i].currLane + "\t";
-							genelines += scope.data[i].labelhidden + "\t";
+							genelines += scope.data[i].genome + "\t";
+							genelines += scope.data[i].genomehtml + "\t";
 							genelines += scope.data[i].genevisible + "\t";
-							genelines += scope.data[i].genomehidden + "\t";
 							genelines += scope.data[i].genelocked + "\t";
 							genelines += scope.data[i].genomelocked + "\t";
 							genelines += scope.data[i].labelpos.x + "," + scope.data[i].labelpos.x + "\t";
+							genelines += scope.data[i].labelvertpos + "\t";
 							genelines += scope.data[i].name + "\t";
+							genelines += scope.data[i].namehtml + "\t";
 							genelines += scope.data[i].color + "\t";
 							genelines += scope.data[i].size + "\t";
 							genelines += scope.data[i].start + "\t";
@@ -480,7 +561,6 @@
 					element.on('change', function(onChangeEvent) {
 						var reader = new FileReader();
 						var file = (onChangeEvent.srcElement || onChangeEvent.target).files[0];
-						//console.log(file);
 						if (typeof file === 'undefined'){
 							return;
 						}
