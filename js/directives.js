@@ -36,6 +36,7 @@
 					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
 							.append("svg")
+							.attr("xmlns", "http://www.w3.org/2000/svg")
 							.attr("width", scope.settings.graphwidth)
 							.attr("id", "svg");
 					
@@ -168,8 +169,6 @@
 						
 						var genomeBuffer = (maxGenomeFontSize*1.8);
 						var geneBuffer = (maxGeneFontSize*1.8);
-						console.log(genomeBuffer);
-						console.log(geneBuffer);
 						var scaleBuffer = 70;
 						var whichLane = function(d, i) {
 						// Function to determine the first y position of the feature
@@ -317,7 +316,6 @@
 								.attr("dominant-baseline", "text-before-edge")
 							}
 							
-						
 						//create the arrow for genes
 						svg.selectAll("path")
 							.data(scope.data)
@@ -501,7 +499,7 @@
 				}
 			};
 		}])
-		.directive('ngExportbutton', ['d3', function(d3) {
+		.directive('ngExportbutton', ['d3', '$http', function(d3, $http) {
 			return {
 				restrict: 'AE',
 				scope: {
@@ -524,8 +522,8 @@
 						document.getElementById("svglink").href = svguri;
 						
 						// Create PNG URI
-						var img = new Image();
-						img.src = svguri;
+						/*var img = new Image();
+						img.setAttribute('src', svguri);
 						var w = svg.attr('width');
 						var h = svg.attr('height');
 						var canvas = document.createElement("canvas");
@@ -537,7 +535,21 @@
 							canvas.getContext("2d").drawImage(img,0,0,w,h);
 							var pnguri = canvas.toDataURL();
 							document.getElementById("pnglink").href = pnguri;
-						}
+						}*/
+
+						// Render PNG serverside
+                        document.getElementById("pnglink").innerHTML = "Loading...";
+                        var req = {
+                            method: 'POST',
+                            url: '/cgi-bin/svgtopng.py',
+                            data: $.param({d: new XMLSerializer().serializeToString(svg[0][0])}), 
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }
+                        $http(req).then(function successCallback(response) {
+                            document.getElementById("pnglink").innerHTML = "Export PNG";
+                            document.getElementById("pnglink").href = response.data;
+                            console.log(response.data);
+                        });
 
 						// Create TSV URI
 						var outputtext = "genome\tgenomehtml\tgenevisible\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tname\tnamehtml\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
