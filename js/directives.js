@@ -4,16 +4,16 @@
 	angular.module('geneGraphApp.directives')
 		.directive('updateOnEnter', function() {
 			return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function(scope, element, attrs, ctrl) {
-            element.on("keyup", function(ev) {
-                if (ev.keyCode == 13) {
-                    ctrl.$commitViewValue();
-                    scope.$apply(ctrl.$setTouched);
-                }
-            });
-        }
+				restrict: 'A',
+				require: 'ngModel',
+				link: function(scope, element, attrs, ctrl) {
+					element.on("keyup", function(ev) {
+						if (ev.keyCode == 13) {
+							ctrl.$commitViewValue();
+							scope.$apply(ctrl.$setTouched);
+						}
+					});
+				}
 			}
 		})
 		.directive('d3Genes', ['d3', 'geneService', function(d3, geneService) {
@@ -35,10 +35,10 @@
 					
 					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
-							.append("svg")
-							.attr("xmlns", "http://www.w3.org/2000/svg")
-							.attr("width", scope.settings.graphwidth)
-							.attr("id", "svg");
+						.append("svg")
+						.attr("xmlns", "http://www.w3.org/2000/svg")
+						.attr("width", scope.settings.graphwidth)
+						.attr("id", "svg");
 					
 					// maximum width of the data
 					var maxwidth = 0;
@@ -51,10 +51,10 @@
 					};
 					
 					scope.$watch(function(){
-							return angular.element(window)[0].innerWidth;
+						return angular.element(window)[0].innerWidth;
 						}, function(){
-							//console.log("watch innerWidth");
-							return scope.render(scope.data);
+						//console.log("watch innerWidth");
+						return scope.render(scope.data);
 						}
 					);
 					
@@ -515,43 +515,7 @@
 							console.log(scope.data);
 							return;
 						}
-						
-						// Create SVG URI
-						var svg = d3.select("svg");
-						var svguri = 'data:image/svg+xml;base64,'+window.btoa(unescape(encodeURIComponent((new XMLSerializer).serializeToString(svg[0][0]))));
-						document.getElementById("svglink").href = svguri;
-						
-						// Create PNG URI
-						/*var img = new Image();
-						img.setAttribute('src', svguri);
-						var w = svg.attr('width');
-						var h = svg.attr('height');
-						var canvas = document.createElement("canvas");
-						element.append(canvas);
-						canvas.width = w;
-						canvas.height = h;
-						canvas.style.display="none";
-						img.onload = function(){
-							canvas.getContext("2d").drawImage(img,0,0,w,h);
-							var pnguri = canvas.toDataURL();
-							document.getElementById("pnglink").href = pnguri;
-						}*/
-
-						// Render PNG serverside
-                        document.getElementById("pnglink").innerHTML = "Loading...";
-                        var req = {
-                            method: 'POST',
-                            url: '/cgi-bin/svgtopng.py',
-                            data: $.param({d: new XMLSerializer().serializeToString(svg[0][0])}), 
-                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                        }
-                        $http(req).then(function successCallback(response) {
-                            document.getElementById("pnglink").innerHTML = "Export PNG";
-                            document.getElementById("pnglink").href = response.data;
-                            console.log(response.data);
-                        });
-
-						// Create TSV URI
+						// Create TSV String
 						var outputtext = "genome\tgenomehtml\tgenevisible\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tname\tnamehtml\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
 						var genelines = "";
 						for (var i = 0; i < scope.data.length; i++) {
@@ -573,8 +537,34 @@
 						}
 						outputtext += genelines;
 						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"scaleOn\":\"" + scope.settings.scaleOn +  "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\"}";
-						var tsvuri = "data:," + encodeURI(outputtext);
-						document.getElementById("tsvlink").href = tsvuri;
+						var tsvstring = outputtext;
+
+						// Render PNG and SVG serverside
+						var svg = d3.select("svg")[0][0];
+						document.getElementById("pnglink").innerHTML = "Loading...";
+						document.getElementById("svglink").innerHTML = "Loading...";
+						document.getElementById("tsvlink").innerHTML = "Loading...";
+
+						var req = {
+							method: 'POST',
+							url: '/cgi-bin/svgtopng.py',
+							data: $.param({svgdata: new XMLSerializer().serializeToString(svg), tsvdata: tsvstring }), 
+							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+						}
+						$http(req).then(function successCallback(response) {
+							var files = response.data.split("\n");
+							var pnglink = document.getElementById("pnglink");
+							pnglink.innerHTML = "Export PNG";
+							pnglink.href = files[0];
+							var svglink = document.getElementById("svglink");
+							svglink.innerHTML = "Export SVG";
+							svglink.href = files[1];
+							var tsvlink = document.getElementById("tsvlink");
+							tsvlink.innerHTML = "Export TSV";
+							tsvlink.href = files[2];
+							console.log(response.data);
+						});
+
 						
 						scope.showexportpanel = true;
 					});

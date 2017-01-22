@@ -30,9 +30,9 @@
 			$scope.copy = {}
 			$scope.copy.geneClipboard = [];
 			$scope.copy.settings = { genecolor:{label:"Gene Color", value:true},
-															 labelstyle:{label:"Label Style", value:false},
-															 labelpos:{label:"Label Position", value:false},
-															 labeltext:{label:"Label Text", value:false}
+				labelstyle:{label:"Label Style", value:false},
+				labelpos:{label:"Label Position", value:false},
+				labeltext:{label:"Label Text", value:false}
 			}
 			
 			$scope.genome = {};
