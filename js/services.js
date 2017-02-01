@@ -11,7 +11,7 @@
 		geneSvc.maxGeneFontSize = "12";
 		geneSvc.maxGenomeFontSize = "12";
 		
-		geneSvc.updateGene = function(gData, maxVertOff) {
+		geneSvc.updateGene = function(gData) {
 			this.maxVertOff = gData[gData.length-1]['currLane'] + 2;
 			this.geneData = gData.reduce( function(coll, item){
 				coll.push(item);

@@ -6,8 +6,17 @@
 			
 			// Set up graph container size
 			document.getElementById("graphcontainer").style.height = window.innerHeight - 200 + "px";
-			
+
 			$scope.graphSettings = {};
+			if(typeof(Storage!=="undefined")) {
+				$scope.graphSettings.lsSupport = true;
+				console.log("localStorage supported.");
+			}
+			else{
+				$scope.graphSettings.lsSupport = false;
+				console.alert("Your browser does not support saving. Please export your graphic manually on a regular basis so not to lose your data");
+			}
+
 			$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;
 			$scope.graphSettings.maxwidth = 0;
 			$scope.graphSettings.featureheight = 50;
@@ -63,13 +72,6 @@
 				localStorageKey: "spectrum.allcolors"
 			};
 			
-			$scope.$watch("globalLabels['genomeColor']", function(newVal, oldVal){
-				$scope.globalFontColor('genomes', newVal);
-			}, true);
-			
-			$scope.$watch("globalLabels['geneColor']", function(newVal, oldVal){
-				$scope.globalFontColor('genes', newVal);
-			}, true);
 			
 			$scope.tinymceOpts = {
 				height: 50,
@@ -136,8 +138,8 @@
 							var btn = this;
 							document.addEventListener("mousemove", function(){
 								btn.disabled(popupMenuService.GeneMenuVisible == false);
-								if (typeof $scope.geneData[$scope.selectedGene] == 'object'){
-									btn.active($scope.geneData[$scope.selectedGene]['labelvertpos'] == 'top');
+								if (typeof $scope.geneData[$scope.graphSettings.selectedGene] == 'object'){
+									btn.active($scope.geneData[$scope.graphSettings.selectedGene]['labelvertpos'] == 'top');
 								}
 								if (popupMenuService.GeneMenuVisible == false) {btn.active(false);}
 							});
@@ -153,8 +155,8 @@
 							var btn = this;
 							document.addEventListener("mousemove", function(){
 								btn.disabled(popupMenuService.GeneMenuVisible == false);
-								if (typeof $scope.geneData[$scope.selectedGene] == 'object'){
-									btn.active($scope.geneData[$scope.selectedGene]['labelvertpos'] == 'middle');
+								if (typeof $scope.geneData[$scope.graphSettings.selectedGene] == 'object'){
+									btn.active($scope.geneData[$scope.graphSettings.selectedGene]['labelvertpos'] == 'middle');
 								}
 								if (popupMenuService.GeneMenuVisible == false) {btn.active(false);}
 							});
@@ -170,25 +172,25 @@
 							var btn = this;
 							document.addEventListener("mousemove", function(){
 								btn.disabled(popupMenuService.GeneMenuVisible == false);
-								if (typeof $scope.geneData[$scope.selectedGene] == 'object'){
-									btn.active($scope.geneData[$scope.selectedGene]['labelvertpos'] == 'bottom');
+								if (typeof $scope.geneData[$scope.graphSettings.selectedGene] == 'object'){
+									btn.active($scope.geneData[$scope.graphSettings.selectedGene]['labelvertpos'] == 'bottom');
 								}
 								if (popupMenuService.GeneMenuVisible == false) {btn.active(false);}
 							});
 						}
 					});
 					editor.buttons.valigntop.onclick = function() {
-							$scope.geneData[$scope.selectedGene]['labelvertpos'] = 'top';
+							$scope.geneData[$scope.graphSettings.selectedGene]['labelvertpos'] = 'top';
 							this.active(true);
 							$scope.$apply();
 						}
 					editor.buttons.valignmid.onclick = function() {
-							$scope.geneData[$scope.selectedGene]['labelvertpos'] = 'middle';
+							$scope.geneData[$scope.graphSettings.selectedGene]['labelvertpos'] = 'middle';
 							this.active(true);
 							$scope.$apply();
 						}
 						editor.buttons.valignbot.onclick = function() {
-							$scope.geneData[$scope.selectedGene]['labelvertpos'] = 'bottom';
+							$scope.geneData[$scope.graphSettings.selectedGene]['labelvertpos'] = 'bottom';
 							this.active(true);
 							$scope.$apply();
 						}
@@ -205,22 +207,40 @@
 					alreadyAlerted = true;
 				}
 			}
-			
+
 			$scope.geneData = geneService.geneData;
+
+			if($scope.graphSettings.lsSupport == true){
+				if(localStorage.savedData!=null && localStorage.savedData!=="[]"){
+					geneService.updateGene(JSON.parse(localStorage.savedData));
+				}
+				if(localStorage.savedSettings!=null){
+					$scope.graphSettings = JSON.parse(localStorage.savedSettings);
+				}
+			}
+			
 			$scope.$on('updateGeneData', function(){
 				$scope.geneData = geneService.geneData;
 				$scope.genomesHash = geneService.genomesHash;
 				$scope.graphSettings.maxwidth = geneService.getMaxWidth($scope.geneData);
+				if ($scope.graphSettings.lsSupport == true){
+					localStorage.setItem("savedData", JSON.stringify($scope.geneData));
+				}
 				checkScroll();
 			});
+
+			$scope.$watch('graphSettings', function(){
+				localStorage.setItem("savedSettings", JSON.stringify($scope.graphSettings));
+			}, true);
+
 			
 			$scope.$on('updateMenuStatus', function(){
 				$scope.graphSettings.pastingGenes = popupMenuService.GeneCPDialogVisible;
 				if ($scope.graphSettings.pastingGenes == false){
 					$scope.copy.geneClipboard = [];
 					$scope.copy.settings = { genecolor:{label:"Gene Color", value:true},
-															 labeltext:{label:"Label Text", value:false}
-															}
+											labeltext:{label:"Label Text", value:false}
+											}
 				}
 			});
 			
@@ -231,7 +251,7 @@
 				}
 				$("#popupbox").css("left", x);
 				$("#popupbox").css("top", y);
-				$scope.selectedGene = parseInt(index);
+				$scope.graphSettings.selectedGene = parseInt(index);
 				popupMenuService.updateGeneMenu(true);
 				$scope.$apply();
 			};
@@ -250,9 +270,9 @@
 			$scope.selectGenome = function(index, x, y){
 				$("#popupbox").css("left", x);
 				$("#popupbox").css("top", y);
-				$scope.selectedGene = parseInt(index);
-				$scope.genome.newGenome = $scope.geneData[$scope.selectedGene]['genomehtml'];
-				$scope.genome.oldGenome = $scope.geneData[$scope.selectedGene]['genomehtml'];
+				$scope.graphSettings.selectedGene = parseInt(index);
+				$scope.genome.newGenome = $scope.geneData[$scope.graphSettings.selectedGene]['genomehtml'];
+				$scope.genome.oldGenome = $scope.geneData[$scope.graphSettings.selectedGene]['genomehtml'];
 				popupMenuService.updateGenomeMenu(true);
         $scope.$apply();
 			};
@@ -289,8 +309,8 @@
 					$scope.genomesHash[$scope.genome.newGenome] = $scope.genomesHash[$scope.genome.oldGenome];
 					delete $scope.genomesHash[$scope.genome.oldGenome];
 				}
-				$scope.genome.newGenome = $scope.geneData[$scope.selectedGene]['genomehtml'];
-				$scope.genome.oldGenome = $scope.geneData[$scope.selectedGene]['genomehtml'];
+				$scope.genome.newGenome = $scope.geneData[$scope.graphSettings.selectedGene]['genomehtml'];
+				$scope.genome.oldGenome = $scope.geneData[$scope.graphSettings.selectedGene]['genomehtml'];
 				return;
 			}
 			
@@ -343,7 +363,7 @@
 					}
 					origName = change_name;
 					if (labeltype === 'genomes') {
-						$scope.selectedGene = i;
+						$scope.graphSettings.selectedGene = i;
 						$scope.genome.newGenome = change_name;
 						$scope.genome.oldGenome = $scope.geneData[i]['genomehtml'];
 						$scope.editGenomeName();
@@ -422,7 +442,7 @@
 					}
 					origName = change_name;
 					if (labeltype === 'genomes') {
-						$scope.selectedGene = i;
+						$scope.graphSettings.selectedGene = i;
 						$scope.genome.newGenome = change_name;
 						$scope.genome.oldGenome = $scope.geneData[i]['genomehtml'];
 						$scope.editGenomeName();
@@ -507,7 +527,7 @@
 					}
 					origName = change_name;
 					if (labeltype === 'genomes') {
-						$scope.selectedGene = i;
+						$scope.graphSettings.selectedGene = i;
 						$scope.genome.newGenome = change_name;
 						$scope.genome.oldGenome = $scope.geneData[i]['genomehtml'];
 						$scope.editGenomeName();
@@ -568,7 +588,7 @@
 					}
 					origName = change_name;
 					if (labeltype === 'genomes') {
-						$scope.selectedGene = i;
+						$scope.graphSettings.selectedGene = i;
 						$scope.genome.newGenome = change_name;
 						$scope.genome.oldGenome = $scope.geneData[i]['genomehtml'];
 						$scope.editGenomeName();
@@ -625,7 +645,7 @@
 					}
 					origName = change_name;
 					if (labeltype === 'genomes') {
-						$scope.selectedGene = i;
+						$scope.graphSettings.selectedGene = i;
 						$scope.genome.newGenome = change_name;
 						$scope.genome.oldGenome = $scope.geneData[i]['genomehtml'];
 						$scope.editGenomeName();
@@ -687,7 +707,7 @@
 						change_name = newstr1 + change_name + newstr2;
 					}
 					if (labeltype === 'genomes') {
-						$scope.selectedGene = i;
+						$scope.graphSettings.selectedGene = i;
 						$scope.genome.newGenome = change_name;
 						$scope.genome.oldGenome = $scope.geneData[i]['genomehtml'];
 						$scope.editGenomeName();
@@ -725,8 +745,10 @@
 			}, true);
 			
 			$scope.changeDisplayedFunction = function(newfunction){
-				$scope.graphSettings.displayedFunction = newfunction;
-				$scope.$apply();
+				if (!popupMenuService.GeneMenuVisible){
+					$scope.graphSettings.displayedFunction = newfunction;
+					$scope.$apply();
+				}
 			};
 			
 			$scope.changeGraphWidth = function(newWidth){
@@ -745,7 +767,7 @@
 			}
 			
 			$scope.clickPaste = function(){
-				var copy = $scope.selectedGene
+				var copy = $scope.graphSettings.selectedGene
 				for (var i = 0; i < $scope.copy.geneClipboard.length; i++){
 					var paste = $scope.copy.geneClipboard[i];
 					if ($scope.copy.settings.genecolor.value){
@@ -777,6 +799,15 @@
 				}
 			}
 			
+			$scope.$watch("globalLabels['genomeColor']", function(newVal, oldVal){
+				if(typeof($scope.genomesHash)!=='undefined'){
+					$scope.globalFontColor('genomes', newVal);
+				}
+			}, true);
+			
+			$scope.$watch("globalLabels['geneColor']", function(newVal, oldVal){
+				$scope.globalFontColor('genes', newVal);
+			}, true);
 			
 		}])
 		.controller('autoCompCtrl', function($scope) {
@@ -819,7 +850,7 @@
 			self.tabs = [
 				{title: 'Description', content:'views/description.html'},
 				{title: 'Gene Graphics App', content:'views/app.html'},
-				{title: 'Documentation', content:'views/doc.html'},
+				//{title: 'Documentation', content:'views/doc.html'},
 				{title: 'Tutorials', content:'views/tutorials.html'}
 			];
 		}])
@@ -970,7 +1001,7 @@
 							$scope.data.push(gene);
 						}
 					}
-					geneService.updateGene($scope.data, $scope.maxVertOff);
+					geneService.updateGene($scope.data);
 				}
 				
 			$scope.parseGB = function(lines) {
@@ -1074,7 +1105,7 @@
 						}
 						i = i+1;
 					}
-					geneService.updateGene($scope.data, $scope.maxVertOff);
+					geneService.updateGene($scope.data);
 				}
 				
 			$scope.parseFile = function($fileContent, $fileType){
@@ -1094,15 +1125,14 @@
 				}
 			}
 			
-			$scope.gbItemChanged = function(item){
-				if(typeof item !== 'undefined'){
+			$scope.gbItemChanged = function(item, searchtext){
+				if (typeof item !== 'undefined'){
 					$scope.gb.genbankID = item.id;
 				}
 			}
 			
 			$scope.gb = {};
 			$scope.gb.genbankID;
-			$scope.gb.seqRange = "whole";
 			$scope.gb.seqRangeStart;
 			$scope.gb.seqRangeEnd;
 			$scope.gb.statusMessage = "";
@@ -1116,44 +1146,41 @@
 					$scope.gb.statusMessage = "Please enter an organism or Genbank ID.";
 					return;
 				}
-				if ($scope.gb.seqRange == "whole") {
-					baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&id=";
+				if(!($scope.gb.seqRangeStart < $scope.gb.seqRangeEnd)){
+					$scope.gb.loadingFile = false;
+					$scope.gb.statusMessage = "Please enter a valid custom range.";
+					return;
 				}
-				else if ($scope.gb.seqRange == "custom") {
-					if(!($scope.gb.seqRangeStart < $scope.gb.seqRangeEnd)){
-						$scope.gb.loadingFile = false;
-						$scope.gb.statusMessage = "Please enter a valid custom range.";
-						return;
-					}
-					baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&seq_start=" 
-					+ $scope.gb.seqRangeStart + 
-					"&seq_stop=" 
-					+ $scope.gb.seqRangeEnd + 
-					"&id=";
-				}
+				baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&seq_start=" 
+				+ $scope.gb.seqRangeStart + 
+				"&seq_stop=" 
+				+ $scope.gb.seqRangeEnd + 
+				"&id=";
+
 				$http.get(baseURL + $scope.gb.genbankID).then(function parsePage(response) {
 					$scope.gb.loadingFile = false;
 					if(response.status == 200) {
 						var lines = response.data.match(/[^\r\n]+/g);
 						if(lines[0].substr(0,5)!="LOCUS") {
-							$scope.gb.statusMessage = "Invalid file format retrieved!";
+							$scope.gb.statusMessage = "Invalid file format retrieved.";
 							return;
 						} 
-						else if (response.data.length > 500000) {
-							$scope.gb.statusMessage = "File retrieved is too large to display, please select a custom range.";
+						var numbp = lines[0].split(/\s+/g)[2];
+						if (numbp > 100000){
+							$scope.gb.statusMessage = "Region is too large, please enter a region that does not exceed 100,000 bp.";
 							return;
 						}
-						else {
-							$scope.gb.statusMessage = "";
-							popupMenuService.updateMenuStatus(false);
-							$scope.graphSettings.currentFilesList.push("NCBI query: " + $scope.gb.genbankID);
-							$scope.parseGB(lines);
-						}
+						$scope.gb.statusMessage = "";
+						popupMenuService.updateMenuStatus(false);
+						$scope.graphSettings.currentFilesList.push("NCBI query: " + $scope.gb.genbankID);
+						$scope.parseGB(lines);
+						$scope.gb.genbankID = false;
 					}else{
 						$scope.gb.statusMessage = response.statusText;
+						$scope.gb.genbankID = false;
 					}
 				}, function errorCallback(response) {
-					$scope.gb.statusMessage = response.statusText;
+					$scope.gb.statusMessage = "Could not retrieve Genbank file for " +$scope.gb.genbankID + "\n" + response.statusText;
 				});
 			}
 			
@@ -1291,7 +1318,7 @@
 			
 			$scope.createData = function(){
 				console.log('get files');
-				var url = 'data/genomes.ids';
+				var url = 'data/genomes/genomes.ids';
 				$http.get(url).then(function parseData(response){
 					if(response.status == 200) {
 						var lines = response.data.match(/[^\r\n]+/g);
@@ -1305,7 +1332,6 @@
 				}, function errorCallback(response){
 					console.log(response.statusText);
 				});
-				console.log($scope.genomesList);
 			};
 			
 			$scope.querySearch = function querySearch (query) {
@@ -1318,7 +1344,7 @@
 				var lowercaseQuery = angular.lowercase(query);
 
 				return function filterFn(genome) {
-					return (genome.organism.toLowerCase().indexOf(lowercaseQuery) >= 0);
+					return (genome.display.toLowerCase().indexOf(lowercaseQuery) >= 0);
 				};
 			}
 			

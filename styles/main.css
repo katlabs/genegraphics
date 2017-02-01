@@ -347,3 +347,13 @@ input[type=range][orient=vertical]
 #statusmessage{
 	color: red;
 }
+
+h1 
+{
+font-family: 'Quicksand', sans-serif;
+}
+body
+{
+font-family: 'Raleway', sans-serif;
+}
+

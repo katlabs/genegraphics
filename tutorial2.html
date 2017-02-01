@@ -15,9 +15,9 @@
 		<img src="images/tutorial2/imgpublished.png">
 		<div class="bgcolored"><p>For simplicity, we will only be comparing the first two regions found in the image. The final image that we will be produce is shown below.</p></div>
 		<img src="images/tutorial2/imgfinal.png">
-		<div class="bgcolored"><p>We will show a comparison between the neighborhoods of the <i>folK</i> gene in two genomes, <i>Acinetobacter baylyi sp. ADP1</i> and <i>Salmonella enterica strain LT2</i>. Navigate to the "Gene Graphics" app at <a href="https://cogitokat.github.io/genegraphics" target="_blank">https://cogitokat.github.io/genegraphics</a>. Then, click on "Input" and "Choose a Genome". This option allows you to quickly import a whole genome or a specific region of a genome from NCBI Genbank.</p></div>
+		<div class="bgcolored"><p>We will show a comparison between the neighborhoods of the <i>folK</i> gene in two genomes, <i>Acinetobacter baylyi sp. ADP1</i> and <i>Salmonella enterica strain LT2</i>. Navigate to the "Gene Graphics" app at <a href="http://www.katlabs.cc/genegraphics/" target="_blank">http://katlabs.cc/genegraphics/</a>. Then, click on "Input" and "Choose a Genome". This option allows you to quickly import a whole genome or a specific region of a genome from NCBI Genbank.</p></div>
 		<img src="images/tutorial2/img0.png">
-		<div class="bgcolored"><p>Enter the Genbank ID, which is the same as the NCBI Accession, and the region to be imported. For our example, the Genbank ID is "NC_005966.1" and the region we want is from 2986058 to 2991851. Click "Submit" and wait for the data to be imported.</p></div>
+		<div class="bgcolored"><p>The Import tool can take genome name or Genbank ID.  Enter "Acinetobacter sp." and notice how it narrows down the search as you type.  You could simply type "ADP1" and get the result directly, as well.  You can click on the genome that you want at any time.  Use region 2986058 to 2991851.</p></div>
 		<img src="images/tutorial2/img1.png">
 		<div class="bgcolored"><p>After the data is imported, you should see the following region on your screen:</p></div>
 		<img src="images/tutorial2/img2.png">
@@ -31,33 +31,27 @@
 		<img src="images/tutorial2/img6.png">
 		<div class="bgcolored"><p>Next, return to the Gene Graphics tab and click "Choose a File". Follow the dialog options to upload your Genbank file.</p></div>
 		<img src="images/tutorial2/img7.png">
-		<div class="bgcolored"><p>Now that both regions are upoaded into the tool, the image can be edited. You may have noticed that our first region has an extra partial gene at the beginning. This is because this gene overlaps the first part of our region by a few bases. We can simply hide the gene by clicking on it and choosing "Hide gene".</p></div>
+		<div class="bgcolored"><p>Now that both regions are upoaded into the tool, the image can be edited. You may have noticed that our first region has an extra partial gene at the beginning. This is because this gene overlaps the first part of our region by a few bases. We can simply hide the gene by clicking on it and toggling the option 'The gene is visible'.</p></div>
 		<img src="images/tutorial2/img8.png">
-		<div class="bgcolored"><p>Decrease the width of the image by clicking on "Graph Settings" and entering 1000 for the "Image Width". Change the height of the genes by decreasing "Gene height" to 30.</p></div>
+		<div class="bgcolored"><p>Decrease the width of the image by clicking on "Graph Settings", then "Size settings", and entering 1000 for the "Image Width". Change the height of the genes by decreasing "Gene height" to 30.  The resulting image will update when you click Update or tab away from the fields.</p></div>
 		<img src="images/tutorial2/img9.png">
-		<div class="bgcolored"><p>Uncheck the option "Multiple lanes for overlapping genes", and check the option "Shift overlapping genes".</p></div>
+		<div class="bgcolored"><p>Under "Graph Settings", then "Lane settings", toggle the option "Overlapping genes move to a new lane", and toggle the option so that genes may not overlap each other.</p></div>
 		<img src="images/tutorial2/img10.png">
-		<div class="bgcolored"><p>Some of the genes in the region we selected have an unknown or irrelevant function, so we should use a neutral color such as gray. Click or right click on the first gene in the <i>Acinetobacter sp. ADP1</i> region and select a gray color. Then, click on the "Copy Gene Colors" button. This will copy the Gene and Label colors of this gene so that you can paste it to the other genes with unknown or irrelevant functions.</p></div>
+		<div class="bgcolored"><p>Some of the genes in the region we selected have an unknown or irrelevant function, so we should use a neutral color such as gray. Click on the first gene in the <i>Acinetobacter sp. ADP1</i> region and select a gray color. Then, click on the "Copy Gene Colors" button. This will copy the Gene and Label colors of this gene so that you can paste it to the other genes with unknown or irrelevant functions.</p></div>
 		<img src="images/tutorial2/img11.png">
-		<div class="bgcolored"><p>Click or right click on the last and second to last genes in the <i>Acinetobacter sp. ADP1</i> region and select "Paste Gene Colors". Do the same for the first and last gene in the <i>Salmonella enterica strain LT2</i> region.</p></div>
+		<div class="bgcolored"><p>Click or right click on the last and second to last genes in the <i>Acinetobacter sp. ADP1</i> region, and the first and last gene in the <i>Salmonella enterica strain LT2</i> region, then select Paste to apply the color to all of them.</p></div>
 		<img src="images/tutorial2/img13.png">
-		<div class="bgcolored"><p>The Genbank file did not have gene names for many of the genes in our regions, but we can enter their names by clicking on each gene and entering the name in the "Name" textbox. Change the name for panC as shown below.</p></div>
-		<img src="images/tutorial2/img14.png">
-		<div class="bgcolored"><p>The folK gene in <i>Acinetobacter sp. ADP1</i> was not annotated as folK, and its "product" is annotated slightly differently than the folK gene in <i>Salmonella enterica strain LT2</i>. This results in the two genes having different colors, but we would like the colors to be the same. Change the name for the folK gene, shown below. Then, select "Copy Gene Colors".</p></div>
+		<div class="bgcolored"><p>The folK gene in <i>Acinetobacter sp. ADP1</i> was not annotated as folK, and its "product" is annotated slightly differently than the folK gene in <i>Salmonella enterica strain LT2</i>. This results in the two genes having different colors, but we would like the colors to be the same. Select folK in <i>Acinetobacter sp. ADP1</i> and Copy to the second folK as shown below.</p></div>
 		<img src="images/tutorial2/img15.png">
-		<div class="bgcolored"><p>Select the folK gene from <i>Salmonella enterica strain LT2</i> and select "Paste Gene Colors".</p></div>
-		<img src="images/tutorial2/img16.png">
-		<div class="bgcolored"><p>Continue naming and editing the colors of the genes as shown in the following images.</p></div>
-		<img src="images/tutorial2/img17.png">
-		<img src="images/tutorial2/img18.png">
+		<div class="bgcolored"><p>Continue naming and editing the colors of the genes as shown in the following image.</p></div>
 		<img src="images/tutorial2/img19.png">
-		<div class="bgcolored"><p>Next, change the label positions so that they are above the genes by selecting "Label Settings" > "Position" and then selecting the "Above" option.</p></div>
+		<div class="bgcolored"><p>Next, change the label positions so that they are above the genes by selecting "Label Settings", "Gene Labels" and then selecting the "Above" option.</p></div>
 		<img src="images/tutorial2/img20.png">
-		<div class="bgcolored"><p>Change the font style to italic by clicking "Font Style" and choosing "Italic".</p></div>
+		<div class="bgcolored"><p>Change the font style to italic by choosing "Italic".</p></div>
 		<img src="images/tutorial2/img21.png">
-		<div class="bgcolored"><p>Change the font family by clicking "Font Family" and choosing "Veranda".</p></div>
+		<div class="bgcolored"><p>Change the font family by clicking on 'Font Family' and choosing "Veranda".</p></div>
 		<img src="images/tutorial2/img22.png">
-		<div class="bgcolored"><p>The final produced image can be exported, as a SVG file or as a PNG file, by clicking on the “Export” button. The edits done in the “Gene Graphics” application can also be exported as a TSV file, which will produce a table. This can be useful if an image is started, but is not yet finished. Reloading the produced TSV file will allow you to continue your edits.</p> 
+		<div class="bgcolored"><p>The final produced image can be exported as a SVG file or as a PNG file, by clicking on the “Export” button. The edits done in the “Gene Graphics” application can also be exported as a TSV file, which will produce a table. This can be useful if an image is started, but is not yet finished. Reloading the produced TSV file will allow you to continue your edits.</p> 
 		<p>The final image produced can be found <a href="data/tutorial2/tutorial2_finalproduct.svg" target="_blank">here</a> as a SVG file and <a href="data/tutorial2/tutorial2_finalproduct.png" target="_blank">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial2/tutorial2_finalproduct.tsv" target="_blank">here</a>.</p></div>
 		<img src="images/tutorial2/img23.png">
 

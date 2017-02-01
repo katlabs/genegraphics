@@ -23,16 +23,12 @@
 					<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.display}}</span>
 				</md-item-template>
 				<md-not-found>
-					{{searchText}}.
+					No match for {{searchText}}
 				</md-not-found>
 			</md-autocomplete>
 		</div><br/>
 		Region: 
-		<md-radio-group ng-model="gb.seqRange">
-			<md-radio-button name="sequence" value="whole" class="md-primary">Whole sequence</md-radio-button>
-			<md-radio-button name="sequence" value="custom" class="md-primary">Custom region:</md-radio-button>
-		</md-radio-group>
-			from: <input type="number" ng-model="gb.seqRangeStart"> to: <input type="number" ng-model="gb.seqRangeEnd"><br>
+			<input type="number" ng-model="gb.seqRangeStart"> to: <input type="number" ng-model="gb.seqRangeEnd"><br>
 		<button class="btn1 md-button md-raised md-primary" ng-click="submitNCBIQuery();" style="right:0;">Submit</button><br>
 		<md-progress-linear ng-show="gb.loadingFile" md-mode="indeterminate"></md-progress-linear>
 		<span id="statusmessage">{{gb.statusMessage}}</span>
@@ -58,24 +54,23 @@
 					</md-tooltip>
 					<md-icon class="material-icons md-18 blueicon">content_copy</md-icon>
 				</button>
-				<button class="icoIndivBtn md-icon-button" ng-click="toggleLockGene(selectedGene)">
+				<button class="icoIndivBtn md-icon-button" ng-click="toggleLockGene(graphSettings.selectedGene)">
 					<md-tooltip>
-						{{geneData[selectedGene]['genelocked'] === true ? 'Unlock' : 'Lock'}} gene label
+						{{geneData[graphSettings.selectedGene]['genelocked'] === true ? 'Unlock' : 'Lock'}} gene label
 					</md-tooltip>
-					<md-icon class="material-icons md-18 blueicon">{{geneData[selectedGene]['genelocked'] === true ? 'lock_outline' : 'lock_open'}}</md-icon>
+					<md-icon class="material-icons md-18 blueicon">{{geneData[graphSettings.selectedGene]['genelocked'] === true ? 'lock_outline' : 'lock_open'}}</md-icon>
 				</button>
 			</div>
 		</div>
-		<textarea ui-tinymce="tinymceOpts" ng-model="geneData[selectedGene]['namehtml']"></textarea><br>
+		<textarea ui-tinymce="tinymceOpts" ng-model="geneData[graphSettings.selectedGene]['namehtml']"></textarea><br>
 		<div layout="row" layout-align="center center">
-			<md-switch id="genevisswitch" class="md-primary" ng-model="geneData[selectedGene]['genevisible']">
-				{{geneData[selectedGene]['genevisible'] === true ? "The gene is visible" : "The gene is hidden"}}
+			<md-switch id="genevisswitch" class="md-primary" ng-model="geneData[graphSettings.selectedGene]['genevisible']">
+				{{geneData[graphSettings.selectedGene]['genevisible'] === true ? "The gene is visible" : "The gene is hidden"}}
 				<md-tooltip>Gene visibility</md-tooltip>
 			</md-switch>
-
 			<div>
 				<spectrum-colorpicker 
-					ng-model="geneData[selectedGene]['color']" options="spectrumOpts">
+					ng-model="geneData[graphSettings.selectedGene]['color']" options="spectrumOpts">
 				</spectrum-colorpicker>
 				<md-tooltip>Gene color</md-tooltip>
 			</div>
@@ -255,10 +250,10 @@
 			<div>
 				<md-checkbox ng-model="copy.settings.genecolor.value">
 					{{copy.settings.genecolor.label}}
-				</md-checkbox><span id="colorbox" style="background-color: {{geneData[selectedGene]['color']}};"></span><br/>
+				</md-checkbox><span id="colorbox" style="background-color: {{geneData[graphSettings.selectedGene]['color']}};"></span><br/>
 				<md-checkbox ng-model="copy.settings.labeltext.value">
 					{{copy.settings.labeltext.label}}
-				</md-checkbox><span id="labeltext">{{geneData[selectedGene]['name']}}</span><br/>
+				</md-checkbox><span id="labeltext">{{geneData[graphSettings.selectedGene]['name']}}</span><br/>
 			</div>
 		<span >Selected <strong>{{copy.geneClipboard.length}}</strong> gene<span ng-if="copy.geneClipboard.length!=1">s</span>.</span>
 		<button class="btn1 md-button md-raised md-primary" ng-click="clickPaste()" style="position:absolute; right: 20px; bottom: 10px;">Paste</button>

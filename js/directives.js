@@ -16,7 +16,7 @@
 				}
 			}
 		})
-		.directive('d3Genes', ['d3', 'geneService', function(d3, geneService) {
+		.directive('d3Genes', ['d3','popupMenuService', 'geneService', function(d3, popupMenuService, geneService) {
 			return {
 				restrict: 'EA',
 				scope: {
@@ -31,7 +31,7 @@
 				},
 				link: function(scope, iElement, iAttrs) {
 					var maxGeneFontSize;
-					var	maxGenomeFontSize;
+					var maxGenomeFontSize;
 					
 					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
@@ -39,7 +39,6 @@
 						.attr("xmlns", "http://www.w3.org/2000/svg")
 						.attr("width", scope.settings.graphwidth)
 						.attr("id", "svg");
-					
 					// maximum width of the data
 					var maxwidth = 0;
 					var rennum = 1;
@@ -52,9 +51,10 @@
 					
 					scope.$watch(function(){
 						return angular.element(window)[0].innerWidth;
-						}, function(){
-						//console.log("watch innerWidth");
-						return scope.render(scope.data);
+					}, 
+						function(){
+							scope.genomes = geneService.genomesHash;
+							return scope.render(scope.data);
 						}
 					);
 					
@@ -85,6 +85,8 @@
 						if (maxGeneFontSize==0){maxGeneFontSize=12};
 						if (maxGenomeFontSize==0){maxGenomeFontSize=12};
 					}
+
+					maxFontSizes(scope.data);
 					
 					// re-render when there is a change in the data
 					scope.$watch('data', function(newVals, oldVals) {
@@ -92,9 +94,10 @@
 						geneService.updateGenomesHash(newVals);
 						geneService.updateGeneNames();
 						maxFontSizes(newVals);
+						scope.genomes = geneService.genomesHash;
 						return scope.render(newVals);
 					}, true);
-					
+
 					scope.$watch('copy.geneClipboard', function(newVal, oldVal) {
 						if (newVal != oldVal){
 							return scope.render(scope.data);
@@ -106,6 +109,13 @@
 							return scope.render(scope.data);
 						}
 					}, true);
+
+					scope.$on('updateMenuStatus', function(){
+						if (!popupMenuService.GeneMenuVisible){
+							scope.render(scope.data);
+							return;
+						}
+					});
 					
 					// re-render when the graph width or gene height sliders are moved
 					scope.$watchGroup(['settings.graphwidth', 'settings.featureheight'], function(newVals, oldVals, scope) {
@@ -113,7 +123,7 @@
 							svg.attr("width", scope.settings.graphwidth);
 							return scope.render(scope.data);
 					});
-					
+
 					scope.render = function(data){
 						
 						//console.log("render " + rennum);
@@ -126,7 +136,7 @@
 							return;
 						}
 						
-						var graphwidth = parseInt(scope.settings.graphwidth);
+						var lanewidth = parseInt(scope.settings.graphwidth) - 20;
 						var featureheight = parseInt(scope.settings.featureheight);
 						var maxwidth = scope.settings.maxwidth;
 						var multilane = scope.settings.multilane;
@@ -167,16 +177,15 @@
 							return result;
 						}
 						
-						var genomeBuffer = (maxGenomeFontSize*1.8);
-						var geneBuffer = (maxGeneFontSize*1.8);
-						var scaleBuffer = 70;
-						var whichLane = function(d, i) {
+						var genomeBuffer = (maxGenomeFontSize + (maxGenomeFontSize/4));
+						var geneBuffer = (maxGeneFontSize + (maxGeneFontSize/4));
+						var scaleBuffer = 40;
+						var whichLane = function(d, i) {;
 						// Function to determine the first y position of the feature
 							var laneOffset = d.currLane;
 							if(i==0){
 								lastLaneOffset = -1;
 							}
-							
 							if (multilane == true){
 								if (lastLaneOffset != laneOffset) {
 									currLane = 1;
@@ -192,13 +201,13 @@
 								}
 								lastLaneOffset = laneOffset;
 								if (scope.settings.scaleOn == false){
-									return (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(featureheight+geneBuffer+genomeBuffer));
+									return 10 + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + (geneBuffer + (maxGeneFontSize/4))*(currLane-1))+(laneOffset*(featureheight+geneBuffer+genomeBuffer+(maxGeneFontSize/4)));
 								}
-								return scaleBuffer + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(featureheight+geneBuffer+genomeBuffer));
+								return scaleBuffer + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + (geneBuffer + (maxGeneFontSize/4))*(currLane-1))+(laneOffset*(featureheight+geneBuffer+genomeBuffer+(maxGeneFontSize/4)));
 							}
 							else {
 								if (scope.settings.scaleOn == false){
-									return (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(geneBuffer+genomeBuffer)*1.4);
+									return 10 + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(geneBuffer+genomeBuffer)*1.4);
 								}
 								return scaleBuffer + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(geneBuffer+genomeBuffer)*1.4);
 							}
@@ -223,12 +232,12 @@
 									var gap = 0;
 								}
 								else {
-									var gap = ((Math.min(d.start, d.stop) - Math.max(scope.data[i-1].start, scope.data[i-1].stop))/maxwidth) *graphwidth;
+									var gap = ((Math.min(d.start, d.stop) - Math.max(scope.data[i-1].start, scope.data[i-1].stop))/maxwidth) * lanewidth;
 								}
 								return prevend + 1 + gap;
 							}
 							else {
-								return (Math.min(d.start, d.stop) / maxwidth) * graphwidth;
+								return (Math.min(d.start, d.stop) / maxwidth) * lanewidth;
 							}
 						}
 						
@@ -238,7 +247,7 @@
 										//console.log(data[i].currLane);
 										prevend = 0;
 								}
-								return prevend + 1 + ((d.size / maxwidth) * graphwidth);
+								return prevend + 1 + ((d.size / maxwidth) * lanewidth);
 							}
 							else if (shiftgenes == true && keepgaps == true) {
 								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
@@ -249,12 +258,12 @@
 									var gap = 0;
 								}
 								else
-									var gap = ((Math.min(d.start, d.stop) - Math.max(scope.data[i-1].start, scope.data[i-1].stop))/maxwidth) *graphwidth;
+									var gap = ((Math.min(d.start, d.stop) - Math.max(scope.data[i-1].start, scope.data[i-1].stop))/maxwidth) * lanewidth;
 								//console.log("gap: " + gap);
-								return prevend + 1 + gap + ((d.size / maxwidth) * graphwidth);
+								return prevend + 1 + gap + ((d.size / maxwidth) * lanewidth);
 							}
 							else {
-								return (Math.max(d.start, d.stop) / maxwidth) * graphwidth;
+								return (Math.max(d.start, d.stop) / maxwidth) * lanewidth;
 							}
 						}
 						
@@ -264,38 +273,81 @@
 							return result;
 						}
 						
-						var getYGeneLabel = function(d, i){
-							var lane = whichLane(d, i);
+						var getYGeneLabel = function(d, i, y1){
 							if (d.labelvertpos == "top"){
-								return lane - (getGeneFontSize(d,i)*1.8);
+								return y1 - (getGeneFontSize(d,i)/3.5);
 							}
 							else if (d.labelvertpos == "middle"){
-								return lane + (featureheight/2) - (getGeneFontSize(d,i)*1.8)/2;
+								return y1 + (featureheight/2) + (getGeneFontSize(d,i)/2);
 							}
 							else if (d.labelvertpos == "bottom"){
-								return lane + featureheight;
+								return y1 + featureheight + (getGeneFontSize(d,i)) + (getGeneFontSize(d,i)/5);
 							}
 						}
 						
+
+						var getXGeneLabel = function(leftx, rightx, d, i){
+							var html = d.namehtml;
+							var re = /<p style=\"text-align:\s?(left|center|right);"/g;
+							var match = re.exec(html);
+							if (match == null){
+								return leftx + 3;
+							}
+							else if (match[1] == 'left'){
+								return leftx + 3;
+							}
+							else if (match[1] == 'center'){
+								return (rightx + leftx)/2;
+							}
+							else if (match[1] == 'right'){
+								return rightx - 3;
+							}
+							else{
+								console.log('No horizontal text alignment found.');
+							}
+						}
+
+						var getXGenomeLabel = function(d, i){
+							var html = d.genomehtml;
+							var re = /<p style=\"text-align:\s?(left|center|right);"/g;
+							var match = re.exec(html);
+							if (match == null) {
+								return 10;
+							}
+							else if (match[1] == 'left'){
+								return 10;
+							}
+							else if (match[1] == 'center'){
+								return (lanewidth/2);
+							}
+							else if (match[1] == 'right'){
+								return lanewidth;
+							}
+							else { 
+								console.log('No horizontal text alignment found.');
+							}
+							return;
+						}
+
 						var getYGenomeLabel = function(d, i){
 							var lane = whichLane(d, i);
-							var result = lane - ((maxGeneFontSize*1.8) + (maxGenomeFontSize*1.8));
+							var result = lane - maxGeneFontSize - maxGeneFontSize/4 - maxGenomeFontSize/4;
 							return result;
 						}
 						
 						var lineFunction = d3.svg.line()
-															.x(function(d) { return d.x; })
-															.y(function(d) { return d.y; })
-															.interpolate("linear");
+							.x(function(d) { return d.x; })
+							.y(function(d) { return d.y; })
+							.interpolate("linear");
 															
 						if (scope.settings.scaleOn == true){
 							var scaleLinePoints = function(){
-								var bigX = ((1000 / maxwidth) * graphwidth).toString();
-								var string = "3,35,3,50,"
+								var bigX = (((1000 / maxwidth) * lanewidth) + 10).toString();
+								var string = "10,10,10,25,"
 								string += bigX;
-								string += ",50,"
+								string += ",25,"
 								string += bigX;
-								string += ",35"
+								string += ",10"
 								return string;
 							}
 
@@ -306,14 +358,14 @@
 								.attr("points", scaleLinePoints());
 								
 							svg.append("text")
-								.attr("x", 3)
-								.attr("y", 55)
+								.attr("x", 10)
+								.attr("y", 35)
 								.text("Scale: 1kB")
 								.attr("font-family", function(){return scope.settings.fontFamily;})
 								.attr("font-size", "10px")
 								.attr("fill", "black")
 								.attr("font-style", "italic")
-								.attr("dominant-baseline", "text-before-edge")
+								.attr("text-anchor", "start")
 							}
 							
 						//create the arrow for genes
@@ -333,14 +385,14 @@
 								.attr("d", function(d, i) {
 									// get start and stop positions relative to max size
 									if (d.strand === '+')
-										var x1 = getFeatureStart(d, i);
+										var x1 = getFeatureStart(d, i) + 10;
 									else if (d.strand === '-')
-										var x1 = getFeatureEnd(d, i);
+										var x1 = getFeatureEnd(d, i) + 10;
 									var y1 = getYPath(d, i);
 									if (d.strand === '+')
-										var x3 = getFeatureEnd(d, i);
+										var x3 = getFeatureEnd(d, i) + 10;
 									else if (d.strand === '-')
-										var x3 = getFeatureStart(d, i);
+										var x3 = getFeatureStart(d, i) + 10;
 									prevend = Math.max(x1, x3);
 									var y3 = y1+(featureheight)/2;
 									var x2 = ((x3 - x1) * 0.8) + x1;
@@ -349,7 +401,8 @@
 									var y4 = y1+featureheight;
 									var x5 = x1;
 									var y5 = y4;
-									
+
+
 									if (x1 > scope.settings.graphwidth) {
 										svg.attr("width", x1);
 									}
@@ -357,17 +410,15 @@
 										svg.attr("width", x3);
 									}
 
-									if(y4 > globalMaxY) { globalMaxY = y4 + 35; }
+									if(y4 > globalMaxY) { globalMaxY = y4 + 50; }
 									
 									if (d.strand == '-')
-										scope.data[i].labelpos.x = x2;
+										scope.data[i].labelpos.x = getXGeneLabel(x2, x1, d, i);
 									else 
-										scope.data[i].labelpos.x = x1;
+										scope.data[i].labelpos.x = getXGeneLabel(x1, x2, d, i);
 									
 									// Determine y position of label
-									scope.data[i].labelpos.y = y1;
-									
-									scope.data[i].labelsize = 20;
+									scope.data[i].labelpos.y = getYGeneLabel(d, i, y1);
 									
 									var points = [{"x":x1, "y":y1}, {"x":x2, "y":y2},{"x":x3, "y":y3}, {"x":x4, "y":y4}, {"x":x5, "y":y5}, {"x":x1, "y":y1}];
 									return lineFunction(points);
@@ -382,6 +433,9 @@
 									if (d.genevisible == false){
 										return "transparent";
 									}
+									else if(scope.settings.selectedGene == i && (popupMenuService.GeneMenuVisible || popupMenuService.GeneCPDialogVisible)){
+										return "blue";
+									}
 									else if(scope.settings.pastingGenes && (scope.copy.geneClipboard.indexOf(i) != -1)){
 										return "red";
 									}
@@ -391,7 +445,10 @@
 									if (scope.settings.pastingGenes && (scope.copy.geneClipboard.indexOf(i) != -1)){
 										return "4";
 									}
-									else return "2";
+									else if(scope.settings.selectedGene == i && (popupMenuService.GeneMenuVisible || popupMenuService.GeneCPDialogVisible)){
+										return "4";
+									}
+										else return "2";
 								})
 								.attr("z-index", 95)
 								
@@ -401,45 +458,61 @@
 						function isInArray(value, array){
 							return array.indexOf(value) > -1;
 						}
-						
+
+						var htmltosvg = function(htmlstr, namestr){
+							var aligns = {left: 'start', center: 'middle', right: 'end'};
+							var svgstr = htmlstr.replace(/<strong>/g, '<tspan font-weight="bold">');
+							svgstr = svgstr.replace(/<em>/g, '<tspan font-style="italic">');
+							var re = /<p style=\"text-align:\s?(left|center|right);"/g
+							var match = re.exec(svgstr);
+							if(match == null){
+								svgstr = svgstr.replace(/<p/g, '<tspan text-anchor="start"');
+							}
+							else {
+								var replacement = '<tspan text-anchor="' + aligns[match[1]] + '"';
+								svgstr = svgstr.replace(re, replacement);
+							}
+							svgstr = svgstr.replace(/<span/g, '<tspan');
+							svgstr = svgstr.replace(/style=\"(font-family|font-size):\s?([^\"\;]*);"/g, '$1="$2"');
+							svgstr = svgstr.replace(/style=\"(color):\s?([^\"\;]*);"/g, 'fill="$2"');
+							svgstr = svgstr.replace(/<\/[strong|em|span|p]/g, '</tspan');
+							return svgstr;
+						}
+
 						svg.selectAll(".genomelabel")
 							.data(scope.data)
 							.enter()
-							.append("foreignObject")
-							.each(function(d,i) {
+							.append("text")
+							.each( function(d,i){
 								if ((isInArray(i, scope.genomes[d.genomehtml])) && (i == Math.min.apply(null, scope.genomes[d.genomehtml]))){
 									var ind = i;
 									var text = d3.select(this)
-										.on("click", function(d, i){ 
+										.on("click", function(d,i){
 											d3.event.stopPropagation();
-											if(scope.settings.pastingGenes == true){
+											if (scope.settings.pastingGenes == true){
 												return;
 											}
-												else {
+											else {
 												return scope.onClickGenome({index: ind, x: d3.event.clientX, y: d3.event.clientY});
 											}
 										})
 										.attr("class", "genomelabel")
-										.attr("y", function(d, i){
-											return getYGenomeLabel(d, i);})
-										.attr("x", function(d, i){return 0;})
-										.attr("height", function(d,i){
-											return (maxGenomeFontSize*1.8)+(maxGeneFontSize*1.8);
-										})
-										.attr("width", function() {return graphwidth-20;} )
+										.attr("y", function(d,i){ return getYGenomeLabel(d,i);})
+										.attr("x", function(d,i){ return getXGenomeLabel(d,i);})
 										.attr("z-index", 100)
-										.append("xhtml:body")
-											.html(d.genomehtml)
+									var svgstr = htmltosvg(d.genomehtml, d.genome);
+									text.html(svgstr);
 								}
 								else {
 									d3.select(this).remove();
 								}
 							});
+
 								
 						svg.selectAll(".genelabel")
 							.data(scope.data)
 							.enter()
-							.append("foreignObject")
+							.append("text")
 							.on("mouseover", function(d, i){ return scope.onMouseOverGene({newfunction:d.genefunction});})
 							.on("click", function(d, i){ 
 								if(scope.settings.pastingGenes == true){
@@ -450,50 +523,19 @@
 								}
 							})
 							.attr("class", "genelabel")
-							.attr("width", 300)
-							.attr("height", featureheight)
-							.attr("y", function(d, i){
-								return getYGeneLabel(d,i);
-							})
+							.attr("y", function(d, i){return d.labelpos.y;})
 							.attr("x", function(d, i){return d.labelpos.x;})
 							.attr("z-index", 100)
-							.append("xhtml:span")
 							.html(function(d,i){
 								if (!d.genevisible){
 									return;
 								}
-								else return d.namehtml;
+								else{
+									var svgstr = htmltosvg(d.namehtml, d.name);
+									return svgstr;
+								}
 							});
-							
-							svg.selectAll('.genelabel')
-							.each(function(d,i){
-								var fo = d3.select(this);
-								fo.attr("height", function(d,i){
-									var body = d3.select(this).select('span');
-									return body[0][0].getBoundingClientRect().height;
-								})
-								.attr("width", function(d,i){
-									if (d.strand === '+') {
-										var x1 = getFeatureStart(d, i);
-										var x3 = getFeatureEnd(d, i);}
-									if (d.strand === '-') {
-										var x1 = getFeatureEnd(d, i);
-										var x3 = getFeatureStart(d, i)}
-									var x2 = ((x3 - x1) * 0.8) + x1;
-									var featurewidth = Math.abs(x1 - x2);
-									
-									var span = d3.select(this).select('span');
-									var textwidth = span[0][0].getBoundingClientRect().width;
-									var newWidth = Math.max(featurewidth, textwidth);
-									
-									span.style("width", newWidth + "px");
-									
-									return newWidth;
-									});
-										
-									
-							});
-							
+
 							svg.attr("height", globalMaxY);
 					};
 				}
@@ -512,7 +554,6 @@
 					element.bind('click', function exportFiles() {
 
 						if (scope.data == null){
-							console.log(scope.data);
 							return;
 						}
 						// Create TSV String
@@ -562,7 +603,6 @@
 							var tsvlink = document.getElementById("tsvlink");
 							tsvlink.innerHTML = "Export TSV";
 							tsvlink.href = files[2];
-							console.log(response.data);
 						});
 
 						
