@@ -1125,14 +1125,44 @@
 				}
 			}
 			
-			$scope.gbItemChanged = function(item, searchtext){
+			$scope.gbItemChanged = function(item){
 				if (typeof item !== 'undefined'){
 					$scope.gb.genbankID = item.id;
 				}
+				else {
+					$scope.gb.genbankID = null;
+				}
 			}
-			
+
+			$scope.gbSearchTextChanged = function(searchText){
+				if (typeof searchText !== 'undefined'){
+					$scope.gb.searchText = searchText;
+				}
+			}
+
+			var getIDType = function(testid){
+				if(/^[A-Zz-z]{2}_[\d]+(\.[\d]{1,2})?$/.test(testid)){
+					return "RefSeq Genome";
+				}
+				else if(/^[A-Za-z]{1}[\d]{5}(\.[\d]{1,2})?$/.test(testid)){
+					return "Genbank Genome";
+				}
+				else if(/^[A-Za-z]{2}[\d]{6}(\.[\d]{1,2})?$/.test(testid)){
+					return "Genbank Genome";
+				}
+					/*else if(/^[A-Za-z]{4}[\d]{2,8}(\.[\d]{1,2})?$/.test(testid)){
+					return "Genbank WGS";
+				}
+				else if(/^[A-Za-z]{5}[\d]{7}(\.[\d]{1,2})?$/.test(testid)){
+					return "Genbank MGA";
+				}*/
+				else return "ID";
+			}
+
 			$scope.gb = {};
+			$scope.gb.searchText;
 			$scope.gb.genbankID;
+			$scope.gb.idType;
 			$scope.gb.seqRangeStart;
 			$scope.gb.seqRangeEnd;
 			$scope.gb.statusMessage = "";
@@ -1142,9 +1172,15 @@
 			$scope.submitNCBIQuery = function(){
 				$scope.gb.loadingFile = true;
 				if(!$scope.gb.genbankID){
-					$scope.gb.loadingFile = false;
-					$scope.gb.statusMessage = "Please enter an organism or Genbank ID.";
-					return;
+					$scope.gb.idType = getIDType($scope.gb.searchText);
+					if($scope.gb.idType == 'ID'){
+						$scope.gb.loadingFile = false;
+						$scope.gb.statusMessage = "Please enter a valid organism or ID.";
+						return;
+					}
+					else{
+						$scope.gb.genbankID = $scope.gb.searchText;
+					}
 				}
 				if(!($scope.gb.seqRangeStart < $scope.gb.seqRangeEnd)){
 					$scope.gb.loadingFile = false;
@@ -1180,7 +1216,9 @@
 						$scope.gb.genbankID = false;
 					}
 				}, function errorCallback(response) {
+					$scope.gb.loadingFile = false;
 					$scope.gb.statusMessage = "Could not retrieve Genbank file for " +$scope.gb.genbankID + "\n" + response.statusText;
+					return;
 				});
 			}
 			
@@ -1325,7 +1363,10 @@
 						for (var row=0; row<lines.length; row++){
 							var columns = lines[row].split('\t');
 							var id = columns[4];
-							var organism = columns[5];
+							var organism = columns[5]
+							if(columns.length == 7){
+								organism = organism + " " + columns[6];
+							}
 							$scope.genomesList.push({id:id, organism:organism.toLowerCase(), display:organism + " (" + id + ")"});
 						}
 					}

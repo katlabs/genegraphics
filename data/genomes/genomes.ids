@@ -8090,7 +8090,6 @@
 1479	NZ_CP012025	873918574	0	CP012025	Bacillus smithii	plasmid pDSM4216  
 886284	NC_019230	410687962	0	HM235948	Bacillus sp. 24	plasmid pBHS24  
 1892404	NZ_CP017017	1092903138	0	CP017017	Bacillus sp. ABP14	plasmid pABP14  
-1547283	NZ_CP016021	1119662340	0	CP016021	Bacillus sp. Alg07	plasmid unnamed  
 119423	NC_002675	13128938	0	AB040121	Bacillus sp. B-3	plasmid pA01  
 745376	NC_013963	292493933	0	GU591497	Bacillus sp. BS-01	plasmid pBS-01  
 887059	NC_014557	312620943	0	HQ128580	Bacillus sp. BS-02	plasmid pBS-02  
@@ -8384,6 +8383,7 @@
 492670	NZ_LN999830	982903305	0	LN999830	Bacillus velezensis	plasmid pBAMMD1  
 492670	NZ_CP009680	749299051	0	CP009680	Bacillus velezensis	plasmid pBMJS25R  
 1385727	NC_022531	549700063	0	HG514500	Bacillus velezensis NAU-B3	plasmid II  
+1547283	NZ_CP016021	1119662340	0	CP016021	Bacillus weihaiensis	plasmid unnamed  
 315730	NC_010180	163943169	0	CP000904	Bacillus weihenstephanensis KBAB4	plasmid pBWB401  
 315730	NC_010181	163943459	0	CP000905	Bacillus weihenstephanensis KBAB4	plasmid pBWB402  
 315730	NC_010182	163937865	0	CP000906	Bacillus weihenstephanensis KBAB4	plasmid pBWB403  
@@ -8870,19 +8870,34 @@
 1867252	NZ_CP015333	1035694534	0	CP015333	Borrelia hermsii HS1	plasmid lpV47  
 1867252	NZ_CP014350	1035694509	0	CP014350	Borrelia hermsii HS1	plasmid megaplasmid  
 1674146	NZ_CP015797	1130317334	0	CP015797	Borrelia mayonii	plasmid cp26  
+1674146	NZ_CP015781	1133971177	0	CP015781	Borrelia mayonii	plasmid cp26  
+1674146	NZ_CP015782	1133971178	0	CP015782	Borrelia mayonii	plasmid cp32-1  
 1674146	NZ_CP015798	1130317335	0	CP015798	Borrelia mayonii	plasmid cp32-1  
+1674146	NZ_CP015783	1133971179	0	CP015783	Borrelia mayonii	plasmid cp32-13  
 1674146	NZ_CP015799	1130317336	0	CP015799	Borrelia mayonii	plasmid cp32-13  
 1674146	NZ_CP015800	1130317337	0	CP015800	Borrelia mayonii	plasmid cp32-3  
+1674146	NZ_CP015784	1133971180	0	CP015784	Borrelia mayonii	plasmid cp32-3  
 1674146	NZ_CP015801	1130317338	0	CP015801	Borrelia mayonii	plasmid cp32-4  
+1674146	NZ_CP015785	1133971181	0	CP015785	Borrelia mayonii	plasmid cp32-4  
 1674146	NZ_CP015802	1130317339	0	CP015802	Borrelia mayonii	plasmid cp32-6  
+1674146	NZ_CP015786	1133971182	0	CP015786	Borrelia mayonii	plasmid cp32-6  
+1674146	NZ_CP015787	1133971183	0	CP015787	Borrelia mayonii	plasmid cp9  
 1674146	NZ_CP015962	1130317347	0	CP015962	Borrelia mayonii	plasmid cp9  
 1674146	NZ_CP015803	1130317340	0	CP015803	Borrelia mayonii	plasmid lp17  
+1674146	NZ_CP015788	1133971184	0	CP015788	Borrelia mayonii	plasmid lp17  
+1674146	NZ_CP015789	1133971185	0	CP015789	Borrelia mayonii	plasmid lp25  
 1674146	NZ_CP015804	1130317341	0	CP015804	Borrelia mayonii	plasmid lp25  
 1674146	NZ_CP015805	1130317342	0	CP015805	Borrelia mayonii	plasmid lp28-10  
+1674146	NZ_CP015790	1133971186	0	CP015790	Borrelia mayonii	plasmid lp28-10  
 1674146	NZ_CP015806	1130317343	0	CP015806	Borrelia mayonii	plasmid lp28-3  
+1674146	NZ_CP015791	1133971187	0	CP015791	Borrelia mayonii	plasmid lp28-3  
+1674146	NZ_CP015792	1133971188	0	CP015792	Borrelia mayonii	plasmid lp28-4  
 1674146	NZ_CP015807	1130317344	0	CP015807	Borrelia mayonii	plasmid lp28-4  
+1674146	NZ_CP015793	1133971189	0	CP015793	Borrelia mayonii	plasmid lp36  
 1674146	NZ_CP015808	1130317345	0	CP015808	Borrelia mayonii	plasmid lp36  
+1674146	NZ_CP015794	1133971190	0	CP015794	Borrelia mayonii	plasmid lp5  
 1674146	NZ_CP015809	1130317346	0	CP015809	Borrelia mayonii	plasmid lp54  
+1674146	NZ_CP015795	1133971191	0	CP015795	Borrelia mayonii	plasmid lp54  
 47466	NZ_CP017127	1084354747	0	CP017127	Borrelia miyamotoi	plasmid cp1  
 47466	NZ_CP017128	1084354748	0	CP017128	Borrelia miyamotoi	plasmid cp2  
 47466	NZ_CP017129	1084354749	0	CP017129	Borrelia miyamotoi	plasmid cp3  
@@ -9432,11 +9447,16 @@
 413999	NC_009496	148381586	0	AM412318	Clostridium botulinum A str. ATCC 3502	plasmid pBOT3502  
 1379740	NZ_AUZB01000012	696533348	0	AUZB01000012	Clostridium botulinum A2B3 87	plasmid p1_A2B3_87  
 1379740	NZ_AUZB01000013	696533407	0	AUZB01000013	Clostridium botulinum A2B3 87	plasmid p2_A2B3_87  
+1379738	NZ_AUZA01000014	1133655229	0	AUZA01000014	Clostridium botulinum A2B7 92	plasmid A2B7_92  
 498214	NC_010418	169834729	0	CP000963	Clostridium botulinum A3 str. Loch Maree	plasmid pCLK  
 1248417	NZ_AOSX01000021	544674444	0	AOSX01000021	Clostridium botulinum Af84	plasmid pCLQ  
 935198	NC_018653	407098612	0	FR745876	Clostridium botulinum B str. Eklund 17B (NRP)	plasmid p17BNRP  
 935198	NC_010680	187935795	0	CP001057	Clostridium botulinum B str. Eklund 17B (NRP)	plasmid pCLL  
 498213	NC_010379	169834533	0	CP000940	Clostridium botulinum B1 str. Okra	plasmid pCLD  
+1379278	NZ_AUYY01000011	1133658941	0	AUYY01000011	Clostridium botulinum B2 267	plasmid p1_B2_267  
+1379278	NZ_AUYY01000012	1133658945	0	AUYY01000012	Clostridium botulinum B2 267	plasmid p2_B2_267  
+1379737	NZ_AUYZ01000011	1133862423	0	AUYZ01000011	Clostridium botulinum B2 433	plasmid p1_B2_433  
+1379737	NZ_AUYZ01000012	1133862434	0	AUYZ01000012	Clostridium botulinum B2 433	plasmid p2_B2_433  
 929506	NC_015417	331270865	0	CP002411	Clostridium botulinum BKT015925	plasmid p1BKT015925  
 929506	NC_015426	331270761	0	CP002412	Clostridium botulinum BKT015925	plasmid p2BKT015925  
 929506	NC_015418	331271088	0	CP002413	Clostridium botulinum BKT015925	plasmid p3BKT015925  
@@ -9456,6 +9476,7 @@
 1408283	NZ_CP006909	749188511	0	CP006909	Clostridium botulinum CDC_1436	plasmid pCBG  
 1443117	NZ_CM003334	860086345	0	CM003334	Clostridium botulinum D str. 16868	plasmid p1Cb16868  
 1443117	NZ_CM003335	860086351	0	CM003335	Clostridium botulinum D str. 16868	plasmid p4Cb16868  
+1379741	NZ_AUZC01000015	1133799166	0	AUZC01000015	Clostridium botulinum F 357	plasmid p_F_357  
 758678	NC_017298	384463962	0	CP002012	Clostridium botulinum F str. 230613	plasmid pCBF  
 441772	NC_009700	153941546	0	CP000729	Clostridium botulinum F str. Langeland	plasmid pCLI  
 1408284	NZ_CP006901	749181962	0	CP006901	Clostridium botulinum Prevot_594	plasmid pCBH  
@@ -9935,6 +9956,8 @@
 1352	NC_007594	81330251	0	AB183714	Enterococcus faecium	plasmid pHT beta  
 1352	NC_019253	410688183	0	AB570326	Enterococcus faecium	plasmid pHY  
 1352	NC_011140	197103111	0	AM932524	Enterococcus faecium	plasmid pIP816  
+1352	NZ_CM007639	1133679402	0	CM007639	Enterococcus faecium	plasmid pISMMS_VRE6_1  
+1352	NZ_CM007640	1133679432	0	CM007640	Enterococcus faecium	plasmid pISMMS_VRE6_2  
 1352	NC_006427	55733695	0	AY425961	Enterococcus faecium	plasmid pJB01  
 1352	NC_010290	166163601	0	EU370687	Enterococcus faecium	plasmid pJS33  
 1352	NC_010291	166163605	0	EU370688	Enterococcus faecium	plasmid pJS42  
@@ -11442,6 +11465,7 @@
 573	NZ_CP015504	1028896270	0	CP015504	Klebsiella pneumoniae	plasmid unnamed 4  
 573	NZ_CP015505	1028896271	0	CP015505	Klebsiella pneumoniae	plasmid unnamed 5  
 573	NZ_CP016924	1059912140	0	CP016924	Klebsiella pneumoniae	plasmid unnamed1  
+573	NZ_CP017986	1134316451	0	CP017986	Klebsiella pneumoniae	plasmid unnamed1  
 573	NZ_CP015754	1030030205	0	CP015754	Klebsiella pneumoniae	plasmid unnamed1  
 573	NZ_CP016919	1059928833	0	CP016919	Klebsiella pneumoniae	plasmid unnamed1  
 573	NZ_CP016922	1059928836	0	CP016922	Klebsiella pneumoniae	plasmid unnamed1  
@@ -11452,6 +11476,9 @@
 573	NZ_CP016920	1059928834	0	CP016920	Klebsiella pneumoniae	plasmid unnamed2  
 573	NZ_CP016161	1041012252	0	CP016161	Klebsiella pneumoniae	plasmid unnamed2  
 573	NZ_CP016921	1059928835	0	CP016921	Klebsiella pneumoniae	plasmid unnamed2  
+573	NZ_CP017987	1134316496	0	CP017987	Klebsiella pneumoniae	plasmid unnamed2  
+573	NZ_CP017988	1134316532	0	CP017988	Klebsiella pneumoniae	plasmid unnamed3  
+573	NZ_CP017989	1134316541	0	CP017989	Klebsiella pneumoniae	plasmid unnamed4  
 573	NZ_CP010574	764933161	0	CP010574	Klebsiella pneumoniae	plasmid unnamed_1  
 573	NZ_CP010575	764933233	0	CP010575	Klebsiella pneumoniae	plasmid unnamed_2  
 573	NZ_CP010576	764933263	0	CP010576	Klebsiella pneumoniae	plasmid unnamed_3  
@@ -11473,7 +11500,6 @@
 1284798	NZ_CP011979	915798693	0	CP011979	Klebsiella pneumoniae DMC1097	plasmid pDMC1097-20.222kb  
 1284798	NZ_CP011977	915798691	0	CP011977	Klebsiella pneumoniae DMC1097	plasmid pDMC1097-218.836kb  
 1284798	NZ_CP011978	915798692	0	CP011978	Klebsiella pneumoniae DMC1097	plasmid pDMC1097-77.775kb  
-1087446	NC_021664	557594895	0	CP004366	Klebsiella pneumoniae FCF1305	plasmid pKPC_FCF13/05  
 1380908	NC_022078	530572997	0	CP006657	Klebsiella pneumoniae JM45	plasmid p1  
 1380908	NC_022083	530633265	0	CP006658	Klebsiella pneumoniae JM45	plasmid p2  
 1049565	NC_017541	386037709	0	CP002911	Klebsiella pneumoniae KCTC 2242	plasmid pKCTC2242  
@@ -12368,6 +12394,7 @@
 1303024	NC_021278	507423901	0	CP004375	Mycobacterium abscessus subsp. bolletii 50594	plasmid 1  
 1303024	NC_021279	507418865	0	CP004376	Mycobacterium abscessus subsp. bolletii 50594	plasmid 2  
 1306401	NZ_ATFQ01000044	522722869	0	ATFQ01000044	Mycobacterium abscessus subsp. bolletii CRM-0020	plasmid unnamed  
+1168066	NC_017908	506971045	0	CP003505	Mycobacterium abscessus subsp. bolletii F1725	plasmid BRA100  
 1087469	NC_020994	478694294	0	CP003376	Mycobacterium abscessus subsp. bolletii INCQS 00594	plasmid pMAB01  
 1764	NC_005016	32470508	0	AY056023	Mycobacterium avium	plasmid pVT2  
 1229671	NZ_AP012556	764976469	0	AP012556	Mycobacterium avium subsp. hominissuis TH135	plasmid pMAH135  
@@ -12600,6 +12627,8 @@
 1763538	NZ_CP017772	1096255724	0	CP017772	Paenibacillus sp. LPB0068	plasmid pPC02  
 1763538	NZ_CP017773	1096255725	0	CP017773	Paenibacillus sp. LPB0068	plasmid pPC03  
 528191	NZ_CP018621	1122551484	0	CP018621	Paenibacillus xylanexedens	plasmid unnamed  
+1387353	NZ_CP019083	1134109004	0	CP019083	Paludisphaera borealis	plasmid PALBO1  
+1387353	NZ_CP019084	1134109010	0	CP019084	Paludisphaera borealis	plasmid PALBO2  
 93218	NZ_CP013482	962092897	0	CP013482	Pandoraea apista	plasmid unnamed  
 656179	NZ_CP011808	1036107896	0	CP011808	Pandoraea faecigallinarum	plasmid unnamed1  
 656179	NZ_CP011809	1036107897	0	CP011809	Pandoraea faecigallinarum	plasmid unnamed2  
@@ -13494,7 +13523,11 @@
 935199	NZ_CP016821	1053206645	0	CP016821	Rhodococcus sp. p52	plasmid pDF01  
 935199	NZ_CP016820	1053206638	0	CP016820	Rhodococcus sp. p52	plasmid pDF02  
 935199	NZ_CP016822	1053206649	0	CP016822	Rhodococcus sp. p52	plasmid pDF03  
+81479	NZ_CP019241	1133687057	0	CP019241	Rhodoferax antarcticus	plasmid unnamed1  
+81479	NZ_CP019242	1133687065	0	CP019242	Rhodoferax antarcticus	plasmid unnamed2  
 338969	NC_007901	89885732	0	CP000268	Rhodoferax ferrireducens T118	plasmid plasmid1  
+1842727	NZ_CP019237	1133827738	0	CP019237	Rhodoferax sp. DCY110	plasmid unnamed1  
+1842727	NZ_CP019238	1133827744	0	CP019238	Rhodoferax sp. DCY110	plasmid unnamed2  
 1076	NC_013548	270208707	0	DQ318958	Rhodopseudomonas palustris	plasmid pRPSZY  
 258594	NC_005297	39840937	0	BX571964	Rhodopseudomonas palustris CGA009	plasmid pRPA  
 269796	NC_007641	83582730	0	CP000231	Rhodospirillum rubrum ATCC 11170	plasmid unnamed  
@@ -13799,6 +13832,8 @@
 605	NC_019112	410652500	0	JN885081	Salmonella enterica subsp. enterica serovar Pullorum	plasmid pSPUV  
 1029979	NZ_CP012348	922008983	0	CP012348	Salmonella enterica subsp. enterica serovar Pullorum str. ATCC 9120	plasmid pCFSAN000725_01  
 938143	NZ_CP019193	1133540393	0	CP019193	Salmonella enterica subsp. enterica serovar Rubislaw str. ATCC 10717	plasmid pATCC10717  
+90105	NZ_CP019205	1133738930	0	CP019205	Salmonella enterica subsp. enterica serovar Saintpaul	plasmid pCFSAN004173  
+90105	NZ_CP019207	1133840421	0	CP019207	Salmonella enterica subsp. enterica serovar Saintpaul	plasmid pCFSAN004174  
 90105	NZ_CP019173	1133567663	0	CP019173	Salmonella enterica subsp. enterica serovar Saintpaul	plasmid pCFSAN004175  
 439843	NC_011092	194733773	0	CP001125	Salmonella enterica subsp. enterica serovar Schwarzengrund str. CVM19633	plasmid pCVM19633_110  
 439843	NC_011093	194733896	0	CP001126	Salmonella enterica subsp. enterica serovar Schwarzengrund str. CVM19633	plasmid pCVM19633_4  
@@ -14478,6 +14513,8 @@
 46170	NZ_CM003617	960870490	0	CM003617	Staphylococcus aureus subsp. aureus	plasmid pSAHUG_S5a  
 46170	NZ_CM003618	960870491	0	CM003618	Staphylococcus aureus subsp. aureus	plasmid pSAHUG_S5b  
 46170	NC_025022	690315776	0	JX898993	Staphylococcus aureus subsp. aureus	plasmid pSM52  
+46170	NZ_CP009424	1133647941	0	CP009424	Staphylococcus aureus subsp. aureus	plasmid pSUR1A  
+46170	NZ_CP009425	1133647942	0	CP009425	Staphylococcus aureus subsp. aureus	plasmid pSUR1B  
 46170	NC_020183	507527156	0	HE805623	Staphylococcus aureus subsp. aureus	plasmid pUR3912  
 46170	NZ_CP014695	1110712364	0	CP014695	Staphylococcus aureus subsp. aureus	plasmid paadD  
 46170	NZ_CP014694	1110712363	0	CP014694	Staphylococcus aureus subsp. aureus	plasmid plinE154  
@@ -16235,7 +16272,6 @@
 419435	NC_008931	124378244	0	AB290006	Glypta fumiferanae ichnovirus	viral segment segment D7  
 419435	NC_008932	124378245	0	AB290007	Glypta fumiferanae ichnovirus	viral segment segment E1  
 376852	NC_004003	21426072	0	AY077835	Goatpox virus Pellor	viral segment Unknown  
-1725342	NC_031465	1083917687	0	KT835053	Golden mussel marseillevirus
 1193422	NC_017979	388570674	0	JF510462	Goose adenovirus 4	viral segment Unknown  
 208491	NC_004800	30518360	0	AY140894	Goose hemorrhagic polyomavirus	viral segment Unknown  
 928214	NC_025380	700075241	0	HQ385752	Gorilla gorilla gorilla polyomavirus 1	viral segment Unknown  
@@ -16429,6 +16465,7 @@
 745177	NC_013953	292397674	0	GQ202541	Lymantria xylina MNPV	viral segment Unknown  
 256729	NC_005902	48843719	0	AY380826	Lymphocystis disease virus - isolate China	viral segment Unknown  
 36363	NC_001824	9695413	0	L63545	Lymphocystis disease virus 1	viral segment Unknown  
+1898060	NC_033423	1135106666	0	KX643370	Lymphocystis disease virus Sa	viral segment Unknown  
 1203539	NC_018102	393738580	0	JQ898291	MW polyomavirus	viral segment Unknown  
 915424	NC_015691	338209357	0	GU014531	Macaca fascicularis papillomavirus 2	viral segment Unknown  
 1236398	NC_019851	430025782	0	JX159986	Macaca fascicularis polyomavirus 1	viral segment Unknown  
@@ -16629,6 +16666,7 @@
 189830	NC_009989	160700552	0	DQ106414	Snake adenovirus 1	viral segment Unknown  
 1885928	NC_030839	1060285471	0	KX643372	Sparus aurata papillomavirus 1
 1885927	NC_030838	1060285465	0	KX643371	Sparus aurata polyomavirus 1
+1890678	NC_033464	1135077328	0	LT608135	Spheniscid herpesvirus 2	viral segment Unknown  
 10454	NC_002169	9634221	0	AF169823	Spodoptera exigua multiple nucleopolyhedrovirus	viral segment Unknown  
 113370	NC_008361	115298502	0	AM398843	Spodoptera frugiperda ascovirus 1a	viral segment Unknown  
 307454	NC_026511	761719522	0	KM371112	Spodoptera frugiperda granulovirus	viral segment Unknown  
@@ -19829,8 +19867,8 @@
 1932006	NC_033275	1132372069	0	KY086299	Chicken associated smacovirus	viral segment Unknown  
 336959	NC_003790	20514394	0	AB033998	Chicken astrovirus	viral segment Unknown  
 1477515	NC_023857	602259731	0	KF961187	Chicken megrivirus	viral segment Unknown  
-1930302	NC_033272	1132372061	0	KY056251	Chicken stool-associated circular virus
-1930298	NC_033270	1132372056	0	KY056250	Chicken stool-associated gemycircularvirus
+1930302	NC_033272	1132372061	0	KY056251	Chicken stool-associated circular virus	viral segment Unknown  
+1930298	NC_033270	1132372056	0	KY056250	Chicken stool-associated gemycircularvirus	viral segment Unknown  
 1302848	NC_022131	532691875	0	JN989422	Chickpea chlorosis Australia virus	viral segment Unknown  
 887825	NC_014740	313139312	0	GU256530	Chickpea chlorosis virus-A	viral segment Unknown  
 463360	NC_011058	194322731	0	AM850136	Chickpea chlorotic dwarf virus	viral segment Unknown  
@@ -23468,6 +23506,7 @@
 1162206	NC_025243	694137675	0	AB703463	Aeolesthes oenochrous	mitochondrion   mitochondrion
 270546	NC_010270	165932535	0	AP009198	Aeoliscus strigatus	mitochondrion   mitochondrion
 9897	NC_020675	470231714	0	JN632592	Aepyceros melampus	mitochondrion   mitochondrion
+242819	NC_033544	1134945717	0	KR150865	Aequidens metae	mitochondrion   mitochondrion
 498933	NC_012446	225697457	0	EU427333	Aeschyntelus notatus	mitochondrion   mitochondrion
 215406	NC_021969	529217558	0	KF000065	Aesopia cornuta	mitochondrion   mitochondrion
 327776	NC_022141	533206309	0	KC593376	Aethaloperca rogaa	mitochondrion   mitochondrion
@@ -23603,6 +23642,7 @@
 12930	NC_033336	1133406999	0	KT361659	Amazona aestiva	mitochondrion   mitochondrion
 151761	NC_027840	927372338	0	KM611467	Amazona ochrocephala	mitochondrion   mitochondrion
 501721	NC_014265	299823690	0	AP009617	Amazonsprattus scintilla	mitochondrion   mitochondrion
+1045542	NC_033497	1134943716	0	KX621134	Ambassis gymnocephalus	mitochondrion   mitochondrion
 1436202	NC_027175	827045966	0	KP319024	Ambastaia sidthimunki	mitochondrion   mitochondrion
 497222	NC_029228	992331524	0	KT781104	Amblychaeturichthys hexanema	mitochondrion   mitochondrion
 909836	NC_015745	339505976	0	AP012001	Amblydoras gonzalezi	mitochondrion   mitochondrion
@@ -23711,6 +23751,7 @@
 29170	NC_012309	225622196	0	FJ483518	Ancylostoma caninum	mitochondrion   mitochondrion
 51022	NC_003415	19073878	0	AJ417718	Ancylostoma duodenale	mitochondrion   mitochondrion
 505711	NC_021124	484759855	0	KC353352	Andalucia godoyi	mitochondrion   mitochondrion
+172522	NC_033547	1134945759	0	KR150868	Andinoacara pulcher	mitochondrion   mitochondrion
 242820	NC_025671	722491764	0	LC009435	Andinoacara rivulatus	mitochondrion   mitochondrion
 1928444	NC_032694	1128265126	0	KX365419	Andraca theae	mitochondrion   mitochondrion
 1862692	NC_030606	1043378492	0	KX241615	Andrena camellia	mitochondrion   mitochondrion
@@ -24214,8 +24255,9 @@
 728235	NC_020312	452848540	0	JQ035658	Austinograea rodriguezensis	mitochondrion   mitochondrion
 308057	NC_028510	959122215	0	KP718940	Austrolebias charrua	mitochondrion   mitochondrion
 94943	NC_026560	761546527	0	KP205430	Austropotamobius pallipes	mitochondrion   mitochondrion
-3075	NC_023775	595789266	0	KC631634	Auxenochlorella protothecoides	plastid   chloroplast
+94942	NC_033504	1134942497	0	KX268734	Austropotamobius torrentium	mitochondrion   mitochondrion
 3075	NC_026009	741870561	0	KC843974	Auxenochlorella protothecoides	mitochondrion   mitochondrion
+3075	NC_023775	595789266	0	KC631634	Auxenochlorella protothecoides	plastid   chloroplast
 217026	NC_005313	40804706	0	AB103467	Auxis rochei	mitochondrion   mitochondrion
 13353	NC_005318	40804692	0	AB105447	Auxis thazard	mitochondrion   mitochondrion
 122246	NC_021940	529217152	0	KC757387	Avahi laniger	mitochondrion   mitochondrion
@@ -24776,6 +24818,7 @@
 412633	NC_013869	289183077	0	AB282841	Bufoceratias thele	mitochondrion   mitochondrion
 1305807	NC_032323	1125812789	0	KX021933	Bufotes zamdaensis	mitochondrion   mitochondrion
 10212	NC_010197	164420823	0	AY690838	Bugula neritina	mitochondrion   mitochondrion
+1758129	NC_033543	1134945703	0	KR150862	Bujurquina mariae	mitochondrion   mitochondrion
 1921091	NC_032298	1125812478	0	KX369241	Bullanga florida	mitochondrion   mitochondrion
 8613	NC_011393	209886953	0	EU579523	Bungarus fasciatus	mitochondrion   mitochondrion
 8616	NC_011392	209886981	0	EU579522	Bungarus multicinctus	mitochondrion   mitochondrion
@@ -24921,7 +24964,10 @@
 314228	NC_020595	470226965	0	JF414243	Calyptorhynchus latirostris	mitochondrion   mitochondrion
 1550735	NC_025511	722489553	0	KM365408	Camaena cicatricosa	mitochondrion   mitochondrion
 39524	NC_032700	1128267022	0	KX931452	Camassia scilloides	plastid   chloroplast
+301263	NC_033505	1134944160	0	KX268735	Cambaroides dauricus	mitochondrion   mitochondrion
+119070	NC_033506	1134944176	0	KX268736	Cambaroides japonicus	mitochondrion   mitochondrion
 315723	NC_016925	378587701	0	JN991196	Cambaroides similis	mitochondrion   mitochondrion
+1240928	NC_033507	1134944226	0	KX268738	Cambarus robustus	mitochondrion   mitochondrion
 90675	NC_029337	1002160928	0	LN877386	Camelina sativa	plastid   chloroplast
 90675	NW_010921677	725652639	0	CM002729	Camelina sativa	chromosome 1 genomic
 90675	NC_025685	725652659	0	CM002729	Camelina sativa	chromosome 1 chromosome
@@ -25224,9 +25270,13 @@
 4072	NC_029985	1022911663	0	CM002820	Capsicum annuum	chromosome 9 chromosome
 4072	NC_024624	675895159	0	KJ865410	Capsicum annuum	mitochondrion MT mitochondrion
 4072	NC_018552	404474503	0	JX270811	Capsicum annuum	plastid Pltd chloroplast
+107817	NC_033525	1134945181	0	KX913218	Capsicum chacoense	plastid   chloroplast
 80379	NC_030543	1043444826	0	KU041709	Capsicum chinense	plastid   chloroplast
+165700	NC_033527	1134942596	0	KX913220	Capsicum eximium	plastid   chloroplast
 4073	NC_028007	937546660	0	KR078312	Capsicum frutescens	plastid   chloroplast
+165701	NC_033524	1134945093	0	KX913216	Capsicum galapagoense	plastid   chloroplast
 362342	NC_026551	814071764	0	KP274856	Capsicum lycianthoides	plastid   chloroplast
+165702	NC_033526	1134945269	0	KX913219	Capsicum tovarii	plastid   chloroplast
 61394	NC_028306	948298869	0	KP202272	Caracal caracal	mitochondrion   mitochondrion
 220690	NC_032691	1128262584	0	KX289922	Caragana microphylla	plastid   chloroplast
 181460	NC_004405	25057815	0	AP004444	Carangoides armatus	mitochondrion   mitochondrion
@@ -25281,6 +25331,7 @@
 108411	NC_026786	810932727	0	KP462882	Carludovica palmata	plastid   chloroplast
 171969	NC_027618	902687128	0	KT164771	Carnegiea gigantea	plastid   chloroplast
 40233	NC_022422	545601087	0	HG003309	Carollia perspicillata	mitochondrion   mitochondrion
+88033	NC_033503	1135077244	0	KX695124	Carpinus putoensis	plastid   chloroplast
 154811	NC_005257	38638389	0	AY366087	Carpiodes carpio	mitochondrion   mitochondrion
 175930	NC_025597	722490585	0	KM078766	Carpodacus erythrinus	mitochondrion   mitochondrion
 175933	NC_025607	722490743	0	KM078779	Carpodacus roseus	mitochondrion   mitochondrion
@@ -25421,6 +25472,7 @@
 36190	NC_015654	336055680	0	JF933907	Chaenocephalus aceratus	mitochondrion   mitochondrion
 646541	NC_027193	827046437	0	KP696748	Chaenogobius gulosus	mitochondrion   mitochondrion
 1040949	NC_017881	386800636	0	JF911705	Chaenomugil proboscideus	mitochondrion   mitochondrion
+1758130	NC_033542	1134945689	0	KR150861	Chaetobranchopsis bitaeniatus	mitochondrion   mitochondrion
 156587	NC_025310	700082471	0	KJ958479	Chaetoceros simplex	plastid   chloroplast
 256131	NC_013846	288904161	0	EF211990	Chaetoderma nitidulum	mitochondrion   mitochondrion
 392913	NC_011951	221164126	0	AP009216	Chaetodermis penicilligerus	mitochondrion   mitochondrion
@@ -25490,6 +25542,7 @@
 82899	NC_024858	685497053	0	AP006013	Cheilodactylus zonatus	mitochondrion   mitochondrion
 1809738	NC_029729	1011057435	0	KU360728	Cheilopogon arcticeps	mitochondrion   mitochondrion
 858497	NC_029730	1011057454	0	KU360729	Cheilopogon atrisignis	mitochondrion   mitochondrion
+545687	NC_033541	1134945675	0	AP017897	Cheilopogon doederleinii	mitochondrion   mitochondrion
 933979	NC_029728	1011057415	0	KU360727	Cheilopogon unicolor	mitochondrion   mitochondrion
 9460	NC_021945	529217222	0	KC757392	Cheirogaleus medius	mitochondrion   mitochondrion
 1297118	NC_023246	570700378	0	KC428100	Cheirotonus jansoni	mitochondrion   mitochondrion
@@ -25714,6 +25767,7 @@
 3827	NC_021167	484571380	0	CM001771	Cicer arietinum	chromosome Ca8 chromosome
 3827	NC_011163	197294093	0	EU835853	Cicer arietinum	plastid Pltd chloroplast
 50735	NC_030272	1033319955	0	KU878410	Cichla ocellaris	mitochondrion   mitochondrion
+420348	NC_033551	1134945815	0	KR150876	Cichlasoma dimerus	mitochondrion   mitochondrion
 52775	NC_002196	7555761	0	AB026193	Ciconia boyciana	mitochondrion   mitochondrion
 8928	NC_002197	7549724	0	AB026818	Ciconia ciconia	mitochondrion   mitochondrion
 36241	NC_023946	608787844	0	KF906246	Ciconia nigra	mitochondrion   mitochondrion
@@ -26211,6 +26265,7 @@
 214684	NC_006693	58272473	0	AE017348	Cryptococcus neoformans var. neoformans JEC21	chromosome 8 chromosome
 214684	NC_006694	58273487	0	AE017349	Cryptococcus neoformans var. neoformans JEC21	chromosome 9 chromosome
 161229	NC_027286	836614630	0	KP410781	Cryptoglena skujai	plastid   chloroplast
+762638	NC_033552	1134945829	0	KR150878	Cryptoheros cutteri	mitochondrion   mitochondrion
 58000	NC_028203	944542468	0	KT182067	Cryptolestes ferrugineus	mitochondrion   mitochondrion
 1173686	NC_028204	944542482	0	KT070713	Cryptolestes pusillus	mitochondrion   mitochondrion
 1173687	NC_028202	944542454	0	KT070712	Cryptolestes turcicus	mitochondrion   mitochondrion
@@ -26524,6 +26579,10 @@
 181453	NC_004402	25057787	0	AP004440	Dactyloptena tiltoni	mitochondrion   mitochondrion
 912007	NC_032690	1128262394	0	KX345846	Dacus longicornis	mitochondrion   mitochondrion
 76233	NC_024648	671729310	0	KJ629165	Daimio tethys	mitochondrion   mitochondrion
+221254	NC_033517	1134944707	0	KX784048	Daiswa chinensis	plastid   chloroplast
+374961	NC_033512	1134944367	0	KX784042	Daiswa dunniana	plastid   chloroplast
+83858	NC_033513	1134944450	0	KX784043	Daiswa forrestii	plastid   chloroplast
+221260	NC_033518	1134944792	0	KX784049	Daiswa yunnanensis	plastid   chloroplast
 1264647	NC_032393	1125814093	0	JQ910981	Dalcantha dilatata	mitochondrion   mitochondrion
 75939	NC_004592	28881941	0	AP004102	Dallia pectoralis	mitochondrion   mitochondrion
 30532	NC_020700	470234101	0	JN632629	Dama dama	mitochondrion   mitochondrion
@@ -26682,6 +26741,7 @@
 437613	NC_026122	746000279	0	KP115291	Devario laoensis	mitochondrion   mitochondrion
 50386	NC_022935	560877809	0	KF669870	Diabrotica barberi	mitochondrion   mitochondrion
 208481	NC_012708	237869070	0	EU871947	Diadegma semiclausum	mitochondrion   mitochondrion
+31175	NC_033522	1134945065	0	KX385835	Diadema setosum	mitochondrion   mitochondrion
 556049	NC_009856	157736187	0	AP009167	Diagramma picta	mitochondrion   mitochondrion
 1542495	NC_026960	817524943	0	KJ870991	Diandrolyra sp. Clark 1301	plastid   plastid
 121845	NC_030214	1031917217	0	KU647697	Diaphorina citri	mitochondrion   mitochondrion
@@ -26732,6 +26792,7 @@
 145284	NC_009601	149390334	0	EF380353	Dioscorea elephantipes	plastid   chloroplast
 55577	NC_024170	651249249	0	KJ490011	Dioscorea rotundata	plastid   plastid
 325984	NC_027090	821317938	0	KP899622	Dioscorea zingiberensis	plastid   chloroplast
+1932074	NC_033502	1134944074	0	KX426216	Diospyros blancoi	plastid   chloroplast
 413747	NC_030784	1052488740	0	KM504956	Diospyros glaucifolia	plastid   chloroplast
 35925	NC_030789	1052487779	0	KT223565	Diospyros kaki	plastid   chloroplast
 55363	NC_030786	1052488828	0	KM522849	Diospyros lotus	plastid   chloroplast
@@ -26909,6 +26970,7 @@
 185727	NC_019805	429222031	0	FR856883	Echinorhynchus truttae	mitochondrion   mitochondrion
 162630	NC_002808	14530815	0	AF348079	Echinosorex gymnura	mitochondrion   mitochondrion
 48216	NC_028010	937546852	0	KR062182	Echinostoma hortense	mitochondrion   mitochondrion
+742515	NC_033523	1134945079	0	KX385836	Echinothrix diadema	mitochondrion   mitochondrion
 385653	NC_017870	386800496	0	AB689008	Echinotriton andersoni	mitochondrion   mitochondrion
 385654	NC_032068	1111670439	0	KX021915	Echinotriton chinhaiensis	mitochondrion   mitochondrion
 144545	NC_025655	725665994	0	KJ953904	Echites umbellatus	plastid   plastid
@@ -26919,6 +26981,7 @@
 2880	NC_013498	269100994	0	FP102296	Ectocarpus siliculosus	plastid   chloroplast
 2880	NC_030223	1031917630	0	FP885846	Ectocarpus siliculosus	mitochondrion   mitochondrion
 458493	NC_010210	164421128	0	EU237480	Ectyoplasia ferox	mitochondrion   mitochondrion
+3083	NC_025528	725675941	0	KM462865	Edaphochlorella mirabilis	plastid   chloroplast
 458089	NC_009736	154937308	0	EU072995	Egretta eulophotes	mitochondrion   mitochondrion
 188379	NC_023981	608788292	0	KJ192197	Egretta garzetta	mitochondrion MT mitochondrion
 887049	NC_025920	733386432	0	KJ190951	Egretta sacra	mitochondrion   mitochondrion
@@ -27058,6 +27121,7 @@
 590984	NC_014694	313247873	0	AB477459	Entoria okinawaensis	mitochondrion   mitochondrion
 130991	NC_030313	1037243194	0	KU646490	Entransia fimbriata	plastid   chloroplast
 130991	NC_022861	558603981	0	KF060941	Entransia fimbriata	mitochondrion   mitochondrion
+1464891	NC_033539	1134945647	0	KX495488	Entylia carinata	mitochondrion   mitochondrion
 1206364	NC_023936	608787703	0	KC831443	Eogystia hippophaecolus	mitochondrion   mitochondrion
 175941	NC_031374	1079486391	0	KX423959	Eophona migratoria	mitochondrion   mitochondrion
 622658	NC_013976	291612246	0	FJ790313	Eophreatoicus sp. 14 FK-2009	mitochondrion   mitochondrion
@@ -27259,29 +27323,54 @@
 454032	NC_016706	372291697	0	AP011601	Escualosa thoracata	mitochondrion   mitochondrion
 353259	NC_008660	119360651	0	AB239594	Esomus metallicus	mitochondrion   mitochondrion
 8010	NC_025968	873527175	0	CM002826	Esox lucius	linkage group LG01 chromosome
+8010	NC_025968	1134601162	0	CM002826	Esox lucius	linkage group LG01 chromosome
+8010	NC_025969	1134601161	0	CM002827	Esox lucius	linkage group LG02 chromosome
 8010	NC_025969	873527174	0	CM002827	Esox lucius	linkage group LG02 chromosome
 8010	NC_025970	873527173	0	CM002828	Esox lucius	linkage group LG03 chromosome
+8010	NC_025970	1134601160	0	CM002828	Esox lucius	linkage group LG03 chromosome
+8010	NC_025971	1134601159	0	CM002829	Esox lucius	linkage group LG04 chromosome
 8010	NC_025971	873527172	0	CM002829	Esox lucius	linkage group LG04 chromosome
+8010	NC_025972	1134601158	0	CM002830	Esox lucius	linkage group LG05 chromosome
 8010	NC_025972	873527171	0	CM002830	Esox lucius	linkage group LG05 chromosome
 8010	NC_025973	873527170	0	CM002831	Esox lucius	linkage group LG06 chromosome
+8010	NC_025973	1134601157	0	CM002831	Esox lucius	linkage group LG06 chromosome
+8010	NC_025974	1134601156	0	CM002832	Esox lucius	linkage group LG07 chromosome
 8010	NC_025974	873527169	0	CM002832	Esox lucius	linkage group LG07 chromosome
+8010	NC_025975	1134601155	0	CM002833	Esox lucius	linkage group LG08 chromosome
 8010	NC_025975	873527168	0	CM002833	Esox lucius	linkage group LG08 chromosome
+8010	NC_025976	1134601154	0	CM002834	Esox lucius	linkage group LG09 chromosome
 8010	NC_025976	873527167	0	CM002834	Esox lucius	linkage group LG09 chromosome
 8010	NC_025977	873527166	0	CM002835	Esox lucius	linkage group LG10 chromosome
+8010	NC_025977	1134601153	0	CM002835	Esox lucius	linkage group LG10 chromosome
+8010	NC_025978	1134601152	0	CM002836	Esox lucius	linkage group LG11 chromosome
 8010	NC_025978	873527165	0	CM002836	Esox lucius	linkage group LG11 chromosome
 8010	NC_025979	873527164	0	CM002837	Esox lucius	linkage group LG12 chromosome
+8010	NC_025979	1134601151	0	CM002837	Esox lucius	linkage group LG12 chromosome
+8010	NC_025980	1134601150	0	CM002838	Esox lucius	linkage group LG13 chromosome
 8010	NC_025980	873527163	0	CM002838	Esox lucius	linkage group LG13 chromosome
+8010	NC_025981	1134601149	0	CM002839	Esox lucius	linkage group LG14 chromosome
 8010	NC_025981	873527162	0	CM002839	Esox lucius	linkage group LG14 chromosome
 8010	NC_025982	873527161	0	CM002840	Esox lucius	linkage group LG15 chromosome
+8010	NC_025982	1134601148	0	CM002840	Esox lucius	linkage group LG15 chromosome
 8010	NC_025983	873527160	0	CM002841	Esox lucius	linkage group LG16 chromosome
+8010	NC_025983	1134601147	0	CM002841	Esox lucius	linkage group LG16 chromosome
+8010	NC_025984	1134601146	0	CM002842	Esox lucius	linkage group LG17 chromosome
 8010	NC_025984	873527159	0	CM002842	Esox lucius	linkage group LG17 chromosome
+8010	NC_025985	1134601145	0	CM002843	Esox lucius	linkage group LG18 chromosome
 8010	NC_025985	873527158	0	CM002843	Esox lucius	linkage group LG18 chromosome
 8010	NC_025986	873527157	0	CM002844	Esox lucius	linkage group LG19 chromosome
+8010	NC_025986	1134601144	0	CM002844	Esox lucius	linkage group LG19 chromosome
 8010	NC_025987	873527156	0	CM002845	Esox lucius	linkage group LG20 chromosome
+8010	NC_025987	1134601143	0	CM002845	Esox lucius	linkage group LG20 chromosome
+8010	NC_025988	1134601142	0	CM002846	Esox lucius	linkage group LG21 chromosome
 8010	NC_025988	873527155	0	CM002846	Esox lucius	linkage group LG21 chromosome
 8010	NC_025989	873527154	0	CM002847	Esox lucius	linkage group LG22 chromosome
+8010	NC_025989	1134601141	0	CM002847	Esox lucius	linkage group LG22 chromosome
+8010	NC_025990	1134601140	0	CM002848	Esox lucius	linkage group LG23 chromosome
 8010	NC_025990	873527153	0	CM002848	Esox lucius	linkage group LG23 chromosome
+8010	NC_025991	1134601139	0	CM002849	Esox lucius	linkage group LG24 chromosome
 8010	NC_025991	873527152	0	CM002849	Esox lucius	linkage group LG24 chromosome
+8010	NC_025992	1134601138	0	CM002850	Esox lucius	linkage group LG25 chromosome
 8010	NC_025992	873527151	0	CM002850	Esox lucius	linkage group LG25 chromosome
 8010	NC_004593	28881913	0	AP004103	Esox lucius	mitochondrion MT mitochondrion
 256424	NC_023269	570700747	0	KF758446	Esox reichertii	mitochondrion   mitochondrion
@@ -27811,6 +27900,7 @@
 300797	NC_012424	225676457	0	EU427336	Geocoris pallidipennis	mitochondrion   mitochondrion
 36754	NC_006990	63025097	0	AY320032	Geodia neptuni	mitochondrion   mitochondrion
 81339	NC_031181	1070111563	0	KU531434	Geophagus brasiliensis	mitochondrion   mitochondrion
+13074	NC_033545	1134945731	0	KR150866	Geophagus steindachneri	mitochondrion   mitochondrion
 290333	NC_007379	73912689	0	AB187570	Geothelphusa dehaani	mitochondrion   mitochondrion
 71168	NC_029404	1002163270	0	KT185629	Geotria australis	mitochondrion   mitochondrion
 1173061	NC_025768	726972424	0	HG530139	Geotrichum candidum	mitochondrion   mitochondrion
@@ -28450,6 +28540,7 @@
 42563	NC_015819	339906691	0	AP011991	Hepsetus odoe	mitochondrion   mitochondrion
 212740	NC_022730	556506285	0	AB560488	Heptranchias perlo	mitochondrion   mitochondrion
 7733	NC_013561	270267392	0	FN296153	Herdmania momus	mitochondrion   mitochondrion
+8117	NC_033546	1134945745	0	KR150867	Herichthys cyanoguttatus	mitochondrion   mitochondrion
 642994	NC_028086	938340498	0	KT279805	Herona marathus	mitochondrion   mitochondrion
 118254	NC_019586	426405889	0	HQ456774	Herpele squalostoma	mitochondrion   mitochondrion
 140016	NC_006835	58578650	0	AY873843	Herpestes javanicus	mitochondrion   mitochondrion
@@ -30373,6 +30464,7 @@
 27923	NC_016117	353526359	0	JF760210	Mnemiopsis leidyi	mitochondrion   mitochondrion
 1579276	NC_025954	733386926	0	KM361353	Mobula eregoodootenkee	mitochondrion   mitochondrion
 495868	NC_018784	408772390	0	JX392983	Mobula japanica	mitochondrion   mitochondrion
+40256	NC_033537	1134945633	0	KX821782	Modiolus modiolus	mitochondrion   mitochondrion
 465791	NC_018371	400201910	0	JN398362	Moerella iridescens	mitochondrion   mitochondrion
 111428	NC_029836	1016472473	0	KT934322	Mogera robusta	mitochondrion   mitochondrion
 62295	NC_005035	32526814	0	AB099482	Mogera wogura	mitochondrion   mitochondrion
@@ -30423,6 +30515,7 @@
 28966	NC_029694	1011056209	0	KT692738	Monsonia emarginata	plastid   chloroplast
 163685	NC_029830	1016472256	0	KT692739	Monsonia marlothii	plastid   chloroplast
 163694	NC_014582	309322207	0	HM125538	Monsonia speciosa	plastid   plastid
+429752	NC_033536	1134945619	0	KX506858	Monticola gularis	mitochondrion   mitochondrion
 356906	NC_025913	733386334	0	KJ148630	Montifringilla adamsi	mitochondrion   mitochondrion
 356903	NC_025911	733386306	0	KJ148628	Montifringilla nivalis	mitochondrion   mitochondrion
 221976	NC_022815	558603155	0	KC836121	Montifringilla ruficollis	mitochondrion   mitochondrion
@@ -31168,6 +31261,7 @@
 682059	NC_019591	426405959	0	JF339977	Orcaella heinsohni	mitochondrion   mitochondrion
 48706	NC_010534	171473571	0	EU016195	Orchesella villosa	mitochondrion   mitochondrion
 9733	NC_023889	605545818	0	GU187178	Orcinus orca	mitochondrion MT mitochondrion
+111603	NC_033508	1134944240	0	KX268739	Orconectes luteus	mitochondrion   mitochondrion
 111608	NC_030768	1052488367	0	KX119150	Orconectes punctimanus	mitochondrion   mitochondrion
 258719	NC_029720	1011057247	0	KU239994	Orconectes rusticus	mitochondrion   mitochondrion
 197200	NC_029721	1011057271	0	KU239995	Orconectes sanbornii	mitochondrion   mitochondrion
@@ -31277,6 +31371,9 @@
 522327	NC_024522	669017411	0	KC784958	Orthotrichum stellatum	mitochondrion   mitochondrion
 74398	NC_025275	699256358	0	KC990021	Orthriophis taeniurus	mitochondrion   mitochondrion
 576952	NC_012689	237515457	0	FJ478174	Orussus occidentalis	mitochondrion   mitochondrion
+1517517	NC_033498	1134943730	0	KX756548	Orychophragmus diffusus	plastid   chloroplast
+1517518	NC_033500	1134943902	0	KX756551	Orychophragmus hupehensis	plastid   chloroplast
+1517519	NC_033499	1134943816	0	KX756550	Orychophragmus taibaiensis	plastid   chloroplast
 9818	NC_002078	5835764	0	Y18475	Orycteropus afer	mitochondrion MT mitochondrion
 9986	NC_013669	283562148	0	CM000790	Oryctolagus cuniculus	chromosome 1 chromosome
 9986	NC_013678	283562139	0	CM000799	Oryctolagus cuniculus	chromosome 10 chromosome
@@ -31574,7 +31671,6 @@
 132389	NC_027190	827046395	0	KP404095	Oxyuris equi	mitochondrion   mitochondrion
 51447	NC_032709	1128270839	0	KX931463	Oziroe biflora	plastid   chloroplast
 63824	NC_020766	470235744	0	JN632681	Ozotoceros bezoarticus	mitochondrion   mitochondrion
-173497	NC_025529	725650714	0	KM462866	Pabia signiensis	plastid   chloroplast
 106773	NC_021102	484759624	0	JQ806762	Pachycladon cheesemanii	plastid   chloroplast
 414717	NC_018565	404474590	0	JX205495	Pachycladon enysii	plastid   chloroplast
 106774	NC_029768	1011059111	0	KU170142	Pachycladon fastigiatum	plastid   chloroplast
@@ -31587,6 +31683,7 @@
 1042256	NC_029345	1002161259	0	KT899979	Pachytriton feii	mitochondrion   mitochondrion
 1042253	NC_032311	1125802397	0	KX021918	Pachytriton granulosus	mitochondrion   mitochondrion
 1042255	NC_032312	1125812663	0	KX021919	Pachytriton moi	mitochondrion   mitochondrion
+6720	NC_033509	1134944254	0	KX268740	Pacifastacus leniusculus	mitochondrion   mitochondrion
 997599	NC_023919	608787426	0	HQ833838	Pacris xizangensis	mitochondrion   mitochondrion
 267976	NC_028441	953245192	0	KT633398	Padda oryzivora	mitochondrion   mitochondrion
 643344	NC_020436	456351562	0	KC342218	Paedocypris progenetica	mitochondrion   mitochondrion
@@ -31603,6 +31700,7 @@
 117983	NC_027601	902686805	0	KM978916	Palaemon serenus	mitochondrion   mitochondrion
 1513477	NC_026090	745999874	0	KJ944220	Palaeopropithecus ingens	mitochondrion   mitochondrion
 161718	NC_013841	288903542	0	FJ541030	Palea steindachneri	mitochondrion   mitochondrion
+1932166	NC_033532	1134945399	0	KY195975	Paleosepharia posticata	mitochondrion   mitochondrion
 84099	NC_009729	154759333	0	AM493870	Paleosuchus palpebrosus	mitochondrion   mitochondrion
 38658	NC_009732	154818301	0	AM493869	Paleosuchus trigonatus	mitochondrion   mitochondrion
 198231	NC_021753	525340974	0	KC847078	Palinurellus wieneckii	mitochondrion   mitochondrion
@@ -31698,6 +31796,7 @@
 38727	NC_015990	345895196	0	HQ822121	Panicum virgatum	plastid   chloroplast
 50023	NC_014347	301353317	0	HM367068	Panonychus citri	mitochondrion   mitochondrion
 50024	NC_012571	226968599	0	EU682403	Panonychus ulmi	mitochondrion   mitochondrion
+134997	NC_033538	1134942698	0	KX494111	Panopea abrupta	mitochondrion   mitochondrion
 1049056	NC_025635	722491287	0	KM580067	Panopea generosa	mitochondrion   mitochondrion
 1237092	NC_025636	722491306	0	KM580068	Panopea globosa	mitochondrion   mitochondrion
 9689	NC_028302	948298813	0	KP202262	Panthera leo	mitochondrion   mitochondrion
@@ -31877,7 +31976,13 @@
 1258705	NC_030581	1043377642	0	KX180090	Parinari capensis	plastid   chloroplast
 992768	NC_030582	1043377726	0	KX180091	Parinari curatellifolia	plastid   chloroplast
 1272991	NC_030583	1043377810	0	KX180092	Parinari oblongifolia	plastid   chloroplast
+220640	NC_033511	1134944282	0	KX784041	Paris cronquistii	plastid   chloroplast
+221256	NC_033514	1134944537	0	KX784045	Paris luquanensis	plastid   chloroplast
+374964	NC_033515	1134942511	0	KX784046	Paris mairei	plastid   chloroplast
+221257	NC_033516	1134944622	0	KX784047	Paris marmorata	plastid   chloroplast
+231488	NC_033520	1134944964	0	KX784051	Paris quadrifolia	plastid   chloroplast
 55185	NC_024560	669100429	0	KJ433485	Paris verticillata	plastid   plastid
+374968	NC_033519	1134944877	0	KX784050	Paris vietnamensis	plastid   chloroplast
 218706	NC_029136	992331277	0	JX101619	Parnara guttatus	mitochondrion   mitochondrion
 110799	NC_024727	674840208	0	KF746065	Parnassius apollo	mitochondrion   mitochondrion
 213924	NC_014053	295065608	0	FJ871125	Parnassius bremeri	mitochondrion   mitochondrion
@@ -32803,8 +32908,9 @@
 165005	NC_030073	1025807655	0	KT247374	Potomida littoralis	mitochondrion   mitochondrion
 1415581	NC_023516	589144287	0	KF540161	Potomotyphlus kaupii	mitochondrion   mitochondrion
 9310	NC_006524	56548663	0	AJ639873	Potorous tridactylus	mitochondrion   mitochondrion
-156133	NC_023355	575925518	0	KF387569	Prasinoderma coloniale	mitochondrion   mitochondrion
+233737	NC_033501	1134943988	0	KX426215	Pouteria campechiana	plastid   chloroplast
 156133	NC_024817	685508351	0	KJ746598	Prasinoderma coloniale	plastid   chloroplast
+156133	NC_023355	575925518	0	KF387569	Prasinoderma coloniale	mitochondrion   mitochondrion
 420423	NC_023517	589144301	0	KF540162	Praslinia cooperi	mitochondrion   mitochondrion
 882625	NC_032079	1111670662	0	KX240084	Praticolella mexicana	mitochondrion   mitochondrion
 45931	NC_020434	456351535	0	GQ332425	Pratylenchus vulnus	mitochondrion   mitochondrion
@@ -32842,6 +32948,7 @@
 507543	NC_015075	322422364	0	AB556947	Pristomyrmex punctatus	mitochondrion   mitochondrion
 1090025	NC_029955	1021077967	0	KT312922	Pritchardia thurstonii	plastid   plastid
 266796	NC_031525	1088475568	0	AP011187	Probarbus jullieni	mitochondrion   mitochondrion
+197206	NC_033510	1134944268	0	KX268741	Procambarus acutus	mitochondrion   mitochondrion
 643729	NC_028447	953245344	0	KT074363	Procambarus alleni	mitochondrion   mitochondrion
 6728	NC_016926	378587715	0	JN991197	Procambarus clarkii	mitochondrion   mitochondrion
 215716	NC_020021	435856487	0	KC107813	Procambarus fallax	mitochondrion   mitochondrion
@@ -32963,6 +33070,7 @@
 7678	NC_023773	594448560	0	KC490913	Pseudocentrotus depressus	mitochondrion   mitochondrion
 1086615	NC_016950	378829101	0	JN592039	Pseudochauhanea macrorchis	mitochondrion   mitochondrion
 9333	NC_006519	56548677	0	AJ639870	Pseudocheirus peregrinus	mitochondrion   mitochondrion
+173497	NC_025529	725650714	0	KM462866	Pseudochlorella signiensis	plastid   chloroplast
 1418016	NC_025547	723457419	0	KM462886	Pseudochloris wilhelmii	plastid   chloroplast
 52620	NC_031574	1088479663	0	AP011282	Pseudochondrostoma polylepis	mitochondrion   mitochondrion
 61082	NC_014853	317134276	0	HQ269357	Pseudocorticium jarrei	mitochondrion   mitochondrion
@@ -33120,6 +33228,7 @@
 693431	NC_008431	115494845	0	AM181033	Pusa caspica	mitochondrion   mitochondrion
 9718	NC_008433	115494607	0	AM181036	Pusa hispida	mitochondrion   mitochondrion
 9719	NC_008432	115494621	0	AM181034	Pusa sibirica	mitochondrion   mitochondrion
+1933172	NC_033540	1134945661	0	KX426346	Pycnarmon lactiferalis	mitochondrion   mitochondrion
 41880	NC_012097	224179399	0	FJ493498	Pycnococcus provasolii	plastid   chloroplast
 41880	NC_013935	291010610	0	GQ497137	Pycnococcus provasolii	mitochondrion   mitochondrion
 241766	NC_024730	674840236	0	KJ186975	Pycnonotus melanicterus	mitochondrion   mitochondrion
@@ -33320,6 +33429,7 @@
 59555	NC_020742	470235548	0	JN632695	Redunca fulvorufula	mitochondrion   mitochondrion
 73321	NC_024866	685497189	0	KJ909188	Regulus calendula	mitochondrion   mitochondrion
 68468	NC_029837	1016472487	0	KT934324	Regulus regulus	mitochondrion   mitochondrion
+332336	NC_033534	1134945448	0	KX426347	Rehmannia chingii	plastid   chloroplast
 111784	NC_009711	154090907	0	AM749130	Reinhardtius hippoglossoides	mitochondrion   mitochondrion
 272940	NC_010090	161561766	0	DQ159954	Reishia clavigera	mitochondrion   mitochondrion
 981581	NC_021641	521258284	0	KC463856	Remiz consobrinus	mitochondrion   mitochondrion
@@ -33337,6 +33447,7 @@
 127387	NC_009499	148368807	0	EF206315	Reticulitermes santonensis	mitochondrion   mitochondrion
 57123	NC_009500	148368765	0	EF206318	Reticulitermes virginicus	mitochondrion   mitochondrion
 1414805	NC_022865	558604074	0	KF498969	Retinia pseudotsugaicola	mitochondrion   mitochondrion
+1758131	NC_033549	1134945787	0	KR150871	Retroculus lapidifer	mitochondrion   mitochondrion
 1505646	NC_024827	695101567	0	KJ617081	Retrophyllum piresii	plastid   chloroplast
 170203	NC_004598	28894780	0	AP004108	Retropinna retropinna	mitochondrion   mitochondrion
 182228	NC_031372	1079486289	0	KX421784	Retropinna semoni	mitochondrion   mitochondrion
@@ -33435,6 +33546,7 @@
 272071	NC_013252	258650138	0	FJ859903	Rhopaea magnicornis	mitochondrion   mitochondrion
 1094772	NC_016183	357017951	0	JN619347	Rhopalocaulis grandidieri	mitochondrion   mitochondrion
 608481	NC_013063	255506236	0	GQ387649	Rhopalomyia pomum	mitochondrion   mitochondrion
+289753	NC_033535	1134945536	0	KX447140	Rhus chinensis	plastid   chloroplast
 86220	NC_004414	25057228	0	AP004454	Rhyacichthys aspro	mitochondrion   mitochondrion
 1111782	NC_019619	426406226	0	JX028270	Rhyacionia leptotubula	mitochondrion   mitochondrion
 291264	NC_006331	53686572	0	AY728219	Rhyacotriton variegatus	mitochondrion   mitochondrion
@@ -33473,6 +33585,7 @@
 35938	NC_026684	772657200	0	KJ468102	Robinia pseudoacacia	plastid   chloroplast
 118149	NC_013633	280978489	0	AP010846	Robinsia catherinae	mitochondrion   mitochondrion
 189538	NC_004321	23578034	0	AY083457	Roboastra europaea	mitochondrion   mitochondrion
+661982	NC_033548	1134945773	0	KR150870	Rocio octofasciata	mitochondrion   mitochondrion
 516016	NC_031558	1088478366	0	AP011259	Romanogobio ciscaucasicus	mitochondrion   mitochondrion
 328535	NC_022930	560877704	0	KF647873	Romanogobio tenuicorpus	mitochondrion   mitochondrion
 13658	NC_008640	119360176	0	EF154459	Romanomermis culicivorax	mitochondrion   mitochondrion
@@ -33617,6 +33730,7 @@
 77065	NC_026722	772657659	0	KP019639	Salix purpurea	plastid   chloroplast
 1278906	NC_026462	761380089	0	KM983390	Salix suchowensis	plastid   chloroplast
 1278906	NC_029317	1002167010	0	KU056812	Salix suchowensis	mitochondrion   mitochondrion
+39368	NC_033528	1134945357	0	KU302103	Salmacis sphaeroides	mitochondrion   mitochondrion
 930266	NC_024941	689357967	0	KM245047	Salminus brasiliensis	mitochondrion   mitochondrion
 8030	NC_001960	5835624	0	U12143	Salmo salar	mitochondrion MT mitochondrion
 8030	NC_027300	925216783	0	CM003279	Salmo salar	chromosome ssa01 chromosome
@@ -33870,6 +33984,7 @@
 13676	NC_021470	511349036	0	AB102724	Scomber japonicus	mitochondrion   mitochondrion
 13677	NC_006398	55376093	0	AB120717	Scomber scombrus	mitochondrion   mitochondrion
 13679	NC_008109	108767254	0	DQ536428	Scomberomorus cavalla	mitochondrion   mitochondrion
+99342	NC_033531	1134942684	0	KY091265	Scomberomorus concolor	mitochondrion   mitochondrion
 248137	NC_021390	511347865	0	JX559739	Scomberomorus munroi	mitochondrion   mitochondrion
 1238137	NC_021392	511347893	0	JX559746	Scomberomorus munroi x Scomberomorus semifasciatus	mitochondrion   mitochondrion
 321164	NC_016420	359421978	0	GU109281	Scomberomorus niphonius	mitochondrion   mitochondrion
@@ -34396,6 +34511,7 @@
 481984	NC_029390	1002162547	0	KT983629	Stipa purpurea	plastid   chloroplast
 983304	NC_018054	391224132	0	AB613000	Stiphodon alcedo	mitochondrion   mitochondrion
 88056	NC_022414	545719234	0	KC180807	Stockwellia quadrifida	plastid   chloroplast
+529104	NC_033521	1134945051	0	KX753639	Stolephorus commersonnii	mitochondrion   mitochondrion
 529752	NC_031861	1102547274	0	KX298894	Stomatella planulata	mitochondrion   mitochondrion
 1903712	NC_031392	1079487025	0	KX578031	Stoneobryum bunyaense	mitochondrion   mitochondrion
 103435	NC_028424	953244836	0	KT223827	Strauchbufo raddei	mitochondrion   mitochondrion
@@ -34707,6 +34823,8 @@
 1229843	NC_030333	1037241221	0	KT949346	Telmatobius chusmisensis	mitochondrion   mitochondrion
 93483	NC_027274	836643765	0	KR349313	Telmatobufo australis	mitochondrion   mitochondrion
 39384	NC_026200	749111803	0	KP070768	Temnopleurus hardwickii	mitochondrion   mitochondrion
+161071	NC_033530	1134945385	0	KU302106	Temnopleurus reevesii	mitochondrion   mitochondrion
+161058	NC_033529	1134945371	0	KU302105	Temnopleurus toreumaticus	mitochondrion   mitochondrion
 59382	NC_029897	1016882605	0	KT168397	Tenaxia guillarmodiae	plastid   plastid
 7067	NC_024633	671729130	0	KF418153	Tenebrio molitor	mitochondrion   mitochondrion
 406589	NC_030266	1033319871	0	KU201318	Tenodera sinensis	mitochondrion   mitochondrion
@@ -35049,7 +35167,6 @@
 227627	NC_013826	288903338	0	EU914849	Traulia szetschuanensis	mitochondrion   mitochondrion
 1208065	NC_018568	409052422	0	JX315601	Trebouxiophyceae sp. MX-AZ01	mitochondrion   mitochondrion
 1208065	NC_018569	409052464	0	JX402620	Trebouxiophyceae sp. MX-AZ01	plastid   chloroplast
-3083	NC_025528	725675941	0	KM462865	Trebouxiophyceae sp. TP-2016a	plastid   chloroplast
 665158	NC_027231	836642980	0	KM374637	Tregellasia capito	mitochondrion   mitochondrion
 175139	NC_024871	685497259	0	KJ909197	Tregellasia leucops	mitochondrion   mitochondrion
 9638	NC_009969	159524410	0	EF196665	Tremarctos ornatus	mitochondrion   mitochondrion
@@ -35276,13 +35393,14 @@
 59818	NC_026079	745999721	0	KJ598129	Tyrophagus putrescentiae	mitochondrion   mitochondrion
 1562696	NC_025569	722490115	0	KM453724	Tyspanodes hypsalis	mitochondrion   mitochondrion
 1661355	NC_030510	1043373355	0	KP347977	Tyspanodes striata	mitochondrion   mitochondrion
+74137	NC_033550	1134945801	0	KR150875	Uaru amphiacanthoides	mitochondrion   mitochondrion
 980419	NC_027600	902686791	0	KT004434	Ulcina olrikii	mitochondrion   mitochondrion
 1297873	NC_032718	1128272762	0	KY244082	Ulmus davidiana	plastid   chloroplast
 198265	NC_032719	1128272885	0	KY244084	Ulmus laciniata	plastid   chloroplast
 1043716	NC_032720	1128272994	0	KY244085	Ulmus macrocarpa	plastid   chloroplast
 198266	NC_032721	1128273112	0	KY244086	Ulmus pumila	plastid   chloroplast
-1436140	NC_013710	283795033	0	GU002153	Ulnaria acus	mitochondrion   mitochondrion
 1436140	NC_016731	378824466	0	JQ088178	Ulnaria acus	plastid   chloroplast
+1436140	NC_013710	283795033	0	GU002153	Ulnaria acus	mitochondrion   mitochondrion
 1552300	NC_025332	699257024	0	KM046492	Ulomoides dermestoides	mitochondrion   mitochondrion
 140636	NC_031393	1079487066	0	KX578032	Ulota crispa	mitochondrion   mitochondrion
 279761	NC_024517	669017207	0	KC784952	Ulota hutchinsiae	mitochondrion   mitochondrion
@@ -35531,8 +35649,8 @@
 1378264	NC_022171	533206861	0	KC993197	Wickerhamomyces mucosus	mitochondrion   mitochondrion
 599730	NC_022166	533206763	0	KC993192	Wickerhamomyces pijperi	mitochondrion   mitochondrion
 1353928	NC_025747	726972133	0	KF769457	Wiedomys cerradensis	mitochondrion   mitochondrion
-1134705	NC_029576	1002819087	0	KR020505	Wildemania schizophylla	plastid   plastid
 1134705	NC_024579	669135997	0	KJ689442	Wildemania schizophylla	mitochondrion   mitochondrion
+1134705	NC_029576	1002819087	0	KR020505	Wildemania schizophylla	plastid   plastid
 1929860	NC_033377	1133409589	0	KY354229	Wimmerella hederacea	plastid   plastid
 3922	NC_027677	910355094	0	KM103376	Wisteria floribunda	plastid   chloroplast
 20997	NC_029406	1002163298	0	KT200359	Wisteria sinensis	plastid   chloroplast
@@ -35944,6 +36062,7 @@
 1162206	NC_025243	694137675	0	AB703463	Aeolesthes oenochrous
 270546	NC_010270	165932535	0	AP009198	Aeoliscus strigatus
 9897	NC_020675	470231714	0	JN632592	Aepyceros melampus
+242819	NC_033544	1134945717	0	KR150865	Aequidens metae
 498933	NC_012446	225697457	0	EU427333	Aeschyntelus notatus
 215406	NC_021969	529217558	0	KF000065	Aesopia cornuta
 327776	NC_022141	533206309	0	KC593376	Aethaloperca rogaa
@@ -36040,6 +36159,7 @@
 12930	NC_033336	1133406999	0	KT361659	Amazona aestiva
 151761	NC_027840	927372338	0	KM611467	Amazona ochrocephala
 501721	NC_014265	299823690	0	AP009617	Amazonsprattus scintilla
+1045542	NC_033497	1134943716	0	KX621134	Ambassis gymnocephalus
 1436202	NC_027175	827045966	0	KP319024	Ambastaia sidthimunki
 497222	NC_029228	992331524	0	KT781104	Amblychaeturichthys hexanema
 909836	NC_015745	339505976	0	AP012001	Amblydoras gonzalezi
@@ -36138,6 +36258,7 @@
 686567	NC_014269	299825732	0	AP011557	Anchoviella sp. LBP 2297
 29170	NC_012309	225622196	0	FJ483518	Ancylostoma caninum
 51022	NC_003415	19073878	0	AJ417718	Ancylostoma duodenale
+172522	NC_033547	1134945759	0	KR150868	Andinoacara pulcher
 242820	NC_025671	722491764	0	LC009435	Andinoacara rivulatus
 1928444	NC_032694	1128265126	0	KX365419	Andraca theae
 141262	NC_004926	32453793	0	AJ492192	Andrias davidianus
@@ -36455,6 +36576,7 @@
 728235	NC_020312	452848540	0	JQ035658	Austinograea rodriguezensis
 308057	NC_028510	959122215	0	KP718940	Austrolebias charrua
 94943	NC_026560	761546527	0	KP205430	Austropotamobius pallipes
+94942	NC_033504	1134942497	0	KX268734	Austropotamobius torrentium
 217026	NC_005313	40804706	0	AB103467	Auxis rochei
 13353	NC_005318	40804692	0	AB105447	Auxis thazard
 122246	NC_021940	529217152	0	KC757387	Avahi laniger
@@ -36710,6 +36832,7 @@
 412633	NC_013869	289183077	0	AB282841	Bufoceratias thele
 1305807	NC_032323	1125812789	0	KX021933	Bufotes zamdaensis
 10212	NC_010197	164420823	0	AY690838	Bugula neritina
+1758129	NC_033543	1134945703	0	KR150862	Bujurquina mariae
 1921091	NC_032298	1125812478	0	KX369241	Bullanga florida
 8613	NC_011393	209886953	0	EU579523	Bungarus fasciatus
 8616	NC_011392	209886981	0	EU579522	Bungarus multicinctus
@@ -36799,7 +36922,10 @@
 986098	NC_020593	470226874	0	JF414241	Calyptorhynchus lathami
 314228	NC_020595	470226965	0	JF414243	Calyptorhynchus latirostris
 1550735	NC_025511	722489553	0	KM365408	Camaena cicatricosa
+301263	NC_033505	1134944160	0	KX268735	Cambaroides dauricus
+119070	NC_033506	1134944176	0	KX268736	Cambaroides japonicus
 315723	NC_016925	378587701	0	JN991196	Cambaroides similis
+1240928	NC_033507	1134944226	0	KX268738	Cambarus robustus
 9837	NC_009628	157011955	0	EF212037	Camelus bactrianus	mitochondrion MT  
 9838	NC_009849	157690784	0	EU159113	Camelus dromedarius	mitochondrion MT  
 419612	NC_009629	157011972	0	EF212038	Camelus ferus	mitochondrion MT  
@@ -37002,6 +37128,7 @@
 36190	NC_015654	336055680	0	JF933907	Chaenocephalus aceratus
 646541	NC_027193	827046437	0	KP696748	Chaenogobius gulosus
 1040949	NC_017881	386800636	0	JF911705	Chaenomugil proboscideus
+1758130	NC_033542	1134945689	0	KR150861	Chaetobranchopsis bitaeniatus
 256131	NC_013846	288904161	0	EF211990	Chaetoderma nitidulum
 392913	NC_011951	221164126	0	AP009216	Chaetodermis penicilligerus
 215361	NC_009870	157736103	0	AP006004	Chaetodon auripes
@@ -37060,6 +37187,7 @@
 82899	NC_024858	685497053	0	AP006013	Cheilodactylus zonatus
 1809738	NC_029729	1011057435	0	KU360728	Cheilopogon arcticeps
 858497	NC_029730	1011057454	0	KU360729	Cheilopogon atrisignis
+545687	NC_033541	1134945675	0	AP017897	Cheilopogon doederleinii
 933979	NC_029728	1011057415	0	KU360727	Cheilopogon unicolor
 9460	NC_021945	529217222	0	KC757392	Cheirogaleus medius
 1297118	NC_023246	570700378	0	KC428100	Cheirotonus jansoni
@@ -37177,6 +37305,7 @@
 420416	NC_023509	589144189	0	KF540149	Chthonerpeton indistinctum
 279401	NC_029181	992329653	0	KM288695	Chuanchia labiosa
 50735	NC_030272	1033319955	0	KU878410	Cichla ocellaris
+420348	NC_033551	1134945815	0	KR150876	Cichlasoma dimerus
 52775	NC_002196	7555761	0	AB026193	Ciconia boyciana
 8928	NC_002197	7549724	0	AB026818	Ciconia ciconia
 36241	NC_023946	608787844	0	KF906246	Ciconia nigra
@@ -37441,6 +37570,7 @@
 161578	NC_030191	1030178756	0	KP872847	Cryptocercus kyebangensis
 63626	NC_018132	394831453	0	JX144941	Cryptocercus relictus
 6655	NC_026850	813423659	0	KJ569363	Cryptochiton stelleri
+762638	NC_033552	1134945829	0	KR150878	Cryptoheros cutteri
 58000	NC_028203	944542468	0	KT182067	Cryptolestes ferrugineus
 1173686	NC_028204	944542482	0	KT070713	Cryptolestes pusillus
 412659	NC_013880	289183231	0	AB282850	Cryptopsaras couesii
@@ -37659,6 +37789,7 @@
 437613	NC_026122	746000279	0	KP115291	Devario laoensis
 50386	NC_022935	560877809	0	KF669870	Diabrotica barberi
 208481	NC_012708	237869070	0	EU871947	Diadegma semiclausum
+31175	NC_033522	1134945065	0	KX385835	Diadema setosum
 556049	NC_009856	157736187	0	AP009167	Diagramma picta
 121845	NC_030214	1031917217	0	KU647697	Diaphorina citri
 143323	NC_003164	16357192	0	AP002923	Diaphus splendidus
@@ -37784,6 +37915,7 @@
 185727	NC_019805	429222031	0	FR856883	Echinorhynchus truttae
 162630	NC_002808	14530815	0	AF348079	Echinosorex gymnura
 48216	NC_028010	937546852	0	KR062182	Echinostoma hortense
+742515	NC_033523	1134945079	0	KX385836	Echinothrix diadema
 385653	NC_017870	386800496	0	AB689008	Echinotriton andersoni
 385654	NC_032068	1111670439	0	KX021915	Echinotriton chinhaiensis
 164528	NC_007632	83309085	0	AY795975	Echymipera rufescens australis
@@ -37857,6 +37989,7 @@
 57550	NC_006328	53686376	0	AY728216	Ensatina eschscholtzii
 51028	NC_011300	207266404	0	EU281143	Enterobius vermicularis
 590984	NC_014694	313247873	0	AB477459	Entoria okinawaensis
+1464891	NC_033539	1134945647	0	KX495488	Entylia carinata
 1206364	NC_023936	608787703	0	KC831443	Eogystia hippophaecolus
 175941	NC_031374	1079486391	0	KX423959	Eophona migratoria
 622658	NC_013976	291612246	0	FJ790313	Eophreatoicus sp. 14 FK-2009
@@ -38228,6 +38361,7 @@
 300797	NC_012424	225676457	0	EU427336	Geocoris pallidipennis
 36754	NC_006990	63025097	0	AY320032	Geodia neptuni
 81339	NC_031181	1070111563	0	KU531434	Geophagus brasiliensis
+13074	NC_033545	1134945731	0	KR150866	Geophagus steindachneri
 290333	NC_007379	73912689	0	AB187570	Geothelphusa dehaani
 71168	NC_029404	1002163270	0	KT185629	Geotria australis
 869458	NC_015207	325126930	0	HM640213	Geotrygon violacea
@@ -38523,6 +38657,7 @@
 42563	NC_015819	339906691	0	AP011991	Hepsetus odoe
 212740	NC_022730	556506285	0	AB560488	Heptranchias perlo
 7733	NC_013561	270267392	0	FN296153	Herdmania momus
+8117	NC_033546	1134945745	0	KR150867	Herichthys cyanoguttatus
 642994	NC_028086	938340498	0	KT279805	Herona marathus
 118254	NC_019586	426405889	0	HQ456774	Herpele squalostoma
 140016	NC_006835	58578650	0	AY873843	Herpestes javanicus
@@ -39585,6 +39720,7 @@
 27923	NC_016117	353526359	0	JF760210	Mnemiopsis leidyi
 1579276	NC_025954	733386926	0	KM361353	Mobula eregoodootenkee
 495868	NC_018784	408772390	0	JX392983	Mobula japanica
+40256	NC_033537	1134945633	0	KX821782	Modiolus modiolus
 465791	NC_018371	400201910	0	JN398362	Moerella iridescens
 111428	NC_029836	1016472473	0	KT934322	Mogera robusta
 62295	NC_005035	32526814	0	AB099482	Mogera wogura
@@ -39608,6 +39744,7 @@
 384591	NC_010957	190349551	0	AP009166	Monotaxis grandoculis
 862794	NC_015366	327492947	0	AP011925	Monotrete cochinchinensis
 303753	NC_022940	560877878	0	KF667490	Monotrete leiurus
+429752	NC_033536	1134945619	0	KX506858	Monticola gularis
 356906	NC_025913	733386334	0	KJ148630	Montifringilla adamsi
 356903	NC_025911	733386306	0	KJ148628	Montifringilla nivalis
 221976	NC_022815	558603155	0	KC836121	Montifringilla ruficollis
@@ -40064,6 +40201,7 @@
 682059	NC_019591	426405959	0	JF339977	Orcaella heinsohni
 48706	NC_010534	171473571	0	EU016195	Orchesella villosa
 9733	NC_023889	605545818	0	GU187178	Orcinus orca	mitochondrion MT  
+111603	NC_033508	1134944240	0	KX268739	Orconectes luteus
 111608	NC_030768	1052488367	0	KX119150	Orconectes punctimanus
 258719	NC_029720	1011057247	0	KU239994	Orconectes rusticus
 197200	NC_029721	1011057271	0	KU239995	Orconectes sanbornii
@@ -40193,6 +40331,7 @@
 1042256	NC_029345	1002161259	0	KT899979	Pachytriton feii
 1042253	NC_032311	1125802397	0	KX021918	Pachytriton granulosus
 1042255	NC_032312	1125812663	0	KX021919	Pachytriton moi
+6720	NC_033509	1134944254	0	KX268740	Pacifastacus leniusculus
 997599	NC_023919	608787426	0	HQ833838	Pacris xizangensis
 267976	NC_028441	953245192	0	KT633398	Padda oryzivora
 643344	NC_020436	456351562	0	KC342218	Paedocypris progenetica
@@ -40207,6 +40346,7 @@
 117983	NC_027601	902686805	0	KM978916	Palaemon serenus
 1513477	NC_026090	745999874	0	KJ944220	Palaeopropithecus ingens
 161718	NC_013841	288903542	0	FJ541030	Palea steindachneri
+1932166	NC_033532	1134945399	0	KY195975	Paleosepharia posticata
 84099	NC_009729	154759333	0	AM493870	Paleosuchus palpebrosus
 38658	NC_009732	154818301	0	AM493869	Paleosuchus trigonatus
 198231	NC_021753	525340974	0	KC847078	Palinurellus wieneckii
@@ -40237,6 +40377,7 @@
 425483	NC_031592	1088480944	0	AP011336	Pangio oblonga
 50023	NC_014347	301353317	0	HM367068	Panonychus citri
 50024	NC_012571	226968599	0	EU682403	Panonychus ulmi
+134997	NC_033538	1134942698	0	KX494111	Panopea abrupta
 1049056	NC_025635	722491287	0	KM580067	Panopea generosa
 1237092	NC_025636	722491306	0	KM580068	Panopea globosa
 9689	NC_028302	948298813	0	KP202262	Panthera leo
@@ -40802,6 +40943,7 @@
 685728	NC_027182	827046137	0	KP400584	Pristis pectinata
 507543	NC_015075	322422364	0	AB556947	Pristomyrmex punctatus
 266796	NC_031525	1088475568	0	AP011187	Probarbus jullieni
+197206	NC_033510	1134944268	0	KX268741	Procambarus acutus
 643729	NC_028447	953245344	0	KT074363	Procambarus alleni
 6728	NC_016926	378587715	0	JN991197	Procambarus clarkii
 215716	NC_020021	435856487	0	KC107813	Procambarus fallax
@@ -41031,6 +41173,7 @@
 693431	NC_008431	115494845	0	AM181033	Pusa caspica
 9718	NC_008433	115494607	0	AM181036	Pusa hispida
 9719	NC_008432	115494621	0	AM181034	Pusa sibirica
+1933172	NC_033540	1134945661	0	KX426346	Pycnarmon lactiferalis
 241766	NC_024730	674840236	0	KJ186975	Pycnonotus melanicterus
 125283	NC_013838	288903492	0	GU475148	Pycnonotus sinensis
 493818	NC_013483	291165484	0	FJ378536	Pycnonotus taivanus
@@ -41162,6 +41305,7 @@
 127387	NC_009499	148368807	0	EF206315	Reticulitermes santonensis
 57123	NC_009500	148368765	0	EF206318	Reticulitermes virginicus
 1414805	NC_022865	558604074	0	KF498969	Retinia pseudotsugaicola
+1758131	NC_033549	1134945787	0	KR150871	Retroculus lapidifer
 170203	NC_004598	28894780	0	AP004108	Retropinna retropinna
 182228	NC_031372	1079486289	0	KX421784	Retropinna semoni
 1219339	NC_022503	546144376	0	AP012520	Rexea nakamurai
@@ -41269,6 +41413,7 @@
 337745	NC_023376	575669706	0	KF670723	Rita rita
 118149	NC_013633	280978489	0	AP010846	Robinsia catherinae
 189538	NC_004321	23578034	0	AY083457	Roboastra europaea
+661982	NC_033548	1134945773	0	KR150870	Rocio octofasciata
 516016	NC_031558	1088478366	0	AP011259	Romanogobio ciscaucasicus
 328535	NC_022930	560877704	0	KF647873	Romanogobio tenuicorpus
 13658	NC_008640	119360176	0	EF154459	Romanomermis culicivorax
@@ -41325,6 +41470,7 @@
 181472	NC_004412	25057924	0	AP004451	Salarias fasciatus
 498931	NC_012463	225697514	0	EU427345	Saldula arsenjevi
 981055	NC_016185	357017979	0	JN620539	Salinator rhamphidia
+39368	NC_033528	1134945357	0	KU302103	Salmacis sphaeroides
 930266	NC_024941	689357967	0	KM245047	Salminus brasiliensis
 8030	NC_001960	5835624	0	U12143	Salmo salar	mitochondrion MT  
 8032	NC_024032	620695044	0	JQ390057	Salmo trutta
@@ -41484,6 +41630,7 @@
 13676	NC_013723	283767177	0	AB488405	Scomber japonicus
 13677	NC_006398	55376093	0	AB120717	Scomber scombrus
 13679	NC_008109	108767254	0	DQ536428	Scomberomorus cavalla
+99342	NC_033531	1134942684	0	KY091265	Scomberomorus concolor
 248137	NC_021390	511347865	0	JX559739	Scomberomorus munroi
 1238137	NC_021392	511347893	0	JX559746	Scomberomorus munroi x Scomberomorus semifasciatus
 321164	NC_016420	359421978	0	GU109281	Scomberomorus niphonius
@@ -41789,6 +41936,7 @@
 319428	NC_012888	242543728	0	EU826088	Stictopleurus subviridis
 569598	NC_007694	84488622	0	DQ080041	Stigmochelys pardalis
 983304	NC_018054	391224132	0	AB613000	Stiphodon alcedo
+529104	NC_033521	1134945051	0	KX753639	Stolephorus commersonnii
 529752	NC_031861	1102547274	0	KX298894	Stomatella planulata
 103435	NC_028424	953244836	0	KT223827	Strauchbufo raddei
 382540	NC_008047	99878740	0	DQ520859	Strelkovimermis spiculatus
@@ -41989,6 +42137,8 @@
 1229843	NC_030333	1037241221	0	KT949346	Telmatobius chusmisensis
 93483	NC_027274	836643765	0	KR349313	Telmatobufo australis
 39384	NC_026200	749111803	0	KP070768	Temnopleurus hardwickii
+161071	NC_033530	1134945385	0	KU302106	Temnopleurus reevesii
+161058	NC_033529	1134945371	0	KU302105	Temnopleurus toreumaticus
 7067	NC_024633	671729130	0	KF418153	Tenebrio molitor
 406589	NC_030266	1033319871	0	KU201318	Tenodera sinensis
 373995	NC_016682	372291239	0	AP011610	Tenualosa ilisha
@@ -42318,6 +42468,7 @@
 59818	NC_026079	745999721	0	KJ598129	Tyrophagus putrescentiae
 1562696	NC_025569	722490115	0	KM453724	Tyspanodes hypsalis
 1661355	NC_030510	1043373355	0	KP347977	Tyspanodes striata
+74137	NC_033550	1134945801	0	KR150875	Uaru amphiacanthoides
 980419	NC_027600	902686791	0	KT004434	Ulcina olrikii
 1552300	NC_025332	699257024	0	KM046492	Ulomoides dermestoides
 1603554	NC_026688	769829292	0	KM365084	Umalia orientalis
