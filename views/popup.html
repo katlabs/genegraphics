@@ -6,32 +6,60 @@
 	
 	<!-- Selection of genbank files -->
 	<div id="GBSelect" ng-controller="gbAutoCompCtrl" class="popupcontentsglb" ng-show="showGBSelect">
-		<h4>Import Genbank File from NCBI</h4> 
-		<div ng-controller="gbAutoCompCtrl" layout="column" ng-cloak>
-			<md-autocomplete
+		<h4>Fetch from NCBI</h4>
+		<md-input-container class="md-block" flex-gt-sm>
+			<label>Search by</label>
+			<md-select ng-model="gb.idtype" ng-model-options="{trackBy: '$value.display'}">
+				<md-option ng-repeat="type in gb.idtypes" ng-value="{{type}}">
+					{{type.display}}
+				</md-option>
+			</md-select>
+		</md-input-container>
+		<md-input-container class="md-block" ng-show="gb.idtype.display=='Gene symbol and organism'" flex-gt-sm>
+			<label>Gene symbol</label>
+			<input ng-model="gb.geneName">
+		</md-input-container>
+		<md-input-container class="md-block" ng-show="gb.idtype.display=='Gene ID'||gb.idtype.display=='Protein ID'" flex-gt-sm>
+			<label>{{gb.idtype.display}}</label>
+			<input ng-model="gb.fetchID">
+		</md-input-container>
+		<md-input-container ng-controller="gbAutoCompCtrl" class="md-block" ng-show="gb.idtype.display=='Genome location'||gb.idtype.display=='Gene symbol and organism'" flex-gt-sm>
+			<label>Organism name or ID</label>
+				<md-autocomplete
 					class="gbTextBox"
 					ng-disabled="false"
 					md-clear-button="true"
 					md-no-cache="false"
-					md-selected-item="selectedItem"
-					md-search-text="searchText"
-					md-selected-item-change="gbItemChanged(item)"
-					md-search-text-change="gbSearchTextChanged(searchText)"
-					md-items="item in querySearch(searchText)"
+					md-selected-item="gb.selectedItem"
+					md-search-text="gb.searchText"
+					md-selected-item-change="gbItemChanged()"
+					md-search-text-change="gbSearchTextChanged()"
+					md-items="item in querySearch(gb.searchText)"
 					md-item-text="item.display"
-					md-min-length="0"
-					placeholder="Enter organism name or ID">
-				<md-item-template>
-					<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.display}}</span>
-				</md-item-template>
-				<md-not-found>
-					Search for ID: {{searchText}}
-				</md-not-found>
-			</md-autocomplete>
-		</div><br/>
-		Region: 
-			<input type="number" ng-model="gb.seqRangeStart"> to: <input type="number" ng-model="gb.seqRangeEnd"><br>
-		<button class="btn1 md-button md-raised md-primary" ng-click="submitNCBIQuery();" style="right:0;">Submit</button><br>
+					md-min-length="1">
+					<md-item-template>
+						<span md-highlight-text="gb.searchText" md-highlight-flags="i">{{item.display}}</span>
+					</md-item-template>
+				</md-autocomplete>
+		</md-input-container> 
+		<div layout-gt-sm="row" ng-show="gb.idtype.display=='Genome location'">
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Region start (bp)</label>
+				<input ng-model="gb.seqRangeStart" type="number" step="1">
+			</md-input-container>
+			<div flex="5" hide-xs hide-sm></div>
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Region end (bp)</label>
+				<input ng-model="gb.seqRangeEnd" type="number" step="1">
+			</md-input-container>
+		</div>
+		<div layout-gt-sm="row" ng-hide="gb.idtype.display=='Genome location'">
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Region size (bp)</label>
+				<input ng-model="gb.fullRange" type="number" step="1">
+			</md-input-container>
+		</div>
+		<button class="btn1 md-button md-raised md-primary" ng-click="submitNCBIQuery();">Submit</button><br>
 		<md-progress-linear ng-show="gb.loadingFile" md-mode="indeterminate"></md-progress-linear>
 		<span id="statusmessage">{{gb.statusMessage}}</span>
 	</div>
@@ -227,7 +255,7 @@
 			<md-autocomplete
 					class="fontFamily"
 					ng-disabled="false"
-					md-no-cache="false"
+					md-no-cache="true"
 					md-selected-item="selectedItem"
 					md-search-text="searchText"
 					md-selected-item-change="globalFontFamily((showGlobalGenome ? 'genomes' : 'genes'), item)"

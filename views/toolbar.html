@@ -8,12 +8,12 @@
 				<md-menu-item >
 					<input type="file" name="file" id="file" class="inputfile" on-read-file="parseFile($fileContent, $fileType)"/>
 					<label for="file" class="md-button btn2" role="menuitem">
-						Choose a File
+						Import a File<md-tooltip>You can import Genbank or SEED TSV files saved on your computer.</md-tooltip>
 					</label>
 				</md-menu-item>
 				<md-menu-item>
 					<button class="md-button btn2" ng-click="openPopup('GBSelect');">
-							Choose a Genome
+							Fetch from NCBI
 					</button>
 				</md-menu-item>
 				<md-menu-item>
@@ -33,9 +33,21 @@
 						</md-menu-content>
 					</md-menu>
 				</md-menu-item>
-				<md-menu-item >
+			</md-menu-content>
+		</md-menu>
+		<md-menu>
+			<button ng-click="$mdOpenMenu()" class="btn1 md-button md-raised md-primary">
+				Clear
+			</button>
+			<md-menu-content width="100px" ng-controller="FileCtrl">
+				<md-menu-item>
 					<button class="md-button btn2" ng-click="clearAllGenomes();">
-							Clear All Genomes
+						Clear All Genomes
+					</button>
+				</md-menu-item>
+				<md-menu-item>
+					<button class="md-button btn2" ng-click="clearGraphSettings();">
+						Clear Graph Settings
 					</button>
 				</md-menu-item>
 			</md-menu-content>

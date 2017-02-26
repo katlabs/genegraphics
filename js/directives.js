@@ -43,12 +43,8 @@
 					var maxwidth = 0;
 					var rennum = 1;
 					var rerender = true;
-					
-					// on window resize, re-render d3 canvas
-					window.onresize = function() {
-						return scope.$apply();
-					};
-					
+
+					/*
 					scope.$watch(function(){
 						return angular.element(window)[0].innerWidth;
 					}, 
@@ -56,7 +52,7 @@
 							scope.genomes = geneService.genomesHash;
 							return scope.render(scope.data);
 						}
-					);
+					);*/
 					
 					// get max font sizes
 					var maxFontSizes = function(gdata){
@@ -593,6 +589,7 @@
 							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}
 						$http(req).then(function successCallback(response) {
+							console.log(response.data);
 							var files = response.data.split("\n");
 							var pnglink = document.getElementById("pnglink");
 							pnglink.innerHTML = "Export PNG";
@@ -637,7 +634,7 @@
 							}
 						};
 						reader.readAsText(file);
-					});
+					});;
 				}
 			};
 		})

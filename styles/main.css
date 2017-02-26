@@ -127,17 +127,6 @@ body {
 	font-size: 150px;
 }
 
-foreignObject>span>p, foreignObject>body>p {
-	margin: 0px;
-	display: inline-block;
-	width: 100%;
-}
-
-foreignObject>span {
-	margin: 0px;
-	display: inline-block;
-}
-
 #genevisswitch {
 	width: 200px;
 }
@@ -217,11 +206,6 @@ span#labeltext {
 	margin: 30px;
 }
 
-foreignObject > body {
-	background: transparent;
-	background-color: transparent;
-}
-
 md-content {
 	z-index: 1;
 }
@@ -229,10 +213,6 @@ md-content {
 md-autocomplete.fontFamily{
 	width: 225px;
 	margin: 0 auto;
-}
-md-autocomplete.gbTextBox{
-	width: 350px;
-	margin: auto;
 }
 
 md-autocomplete.md-default-theme button md-icon path, md-autocomplete button md-icon path {

@@ -48,6 +48,7 @@
 		geneSvc.clearGenes = function() {
 			this.maxVertOff = 0;
 			this.geneData = [];
+			this.genomesHash = {};
 			$rootScope.$broadcast('updateGeneData');
 		}
 		
@@ -233,7 +234,7 @@
 			 var clr = '#' + hash.substr(i, 6);
 			 i++;
 			 if(i>25) {
-				 alert ( "Cannot find acceptable color value from name hash." );
+				 console.log( "Cannot find acceptable color value from name hash." );
 				 return "#e762f3";
 			 }
 			} while(colorService.toGrey(clr)<whiteThreshold || colorService.toGrey(clr)>(256-32))
