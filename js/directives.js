@@ -39,21 +39,12 @@
 						.attr("xmlns", "http://www.w3.org/2000/svg")
 						.attr("width", scope.settings.graphwidth)
 						.attr("id", "svg");
+
 					// maximum width of the data
 					var maxwidth = 0;
 					var rennum = 1;
 					var rerender = true;
 
-					/*
-					scope.$watch(function(){
-						return angular.element(window)[0].innerWidth;
-					}, 
-						function(){
-							scope.genomes = geneService.genomesHash;
-							return scope.render(scope.data);
-						}
-					);*/
-					
 					// get max font sizes
 					var maxFontSizes = function(gdata){
 						maxGeneFontSize = 0;
@@ -601,7 +592,6 @@
 							tsvlink.innerHTML = "Export TSV";
 							tsvlink.href = files[2];
 						});
-
 						
 						scope.showexportpanel = true;
 					});
