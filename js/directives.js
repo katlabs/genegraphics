@@ -21,7 +21,6 @@
 				restrict: 'EA',
 				scope: {
 					data: "=",
-					genomes: "=genomes",
 					settings: "=settings",
 					copy: "=copy",
 					onClick: "&onClick",
@@ -77,11 +76,12 @@
 					
 					// re-render when there is a change in the data
 					scope.$watch('data', function(newVals, oldVals) {
+						//console.log(newVals);
 						scope.settings.maxwidth = geneService.getMaxWidth(newVals);
 						geneService.updateGenomesHash(newVals);
 						geneService.updateGeneNames();
 						maxFontSizes(newVals);
-						scope.genomes = geneService.genomesHash;
+						geneService.genomesHash = geneService.genomesHash;
 						return scope.render(newVals);
 					}, true);
 
@@ -98,7 +98,7 @@
 					}, true);
 
 					scope.$on('updateMenuStatus', function(){
-						if (!popupMenuService.GeneMenuVisible){
+						if (!popupMenuService.GeneMenuVisible && geneService.genomesHash!={}){
 							scope.render(scope.data);
 							return;
 						}
@@ -130,7 +130,6 @@
 						var shiftgenes = scope.settings.shiftgenes;
 						var keepgaps = scope.settings.keepgaps;
 						
-						var currLane = 1;
 						var lastLaneOffset = -1;
 						var globalMaxY = 0;
 						
@@ -166,97 +165,89 @@
 						
 						var genomeBuffer = (maxGenomeFontSize + (maxGenomeFontSize/4));
 						var geneBuffer = (maxGeneFontSize + (maxGeneFontSize/4));
-						var scaleBuffer = 40;
-						var whichLane = function(d, i) {;
-						// Function to determine the first y position of the feature
-							var laneOffset = d.currLane;
-							if(i==0){
-								lastLaneOffset = -1;
+						var scaleBuffer = 0;
+						if (scope.settings.scaleOn) scaleBuffer = 50;
+						var lanePart = 0;
+						var getFeatureY = function(d, i) {;
+							// Function to determine the first y position of the feature
+							var laneMultiplier = 1; // Helps with multilane math
+
+							// Check whether to push a gene down (lanepart=1)
+							if (multilane){
+								laneMultiplier = 2;
+								if ((i>0) && (d.genomehtml == data[i-1].genomehtml) &&
+								(Math.max(data[i-1].stop, data[i-1].start) > Math.min(d.stop, d.start))){
+									if (lanePart == 1){
+										lanePart = 0;
+									} else {
+										lanePart = 1;
+									}
+								} else if (lanePart == 1){
+									lanePart = 0;
+								}
 							}
-							if (multilane == true){
-								if (lastLaneOffset != laneOffset) {
-									currLane = 1;
-								}
-								else if (Math.max(data[i-1].stop, data[i-1].start) > Math.min(data[i].stop, data[i].start)){
-									if (currLane == 2)
-										currLane -= 1;
-									if (currLane == 1)
-										currLane += 1;
-								}
-								else if( currLane > 1 ) {
-									currLane -= 1;
-								}
-								lastLaneOffset = laneOffset;
-								if (scope.settings.scaleOn == false){
-									return 10 + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + (geneBuffer + (maxGeneFontSize/4))*(currLane-1))+(laneOffset*(featureheight+geneBuffer+genomeBuffer+(maxGeneFontSize/4)));
-								}
-								return scaleBuffer + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + (geneBuffer + (maxGeneFontSize/4))*(currLane-1))+(laneOffset*(featureheight+geneBuffer+genomeBuffer+(maxGeneFontSize/4)));
-							}
-							else {
-								if (scope.settings.scaleOn == false){
-									return 10 + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(geneBuffer+genomeBuffer)*1.4);
-								}
-								return scaleBuffer + (genomeBuffer + geneBuffer + (featureheight*(currLane-1)) + geneBuffer*(currLane-1))+(laneOffset*(geneBuffer+genomeBuffer)*1.4);
-							}
+							//Height of features + room for genes on multilane
+							var prevFeatures = (featureheight*laneMultiplier) + (geneBuffer*(laneMultiplier-1));
+							//Start 10 down, add scale buffer
+							var ret = 10 + scaleBuffer;
+							// Include previous genomes
+							ret += (d.genomeNum-1)*(genomeBuffer + 2*geneBuffer + prevFeatures);
+							// Y position of this feature
+							ret += genomeBuffer + 2*geneBuffer + (featureheight*lanePart) + (geneBuffer*(lanePart-1))
+
+							return ret;
 						}
-						var prevend = 0;
-						
-						
-						var getFeatureStart = function(d, i) {
-							if (shiftgenes == true && keepgaps == false) {
-								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
-										//console.log(data[i].currLane);
-										prevend = 0;
+
+						var getFeatureStart = function(d, i, prevX) {
+							// no shifting overlapping genes or gaps
+							if (!shiftgenes && !keepgaps){
+								// first gene on lane
+								if(i==0 || scope.data[i].genomehtml !== scope.data[i-1].genomehtml) {
+									prevX = 10;
+									return prevX;
 								}
-								return prevend + 1;
-							}
-							else if (shiftgenes == true && keepgaps == true) {
-								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
-										//console.log(data[i].currLane);
-										prevend = 0;
-								}
-								if (i < 1 || (scope.data[i].currLane !== scope.data[i-1].currLane)){
-									var gap = 0;
-								}
+								// not first gene on lane
 								else {
+									prevX = ((Math.min(d.start, d.stop)/ maxwidth) *lanewidth) + 10;
+									return prevX;
+								}
+							}
+							// shift overlapping genes but no gaps
+							else if (shiftgenes && !keepgaps){
+								// start of a genome/lane
+								if((i==0) || (scope.data[i].genomehtml !== scope.data[i-1].genomehtml)){
+									prevX = 10;
+								};
+								// otherwise, keep and return prevX
+								return prevX;
+							}
+							// shift overlapping genes and keep gaps
+							else if (shiftgenes && keepgaps){
+								var gap = 0;
+								// start of genome/lane
+								if(i==0 || scope.data[i].genomehtml !== scope.data[i-1].genomehtml){
+									prevX = 10;
+									return prevX;
+								}
+								// not start of a genome/lane
+								else if((i>0) && (scope.data[i].genomehtml === scope.data[i-1].genomehtml)){
 									var gap = ((Math.min(d.start, d.stop) - Math.max(scope.data[i-1].start, scope.data[i-1].stop))/maxwidth) * lanewidth;
-								}
-								return prevend + 1 + gap;
-							}
-							else {
-								return (Math.min(d.start, d.stop) / maxwidth) * lanewidth;
-							}
+									if ( gap < 0) {
+										gap = 0;
+									};
+									prevX = prevX + gap;
+									return prevX;
+								};
+							};
 						}
-						
-						var getFeatureEnd = function(d, i) {
-							if (shiftgenes == true && keepgaps == false) {
-								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
-										//console.log(data[i].currLane);
-										prevend = 0;
-								}
-								return prevend + 1 + ((d.size / maxwidth) * lanewidth);
-							}
-							else if (shiftgenes == true && keepgaps == true) {
-								if((i>0) && (scope.data[i].currLane !== scope.data[i-1].currLane)){
-										//console.log(data[i].currLane);
-										prevend = 0;
-								}
-								if (i < 1 || (scope.data[i].currLane !== scope.data[i-1].currLane)){
-									var gap = 0;
-								}
-								else
-									var gap = ((Math.min(d.start, d.stop) - Math.max(scope.data[i-1].start, scope.data[i-1].stop))/maxwidth) * lanewidth;
-								//console.log("gap: " + gap);
-								return prevend + 1 + gap + ((d.size / maxwidth) * lanewidth);
-							}
-							else {
-								return (Math.max(d.start, d.stop) / maxwidth) * lanewidth;
-							}
+
+						var getFeatureEnd = function(d, i, prevX) {
+							prevX += ((d.size / maxwidth) *lanewidth);
+							return prevX;
 						}
-						
+
 						var getYPath = function(d, i){
-							var lane = whichLane(d, i);
-							var result = lane;
+							var result = getFeatureY(d, i);
 							return result;
 						}
 						
@@ -317,7 +308,7 @@
 						}
 
 						var getYGenomeLabel = function(d, i){
-							var lane = whichLane(d, i);
+							var lane = getFeatureY(d, i);
 							var result = lane - maxGeneFontSize - maxGeneFontSize/4 - maxGenomeFontSize/4;
 							return result;
 						}
@@ -348,13 +339,14 @@
 								.attr("x", 10)
 								.attr("y", 35)
 								.text("Scale: 1kB")
-								.attr("font-family", function(){return scope.settings.fontFamily;})
+								.attr("font-family", "arial, helvetica, sans-serif")
 								.attr("font-size", "10px")
 								.attr("fill", "black")
 								.attr("font-style", "italic")
 								.attr("text-anchor", "start")
 							}
-							
+						var prevX;
+
 						//create the arrow for genes
 						svg.selectAll("path")
 							.data(scope.data)
@@ -370,57 +362,113 @@
 									} 
 								})
 								.attr("d", function(d, i) {
-									// get start and stop positions relative to max size
-									if (d.strand === '+')
-										var x1 = getFeatureStart(d, i) + 10;
-									else if (d.strand === '-')
-										var x1 = getFeatureEnd(d, i) + 10;
-									var y1 = getYPath(d, i);
-									if (d.strand === '+')
-										var x3 = getFeatureEnd(d, i) + 10;
-									else if (d.strand === '-')
-										var x3 = getFeatureStart(d, i) + 10;
-									prevend = Math.max(x1, x3);
-									var y3 = y1+(featureheight)/2;
-									var x2 = ((x3 - x1) * 0.8) + x1;
-									var y2 = y1;
-									var x4 = x2;
-									var y4 = y1+featureheight;
-									var x5 = x1;
-									var y5 = y4;
+									console.log(scope.settings.arrows);
+									if (scope.settings.arrows === false){
+										// get start and stop positions relative to max size
+										if (d.strand === '+'){
+											var x1 = getFeatureStart(d, i, prevX);
+											prevX = x1;
+											var x3 = getFeatureEnd(d, i, prevX);
+											prevX = x3;
+										}
+										else if (d.strand === '-'){
+											var x3 = getFeatureStart(d, i, prevX);
+											prevX = x3;
+											var x1 = getFeatureEnd(d, i, prevX);
+											prevX = x1;
+										}
+										var y1 = getYPath(d, i);
+										var y3 = y1+(featureheight)/2;
+										var x2 = ((x3 - x1) * 0.8) + x1;
+										var y2 = y1;
+										var x4 = x2;
+										var y4 = y1+featureheight;
+										var x5 = x1;
+										var y5 = y4;
 
 
-									if (x1 > scope.settings.graphwidth) {
-										svg.attr("width", x1);
+										if (x1 > scope.settings.graphwidth) {
+											svg.attr("width", x1);
+										}
+										if (x3 > scope.settings.graphwidth) {
+											svg.attr("width", x3);
+										}
+										if(y4 > globalMaxY) { globalMaxY = y4 + 50; }
+										
+										if (d.strand == '-')
+											scope.data[i].labelpos.x = getXGeneLabel(x2, x1, d, i);
+										else 
+											scope.data[i].labelpos.x = getXGeneLabel(x1, x2, d, i);
+										
+										// Determine y position of label
+										scope.data[i].labelpos.y = getYGeneLabel(d, i, y1);
+										
+										var points = [{"x":x1, "y":y1}, 
+											{"x":x2, "y":y2},
+											{"x":x3, "y":y3},
+											{"x":x4, "y":y4},
+											{"x":x5, "y":y5},
+											{"x":x1, "y":y1}];
+									} else if (scope.settings.arrows === true){
+										
+										if (d.strand === "+"){
+											var x1 = getFeatureStart(d, i, prevX);
+											prevX = x1;
+											var x4 = getFeatureEnd(d, i, prevX);
+											prevX = x4;
+										}
+										else if (d.strand === "-"){
+											var x4 = getFeatureStart(d, i, prevX);
+											prevX = x4;
+											var x1 = getFeatureEnd(d, i, prevX);
+											prevX = x1;
+										}
+										var y1 = getYPath(d, i)+(featureheight/4);
+										var y2 = y1;
+										var x2 = ((x4 - x1) * 0.8) + x1;
+										var y3 = y1-(featureheight/4);
+										var x3 = x2;
+										var y4 = y3+(featureheight)/2;
+										var y5 = y3+featureheight;
+										var x5 = x3;
+										var y6 = y5-(featureheight/4);
+										var x6 = x5;
+										var y7 = y6;
+										var x7 = x1;
+
+										if (x1 > scope.settings.graphwidth) {
+											svg.attr("width", x1);
+										}
+										if (x4 > scope.settings.graphwidth) {
+											svg.attr("width", x4);
+										}
+										if(y5 > globalMaxY) { globalMaxY = y5 + 50; }
+										
+										if (d.strand == '-')
+											scope.data[i].labelpos.x = getXGeneLabel(x2, x1, d, i);
+										else 
+											scope.data[i].labelpos.x = getXGeneLabel(x1, x2, d, i);
+										
+										// Determine y position of label
+										scope.data[i].labelpos.y = getYGeneLabel(d, i, y3);
+										
+										var points = [{"x":x1, "y":y1}, 
+											{"x":x2, "y":y2},
+											{"x":x3, "y":y3},
+											{"x":x4, "y":y4},
+											{"x":x5, "y":y5},
+											{"x":x6, "y":y6}, 
+											{"x":x7, "y":y7},
+											{"x":x1, "y":y1}];
 									}
-									if (x3 > scope.settings.graphwidth) {
-										svg.attr("width", x3);
-									}
 
-									if(y4 > globalMaxY) { globalMaxY = y4 + 50; }
-									
-									if (d.strand == '-')
-										scope.data[i].labelpos.x = getXGeneLabel(x2, x1, d, i);
-									else 
-										scope.data[i].labelpos.x = getXGeneLabel(x1, x2, d, i);
-									
-									// Determine y position of label
-									scope.data[i].labelpos.y = getYGeneLabel(d, i, y1);
-									
-									var points = [{"x":x1, "y":y1}, {"x":x2, "y":y2},{"x":x3, "y":y3}, {"x":x4, "y":y4}, {"x":x5, "y":y5}, {"x":x1, "y":y1}];
 									return lineFunction(points);
 								})
 								.attr("fill", function(d, i) {
-									if (d.genevisible == false){
-										return "transparent";
-									}
-									else return d.color;
+									return d.color;
 								})
 								.attr("stroke", function(d, i) {
-									if (d.genevisible == false){
-										return "transparent";
-									}
-									else if(scope.settings.selectedGene == i && (popupMenuService.GeneMenuVisible || popupMenuService.GeneCPDialogVisible)){
+									if(scope.settings.selectedGene == i && (popupMenuService.GeneMenuVisible || popupMenuService.GeneCPDialogVisible)){
 										return "blue";
 									}
 									else if(scope.settings.pastingGenes && (scope.copy.geneClipboard.indexOf(i) != -1)){
@@ -471,7 +519,7 @@
 							.enter()
 							.append("text")
 							.each( function(d,i){
-								if ((isInArray(i, scope.genomes[d.genomehtml])) && (i == Math.min.apply(null, scope.genomes[d.genomehtml]))){
+								if ((isInArray(i, geneService.genomesHash[d.genomehtml])) && (i == Math.min.apply(null, geneService.genomesHash[d.genomehtml]))){
 									var ind = i;
 									var text = d3.select(this)
 										.on("click", function(d,i){
@@ -514,13 +562,8 @@
 							.attr("x", function(d, i){return d.labelpos.x;})
 							.attr("z-index", 100)
 							.html(function(d,i){
-								if (!d.genevisible){
-									return;
-								}
-								else{
-									var svgstr = htmltosvg(d.namehtml, d.name);
-									return svgstr;
-								}
+								var svgstr = htmltosvg(d.namehtml, d.name);
+								return svgstr;
 							});
 
 							svg.attr("height", globalMaxY);

@@ -7,20 +7,36 @@
 		
 		geneSvc.geneData = [];
 		geneSvc.genomesHash = {};
-		geneSvc.maxVertOff = 0;
 		geneSvc.maxGeneFontSize = "12";
 		geneSvc.maxGenomeFontSize = "12";
+		geneSvc.totalGenomes = 0;
+
+		geneSvc.offset = {};
 		
-		geneSvc.updateGene = function(gData) {
-			this.maxVertOff = gData[gData.length-1]['currLane'] + 2;
-			this.geneData = gData.reduce( function(coll, item){
-				coll.push(item);
-				return coll;
-			}, this.geneData);
+		geneSvc.addGenes = function(gData) {
+			for (var i=0; i < gData.length; i++){
+				if(!this.offset.hasOwnProperty(gData[i].genomehtml)){
+					this.offset[gData[i].genomehtml] = Math.min(gData[i].start, gData[i].stop);
+					this.totalGenomes += 1;
+				}
+				gData[i].start -= this.offset[gData[i].genomehtml];
+				gData[i].stop -= this.offset[gData[i].genomehtml];
+				gData[i].genomeNum=this.totalGenomes;
+				this.geneData.push(gData[i]);
+			}
 			this.updateGenomesHash(this.geneData);
 			$rootScope.$broadcast('updateGeneData');
 		}
-		
+
+		geneSvc.newGenes = function(gData) {
+			this.maxVertOff = 0;
+			this.geneData = [];
+			this.offset = {};
+			this.vertOff = {};
+			this.totalGenomes = 0;
+			this.addGenes(gData);
+		}
+
 		geneSvc.updateGeneNames = function(){
 			for (var i = 0; i < this.geneData.length; i++) {
 				try {
@@ -35,20 +51,24 @@
 		}
 		
 		geneSvc.updateGenomesHash = function(gData) {
+			var newHash = {};
 			for (var i = 0; i < gData.length; i++) {
-				if (gData[i].genomehtml in this.genomesHash){
-					this.genomesHash[gData[i].genomehtml].push(i);
+				if (gData[i].genomehtml in newHash){
+					newHash[gData[i].genomehtml].push(i);
 				}
 				else {
-					this.genomesHash[gData[i].genomehtml] = [i];
+					newHash[gData[i].genomehtml] = [i];
 				}
 			}
+			this.genomesHash = newHash;
 		}
 		
 		geneSvc.clearGenes = function() {
 			this.maxVertOff = 0;
 			this.geneData = [];
 			this.genomesHash = {};
+			this.offset = {};
+			this.totalGenomes = 0;
 			$rootScope.$broadcast('updateGeneData');
 		}
 		
@@ -78,6 +98,7 @@
 		popupMenuService.GraphSizeDialogVisible;
 		popupMenuService.LaneDialogVisible;
 		popupMenuService.ScaleDialogVisible;
+		popupMenuService.ShapeDialogVisible;
 		popupMenuService.GlobalGenomeVisible;
 		popupMenuService.GlobalGeneVisible;
 		popupMenuService.GeneCPDialogVisible;
@@ -90,6 +111,7 @@
 			this.GraphSizeDialogVisible = false;
 			this.LaneDialogVisible = false;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
 			this.GeneCPDialogVisible = false;
@@ -103,6 +125,7 @@
 			this.GraphSizeDialogVisible = false;
 			this.LaneDialogVisible = false;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
 			this.GeneCPDialogVisible = false;
@@ -116,6 +139,7 @@
 			this.GraphSizeDialogVisible = false;
 			this.LaneDialogVisible = false;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
 			this.GeneCPDialogVisible = false;
@@ -129,6 +153,7 @@
 			this.GraphSizeDialogVisible = false;
 			this.LaneDialogVisible = false;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
 			this.GeneCPDialogVisible = false;
@@ -142,6 +167,7 @@
 			this.GenomeMenuVisible = false;
 			this.LaneDialogVisible = false;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
 			this.GeneCPDialogVisible = false;
@@ -155,6 +181,7 @@
 			this.GeneMenuVisible = false;
 			this.GenomeMenuVisible = false;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.GlobalGenomeVisible = false;
 			this.GlobalGeneVisible = false;
 			this.GeneCPDialogVisible = false;
@@ -162,6 +189,7 @@
 		}
 		popupMenuService.updateScaleDialog = function(newStatus){
 			this.ScaleDialogVisible = newStatus;
+			this.ShapeDialogVisible = false;
 			this.LaneDialogVisible = false;
 			this.GraphSizeDialogVisible = false;
 			this.GBSelectVisible = false;
@@ -173,9 +201,25 @@
 			this.GeneCPDialogVisible = false;
 			popupMenuService.updateMenuStatus(newStatus);
 		}
+		popupMenuService.updateShapeDialog = function(newStatus){
+			this.ShapeDialogVisible = newStatus;
+			this.ScaleDialogVisible = false;
+			this.LaneDialogVisible = false;
+			this.GraphSizeDialogVisible = false;
+			this.GBSelectVisible = false;
+			this.ExportPanelVisible = false;
+			this.GeneMenuVisible = false;
+			this.GenomeMenuVisible = false;
+			this.GlobalGenomeVisible = false;
+			this.GlobalGeneVisible = false;
+			this.GeneCPDialogVisible = false;
+			popupMenuService.updateMenuStatus(newStatus);
+		}
+
 		popupMenuService.updateGlobalGenome = function(newStatus){
 			this.GlobalGenomeVisible = newStatus;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.LaneDialogVisible = false;
 			this.GraphSizeDialogVisible = false;
 			this.GBSelectVisible = false;
@@ -189,6 +233,7 @@
 		popupMenuService.updateGlobalGene = function(newStatus){
 			this.GlobalGeneVisible = newStatus;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.LaneDialogVisible = false;
 			this.GraphSizeDialogVisible = false;
 			this.GBSelectVisible = false;
@@ -203,6 +248,7 @@
 		popupMenuService.updateGeneCPDialog = function(newStatus){
 			this.GeneCPDialogVisible = newStatus;
 			this.ScaleDialogVisible = false;
+			this.ShapeDialogVisible = false;
 			this.LaneDialogVisible = false;
 			this.GraphSizeDialogVisible = false;
 			this.GBSelectVisible = false;

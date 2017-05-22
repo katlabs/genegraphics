@@ -49,8 +49,30 @@ md-menu.fontSizeMenu {
 	width: 100px;
 }
 
-.md-autocomplete-suggestions-container.md-default-theme li .highlight, .md-autocomplete-suggestions-container li .highlight {
-	color: #000000;
+.autocomplete-custom-template li {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  white-space: normal;
+}
+.autocomplete-custom-template li:last-child {
+  border-bottom-width: 0;
+}
+.autocomplete-custom-template .item-title,
+.autocomplete-custom-template .item-metadata{
+  display: block;
+  color: #000000;
+  line-height: normal;
+}
+.autocomplete-custom-template .item-title md-icon {
+  height: 18px;
+  width: 18px;
+}
+
+.md-autocomplete-suggestions-container.md-default-theme li .highlight, 
+.md-autocomplete-suggestions-container li .highlight {
+	color: rgb(13,119,182);
 }
 
 input[type="number"] {
@@ -69,8 +91,13 @@ input[type="text"] {
 	z-index: -1;
 }
 
+h1 {
+	font-family: Quicksand;
+	font-size: 14pt;
+}
+
 body {
-	font-family: Arial;
+	font-family: Raleway;
 	font-size: 12pt;
 }
 
@@ -80,7 +107,7 @@ body {
 }
 
 #titlecontainer {
-	font-family: Arial;
+	font-family: Arial, sans-serif;
 	color: #47a3da;
 	font-size: 1.9em;
 }
@@ -210,14 +237,6 @@ md-content {
 	z-index: 1;
 }
 
-md-autocomplete.fontFamily{
-	width: 225px;
-	margin: 0 auto;
-}
-
-md-autocomplete.md-default-theme button md-icon path, md-autocomplete button md-icon path {
-	fill: rgb(0,0,0);
-}
 md-autocomplete md-autocomplete-wrap button {
 	position: absolute;
 	margin: auto;
@@ -327,13 +346,3 @@ input[type=range][orient=vertical]
 #statusmessage{
 	color: red;
 }
-
-h1 
-{
-font-family: 'Quicksand', sans-serif;
-}
-body
-{
-font-family: 'Raleway', sans-serif;
-}
-

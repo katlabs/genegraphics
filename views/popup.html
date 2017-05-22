@@ -35,10 +35,19 @@
 					md-selected-item-change="gbItemChanged()"
 					md-search-text-change="gbSearchTextChanged()"
 					md-items="item in querySearch(gb.searchText)"
-					md-item-text="item.display"
-					md-min-length="1">
+					md-item-text="item.organism"
+					md-min-length="1"
+					md-menu-class="autocomplete-custom-template">
 					<md-item-template>
-						<span md-highlight-text="gb.searchText" md-highlight-flags="i">{{item.display}}</span>
+						<span class="item-title">
+							<span md-highlight-text="gb.searchText" md-highlight-flags="i"> {{item.organism}} </span>
+						</span>
+						<span class="item-metadata">
+							<span>
+								<span md-highlight-text="gb.searchText" md-highlight-flags="i">RefSeq ID: {{item.refseqid}}</span>
+								<span md-highlight-text="gb.searchText" md-highlight-flags="i">GenBank ID: {{item.gbid}}</span>
+							</span>
+						</span>
 					</md-item-template>
 				</md-autocomplete>
 		</md-input-container> 
@@ -90,33 +99,39 @@
 					</md-tooltip>
 					<md-icon class="material-icons md-18 blueicon">{{geneData[graphSettings.selectedGene]['genelocked'] === true ? 'lock_outline' : 'lock_open'}}</md-icon>
 				</button>
-			</div>
-		</div>
-		<textarea ui-tinymce="tinymceOpts" ng-model="geneData[graphSettings.selectedGene]['namehtml']"></textarea><br>
-		<div layout="row" layout-align="center center">
-			<md-switch id="genevisswitch" class="md-primary" ng-model="geneData[graphSettings.selectedGene]['genevisible']">
-				{{geneData[graphSettings.selectedGene]['genevisible'] === true ? "The gene is visible" : "The gene is hidden"}}
-				<md-tooltip>Gene visibility</md-tooltip>
-			</md-switch>
-			<div>
+				<button class="icoIndivBtn md-icon-button" ng-click="deleteGene(graphSettings.selectedGene);">
+					<md-tooltip>
+						Delete this gene
+					</md-tooltip>
+					<md-icon class="material-icons md-18 blueicon">delete_forever</md-icon>
+				</button>
 				<spectrum-colorpicker 
 					ng-model="geneData[graphSettings.selectedGene]['color']" options="spectrumOpts">
 				</spectrum-colorpicker>
 				<md-tooltip>Gene color</md-tooltip>
 			</div>
 		</div>
+		<textarea ui-tinymce="tinymceOpts" ng-model="geneData[graphSettings.selectedGene]['namehtml']"></textarea><br>
 	</div>
 	
 	<!-- Menu for editing a genome name  -->
 	<div id="genomeMenu" ng-show="showGenomeMenu">
 		<div layout="row" layout-align="space-between center">
-			<h4>Edit Genome Name</h4>
+			<h4>Edit Genome</h4>
+			<div>
 			<button class="icoIndivBtn md-icon-button" ng-click="toggleLockGenome(genome.newGenome)">
 				<md-tooltip>
 					{{geneData[genomesHash[genome.newGenome][0]]['genomelocked'] === true ? 'Unlock' : 'Lock'}} genome label
 				</md-tooltip>
 				<md-icon class="material-icons md-18 blueicon">{{geneData[genomesHash[genome.newGenome][0]]['genomelocked'] === true ? 'lock_outline' : 'lock_open'}}</md-icon>
 			</button>
+			<button class="icoIndivBtn md-icon-button" ng-click="deleteGenome(graphSettings.selectedGene);">
+				<md-tooltip>
+					Delete this genome
+				</md-tooltip>
+				<md-icon class="material-icons md-18 blueicon">delete_forever</md-icon>
+			</button>
+			</div>
 		</div>
 		<textarea ui-tinymce="tinymceOpts" ng-model="genome.newGenome" ng-change="editGenomeName()"></textarea>
 	</div>
@@ -157,6 +172,17 @@
 		<h4>Edit Scale Settings</h4>
 		<md-switch ng-model="graphSettings.scaleOn">
 			{{graphSettings.scaleOn === true ? "Scale is on" : "Scale is off"}}
+		</md-switch>
+	</div>
+
+	<!-- Dialog for Gene Shape Settings -->
+	<div id="shapeDialog" ng-show="showShapeDialog">
+		<h4>Edit Gene Shape</h4>
+		<md-switch ng-model="graphSettings.arrows">
+			<md-icon class="material-icons md-18 blueicon">
+				{{graphSettings.arrows === true ? 'compare_arrows' : 'label_outline'}}
+			</md-icon>
+				{{graphSettings.arrows === true ? 'Arrows' : 'Tags'}}
 		</md-switch>
 	</div>
 	

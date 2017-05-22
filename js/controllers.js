@@ -10,11 +10,10 @@
 			$scope.graphSettings = {};
 			if(typeof(Storage!=="undefined")) {
 				$scope.graphSettings.lsSupport = true;
-				console.log("localStorage supported.");
 			}
 			else{
 				$scope.graphSettings.lsSupport = false;
-				console.alert("Your browser does not support saving. Please export your graphic manually on a regular basis so not to lose your data");
+				alert("Your browser does not support saving. Please export your graphic manually on a regular basis so not to lose your data");
 			}
 
 			$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;
@@ -24,6 +23,7 @@
 			$scope.graphSettings.shiftgenes = false;
 			$scope.graphSettings.keepgaps = false;
 			$scope.graphSettings.scaleOn = true;
+			$scope.graphSettings.arrows = true;
 			$scope.graphSettings.displayedFunction = "";
 			$scope.graphSettings.currentFilesList = [];
 			$scope.graphSettings.pastingGenes = false;
@@ -71,8 +71,7 @@
 				],
 				localStorageKey: "spectrum.allcolors"
 			};
-			
-			
+
 			$scope.tinymceOpts = {
 				height: 50,
 				min_height: 50,
@@ -81,6 +80,7 @@
 				elementpath: false,
 				body_class: 'editor',
 				content_css: 'styles/main.css',
+				content_style: ".mce-content-body {font-family:Arial,sans-serif;}",
 				plugins: 'textcolor colorpicker',
 				menubar: false,
 				toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright | valigntop valignmid valignbot',
@@ -212,11 +212,11 @@
 
 			if($scope.graphSettings.lsSupport == true){
 				if(localStorage.savedData!=null && localStorage.savedData!='null' && localStorage.savedData!=="[]"){
-					console.log('parsing saved data');
-					geneService.updateGene(JSON.parse(localStorage.savedData));
+					//console.log('parsing saved data');
+					geneService.addGenes(JSON.parse(localStorage.savedData));
 				}
 				if(localStorage.savedSettings!=null && localStorage.savedSettings!='null'){
-					console.log('parsing saved settings');
+					//console.log('parsing saved settings');
 					$scope.graphSettings = JSON.parse(localStorage.savedSettings);
 				}
 			}
@@ -229,7 +229,9 @@
 					localStorage.setItem("savedData", JSON.stringify($scope.geneData));
 				}
 				checkScroll();
-				console.log($scope.geneData);
+				//console.log($scope.geneData);
+				//console.log($scope.genomesHash);
+				//console.log($scope.graphSettings.currentFilesList);
 			});
 
 			$scope.$watch('graphSettings', function(){
@@ -782,6 +784,47 @@
 					}
 				}
 			}
+
+			$scope.deleteGene = function(index){
+				var ret = confirm("This gene will be permenantly deleted. Are you sure?");
+				if (ret == true){
+					$scope.geneData.splice(index, 1);
+				}
+				else{
+					return;
+				}
+			}
+
+			var updateFilesList = function(){
+				var newFilesList = [];
+				for(var i=0; i<$scope.geneData.length; i++){
+					if (newFilesList.indexOf($scope.geneData[i]['file']) < 0){
+						newFilesList.push($scope.geneData[i]['file']);
+					}
+				}
+				$scope.graphSettings.currentFilesList = newFilesList;
+			}
+
+			$scope.deleteGenome = function(index){
+				var ret = confirm("This genome will be permenantly deleted. Are you sure?");
+				if (ret == true){
+					var genomeKey = $scope.geneData[index]["genomehtml"];
+					var geneList = geneService.genomesHash[genomeKey];
+					var newData = [];
+					var newi = 0;
+					console.log(geneList);
+					for (var i=0; i < $scope.geneData.length; i++){
+						if (geneList.indexOf(i) < 0){
+							newData.push($scope.geneData[i]);
+						}
+					}
+					geneService.newGenes(newData);
+					updateFilesList();
+				}
+				else {
+					return;
+				}
+			}
 			
 			$scope.toggleLockGene = function(index){
 				$scope.geneData[index]['genelocked'] = !$scope.geneData[index]['genelocked'];
@@ -859,345 +902,12 @@
 		}])
 		.controller('FileCtrl', ['$scope', '$http', 'geneService', 'colorService', 'popupMenuService', function($scope, $http, geneService, colorService, popupMenuService){
 			$scope.data = [];
-			$scope.parseTSV = function(lines){
-				
-					$scope.data = [];
-					var header = lines[0];
-					var headercols = header.split('\t');
-					var headerpos = {genome:null, genomehtml:null, currLane:null, genevisible:null, genelocked:null, genomelocked:null, labelpos:null, labelvertpos:null, name:null, namehtml:null, genefunction:null, color:null, size:null, start:null, stop:null, strand:null};
-					$scope.maxVertOff = geneService.maxVertOff;
-					for(var i = 0; i < headercols.length; i++){
-						var currHeaderCol = headercols[i].toLowerCase().replace(/ /g, '');
-						if (currHeaderCol === 'genome'){
-							headerpos.genome = i;
-						}
-						else if (currHeaderCol === 'genomehtml'){
-							headerpos.genomehtml = i;
-						}
-						else if (currHeaderCol === 'genevisible'){
-							headerpos.genevisible = i;
-						}
-						else if (currHeaderCol === 'genelocked'){
-							headerpos.genelocked = i;
-						}
-						else if (currHeaderCol === 'genomelocked'){
-							headerpos.genomelocked = i;
-						}
-						else if (currHeaderCol === 'labelpos'){
-							headerpos.labelpos = i;
-						}
-						else if (currHeaderCol === 'labelvertpos'){
-							headerpos.labelvertpos = i;
-						}
-						else if (currHeaderCol === 'name' || currHeaderCol === "genename"){
-							headerpos.name = i;
-						}
-						else if (currHeaderCol === 'namehtml'){
-							headerpos.namehtml = i;
-						}
-						else if (currHeaderCol === "function"){
-							headerpos.genefunction = i;
-						}
-						else if (currHeaderCol === 'color' || currHeaderCol === 'genecolor'){
-							headerpos.color = i;
-						}
-						else if (currHeaderCol === 'size' || currHeaderCol === 'size(nt)'){
-							headerpos.size = i;
-						}
-						else if (currHeaderCol === 'start'){
-							headerpos.start = i;
-						}
-						else if (currHeaderCol === 'stop'){
-							headerpos.stop = i;
-						}
-						else if (currHeaderCol === 'strand'){
-							headerpos.strand = i;
-						}
-					}
-				
-					var offset = {};
-					var vertOff = {};
-					
-					for (var i = 1; i < lines.length; i++){
-						
-						if (lines[i].slice(0,14) === "GraphSettings:"){
-							var newsettings = JSON.parse(lines[i].slice(14));
-							for (var key in newsettings){
-								if (key === 'graphwidth' || key === 'featureheight'){
-									$scope.graphSettings[key] = parseFloat(newsettings[key]);
-								}
-								else if (key === 'labelPosition'){
-									$scope.graphSettings[key] = newsettings[key];
-								}
-								else if (key === 'keepgaps' || key === 'multilane' || key === 'shiftgenes' || key === 'scaleOn'){
-									if (newsettings[key].toLowerCase() === "true"){
-										$scope.graphSettings[key] = true;
-									}
-									else {
-										$scope.graphSettings[key] = false;
-									}
-								}
-							}
-						}
-						else {
-							var gene = {genome:null, genomehtml:null, genelocked:false, genomelocked:false, start:null, stop:null, size:null, strand:null, name:null, namehtml:null, genefunction:null, color:null, genevisible:true, labelvertpos:'middle', labelpos:{x:null, y:null}};
-							var columns = lines[i].split('\t');
-							
-							var genome = columns[headerpos['genome']];
-							if(genome in geneService.genomesHash){
-								var copynum = 1
-								for(var j=1; j < 100; j++){
-									var testgenome = genome + " ("+j+")";
-									if(!(testgenome in geneService.genomesHash)){
-										copynum = j;
-										console.log(copynum);
-										break;
-									}
-								}
-								genome = genome + " ("+copynum+")"
-							}
-							gene['genome'] = genome;
-
-							for (var key in gene) {
-								if(!offset.hasOwnProperty(genome)) {
-								 vertOff[genome] = $scope.maxVertOff;
-								 $scope.maxVertOff+=2;
-								 offset[genome] = Math.min(parseInt(columns[headerpos['start']]), parseInt(columns[headerpos['stop']]));
-								}
-								if ((key === 'name' || key === 'namehtml' || key === 'genefunction' || key === 'strand' || key === 'color' || key === 'labelcolor' || key === 'labelstyle' || key === 'genomehtml' || key === 'labelvertpos') && headerpos[key] !== null){
-									gene[key] = columns[headerpos[key]];
-								}
-								if ((key === 'genevisible' || key === 'genelocked' || key === 'genomelocked') && headerpos[key] !== null){
-									if (columns[headerpos[key]].toLowerCase() === "true"){
-										gene[key] = true;
-									}
-									else if (columns[headerpos[key]].toLowerCase() === "false"){
-										gene[key] = false;
-									}
-								}
-								if (key === 'labelpos' && headerpos[key] !== null){
-									var getpositions = columns[headerpos[key]].split(",");
-									gene[key].x = parseFloat(getpositions[0]);
-									gene[key].y = parseFloat(getpositions[1]);
-								}
-								else if((key === 'start' || key === 'stop') && headerpos[key] !== null){
-									gene[key] = parseInt(columns[headerpos[key]]) - offset[genome];
-								}
-								else if (key === 'size' && headerpos[key] !== null){
-									gene[key] = parseInt(columns[headerpos[key]]);
-								}
-								else if((key === 'start' || key === 'stop') && headerpos[key] === null){
-									alert("Important info missing!");
-								}
-								else if(key === 'strand' && headerpos[key] === null){
-									if (gene['start'] <= gene['stop'])
-										gene[key] = '+';
-									else gene[key] = '-';
-								}
-								else if(key === 'size' && headerpos[key] === null){
-									gene[key] = Math.abs(parseInt(columns[headerpos['stop']]) - parseInt(columns[headerpos['start']]));
-								}
-								else if(key === 'name' && headerpos[key] === null){
-									gene[key] = "Gene_" + i;
-								}
-								else if(key === 'namehtml' && headerpos[key] === null){
-									gene[key] = gene['name'];
-								}
-								else if(key === 'genomehtml' && headerpos[key] === null){
-									gene[key] = gene['genome'];
-								}
-								else if(key === 'genefunction' && headerpos[key] === null){
-									gene[key] = ""
-								}
-								else if(key === 'color' && headerpos[key] === null){
-									gene[key] = colorService.getHashColor(gene['genefunction']);
-								}
-								gene['currLane']=vertOff[genome];
-								gene['pasting']=false;
-							}
-							$scope.data.push(gene);
-						}
-					}
-					geneService.updateGene($scope.data);
-				}
-				
-			$scope.parseGB = function(lines) {
-				$scope.data = [];
-				var organism = "";
-				var i = 0;
-				var j;
-				var k;
-				$scope.maxVertOff = geneService.maxVertOff;
-				while (i < lines.length) {
-					var offset = "";
-					if ("ORGANISM" === lines[i].slice(2,10)){
-						organism = lines[i].slice(10).trim();
-					}
-					else if ("FEATURES" === lines[i].slice(0,8)){
-						j = i + 1;
-						while (/^\s/.test(lines[j])){
-							if (/^\s{5}CDS\s{13}(complement\()?\<?([\d]+)\.\.\>?([\d]+)/.test(lines[j])){
-								// Get gene position
-								// Incomplete genomes are not supported at this time 
-								
-								var positionmatch = lines[j].trim().match(/CDS\s{13}(complement\()?\<?([\d]+)\.\.\>?([\d]+)/);
-								var startPos;
-								var endPos;
-								var strand;
-								
-									
-								if (positionmatch[1] == "complement(") {
-									strand = "-";
-								} else {
-									strand = "+";
-								}
-								if (offset === ""){
-									offset = parseInt(positionmatch[2]);
-								}
-								startPos = parseInt(positionmatch[2]) - offset;
-								endPos = parseInt(positionmatch[3] - offset);
-								
-								// Loop to find gene name specifics
-								var genename = "";
-								var protein_id = "";
-								var locus_tag = "";
-								var product = "";
-								k = j+1
-								while (/^\s{6}/g.test(lines[k])){
-									if (/\/[\w|\W]*=[\w|\W]*/.test(lines[k])) {
-										var matches = lines[k].trim().match(/\/([\w|\W]*)=([\w|\W]*)/);
-										
-										var matchval = matches[2];
-										
-										if(matchval.indexOf('"') != -1) {
-											while(matchval.substr(matchval.length-1,1) != '"') {
-												k++;
-												matchval = matchval + ' ' + lines[k].trim();
-											}
-											matchval = matchval.substr(0, matchval.length)
-										}
-										
-										if (matches[1] == "locus_tag"){
-											locus_tag = matchval;
-										}
-										else if (matches[1] == "gene"){
-											genename = matchval;
-										}
-										else if (matches[1] == "protein_id"){
-											protein_id = matchval;
-										}
-										else if (matches[1] == "product"){
-											product = matchval;
-										}
-									}
-									
-									k = k+1;
-								}
-								
-								//name stuff
-								if (product == ""){
-									if (protein_id != ""){
-										product = protein_id;
-									} else {
-										product = locus_tag;
-									}
-								}
-								
-								// Create gene item and push
-								var genome = organism
-
-								if (genome in geneService.genomesHash){
-									var copynum = 1;
-									for(var i=1; i<100; i++){
-										var testgenome = genome + " (" + i + ")"
-										if (testgenome in geneService.genomesHash){
-											copynum = i+1;
-										} else {
-											break;
-										}
-									}
-									genome = genome + " (" + copynum + ")";
-								}
-
-								var genomestyles = [];
-									
-								var gene = {currLane:$scope.maxVertOff, genome:genome, genomehtml:genome, genelocked:false, genomelocked:false, start:startPos, stop:endPos, size:Math.abs(startPos-endPos), strand:strand, name:genename.slice(1, genename.length-1), namehtml:genename.slice(1, genename.length-1), genefunction:product.slice(1, product.length-1), color:null, labelvertpos:'middle', genevisible:true, labelpos:{x:null, y:null}, pasting:false};
-									
-								gene["color"] = colorService.getHashColor(gene['genefunction']);
-								
-								$scope.data.push(gene);
-								
-								j = k;
-							}
-							j = j+1;
-						}
-						i = j;
-					}
-					i = i+1;
-				}
-				console.log($scope.data);
-				if($scope.data.length > 0){
-					geneService.updateGene($scope.data);
-					return 0;
-				} else {
-					return -1;
-				}
-			}
-				
-			$scope.parseFile = function($fileContent, $fileType){
-				$scope.content = $fileContent;
-				$scope.filetype = $fileType;
-				var fn = $fileType.input;
-				var numFileDup = $scope.graphSettings.currentFilesList.reduce(function(p,c){
-					if(fn === c){
-						p++
-					}
-					else if(fn === c.substring(0, c.length-(p < 10 ? 4 : 5))){
-						p++;
-					}
-				    return p;
-				},0);
-				if (numFileDup > 0){
-					fn = fn + " (" + numFileDup + ")"
-				}
-				$scope.graphSettings.currentFilesList.push(fn);
-				var lines = $scope.content.match(/[^\r\n]+/g);
-				// Create a vertical genome offset
-				if ($scope.filetype[0] === 'tsv'){
-					$scope.parseTSV(lines);
-				}
-				else if ($scope.filetype[0] === 'gb' || $scope.filetype[0] === 'gff' || $scope.filetype[0] === 'gbk'){
-					$scope.parseGB(lines);
-				}
-				else {
-					console.log("Error, not a known filetype");
-				}
-				$('#file').val("");
-			}
-			
-			$scope.gbItemChanged = function(){
-				if (typeof $scope.gb.selectedItem !== 'undefined' && $scope.gb.selectedItem != null){
-					$scope.gb.fetchID = $scope.gb.selectedItem.id;
-				}
-				else {
-					$scope.gb.fetchID = "";
-				}
-			}
-
-			$scope.gbSearchTextChanged = function(){
-				if (typeof $scope.gb.searchText !== 'undefined'){
-					$scope.gb.fetchID = $scope.gb.searchText;
-				}
-				else {
-					$scope.gb.fetchID = "";
-				}
-			}
-
 			$scope.gb = {};
 			$scope.gb.searchText;
 			$scope.gb.selectedItem;
 			$scope.gb.fetchID = "";
 			$scope.gb.geneName;
+			$scope.gb.organismName;
 			$scope.gb.idtypes = [{display:"Gene ID", db:"gene"},
 				{display:"Protein ID", db:"protein"},
 				{display:"Gene symbol and organism", db:"gene"},
@@ -1209,38 +919,474 @@
 			$scope.gb.statusMessage = "";
 			$scope.gb.loadingFile = false;
 			var baseURL;
+			$scope.fn = "";
+
+			$scope.parseTSV = function(lines){
+
+				$scope.data = [];
+				var header = lines[0];
+				var headercols = header.split('\t');
+				var headerpos = {genome:null, genomehtml:null, genelocked:null, genomelocked:null, labelpos:null, labelvertpos:null, name:null, namehtml:null, genefunction:null, color:null, size:null, start:null, stop:null, strand:null};
+				$scope.maxVertOff = geneService.maxVertOff;
+				for(var i = 0; i < headercols.length; i++){
+					var currHeaderCol = headercols[i].toLowerCase().replace(/ /g, '');
+					if (currHeaderCol === 'genome'){
+						headerpos.genome = i;
+					}
+					else if (currHeaderCol === 'genomehtml'){
+						headerpos.genomehtml = i;
+					}
+					else if (currHeaderCol === 'genelocked'){
+						headerpos.genelocked = i;
+					}
+					else if (currHeaderCol === 'genomelocked'){
+						headerpos.genomelocked = i;
+					}
+					else if (currHeaderCol === 'labelpos'){
+						headerpos.labelpos = i;
+					}
+					else if (currHeaderCol === 'labelvertpos'){
+						headerpos.labelvertpos = i;
+					}
+					else if (currHeaderCol === 'name' || currHeaderCol === "genename"){
+						headerpos.name = i;
+					}
+					else if (currHeaderCol === 'namehtml'){
+						headerpos.namehtml = i;
+					}
+					else if (currHeaderCol === "function"){
+						headerpos.genefunction = i;
+					}
+					else if (currHeaderCol === 'color' || currHeaderCol === 'genecolor'){
+						headerpos.color = i;
+					}
+					else if (currHeaderCol === 'size' || currHeaderCol === 'size(nt)'){
+						headerpos.size = i;
+					}
+					else if (currHeaderCol === 'start'){
+						headerpos.start = i;
+					}
+					else if (currHeaderCol === 'stop'){
+						headerpos.stop = i;
+					}
+					else if (currHeaderCol === 'strand'){
+						headerpos.strand = i;
+					}
+				}
+				
+				for (var i = 1; i < lines.length; i++){
+					
+					if (lines[i].slice(0,14) === "GraphSettings:"){
+						var newsettings = JSON.parse(lines[i].slice(14));
+						for (var key in newsettings){
+							if (key === 'graphwidth' || key === 'featureheight'){
+								$scope.graphSettings[key] = parseFloat(newsettings[key]);
+							}
+							else if (key === 'labelPosition'){
+								$scope.graphSettings[key] = newsettings[key];
+							}
+							else if (key === 'keepgaps' || key === 'multilane' || key === 'shiftgenes' || key === 'scaleOn'){
+								if (newsettings[key].toLowerCase() === "true"){
+									$scope.graphSettings[key] = true;
+								}
+								else {
+									$scope.graphSettings[key] = false;
+								}
+							}
+						}
+					}
+					else {
+						var gene = {genome:null, genomehtml:null, genelocked:false, genomelocked:false, start:null, stop:null, size:null, strand:null, name:null, namehtml:null, genefunction:null, color:null, labelvertpos:'middle', labelpos:{x:null, y:null}, file:$scope.fn};
+						var columns = lines[i].split('\t');
+						
+						var genome = columns[headerpos['genome']];
+						gene['genome'] = genome;
+						if(genome in geneService.genomesHash){
+							var copynum = 0;
+							for(var j=1; j < 100; j++){
+								var testgenome = genome + " ("+j+")";
+								if(!(testgenome in geneService.genomesHash)){
+									copynum = j;
+									//console.log(copynum);
+									break;
+								}
+							}
+							genome = genome + " ("+copynum+")"
+						}
+
+						for (var key in gene) {
+							if ((key === 'name' || key === 'namehtml' || key === 'genefunction' || key === 'strand' || key === 'color' || key === 'labelcolor' || key === 'labelstyle' || key === 'genomehtml' || key === 'labelvertpos') && headerpos[key] !== null){
+								gene[key] = columns[headerpos[key]];
+							}
+							if ((key === 'genelocked' || key === 'genomelocked') && headerpos[key] !== null){
+								if (columns[headerpos[key]].toLowerCase() === "true"){
+									gene[key] = true;
+								}
+								else if (columns[headerpos[key]].toLowerCase() === "false"){
+									gene[key] = false;
+								}
+							}
+							if (key === 'labelpos' && headerpos[key] !== null){
+								var getpositions = columns[headerpos[key]].split(",");
+								gene[key].x = parseFloat(getpositions[0]);
+								gene[key].y = parseFloat(getpositions[1]);
+							}
+							else if((key === 'start' || key === 'stop') && headerpos[key] !== null){
+								gene[key] = parseInt(columns[headerpos[key]]);
+							}
+							else if (key === 'size' && headerpos[key] !== null){
+								gene[key] = parseInt(columns[headerpos[key]]);
+							}
+							else if((key === 'start' || key === 'stop') && headerpos[key] === null){
+								alert("Important info missing!");
+							}
+							else if(key === 'strand' && headerpos[key] === null){
+								if (gene['start'] <= gene['stop'])
+									gene[key] = '+';
+								else gene[key] = '-';
+							}
+							else if(key === 'size' && headerpos[key] === null){
+								gene[key] = Math.abs(parseInt(columns[headerpos['stop']]) - parseInt(columns[headerpos['start']]));
+							}
+							else if(key === 'name' && headerpos[key] === null){
+								gene[key] = "Gene_" + i;
+							}
+							else if(key === 'namehtml' && headerpos[key] === null){
+								gene[key] = gene['name'];
+							}
+							else if(key === 'genomehtml' && headerpos[key] === null){
+								gene[key] = genome;
+							}
+							else if(key === 'genefunction' && headerpos[key] === null){
+								gene[key] = ""
+							}
+							else if(key === 'color' && headerpos[key] === null){
+								gene[key] = colorService.getHashColor(gene['genefunction']);
+							}
+							gene['pasting']=false;
+						}
+						$scope.data.push(gene);
+					}
+				}
+				geneService.addGenes($scope.data);
+			}
+			
+			var process_location = function(location_string) {
+				var index,
+					matches = [],
+					newlocation = '',
+					segment = {},
+					segs = [],
+					i,
+					segments = [];
+				location_string = location_string.replace(/<|>/g, '');
+				if (/[0-9]/g.test(location_string.slice(0, 1))) {
+					matches = location_string.match(/(\d+)\.\.(\d+)/);
+					if (matches != null){
+						segment.start = matches[1];
+						segment.end = matches[2];
+						segments[0] = segment;
+						return segments;
+					} else {
+						matches = location_string.match(/(\d+)/);
+						segment.start = matches[1];
+						segment.end = matches[1];
+						segments[0] = segment;
+						return segments;
+					}
+				}
+				while (location_string.match(/complement|join/g)) {
+					if (/[0-9]/g.test(location_string.slice(0, 1))) {
+						index = location_string.match(/j|c/);
+						newlocation = location_string.slice(0, index - 1);
+						location_string = location_string.slice(index);
+					} 
+					else if (/complement/.test(location_string.slice(0, 10))) {
+						location_string = location_string.replace(/(\d+)\.\.(\d+)/g, "$2..$1");
+						location_string = location_string.slice(11, -1);
+					} 
+					else if (/join/.test(location_string.slice(0, 4))) {
+						location_string = location_string.slice(5, -1);
+					}
+				}
+				newlocation += location_string;
+				if (/,/g.test(newlocation)) {
+					segs = newlocation.split(/,/);
+				} else {
+					segs[0] = newlocation;
+				}
+				for (i = 0; i < segs.length; i += 1) {
+					segment = {};
+					matches = segs[i].match(/(\d+)\.\.(\d+)/);
+					segment.start = matches[1];
+					segment.end = matches[2];
+					segments.push(segment);
+				}
+				return segments;
+			}
+
+			var readGBFeatures = function(lines) {
+				var i = 0,
+					j,
+					k,
+					textline,
+					features = [],
+					feature = {},
+					obj = {},
+					counter = -1,
+					matches = [];
+				obj.invalidFileType = false;
+				obj.GBType;
+				while (i < lines.length) {
+					if ("ORGANISM" === lines[i].slice(2, 10)) {
+						obj.organism = lines[i].slice(10).trim();
+					}
+					else if ("DEFINITION" === lines[i].slice(0, 10)) {
+						if (/^MULTISPECIES:/g.test(lines[i].slice(10).trim())){
+							//console.log("multispecies");
+							obj.invalidFileType = "multispecies";
+							return obj;
+						}
+					}
+					else if ("DBSOURCE" === lines[i].slice(0, 8)) {
+						console.log("protein");
+						var re = /[A-Z]+[_]?[A-Z]*[\d]+[\.]?[\d]?/;
+						var matches = lines[i].match(re);
+						obj.nuccsource = matches[0];
+						console.log(obj.nuccsource);
+						j = i + 1;
+						while (typeof lines[j] !== 'undefined') {
+							textline = lines[j].trim().slice(1);
+							matches = textline.match(/([\w|\W]*)=([\w|\W]*)/);
+							console.log(matches);
+							if(matches != null && matches[1] == "coded_by"){
+								obj.sourceloc = process_location(matches[2].replace(/\"/g, ''));
+								console.log(obj.sourceloc);
+								return obj;
+							}
+							j++;
+						}
+						console.log("no coded_by");
+						return obj;
+					}
+					else if ("FEATURES" === lines[i].slice(0, 8)) {
+						j = i + 1;
+						//Stop reading after the FEATURES section
+						while (typeof lines[j] !== 'undefined' && /[A-Z]/.test( lines[j].charAt(0) ) == false ) {
+							if (/^\s{5}\w/.test(lines[j])) {
+								counter += 1;
+								k = j + 1;
+								textline = lines[j].trim();
+								while (/^\s{6}/g.test(lines[k]) && /^[a-z0-9]/gi.test(lines[k].trim())){
+									textline += lines[k].trim();
+									j = k;
+									k += 1;
+								}
+								textline = textline.trim().split(/\s+/g);
+								feature = {};
+								feature.feature = textline[0];
+								feature.location = process_location(textline[1]);
+								features[counter] = feature;
+							}
+							else if (/^\//.test(lines[j].trim())) {
+								textline = lines[j].trim().slice(1);
+								k = j + 1;
+								while (/^\s{6}/g.test(lines[k]) && /^[A-Z]/g.test(lines[k].trim())) {
+									textline += lines[k].trim();
+									j = k;
+									k += 1;
+								}
+								if (/[\w|\W]*=[\w|\W]*/.test(textline)) {
+									var matches = textline.match(/([\w|\W]*)=([\w|\W]*)/);
+									feature[matches[1]] = matches[2].replace(/\"/g, '');
+									features[counter] = feature;
+								}
+							}
+							i = j;
+							j += 1;
+						}
+					}
+					i += 1;
+				}
+				obj.features = features;
+				return obj;
+			}
+			
+			$scope.parseGB = function(lines) {
+				var parsed = readGBFeatures(lines);
+				var err = "success";
+				// Return various errors
+				if (angular.equals(parsed, {})){
+					err = "No data parsed";
+					return err;
+				} else if (parsed.invalidFileType != false){
+					err = "Invalid file type: " + parsed.invalidFileType;
+				} else if (parsed.features.length == 0){
+					err = "No features parsed";
+					return err;
+				} else if (parsed.features.length == 1){
+					err = "Only one feature: " + parsed.features[0].feature;
+					return err;
+				// Otherwise, create and updata the data.
+				} else {
+					var i = 0;
+					var data = [];
+					var organism = parsed.organism;
+
+					// Make sure the genome label is unique
+					if (organism in geneService.genomesHash){
+						var copynum = 1;
+						for(var i=1; i<100; i++){
+							var testgenome = organism + " ("+i+")";
+							if(testgenome in geneService.genomesHash){
+								copynum = i+1;
+							} else {
+								break;
+							}
+						}
+						organism = organism + " ("+copynum+")";
+					}
+					var supported_features = ["CDS","gene","mRNA"];
+					while ( i < parsed.features.length){
+						var j = i;
+						if (supported_features.includes(parsed.features[i].feature)){
+							// Get basic info from gene feature
+							var gene = parsed.features[i].gene;
+							var locus_tag = parsed.features[i].locus_tag;
+							var product = parsed.features[i].product;
+							var protein_id = parsed.features[i].protein_id;
+							var start = parseInt(parsed.features[i].location[0].start);
+							var end = parseInt(parsed.features[i].location[0].end);
+							var strand = (start <= end) ? "+" : "-";
+							var size = Math.abs(end - start);
+
+							while ((j < parsed.features.length) &&
+								(parseInt(parsed.features[j].location[0].start) == start) && 
+								(parseInt(parsed.features[j].location[0].end) == end)) {
+								if (supported_features.includes(parsed.features[j].feature)){
+									if (typeof gene == 'undefined') gene = parsed.features[j].gene;
+									if (typeof locus_tag == 'undefined') locus_tag = parsed.features[j].locus_tag;
+									if (typeof product == 'undefined') product = parsed.features[j].product;
+									if (typeof protein_id == 'undefined') protein_id = parsed.features[j].protein_id;
+								}
+								j++;
+							}
+
+							var genename = "";
+							if (typeof gene != 'undefined') {genename = gene}
+							else if (typeof locus_tag != 'undefined') {genename = locus_tag}
+							else if (typeof protein_id != 'undefined') {genename = protein_id};
+
+							var funct = "";
+							if (typeof product != 'undefined') {funct = product}
+							else if (genename != "") {funct = genename};
+
+							var geneObj = {genome:organism, genomehtml:organism,
+								genelocked:false, genomelocked:false, start:start, stop:end, size:size, strand:strand,
+								name:genename, namehtml:genename, genefunction:funct, color:null, labelvertpos:'middle',
+								labelpos:{x:null,y:null}, pasting:false, file:$scope.fn};
+
+							geneObj.color = colorService.getHashColor(geneObj.genefunction);
+							data.push(geneObj);
+						}
+						if ( i == j){
+							i = j+1;
+						} else {
+							i = j;
+						}
+					}
+					if (data.length > 0){
+						geneService.addGenes(data);
+					} else {
+						err = "No supported features were found. Supported features include: \n" + supported_features.join(", ") + "\n";
+					}
+					return err;
+				}
+			}
+	
+			$scope.parseFile = function($fileContent, $fileType){
+				$scope.content = $fileContent;
+				$scope.filetype = $fileType;
+				$scope.fn = $fileType.input;
+				var numFileDup = $scope.graphSettings.currentFilesList.reduce(function(p,c){
+					if($scope.fn === c){
+						p++
+					}
+					else if($scope.fn === c.substring(0, c.length-(p < 10 ? 4 : 5))){
+						p++;
+					}
+				    return p;
+				},0);
+				if (numFileDup > 0){
+					$scope.fn = $scope.fn + " (" + numFileDup + ")"
+				}
+				$scope.graphSettings.currentFilesList.push($scope.fn);
+				var lines = $scope.content.match(/[^\r\n]+/g);
+				// Create a vertical genome offset
+				if ($scope.filetype[0] === 'tsv'){
+					$scope.parseTSV(lines);
+				}
+				else if ($scope.filetype[0] === 'gb' || $scope.filetype[0] === 'gff' || $scope.filetype[0] === 'gbk'){
+					var err = $scope.parseGB(lines);
+					if (err != "success"){
+						alert("The file uploaded could not be parsed due to the following error: " + err + " Please try another file.");
+					}
+				}
+				else {
+					alert("Error, not a known filetype");
+				}
+				$('#file').val("");
+			}
+			
+			$scope.gbItemChanged = function(){
+				if (typeof $scope.gb.selectedItem !== 'undefined' && $scope.gb.selectedItem != null){
+					$scope.gb.fetchID = $scope.gb.selectedItem.gbid;
+					$scope.gb.organismName = $scope.gb.selectedItem.organism;
+				}
+				else {
+					$scope.gb.fetchID = "";
+				}
+			}
+
+			$scope.gbSearchTextChanged = function(){
+				if (typeof $scope.gb.searchText !== 'undefined'){
+					$scope.gb.fetchID = $scope.gb.searchText;
+					if( $scope.gb.searchText !== "" ){
+						$scope.gb.organismName = $scope.gb.searchText;
+					}
+				}
+				else {
+					$scope.gb.fetchID = "";
+				}
+			}
 
 			var parseNuccoreRes = function(response){
 				$scope.gb.loadingFile = false;
 				if(response.status == 200) {
 					var lines = response.data.match(/[^\r\n]+/g);
-					if(lines[0].substr(0,5)!="LOCUS") {
-						$scope.gb.statusMessage = "Invalid file format retrieved.";
-						return;
-					}
 					$scope.gb.statusMessage = "";
-					//popupMenuService.updateMenuStatus(false);
-					var fn = "NCBI query: " + $scope.gb.fetchID + "(" + $scope.gb.seqRangeStart + ".." + $scope.gb.seqRangeEnd + ")";
+					//console.log($scope.gb.fetchID);
 					var numFileDup = $scope.graphSettings.currentFilesList.reduce(function(p,c){
-						if(fn === c){
+						if($scope.fn === c){
 							p++
 						}
-						else if(fn === c.substring(0, c.length-(p < 10 ? 4 : 5))){
+						else if($scope.fn === c.substring(0, c.length-(p < 10 ? 4 : 5))){
 							p++;
 						}
 					    return p;
 					},0);
-					//console.log(numFileDup);
 					if (numFileDup > 0){
-						fn = fn + " (" + numFileDup + ")"
+						$scope.fn = $scope.fn + " (" + numFileDup + ")"
 					}
-					//$scope.graphSettings.currentFilesList.push(fn);
 					var err = $scope.parseGB(lines);
-					if (err != 0){
-						$scope.gb.statusMessage = "The GenBank file retrieved could not be parsed.";
+					//console.log(err);
+					if (err != "success"){
+						$scope.gb.statusMessage = "The GenBank file retrieved could not be parsed. ";
+						$scope.gb.statusMessage = "It may be the master record for a whole genome shotgun sequence. ";
+						$scope.gb.statusMessage = "Please try uploading your file manually.";
 					} else {
 						popupMenuService.updateMenuStatus(false);
-						$scope.graphSettings.currentFilesList.push(fn);
+						$scope.graphSettings.currentFilesList.push($scope.fn);
 					}
 					$scope.gb.fetchID = "";
 					$scope.gb.seqRangeStart = 0;
@@ -1262,7 +1408,7 @@
 						var resGeneID = matches[1];
 						$scope.gb.statusMessage = "Matching Gene ID " + resGeneID + ": ";
 					}
-					$scope.gb.statusMessage += "This record was discontinued.";
+					$scope.gb.statusMessage += "This record was discontinued. Please enter another ID.";
 				} else if (text.match(/This record was replaced with GeneID: [\d]+/ig)){
 					var matches = /This record was replaced with GeneID: ([\d]+)/ig.exec(text); 
 					$scope.gb.fetchID = matches[1];
@@ -1275,23 +1421,52 @@
 			var parseGeneIDFetch = function(response){
 				if(response.status == 200){
 					var text = response.data;
-					var re = /(?:Annotation:[\s]*)(?:Chromosome [\d]+ )?([A-Z\_\d\.]+)[\s]*\(([\d]*)\.{2}([\d]*)(?:, complement\)|\))/ig;
-					var annot = re.exec(text)
-					if(annot == null){
-						handleInvGeneIDRes(text);
+					var re_err = /Error.+/ig;
+					var err_match = re_err.exec(text);
+					console.log(err_match);
+					if (err_match != null){
+						$scope.gb.loadingFile = false;
+						$scope.gb.fetchID ="";
+						$scope.gb.statusMessage = "The query resulted in an error. An invalid or unavailable Gene ID may have been entered.";
 						return;
 					}
-					$scope.gb.fetchID = annot[1];
-					var start = parseInt(annot[2]);
-					var stop = parseInt(annot[3]);
+					var re = /(?:Annotation:[\s]*)(?:Chromosome [\d]+ )?([A-Z\_\d\.]+)[\s]*\(([\d]*)\.{2}([\d]*)(?:, complement\)|\))/ig;
+					var num_matches = 0;
+					var annot = re.exec(text);
+					var start = null;
+					var stop = null;
+					while (true){
+						if (annot == null && num_matches == 0){
+							handleInvGeneIDRes(text);
+							return;
+						}
+						var newID = annot[1];
+						if (newID != $scope.gb.fetchID) {
+							num_matches += 1;
+						}
+						if (num_matches > 1) {
+							$scope.gb.loadingFile = false;
+							$scope.gb.fetchID = "";
+							$scope.gb.statusMessage = "Unique match not found for the entered Gene ID."
+							return;
+						}
+						$scope.gb.fetchID = annot[1];
+						start = parseInt(annot[2]);
+						stop = parseInt(annot[3]);
+						annot = re.exec(text);
+						if (annot == null){
+							break;
+						}
+					};
 					var mid = Math.floor((stop + start)/2)
 					$scope.gb.seqRangeStart = mid - Math.floor($scope.gb.fullRange/2);
 					$scope.gb.seqRangeEnd = mid + Math.ceil($scope.gb.fullRange/2);
-					var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&seq_start="
+					var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gbwithparts&seq_start="
 						+ $scope.gb.seqRangeStart + "&seq_stop="
 						+ $scope.gb.seqRangeEnd + "&id="
 						+ $scope.gb.fetchID;
 
+					$scope.fn = "NCBI query: " + $scope.gb.fetchID + "(" + $scope.gb.seqRangeStart + ".." + $scope.gb.seqRangeEnd + ")";
 				console.log(fetchURL);
 
 				$http.get(fetchURL).then(function successCallback(response){
@@ -1300,11 +1475,48 @@
 					handleErrResponse(response);
 				});
 
-
 				} else {
 					$scope.gb.statusMessage = response.statusText;
 					$scope.gb.fetchID = "";
 				}
+			}
+
+			var parseProteinNameSearch = function(response){
+				if(response.status == 200){
+					var xmldoc = $.parseXML(response.data);
+					//console.log(response.data);
+					var $xml = $(xmldoc);
+					var $Id = $xml.find('Id');
+					if ($Id.length != "1") {
+						$scope.gb.statusMessage = "The query did not produce valid results. Please try another gene name and/or organism.";
+						$scope.gb.statusMessage += " If the organism is only found in the NCBI database as a whole genome shotgun sequence, "
+						$scope.gb.statusMessage += "you must use the specific scaffold's accession ID.";
+						$scope.gb.loadingFile = false;
+						return;
+					}else{
+						$scope.gb.fetchID = $Id.text();
+						getProteinID();
+					}
+				}else{
+					$scope.gb.statusMessage = response.statusText;
+					$scope.gb.fetchID = "";
+				}
+				return;
+			}
+
+			var tryProteinName = function(){
+				console.log($scope.gb.organismName);
+				var searchTerm = "("+$scope.gb.organismName+"[Primary Organism]) AND "+$scope.gb.geneName;
+				var searchTerm = encodeURI(searchTerm);
+				var searchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db="
+					+ "protein&term="
+					+ searchTerm;
+				console.log(searchURL);
+				$http.get(searchURL).then(function successCallback(response){
+					parseProteinNameSearch(response);
+				}, function errorCallback(response){
+					handleErrResponse(response);
+				})
 			}
 
 			var parseGeneNameSearch = function(response){
@@ -1314,8 +1526,9 @@
 					var $xml = $(xmldoc);
 					var $Id = $xml.find('Id');
 					if ($Id.length != "1") {
-						$scope.gb.statusMessage = "Could not find " + $scope.gb.geneName + " in this organism.";
-						$scope.gb.loadingFile = false;
+						//$scope.gb.statusMessage = "The query did not produce valid results. Please try another gene name and/or organism.";
+						//$scope.gb.loadingFile = false;
+						tryProteinName();
 						return;
 					}else{
 						$scope.gb.fetchID = $Id.text();
@@ -1340,14 +1553,15 @@
 				$scope.gb.fetchID = "";
 				$scope.gb.geneName = "";
 				$scope.gb.statusMessage = "Error: " + response.statusText;
+				$scope.gb.statusMessage += " Please check the input and try again."
 				return;
 			}
 
 			var getGenome = function(){
 				$scope.gb.fullRange = $scope.gb.seqRangeEnd - $scope.gb.seqRangeStart;
-				console.log($scope.gb.fullRange);
-				console.log($scope.gb.seqRangeEnd);
-				console.log($scope.gb.seqRangeStart);
+				//console.log($scope.gb.fullRange);
+				//console.log($scope.gb.seqRangeEnd);
+				//console.log($scope.gb.seqRangeStart);
 				if($scope.gb.fetchID==""){
 					$scope.gb.loadingFile = false;
 					$scope.gb.statusMessage = "Please search for an organism or use a valid genome ID."
@@ -1360,12 +1574,12 @@
 				}
 
 				var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db="
-					+ $scope.gb.idtype.db + "&rettype=gb&seq_start="
+					+ $scope.gb.idtype.db + "&rettype=gbwithparts&seq_start="
 					+ $scope.gb.seqRangeStart + "&seq_stop="
 					+ $scope.gb.seqRangeEnd + "&id="
 					+ $scope.gb.fetchID;
 
-				console.log(fetchURL);
+				$scope.fn = "NCBI query: " + $scope.gb.fetchID + "(" + $scope.gb.seqRangeStart + ".." + $scope.gb.seqRangeEnd + ")";
 
 				$http.get(fetchURL).then(function successCallback(response){
 					parseNuccoreRes(response);
@@ -1375,7 +1589,6 @@
 				
 			}
 			var getGeneName = function(){
-				//console.log("gene name and organism");
 				if($scope.gb.fetchID==""){
 					$scope.gb.loadingFile = false;
 					$scope.gb.statusMessage = "Please enter a valid organism name or ID."
@@ -1402,7 +1615,7 @@
 				$http.get(searchURL).then(function successCallback(response){
 					parseGeneNameSearch(response);
 				}, function errorCallback(response){
-					handleErrorResponse(response);
+					handleErrResponse(response);
 				})
 			}
 
@@ -1426,7 +1639,7 @@
 				$http.get(fetchURL).then(function successCallback(response){
 					parseGeneIDFetch(response);
 				}, function errorCallback(response){
-					handleErrorResponse(response);
+					handleErrResponse(response);
 				});
 			}
 
@@ -1434,6 +1647,11 @@
 				if($scope.gb.fetchID==""){
 					$scope.gb.loadingFile = false;
 					$scope.gb.statusMessage = "Please enter a valid protein ID.";
+					return;
+				}
+				else if ($scope.gb.fetchID.substring(0,3).toUpperCase() == "WP_"){
+					$scope.gb.loadingFile = false;
+					$scope.gb.statusMessage = $scope.gb.fetchID + " is a non-redundant protein sequence and may be found in multiple genome files."
 					return;
 				}
 				else if (!(0 < ($scope.gb.fullRange) <= 100000)){
@@ -1446,21 +1664,47 @@
 				console.log(fetchURL);
 				$http.get(fetchURL).then(function successCallback(response){
 					if(response.status == 200){
-						var text = response.data;
-						var re = /\/coded_by="(?:complement\()?\"?([A-Z]{2}_[\d]+(?:\.\d+)?|[A-Z]{1,2}[\d]{5,6}(?:\.\d)?):([\d]+)..([\d]+)\)?\"/ig;
-						var annot = re.exec(text)
-						$scope.gb.fetchID = annot[1];
-						var start = parseInt(annot[2]);
-						var stop = parseInt(annot[3]);
-						var mid = Math.floor((stop + start)/2)
-						$scope.gb.seqRangeStart = mid - Math.floor($scope.gb.fullRange/2);
-						$scope.gb.seqRangeEnd = mid + Math.ceil($scope.gb.fullRange/2);
-						var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb&seq_start="
+						var parsed = readGBFeatures(response.data.match(/[^\r\n]+/g));
+						if (parsed.invalidFileType != false){
+							$scope.gb.loadingFile = false;
+							$scope.gb.statusMessage = "Cannot parse " + parsed.invalidFileType + " file.";
+							return;
+						}
+						var nuccsource = parsed.nuccsource;
+						var sourcestart = false;
+						var sourceend = false;
+						if ("sourceloc" in parsed){
+							sourcestart = parseInt(parsed["sourceloc"][0]["start"]);
+							sourceend = parseInt(parsed["sourceloc"][0]["end"]);
+						}
+						console.log(nuccsource);
+						if (typeof nuccsource === 'undefined' || nuccsource === null) {
+							$scope.gb.loadingFile = false;
+							$scope.gb.statusMessage = "No source genome found. The entry may represent a protein annotated on multiple different genomes.";
+							return;
+						} else if ( !sourcestart || !sourceend){
+							$scope.gb.loadingFile = false;
+							$scope.gb.statusMessage = "The location of " + $scope.gb.fetchURL + " could not be parsed.";
+						} else {
+							$scope.gb.fetchID = nuccsource;
+							var region_flank = parseInt($scope.gb.fullRange/2);
+							console.log($scope.gb.fullRange + " " + region_flank);
+							var gene_midpoint = (sourcestart+sourceend)/2;
+							if (sourcestart < region_flank){
+								$scope.gb.seqRangeStart = 0;
+								$scope.gb.seqRangeEnd = $scope.gb.fullRange;
+							} else {
+								$scope.gb.seqRangeStart = gene_midpoint - region_flank;
+								$scope.gb.seqRangeEnd = gene_midpoint + region_flank;
+							}
+						}
+						var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gbwithparts&seq_start="
 							+ $scope.gb.seqRangeStart + "&seq_stop="
 							+ $scope.gb.seqRangeEnd + "&id="
 							+ $scope.gb.fetchID;
 						console.log(fetchURL);
 
+						$scope.fn = "NCBI query: " + $scope.gb.fetchID + "(" + $scope.gb.seqRangeStart + ".." + $scope.gb.seqRangeEnd + ")";
 						$http.get(fetchURL).then(function successCallback(response){
 							parseNuccoreRes(response);
 						}, function errorCallback(response){
@@ -1471,12 +1715,13 @@
 						$scope.gb.loadingFile = false;
 					}
 				}, function errorCallback(response){
-					handleErrorCallback(response);
+					handleErrResponse(response);
 					return;
 				});
 			}
 
 			$scope.submitNCBIQuery = function(){
+				$scope.gb.statusMessage = "";
 				$scope.gb.loadingFile = true;
 				if($scope.gb.idtype.display == "Genome location"){
 					getGenome();
@@ -1537,8 +1782,25 @@
 					$scope.graphSettings.shiftgenes = false;
 					$scope.graphSettings.keepgaps = false;
 					$scope.graphSettings.scaleOn = true;
+					$scope.graphSettings.arrows = true;
 					$scope.globalLabels.genomeColor = '#000000';
 					$scope.globalLabels.geneColor = '#000000';
+
+					$scope.toggleBold["genomes"] = true;
+					$scope.globalBold("genomes");
+					$scope.toggleBold["genes"] = true;
+					$scope.globalBold("genes");
+					$scope.toggleItalic["genomes"] = true;
+					$scope.globalEm("genomes");
+					$scope.toggleItalic["genes"] = true;
+					$scope.globalEm("genes");
+
+					var defaultFontFamily = {value:"arial, helvetica, sans-serif", name:"Arial"}
+					var defaultFontSize = "10pt";
+					$scope.globalFontFamily("genomes", defaultFontFamily);
+					$scope.globalFontFamily("genes", defaultFontFamily);
+					$scope.globalFontSize("genomes", defaultFontSize);
+					$scope.globalFontSize("genes", defaultFontSize);
 				}
 				else {
 					return;
@@ -1569,6 +1831,7 @@
 				$scope.showGraphSizeDialog = popupMenuService.GraphSizeDialogVisible;
 				$scope.showLaneDialog = popupMenuService.LaneDialogVisible;
 				$scope.showScaleDialog = popupMenuService.ScaleDialogVisible;
+				$scope.showShapeDialog = popupMenuService.ShapeDialogVisible;
 				$scope.showGlobalGenome = popupMenuService.GlobalGenomeVisible;
 				$scope.showGlobalGene = popupMenuService.GlobalGeneVisible;
 				$scope.showGeneCPDialog = popupMenuService.GeneCPDialogVisible;
@@ -1580,6 +1843,7 @@
 						$scope.showGraphSizeDialog == true || 
 						$scope.showLaneDialog == true ||
 						$scope.showScaleDialog == true ||
+						$scope.showShapeDialog == true ||
 						$scope.showGlobalGenome == true ||
 						$scope.showGlobalGene == true ||
 						$scope.showGeneCPDialog == true){
@@ -1615,6 +1879,9 @@
 					case 'scaleDialog':
 						popupMenuService.updateScaleDialog(true);
 						break;
+					case 'shapeDialog':
+						popupMenuService.updateShapeDialog(true);
+						break;
 					case 'globalGenome':
 						popupMenuService.updateGlobalGenome(true);
 						break;
@@ -1632,6 +1899,7 @@
 				popupMenuService.updateGraphSizeDialog(false);
 				popupMenuService.updateLaneDialog(false);
 				popupMenuService.updateScaleDialog(false);
+				popupMenuService.updateShapeDialog(false);
 				popupMenuService.updateGlobalGenome(false);
 				popupMenuService.updateGlobalGene(false);
 				popupMenuService.updateGeneCPDialog(false);
@@ -1649,14 +1917,16 @@
 						var lines = response.data.match(/[^\r\n]+/g);
 						for (var row=0; row<lines.length; row++){
 							var columns = lines[row].split('\t');
-							var id = columns[4];
+							var taxonomy = columns[0];
+							var refseq_id = columns[1];
+							var gb_id = columns[4];
 							var organism = columns[5]
 							if(columns.length == 7){
 								organism = organism + " " + columns[6];
 							}
-							$scope.genomesList.push({id:id, organism:organism.toLowerCase(), display:organism + " (" + id + ")"});
+							$scope.genomesList.push({gbid:gb_id, refseqid:refseq_id, organism:organism, display:organism + " " + gb_id + " " + refseq_id});
 						}
-						console.log('building complete');
+						//console.log('building complete');
 					}
 				}, function errorCallback(response){
 					console.log(response.statusText);
