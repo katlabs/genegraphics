@@ -80,7 +80,6 @@
 				elementpath: false,
 				body_class: 'editor',
 				content_css: 'styles/main.css',
-				content_style: ".mce-content-body {font-family:Arial,sans-serif;}",
 				plugins: 'textcolor colorpicker',
 				menubar: false,
 				toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright | valigntop valignmid valignbot',
@@ -945,7 +944,7 @@
 					else if (currHeaderCol === 'labelpos'){
 						headerpos.labelpos = i;
 					}
-					else if (currHeaderCol === 'labelvertpos'){
+						else if (currHeaderCol === 'labelvertpos'){
 						headerpos.labelvertpos = i;
 					}
 					else if (currHeaderCol === 'name' || currHeaderCol === "genename"){
@@ -1322,6 +1321,7 @@
 				}
 				$scope.graphSettings.currentFilesList.push($scope.fn);
 				var lines = $scope.content.match(/[^\r\n]+/g);
+				console.log(geneService.genomesHash);
 				// Create a vertical genome offset
 				if ($scope.filetype[0] === 'tsv'){
 					$scope.parseTSV(lines);
@@ -1773,7 +1773,7 @@
 			};
 
 			$scope.clearGraphSettings = function(){
-				var ret = confirm("This will clear all of your custom graph settings and return them to default values.\nAre you sure you would like to clear this data?");
+				var ret = confirm("This will clear all of your custom graph and font settings and return them to default values.\nAre you sure you would like to clear this data?");
 				if (ret == true){
 					localStorage.savedSettings = null;
 					$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;

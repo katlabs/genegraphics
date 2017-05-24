@@ -113,6 +113,9 @@ body {
 }
 
 #graphcontainer {
+	font-family: Arial,Helvetica,Sans-serif;
+	font-size: 10pt;
+	color: black;
 	overflow: auto;
 }
 

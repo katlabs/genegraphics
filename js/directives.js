@@ -362,7 +362,6 @@
 									} 
 								})
 								.attr("d", function(d, i) {
-									console.log(scope.settings.arrows);
 									if (scope.settings.arrows === false){
 										// get start and stop positions relative to max size
 										if (d.strand === '+'){
