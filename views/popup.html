@@ -77,9 +77,29 @@
 	<div id="exportPanel" class="popupcontentsglb" ng-show="showExportPanel">
 		<h4>Export Files</h4> 
 		To save a file, right click on the link and choose "Save As". (On Mac:⌘ + click and "Download linked file as..." Then, give the file a name and the correct file extension on the save prompt.)<br><br>
-		<a id="pnglink" href="" download="newgenegraphic.png">Export PNG</a><br><br>
-		<a id="svglink" href="" download="newgenegraphic.svg">Export SVG</a><br><br>
-		<a id="tsvlink" href="" download="newgenegraphic.tsv">Export TSV</a><br>
+		<table style="width:100%; border-spacing: 10px; font-size: 10pt">
+			<col style="width:20%">
+			<col style="width:20%">
+			<col style="width:20%">
+			<col style="width:20%">
+			<tr>
+				<td style="text-align:center; vertical-align:top;">
+					<a id="pnglink1" href="" download="newgenegraphic.png"></a>
+				</td>
+				<td style="text-align:center; vertical-align:top;">
+					<a id="pnglink2" href="" download="newgenegraphic.png"></a>
+				</td>
+				<td style="text-align:center; vertical-align:top;">
+					<a id="svglink" href="" download="newgenegraphic.svg"></a>
+				</td>
+				<td style="text-align:center; vertical-align:top;">
+					<a id="emflink" href="" download="newgenegraphic.emf"></a>
+				</td>
+				<td style="text-align:center; vertical-align:top;">
+					<a id="tsvlink" href="" download="newgenegraphic.tsv"></a>
+				</td>
+			</tr>
+		</table>
 	</div>
 	
 	<!-- Menu for editing a gene -->
@@ -274,6 +294,12 @@
 						Unlock all {{showGlobalGenome ? 'genome' : 'gene'}} labels
 					</md-tooltip>
 					<md-icon class="material-icons md-16 blueicon">lock_open</md-icon>
+				</button>
+				<button id="deleteLabels" class="icoFormatBtn md-icon-button blueicon" ng-click="remOrToggleLabels((showGlobalGenome ? 'genome' : 'gene'));" >
+					<md-tooltip>
+						{{showGlobalGenome ? graphSettings.genomesHidden ? 'Show genome labels' : 'Hide all genome labels' : 'Delete all gene labels'}}
+					</md-tooltip>
+					<md-icon class="material-icons md-16 blueicon">{{showGlobalGenome ? graphSettings.genomesHidden ? 'visibility' : 'visibility_off' : 'delete_forever'}}</md-icon>
 				</button>
 			</div>
 		</div>

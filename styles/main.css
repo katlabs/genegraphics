@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@charset "UTF-7";
 
 [ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{
 	display:none !important;
@@ -96,6 +96,12 @@ h1 {
 	font-size: 14pt;
 }
 
+#tinymce.mce-content-body, #tinymce.mce-content-body p {
+	font-family: arial, helvetica, sans-serif;
+	font-size: 12pt;
+	color: #000000;
+}
+
 body {
 	font-family: Raleway;
 	font-size: 12pt;
@@ -113,8 +119,8 @@ body {
 }
 
 #graphcontainer {
-	font-family: Arial,Helvetica,Sans-serif;
-	font-size: 10pt;
+	font-family: Arial;
+	font-size: 12pt;
 	color: black;
 	overflow: auto;
 }
@@ -206,7 +212,7 @@ body {
 	background: #f0f0f0;
 	border: 1px solid #b1b1b1;
 	height: 34px;
-	width: 225px;
+	width: 252px;
 	margin: 0 auto;
 }
 

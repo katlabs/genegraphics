@@ -62,7 +62,18 @@
 			}
 			this.genomesHash = newHash;
 		}
-		
+
+		geneSvc.updateOffset = function(gData){
+			this.offset = {};
+			this.totalGenomes = 0;
+			for (var i=0; i < gData.length; i++){
+				if(!this.offset.hasOwnProperty(gData[i].genomehtml)){
+					this.offset[gData[i].genomehtml] = Math.min(gData[i].start, gData[i].stop);
+					this.totalGenomes += 1;
+				}
+			}
+		}
+
 		geneSvc.clearGenes = function() {
 			this.maxVertOff = 0;
 			this.geneData = [];

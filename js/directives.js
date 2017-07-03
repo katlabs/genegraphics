@@ -79,6 +79,7 @@
 						//console.log(newVals);
 						scope.settings.maxwidth = geneService.getMaxWidth(newVals);
 						geneService.updateGenomesHash(newVals);
+						geneService.updateOffset(newVals);
 						geneService.updateGeneNames();
 						maxFontSizes(newVals);
 						geneService.genomesHash = geneService.genomesHash;
@@ -162,13 +163,22 @@
 							if (result==0){result=12};
 							return result;
 						}
-						
-						var genomeBuffer = (maxGenomeFontSize + (maxGenomeFontSize/4));
+
+						if (scope.settings.genomesHidden){
+							var genomeBuffer = 0;
+						} else {
+							var genomeBuffer = (maxGenomeFontSize + (maxGenomeFontSize/4));
+						}
 						var geneBuffer = (maxGeneFontSize + (maxGeneFontSize/4));
 						var scaleBuffer = 0;
 						if (scope.settings.scaleOn) scaleBuffer = 50;
 						var lanePart = 0;
-						var getFeatureY = function(d, i) {;
+						var genePushed = false; // True if genes in the genome were pushed down
+						var lastGenomeLanes = 1; // How many lanes in prev genome
+						var genomeStarts = {};
+
+						var getFeatureY = function(d, i) {
+
 							// Function to determine the first y position of the feature
 							var laneMultiplier = 1; // Helps with multilane math
 
@@ -181,19 +191,38 @@
 										lanePart = 0;
 									} else {
 										lanePart = 1;
+										genePushed = true;
 									}
 								} else if (lanePart == 1){
 									lanePart = 0;
 								}
+								if((i>0) && (d.genomehtml != data[i-1].genomehtml)){
+									if(genePushed){
+										lastGenomeLanes = 2;
+										genePushed = false;
+									} else {
+										lastGenomeLanes = 1;
+									}
+								}
 							}
-							//Height of features + room for genes on multilane
-							var prevFeatures = (featureheight*laneMultiplier) + (geneBuffer*(laneMultiplier-1));
-							//Start 10 down, add scale buffer
-							var ret = 10 + scaleBuffer;
-							// Include previous genomes
-							ret += (d.genomeNum-1)*(genomeBuffer + 2*geneBuffer + prevFeatures);
+
+							if (i==0){
+								// The first genome starts at 10 + room for scale
+								genomeStarts[d.genomeNum] = maxGenomeFontSize + scaleBuffer;
+							} else if (d.genomeNum != data[i-1].genomeNum){
+								// Other genomes start at the prev genome...
+								genomeStarts[d.genomeNum] = genomeStarts[data[i-1].genomeNum]
+									// + height of previous genome's features * number of lanes
+									+ (featureheight*lastGenomeLanes)
+									// + room for genome label + room for gene labels
+									+ genomeBuffer + (3*geneBuffer) + (geneBuffer*(lastGenomeLanes-1));
+							}
+									
 							// Y position of this feature
-							ret += genomeBuffer + 2*geneBuffer + (featureheight*lanePart) + (geneBuffer*(lanePart-1))
+							var thisFeature = genomeBuffer + geneBuffer + (featureheight*lanePart) + (geneBuffer*(lanePart-1));
+
+							// Return prev genome start + Y position of this feature
+							var ret = genomeStarts[d.genomeNum] + thisFeature;
 
 							return ret;
 						}
@@ -253,7 +282,7 @@
 						
 						var getYGeneLabel = function(d, i, y1){
 							if (d.labelvertpos == "top"){
-								return y1 - (getGeneFontSize(d,i)/3.5);
+								return genomeStarts[d.genomeNum] + genomeBuffer;
 							}
 							else if (d.labelvertpos == "middle"){
 								return y1 + (featureheight/2) + (getGeneFontSize(d,i)/2);
@@ -308,8 +337,7 @@
 						}
 
 						var getYGenomeLabel = function(d, i){
-							var lane = getFeatureY(d, i);
-							var result = lane - maxGeneFontSize - maxGeneFontSize/4 - maxGenomeFontSize/4;
+							var result = genomeStarts[d.genomeNum];
 							return result;
 						}
 						
@@ -513,34 +541,36 @@
 							return svgstr;
 						}
 
-						svg.selectAll(".genomelabel")
-							.data(scope.data)
-							.enter()
-							.append("text")
-							.each( function(d,i){
-								if ((isInArray(i, geneService.genomesHash[d.genomehtml])) && (i == Math.min.apply(null, geneService.genomesHash[d.genomehtml]))){
-									var ind = i;
-									var text = d3.select(this)
-										.on("click", function(d,i){
-											d3.event.stopPropagation();
-											if (scope.settings.pastingGenes == true){
-												return;
-											}
-											else {
-												return scope.onClickGenome({index: ind, x: d3.event.clientX, y: d3.event.clientY});
-											}
-										})
-										.attr("class", "genomelabel")
-										.attr("y", function(d,i){ return getYGenomeLabel(d,i);})
-										.attr("x", function(d,i){ return getXGenomeLabel(d,i);})
-										.attr("z-index", 100)
-									var svgstr = htmltosvg(d.genomehtml, d.genome);
-									text.html(svgstr);
-								}
-								else {
-									d3.select(this).remove();
-								}
-							});
+						if (!scope.settings.genomesHidden){
+							svg.selectAll(".genomelabel")
+								.data(scope.data)
+								.enter()
+								.append("text")
+								.each( function(d,i){
+									if ((isInArray(i, geneService.genomesHash[d.genomehtml])) && (i == Math.min.apply(null, geneService.genomesHash[d.genomehtml]))){
+										var ind = i;
+										var text = d3.select(this)
+											.on("click", function(d,i){
+												d3.event.stopPropagation();
+												if (scope.settings.pastingGenes == true){
+													return;
+												}
+												else {
+													return scope.onClickGenome({index: ind, x: d3.event.clientX, y: d3.event.clientY});
+												}
+											})
+											.attr("class", "genomelabel")
+											.attr("y", function(d,i){ return getYGenomeLabel(d,i);})
+											.attr("x", function(d,i){ return getXGenomeLabel(d,i);})
+											.attr("z-index", 100)
+										var svgstr = htmltosvg(d.genomehtml, d.genome);
+										text.html(svgstr);
+									}
+									else {
+										d3.select(this).remove();
+									}
+								});
+						}
 
 								
 						svg.selectAll(".genelabel")
@@ -586,12 +616,11 @@
 							return;
 						}
 						// Create TSV String
-						var outputtext = "genome\tgenomehtml\tgenevisible\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tname\tnamehtml\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
+						var outputtext = "genome\tgenomehtml\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tname\tnamehtml\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
 						var genelines = "";
 						for (var i = 0; i < scope.data.length; i++) {
 							genelines += scope.data[i].genome + "\t";
 							genelines += scope.data[i].genomehtml + "\t";
-							genelines += scope.data[i].genevisible + "\t";
 							genelines += scope.data[i].genelocked + "\t";
 							genelines += scope.data[i].genomelocked + "\t";
 							genelines += scope.data[i].labelpos.x + "," + scope.data[i].labelpos.x + "\t";
@@ -611,28 +640,43 @@
 
 						// Render PNG and SVG serverside
 						var svg = d3.select("svg")[0][0];
-						document.getElementById("pnglink").innerHTML = "Loading...";
-						document.getElementById("svglink").innerHTML = "Loading...";
-						document.getElementById("tsvlink").innerHTML = "Loading...";
+						document.getElementById("pnglink1").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
+						document.getElementById("pnglink2").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
+						document.getElementById("svglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
+						document.getElementById("emflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
+						document.getElementById("tsvlink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
+						var svg_w = d3.select("svg").style("width").replace(/\D/g,'');
+						var svg_h = d3.select("svg").style("height").replace(/\D/g,'');
+						console.log(svg_w);
 
 						var req = {
 							method: 'POST',
 							url: '/cgi-bin/svgtopng.py',
-							data: $.param({svgdata: new XMLSerializer().serializeToString(svg), tsvdata: tsvstring }), 
+							data: $.param({svgdata: new XMLSerializer().serializeToString(svg), 
+										tsvdata: tsvstring,
+										width: svg_w}), 
 							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 						}
 						$http(req).then(function successCallback(response) {
 							console.log(response.data);
 							var files = response.data.split("\n");
-							var pnglink = document.getElementById("pnglink");
-							pnglink.innerHTML = "Export PNG";
-							pnglink.href = files[0];
+							var whstr = files[5];
+
+							var pnglink1 = document.getElementById("pnglink1");
+							pnglink1.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>' + whstr;
+							pnglink1.href = files[0];
+							var pnglink2 = document.getElementById("pnglink2");
+							pnglink2.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>' + svg_w + 'x' + svg_h;
+							pnglink2.href = files[1];
 							var svglink = document.getElementById("svglink");
-							svglink.innerHTML = "Export SVG";
-							svglink.href = files[1];
+							svglink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>SVG';
+							svglink.href = files[2];
+							var emflink = document.getElementById("emflink");
+							emflink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EMF';
+							emflink.href = files[3];
 							var tsvlink = document.getElementById("tsvlink");
-							tsvlink.innerHTML = "Export TSV";
-							tsvlink.href = files[2];
+							tsvlink.innerHTML = '<i class="fa fa-file-excel-o fa-2x" aria-hidden="true"></i><br>TSV';
+							tsvlink.href = files[4];
 						});
 						
 						scope.showexportpanel = true;

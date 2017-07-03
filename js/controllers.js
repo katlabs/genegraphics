@@ -27,6 +27,7 @@
 			$scope.graphSettings.displayedFunction = "";
 			$scope.graphSettings.currentFilesList = [];
 			$scope.graphSettings.pastingGenes = false;
+			$scope.graphSettings.genomesHidden = false;
 			
 			$scope.graphSettings.fontSizeOptions = [ "8pt", "10pt", "12pt", "14pt", "18pt", "24pt", "36pt"]
 			
@@ -127,6 +128,13 @@
 					"FFFFFF", "White"
 				],
 				setup: function(editor){
+					editor.on('init', function(ed){
+						ed.target.editorCommands.execCommand("fontselect", false, "arial, helvetica, sans-serif");
+						ed.target.editorCommands.execCommand("fontName", false, "arial, helvetica, sans-serif");
+						ed.target.editorCommands.execCommand("fontSize", false, "12pt");
+						ed.target.editorCommands.execCommand("fontsizeselect", false, "12pt");
+					});
+
 					var topbtn = editor.addButton('valigntop', {
 						text: false,
 						icon:false,
@@ -228,9 +236,6 @@
 					localStorage.setItem("savedData", JSON.stringify($scope.geneData));
 				}
 				checkScroll();
-				//console.log($scope.geneData);
-				//console.log($scope.genomesHash);
-				//console.log($scope.graphSettings.currentFilesList);
 			});
 
 			$scope.$watch('graphSettings', function(){
@@ -843,6 +848,26 @@
 					$scope.geneData[i][key] = false;
 				}
 			}
+
+			$scope.remOrToggleLabels = function(labeltype){
+				if (labeltype=='gene'){
+					var ret = confirm("This will delete all gene labels and cannot be undone. Are you sure?");
+					if(ret == true){
+						for (var i = 0; i < $scope.geneData.length; i++){
+							$scope.geneData[i]['name'] = "";
+							$scope.geneData[i]['namehtml'] = "";
+						}
+					} else {
+						return;
+					}
+				} else {
+					$scope.graphSettings.genomesHidden = !$scope.graphSettings.genomesHidden;
+				}
+
+			}
+
+			$scope.toggleGenomeLabels = function(){
+			}
 			
 			$scope.$watch("globalLabels['genomeColor']", function(newVal, oldVal){
 				if(typeof($scope.genomesHash)!=='undefined'){
@@ -929,7 +954,7 @@
 				$scope.maxVertOff = geneService.maxVertOff;
 				for(var i = 0; i < headercols.length; i++){
 					var currHeaderCol = headercols[i].toLowerCase().replace(/ /g, '');
-					if (currHeaderCol === 'genome'){
+					if (currHeaderCol === 'genome' || currHeaderCol === 'organism'){
 						headerpos.genome = i;
 					}
 					else if (currHeaderCol === 'genomehtml'){
@@ -941,10 +966,10 @@
 					else if (currHeaderCol === 'genomelocked'){
 						headerpos.genomelocked = i;
 					}
-					else if (currHeaderCol === 'labelpos'){
+					else if (currHeaderCol === 'labelpos' || currHeaderCol === 'labelposition'){
 						headerpos.labelpos = i;
 					}
-						else if (currHeaderCol === 'labelvertpos'){
+						else if (currHeaderCol === 'labelvertpos' || currHeaderCol === 'labelverticalposition'){
 						headerpos.labelvertpos = i;
 					}
 					else if (currHeaderCol === 'name' || currHeaderCol === "genename"){
@@ -1000,11 +1025,11 @@
 						
 						var genome = columns[headerpos['genome']];
 						gene['genome'] = genome;
-						if(genome in geneService.genomesHash){
+						if(genome in geneService.genomesHash || geneService.offset.hasOwnProperty(genome)){
 							var copynum = 0;
 							for(var j=1; j < 100; j++){
 								var testgenome = genome + " ("+j+")";
-								if(!(testgenome in geneService.genomesHash)){
+								if(!(testgenome in geneService.genomesHash) && !(geneService.offset.hasOwnProperty(testgenome))){
 									copynum = j;
 									//console.log(copynum);
 									break;
@@ -1054,7 +1079,7 @@
 								gene[key] = gene['name'];
 							}
 							else if(key === 'genomehtml' && headerpos[key] === null){
-								gene[key] = genome;
+								gene[key] = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+genome+'</span></p>';
 							}
 							else if(key === 'genefunction' && headerpos[key] === null){
 								gene[key] = ""
@@ -1231,6 +1256,9 @@
 					var i = 0;
 					var data = [];
 					var organism = parsed.organism;
+					if (typeof parsed.organism == 'undefined'){
+						organism = "unknown genome";
+					}
 
 					// Make sure the genome label is unique
 					if (organism in geneService.genomesHash){
@@ -1280,7 +1308,7 @@
 							if (typeof product != 'undefined') {funct = product}
 							else if (genename != "") {funct = genename};
 
-							var geneObj = {genome:organism, genomehtml:organism,
+							var geneObj = {genome:organism, genomehtml:'<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+organism+'</span></p>',
 								genelocked:false, genomelocked:false, start:start, stop:end, size:size, strand:strand,
 								name:genename, namehtml:genename, genefunction:funct, color:null, labelvertpos:'middle',
 								labelpos:{x:null,y:null}, pasting:false, file:$scope.fn};
@@ -1321,7 +1349,6 @@
 				}
 				$scope.graphSettings.currentFilesList.push($scope.fn);
 				var lines = $scope.content.match(/[^\r\n]+/g);
-				console.log(geneService.genomesHash);
 				// Create a vertical genome offset
 				if ($scope.filetype[0] === 'tsv'){
 					$scope.parseTSV(lines);
@@ -1414,7 +1441,7 @@
 					$scope.gb.fetchID = matches[1];
 					getGeneID();
 				} else {
-					$scope.gb.statusMessage = "There was a problem with your request.";
+					$scope.gb.statusMessage = "The Gene ID entered did not result in a match.";
 				}
 			}
 
@@ -1430,7 +1457,16 @@
 						$scope.gb.statusMessage = "The query resulted in an error. An invalid or unavailable Gene ID may have been entered.";
 						return;
 					}
-					var re = /(?:Annotation:[\s]*)(?:Chromosome [\d]+ )?([A-Z\_\d\.]+)[\s]*\(([\d]*)\.{2}([\d]*)(?:, complement\)|\))/ig;
+					var re_listnum = /\d\. .+/g;
+					var items = text.match(re_listnum);
+					console.log(items)
+					if (items != null && items.length != 1){
+						$scope.gb.loadingFile = false;
+						$scope.gb.fetchID = "";
+						$scope.gb.statusMessage = "Unique match not found for the entered Gene ID.";
+						return;
+					}
+					var re = /(?:Annotation:[\s]*)(?:Chromosome [\d|A-Z]+ )?([A-Z\_\d\.]+)[\s]*\(([\d]*)\.{2}([\d]*)(?:, complement\)|\))/ig;
 					var num_matches = 0;
 					var annot = re.exec(text);
 					var start = null;
@@ -1619,6 +1655,41 @@
 				})
 			}
 
+			var parseGeneIDSearch = function(response){
+				if(response.status == 200){
+					var xmldoc = $.parseXML(response.data);
+					var $xml = $(xmldoc);
+					var $Id = $xml.find('Id');
+					if ($Id.length != "1") {
+						$scope.gb.statusMessage = "The query did not produce valid results. Please try another Gene ID.";
+						$scope.gb.loadingFile = false;
+						return;
+					}else{
+						$scope.gb.fetchID = $Id.text();
+						getGeneID();
+					}
+				}else{
+					$scope.gb.statusMessage = response.statusText;
+					$scope.gb.fetchID = "";
+				}
+				return;
+			}
+
+			var tryGeneIDSearch = function(){
+				console.log($scope.gb.fetchID + "not a gene ID. Searching...");
+				var searchTerm = "("+ $scope.gb.fetchID + " AND (alive[prop]))";
+				var searchTerm = encodeURI(searchTerm);
+				var searchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db="
+					+ "gene&term="
+					+ searchTerm;
+				console.log(searchURL);
+				$http.get(searchURL).then(function successCallback(response){
+					parseGeneIDSearch(response);
+				}, function errorCallback(response){
+					handleErrResponse(response);
+				})
+			}
+
 			var getGeneID = function(){
 				console.log("gene ID");
 				if($scope.gb.fetchID==""){
@@ -1631,16 +1702,21 @@
 					$scope.gb.statusMessage = "Please enter a valid region (between 1 and 100,000 bp large).";
 					return;
 				}
-				var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db="
-					+ $scope.gb.idtype.db + "&id="
-					+ $scope.gb.fetchID + "&retmode=text";
-				console.log(fetchURL);
+				if (/^\d+$/.test($scope.gb.fetchID)){
+					var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db="
+						+ $scope.gb.idtype.db + "&id="
+						+ $scope.gb.fetchID + "&retmode=text";
+					console.log(fetchURL);
 
-				$http.get(fetchURL).then(function successCallback(response){
-					parseGeneIDFetch(response);
-				}, function errorCallback(response){
-					handleErrResponse(response);
-				});
+					$http.get(fetchURL).then(function successCallback(response){
+						parseGeneIDFetch(response);
+					}, function errorCallback(response){
+						handleErrResponse(response);
+					});
+				}
+				else {
+					tryGeneIDSearch();
+				}
 			}
 
 			var getProteinID = function(){
@@ -1689,7 +1765,7 @@
 							$scope.gb.fetchID = nuccsource;
 							var region_flank = parseInt($scope.gb.fullRange/2);
 							console.log($scope.gb.fullRange + " " + region_flank);
-							var gene_midpoint = (sourcestart+sourceend)/2;
+							var gene_midpoint = parseInt((sourcestart+sourceend)/2);
 							if (sourcestart < region_flank){
 								$scope.gb.seqRangeStart = 0;
 								$scope.gb.seqRangeEnd = $scope.gb.fullRange;
@@ -1775,6 +1851,7 @@
 			$scope.clearGraphSettings = function(){
 				var ret = confirm("This will clear all of your custom graph and font settings and return them to default values.\nAre you sure you would like to clear this data?");
 				if (ret == true){
+					console.log(geneService.offset)
 					localStorage.savedSettings = null;
 					$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;
 					$scope.graphSettings.featureheight = 50;
@@ -1796,11 +1873,12 @@
 					$scope.globalEm("genes");
 
 					var defaultFontFamily = {value:"arial, helvetica, sans-serif", name:"Arial"}
-					var defaultFontSize = "10pt";
+					var defaultFontSize = "12pt";
 					$scope.globalFontFamily("genomes", defaultFontFamily);
 					$scope.globalFontFamily("genes", defaultFontFamily);
 					$scope.globalFontSize("genomes", defaultFontSize);
 					$scope.globalFontSize("genes", defaultFontSize);
+					console.log(geneService.offset);
 				}
 				else {
 					return;
