@@ -14,7 +14,7 @@ import sys
 import logging
 
 # Logging file location is based on script location
-logpath = os.path.abspath(os.path.realpath(__file__) + "/../../log/svgtopng/")
+logpath = os.path.abspath(os.path.realpath(__file__) + "/../../../../log/svgtopng/")
 
 # set up logging
 logging.basicConfig(filename=logpath + '/main.log',format='%(asctime)s %(message)s',level=logging.DEBUG)
@@ -41,7 +41,10 @@ except:
 logging.info("Received valid svg data.")
 
 # create the filename from hash function
-fld = "/var/www/html/genegraphics/temp/"
+fld = os.path.abspath(os.path.realpath(__file__) + "/../../temp/") + "/"
+if not os.path.isdir(fld):
+    os.mkdir(fld)
+
 fn = md5(svgdata.encode('utf-8')).hexdigest()
 fullfnpng1 = fld + fn + '.png'
 fullfnpng2 = fld + fn + '_origres.png'
