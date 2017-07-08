@@ -14,7 +14,7 @@ import sys
 import logging
 
 # Logging file location is based on script location
-logpath = os.path.abspath(os.path.realpath(__file__) + "/../../../../log/svgtopng/")
+logpath = os.path.abspath(os.path.realpath(__file__) + "/../../../log/svgtopng/")
 
 # set up logging
 logging.basicConfig(filename=logpath + '/main.log',format='%(asctime)s %(message)s',level=logging.DEBUG)
@@ -56,16 +56,16 @@ fullfntsv = fld + fn + '.tsv'
 
 
 # write svg file
-f = open(fullfntmpsvg, 'w')
+f = open(fullfnsvg, 'w')
 f.write(svgdata)
 f.close()
-logging.info("Wrote tmp svg file: " + fullfntmpsvg)
+logging.info("Wrote tmp svg file: " + fullfnsvg)
 
 # create a compressed png file from svg using wkhtmltoimage and pngcrush
 isfile = Path(fullfnpng1)
 if not isfile.is_file():
-    run(["/usr/bin/rsvg-convert", fullfntmpsvg, "-w", "1920", "-f", "svg", "-o", fullfnsvg], stderr=DEVNULL, stdout=DEVNULL)
-    run(["/usr/bin/xvfb-run", "--server-args", "-screen 0, 1920x1024x24", "/home/ubuntu/bin/wkhtmltoimage", "-f", "png", "--use-xserver", fullfnsvg , fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
+    run(["/usr/bin/rsvg-convert", fullfnsvg, "-w", "1920", "-f", "svg", "-o", fullfntmpsvg], stderr=DEVNULL, stdout=DEVNULL)
+    run(["/usr/bin/xvfb-run", "--server-args", "-screen 0, 1920x1024x24", "/home/ubuntu/bin/wkhtmltoimage", "-f", "png", "--use-xserver", fullfntmpsvg , fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
     run(["/usr/bin/pngcrush", "-res", "300", fullfntmppng, fullfnpng1], stdout=DEVNULL, stderr=DEVNULL)
     run(["/usr/bin/inkscape", "--file", fullfnsvg, "--export-emf", fullfnemf], stdout=DEVNULL, stderr=DEVNULL)
     run(["/usr/bin/convert", fullfnpng1, "-resize", svg_w, fullfnpng2], stdout=DEVNULL, stderr=DEVNULL)

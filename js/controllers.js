@@ -792,7 +792,9 @@
 			$scope.deleteGene = function(index){
 				var ret = confirm("This gene will be permenantly deleted. Are you sure?");
 				if (ret == true){
-					$scope.geneData.splice(index, 1);
+					var newData = $scope.geneData;
+					newData.splice(index, 1);
+					geneService.newGenes(newData);
 				}
 				else{
 					return;
@@ -816,7 +818,7 @@
 					var geneList = geneService.genomesHash[genomeKey];
 					var newData = [];
 					var newi = 0;
-					console.log(geneList);
+					//console.log(geneList);
 					for (var i=0; i < $scope.geneData.length; i++){
 						if (geneList.indexOf(i) < 0){
 							newData.push($scope.geneData[i]);
@@ -1025,10 +1027,11 @@
 						
 						var genome = columns[headerpos['genome']];
 						gene['genome'] = genome;
-						if(genome in geneService.genomesHash || geneService.offset.hasOwnProperty(genome)){
+						var genomehtmltest = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+genome+'</span></p>';
+						if(genomehtmltest in geneService.genomesHash || geneService.offset.hasOwnProperty(genomehtmltest)){
 							var copynum = 0;
 							for(var j=1; j < 100; j++){
-								var testgenome = genome + " ("+j+")";
+								var testgenome = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+genome+' ('+i+')</span></p>';
 								if(!(testgenome in geneService.genomesHash) && !(geneService.offset.hasOwnProperty(testgenome))){
 									copynum = j;
 									//console.log(copynum);
@@ -1261,18 +1264,19 @@
 					}
 
 					// Make sure the genome label is unique
-					if (organism in geneService.genomesHash){
-						var copynum = 1;
+					var organismhtmltest = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+organism+'</span></p>';
+					if (organismhtmltest in geneService.genomesHash || geneService.offset.hasOwnProperty(organismhtmltest)){
+						var copynum = 0;
 						for(var i=1; i<100; i++){
-							var testgenome = organism + " ("+i+")";
-							if(testgenome in geneService.genomesHash){
-								copynum = i+1;
-							} else {
+							var testgenome = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+organism+' ('+i+')</span></p>';
+							if(!(testgenome in geneService.genomesHash) && !(geneService.offset.hasOwnProperty(testgenome))){
+								copynum = i;
 								break;
 							}
 						}
 						organism = organism + " ("+copynum+")";
 					}
+					console.log(organism);
 					var supported_features = ["CDS","gene","mRNA"];
 					while ( i < parsed.features.length){
 						var j = i;

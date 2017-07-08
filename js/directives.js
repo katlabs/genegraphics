@@ -76,7 +76,9 @@
 					
 					// re-render when there is a change in the data
 					scope.$watch('data', function(newVals, oldVals) {
+						//console.log('data change');
 						//console.log(newVals);
+						//console.log(oldVals);
 						scope.settings.maxwidth = geneService.getMaxWidth(newVals);
 						geneService.updateGenomesHash(newVals);
 						geneService.updateOffset(newVals);
@@ -114,8 +116,8 @@
 
 					scope.render = function(data){
 						
-						//console.log("render " + rennum);
-						//rennum = rennum + 1;
+						console.log("render " + rennum);
+						rennum = rennum + 1;
 						
 						svg.selectAll("*").remove();
 						
@@ -488,7 +490,6 @@
 											{"x":x7, "y":y7},
 											{"x":x1, "y":y1}];
 									}
-
 									return lineFunction(points);
 								})
 								.attr("fill", function(d, i) {
@@ -663,11 +664,11 @@
 							var whstr = files[5];
 
 							var pnglink1 = document.getElementById("pnglink1");
-							pnglink1.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>' + whstr;
-							pnglink1.href = files[0];
+							pnglink1.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>';
+							pnglink1.href = files[1];
 							var pnglink2 = document.getElementById("pnglink2");
-							pnglink2.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>' + svg_w + 'x' + svg_h;
-							pnglink2.href = files[1];
+							pnglink2.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>High resolution<br>PNG<br>';
+							pnglink2.href = files[0];
 							var svglink = document.getElementById("svglink");
 							svglink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>SVG';
 							svglink.href = files[2];
