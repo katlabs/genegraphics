@@ -8,79 +8,90 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 	<body>
-		<h1>Tutorial 1: DUF89 Subfamily I Neighborhoods</h1>
-		<div class="bgcolored"><p>In this tutorial, we are going to reproduce a figure similar to one that has been published. The figure to recreate can be found in the supplemental material associated with the publication Huang, et al., 2016, as <b>Supplementary Figure 4B</b>. You can access it here: <a href=http://www.nature.com/nchembio/journal/v12/n8/abs/nchembio.2108.html#supplementary-information" target="_blank">http://www.nature.com/nchembio/journal/v12/n8/abs/nchembio.2108.html#supplementary-information</a></p>
-		<p>Huang, L., Khusnutdinova, A., Nocek, B., Brown, G., Xu, X., Cui, H., Petit, P., Flick, R., Zallot, R., Balmant, K., Ziemak, M.J., Shanklin, J., de Crécy-Lagard, V., Fiehn, O., Gregory, J.F., Joachimiak, A., Savchenko, A., Yakunin, A.F., Hanson, A.D., 2016. A family of metal-dependent phosphatases implicated in metabolite damage-control. Nat. Chem. Biol. 12, 621–7. doi:10.1038/nchembio.2108</p>
-		<p>The image presented below is the one we will reproduce.</p></div>
-		<img src="images/tutorial1/img0.png">
-		<div class="bgcolored"><p>The image presented below is the final product generated with Gene Graphics, following this tutorial.</p></div>
-		<img src="images/tutorial1/imgfinal.png">
-		<div class="bgcolored"><p>The original publication identified a new family of phosphatases. With this Figure, we want to illustrate that genes encoding the phosphatase DUF89 are often found closely associated, on the genome of several non-closely related bacteria, with genes involved in the purine synthesis (i.e. purM, purF, GuaB, purE, IMPC and AICARF).</p>
-		<p>For this tutorial, we are going use the public SEED database (pubSEED) to obtain the necessary genome information to create the Figure. Access the SEED database at <a href="http://pubseed.theseed.org" target="_blank">http://pubseed.theseed.org</a>.</p></div>
-		<img src="images/tutorial1/img1.png">
-		<div class="bgcolored"><p>From the homepage, use the search box to obtain the needed information about the gene DUF89 from Methanococcus vannieli. The first result for this search is the gene we are looking for, that encodes the protein “DUF89 protein CxxC subfamily”, from the genome Methanococcus vannieli vannielii SB.</p></div>
-		<img src="images/tutorial1/img2.png">
-		<div class="bgcolored"><p>Browsing to the associated FIG page (<a href="http://pubseed.theseed.org/?page=Annotation&feature=fig%7C406327.7.peg.591" target="_blank">fig|406327.7.peg.591</a>), will bring you to the individual gene page information. Going down, on the webpage, once the “Compare Regions” has loaded, the neighboring genes of our gene of interest can be visualized. The red arrow represents the queried gene, while colored arrows represent conserved neighboring genes and grey arrows correspond to genes that are not conserved among the genomes displayed.</p></div>
-		<img src="images/tutorial1/img3.png">
-		<div class="bgcolored"><p>To be able to extract the information needed, we need to access the advanced tab, and edit a few settings.</p></div>
-		<img src="images/tutorial1/img4.png">
-		<div class="bgcolored"><p>We need to have shown to us, more genomes on the “Compare Regions” area, by changing the number of regions (similar to genome) to 1000. In addition, we want to focus on the defined orthologous families “PGfams”, by switching the “Pinned CDS selection” to the appropriate setting, and then press the “update with selected” button.</p>
-		<p>We are now going to need to selected the genomes of interest, for our figure. We basically want to have genomes from taxonomically diverse bacteria, to show that the gene relations are well conserved. Because by default, all genomes are selected, we need to unselect these by clicking the “uncheck all” button.</p>
-		<p>We are then going to select the following genomes:<br>
-				M. vannieli van (Methanococcus vannieli vannielii SB)<br>
-				M. maripaludis (Methanococcus maripaludis C6)<br>
-				M. jannaschii D (Methanocaldococcus jannaschii DSM 2661)<br>
-				M. stadtmanae D (Methanosphaera stadtmanae DSM 3091)<br>
-				T. ammonificans (Thermovibrio ammonificans HB-1)<br>
-				C. mediatlantic (Caminibacter mediatlanticus TB-2)<br>
-				N. sp. SB155-2 (Nitratiruptor sp. SB155-2)<br>
-				L. bacterium 1_ (Lachnospiraceae bacterium 1 4 56FAA)<br>
-				H. cinaedi ATCC (Helicobacter cinaedi ATCC BAA-847)<br>
-				And press the “update with selected” button.</p>
-		<p>The following selection is obtained:</p></div>
-		<img src="images/tutorial1/img6.png">
-		<div class="bgcolored"><p>To focus on the close neighbors of our gene of interest (red arrow), zooming in, in the genome browser, is useful. The “Region size” is reduced to 6000 bp.</p></div>
-		<img src="images/tutorial1/img7.png">
-		<div class="bgcolored"><p>The information regarding the positions of all the genes presented in the image is available, in a tabular format, in the “Tabular Region Information” tab.</p></div>
-		<img src="images/tutorial1/img8.png">
-		<div class="bgcolored"><p>We need to export the table as a TSV file (Tab-separated values) that we will edit in a spreadsheet application, such as Microsoft Excel. The exported table can be directly obtained <a href="data/tutorial1/tutorial1_SEEDexport.tsv" target="_blank">here</a>.</p></div>
-		<img src="images/tutorial1/img9.png">
-		<div class="bgcolored"><p>The edits are going to consist of removing the information not needed. We specifically want to keep the data regarding our gene of interest DUF89, and the genes identified as interesting, in our case, because they belong to the purine synthesis pathway.</p>
-		<p>Note that this table is a direct representation of the gene order, and thus, if a gene of no interest is sandwiched between genes of interest, removing it should be avoided, as it will create a gap in the representation produced. For example, in the publication figure produced (and in the original published figure), these genes are the ones deliberately showed as grey arrows.</p>
-		<p>The three last columns are not needed and can be deleted.</p></div>
-		<img src="images/tutorial1/img10.png">
-		<div class="bgcolored"><p>Only the genes of interest (and sometimes, genes without interest but that are positioned between genes of interest) should be kept.</p></div>
-		<img src="images/tutorial1/img11.png">
-		<div class="bgcolored"><p>In our case, the full table corresponding to the information that will be used to generate the figure is presented below.</p></div>
-		<img src="images/tutorial1/img12.png">
-		<div class="bgcolored"><p>The next steps correspond to edits regarding species names and functional names, and the introduction of gene names, to make the figure more appealing and clear.</p>
-		<p>The figure we want to reproduce presents simplified species names, that are enriched with the major taxon corresponding from which the bacteria belong. The “find and replace” function is used to edit more than one line at a time.</p></div>
-		<img src="images/tutorial1/img13.png">
-		<div class="bgcolored"><p>The table presented below shows all the species name edited and enriched with taxonomic information.</p></div>
-		<img src="images/tutorial1/img14.png">
-		<div class="bgcolored"><p>An additional column, which is going to correspond to the gene symbol, presented on the corresponding arrow in the produced figure, is added. Here, we omit, on purpose, several gene names, to demonstrate how gene name can be edited directly in gene graphics.</p></div>
-		<img src="images/tutorial1/img15.png">
-		<div class="bgcolored"><p>An example of the edited file can be found <a href="data/tutorial1/tutorial1_inputTable.tsv" target="_blank">here</a>. The produced file should be saved and stored, and will now be used and further edited in “Gene Graphics” at <a href="https://cogitokat.github.io/genegraphics/">https://cogitokat.github.io/genegraphics/</a>.</p>
-		<p>In “Gene Graphics”, load the edited table by going to the “Input” tab, and then press the “Choose a file” button, and then, upload the edited table file.</p></div>
-		<img src="images/tutorial1/img16.png">
-		<div class="bgcolored"><p>From the “Graph settings” tab, several parameters influencing the produced image can be edited. For example, the “Image width” and “Gene height” can be set according to your preferences. In here, we choose a width of 500 pixels, and a gene height of 30 pixels.</p></div>
-		<img src="images/tutorial1/img17.png">
-		<div class="bgcolored"><p>We then want all the genes of one genomes be horizontally aligned. For this to happen, the “Multiple lanes for overlapping genes” box is unchecked.</p></div>
-		<img src="images/tutorial1/img18.png">
-		<div class="bgcolored"><p>Note that automatically and by default, all the genes with the exact same functional role, will be colored similarly. In the original figure, the DUF89 encoding genes are colored in red, with white font. You can edit the arrow’s color, and the font used for the gene symbol, and copy these parameters. You can use direct color names, such as “red” and “white” for ease of use. In order to bring up this menu, click on the gene you would like to edit.</p></div>
-		<img src="images/tutorial1/img19.png">
-		<div class="bgcolored"><p>The copied parameters can then be applied to other genes, and all the DUF89 genes can be homogenized.</p></div>
-		<img src="images/tutorial1/img20.png">
-		<div class="bgcolored"><p>Following the same principle and in accordance with the original figure, all the purine synthesis encoding genes can be colored in light blue, and all the genes for which we have little interest can be colored in grey.</p></div>
-		<img src="images/tutorial1/img21.png">
-		<div class="bgcolored"><p>When working on bacteria, gene names are commonly italicized. Label settings can be changed accordingly.</p></div>
-		<img src="images/tutorial1/img22.png">
-		<div class="bgcolored"><p>The gene names corresponding to IMPC and AICARF, that were purposely forgotten while editing the table, can be edited. To edit a gene name, simply click on an arrow, and then change the name in the according dialog box.</p></div>
-		<img src="images/tutorial1/img23.png">
-		<div class="bgcolored"><p>A scale can be added, as a reference for the gene size.</p></div>
-		<img src="images/tutorial1/img24.png">
-		<div class="bgcolored"><p>The final produced image can be exported, as a SVG file or as a PNG file, by clicking on the “Export” button. The edits done in the “Gene Graphics” application, can also be exported as a TSV file, which will produce a table, as the one we previously edited. This can be useful if an image is started, but is not yet finished. Reloading the produced TSV file will allow you to continue your edits.</p>
-		<p>The final image produced can be found <a href="data/tutorial1/tutorial1_finalproduct.svg" target="_blank">here</a> as a SVG file and <a href="data/tutorial1/tutorial1_finalproduct.png" target="_blank">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial1/tutorial1_finalproduct.tsv" target="_blank">here</a>.</p></div>
-		
+		<h1>Tutorial 1: DUF2080</h1>
+		<div class="bgcolored">
+			<p>
+				Completed <a href="data/tutorial1/genegraphics_tutorial1_finished.tsv">TSV</a> <a href="data/tutorial1/genegraphics_tutorial1.svg">SVG</a> <a href="images/tutorial1/genegraphics_tutorial1.png">PNG</a>
+			</p>
+		</div>
+		<div class="bgcolored">
+			<p>In this tutorial, we will use Gene Graphics to reproduce a figure similar to one that has been published. </p>
+			<p>DUF208, also identified as QueH has been identified as involved in the biosynthesis of the tRNA modification Queuosine. It is often associated with known queuosine related genes.</p>
+			<p>The figure to recreate can be found in the publication Zallot, et al., 2017, as Figure 1C [1] and is shown here.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_example.jpg">
+		<div class="bgcolored">
+			<p>The image is comprised of 5 genomes.  Each genome can be fetched from NCBI using the window under Input.</p>
+			<p>The complete genome of Cryptobacterium curtum DSM 15641 is present in the NCBI nucleotide database as a genbank file under the entry CP001682.1. Selecting Genome Location, we can isolate the region between 1429479 and 1436151 to insert into the image the genes from TGT to QueF.  You can enter ‘15641’ or ‘CP001682’ to find the entry.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_1.png">
+		<img src="images/tutorial1/tutorial1_2.png">
+		<div class="bgcolored">
+			<p>Next we need to add genes from the genome of Syntrophomonas wolfei subsp. wolfei str. Goettingen G311. We will use the protein ID of TGT, as an entry point with the default window of 5000 bp. The unique protein identifier for TGT in that organism is ABI68735.1.  This centers the view on TGT.   Search by protein ID, with the default window size.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_3.png">
+		<img src="images/tutorial1/tutorial1_4.png">
+		<div class="bgcolored">
+			<p>The next genome to add is centered on DUF208, from Eggerthella lenta DSM 2243.  Search by gene symbol and organism.  Use ‘duf208’ for Gene symbol and ‘Eggerthella’ to bring up ‘Eggerthella lenta DSM 2243’. The default window size is large enough to display the information needed.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_5.png">
+		<img src="images/tutorial1/tutorial1_6.png">
+		<div class="bgcolored">
+			<p>To add the information for Solobacterium moorei DSM 22971, a protein search with ID ‘EFW24078.1’ which cooresponds to DUF208 and a window size of 5000 bp.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_7.png">
+		<img src="images/tutorial1/tutorial1_8.png">
+		<div class="bgcolored">
+			<p>The final genome section to fetch is from Atopobium rimae ATCC 49626. A protein search with EEE17942.1 allows to display the genome neighborod of DUF208 in this genome.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_9.png">
+		<img src="images/tutorial1/tutorial1_10.png">
+		<div class="bgcolored">
+			<p>Now that the data is imported, we can edit the image to fit our design.  For our first genome, from left to right, we have: TGT, HAD, DUF208(QueH), QueA, COG1738(YhhQ), QueC, and QueF.  The initial information fetched shows the gene IDs present in the NCBI database. </p>
+			<p>Click on a gene to edit it.  The gene currently being edited is highlighted in blue.  You can adjust the font, background and text color, and alignment of the individual gene’s label using this editor.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_11.png">
+		<div class="bgcolored">
+			<p>Edit the name of each gene, to have, from left to right: </p>
+			<p>TGT, HAD, DUF208(QueH), QueA, COG1738(YhhQ), QueC, and QueF.</p>
+			<p>The colors of each gene can be changed to be similar to the published document, with blue, grey, yellow, green, black, red and purple, from left to right, respectively.</p>
+			<p>Note that to be seen, the Gene name for COG1738 should be colored white to show on a dark background.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_12.png">
+		<div class="bgcolored">
+			<p>For the second Genome, more information than needed is shown.  TGT, the entry point, is the center gene.  You can identify TGT by mousing over the light green arrow and noting the label as queuine tRNA-ribosyltransferase in the upper right corner.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_13.png">
+		<div class="bgcolored">
+			<p>Let’s remove the information that is not needed.  To remove a gene, click on it, and then click the trash can image.  It will ask you to confirm.  The deleted gene will be removed, and the other genes will be moved to the left.  Try removing Swol_1425.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_14.png">
+		<div class="bgcolored">
+			<p>We need to remove a number of genes:<ul><li>From Synthrophomonas wolfei subsp. Wolfei str: Swol_1246, Swol_1427 and Swol_1431</li><li>From Eggertherlla lenta DSM 2243: Elen_0978, Elen_0979</li><li>From Eggertherlla lenta DSM 2243: Elen_0978, Elen_0979</li><li>From Solobacterium moorei F0204: HMPREF9430_01455, HMPREF9430_01456, HMPREF9430_01457, HMPREF9430_01458</li><li>From Atopobium rimae ATCC 49626: ATORI0001_0305, ATORI0001_0306, ATORI0001_0309</li></p>
+		</div>
+		<img src="images/tutorial1/tutorial1_15.png">
+		<div class="bgcolored">
+			<p>In the original figure, the genes are on the same line.  To adjust this parameter, go to Graph Settings -> Lane Settings, and unselect the first option so that all genes will be on the same line.  This setting is on by default.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_16.png">
+		<div class="bgcolored">
+			<p>Now that we have all of our genes in place, we can edit them to match the original image.  Selecting a gene that has been edited properly, DUF208 in the first genome, select the copy function icon and then select all other genes that will be DUF208.  Genes that are a destination for the selection are highlighted in red.  Ensure that the option to apply the text from the original gene is also selected.  When all desired genes are selected, click Paste to apply the settings.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_17.png">
+		<div class="bgcolored">
+			<p>Continue to do this for other genes, using the first genome as a template, for TGT, QueA and HAD.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_18.png">
+		<div class="bgcolored">
+			<p>To perform some final touch-ups, under Label Settings -> Gene Labels to move the gene names to be display under their corresponding arrow and center them on the arrow.  COG1738 needs to be colored in black to become visible again.  Label Settings -> Genome Labels will allow you to adjust the font to be bold and italic.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_19.png">
+		<div class="bgcolored">
+			<p>Finally, select each DUF208 gene to bold the text for that gene.  This must be done individually.</p>
+		</div>
+		<img src="images/tutorial1/tutorial1_21.png">
+		<div class="bgcolored">
+			<p>When you are satisfied with the image, use Export to download a SVG or PNG of the image.</p>
+		</div>
 	</body>
 </html>
