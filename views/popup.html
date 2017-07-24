@@ -125,10 +125,12 @@
 					</md-tooltip>
 					<md-icon class="material-icons md-18 blueicon">delete_forever</md-icon>
 				</button>
-				<spectrum-colorpicker 
-					ng-model="geneData[graphSettings.selectedGene]['color']" options="spectrumOpts">
-				</spectrum-colorpicker>
-				<md-tooltip>Gene color</md-tooltip>
+				<span>
+					<spectrum-colorpicker 
+						ng-model="geneData[graphSettings.selectedGene]['color']" options="spectrumOpts">
+					</spectrum-colorpicker>
+					<md-tooltip>Gene color</md-tooltip>
+				</span>
 			</div>
 		</div>
 		<textarea ui-tinymce="tinymceOpts" ng-model="geneData[graphSettings.selectedGene]['namehtml']"></textarea><br>

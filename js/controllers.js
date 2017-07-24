@@ -129,10 +129,8 @@
 				],
 				setup: function(editor){
 					editor.on('init', function(ed){
-						ed.target.editorCommands.execCommand("fontselect", false, "arial, helvetica, sans-serif");
 						ed.target.editorCommands.execCommand("fontName", false, "arial, helvetica, sans-serif");
 						ed.target.editorCommands.execCommand("fontSize", false, "12pt");
-						ed.target.editorCommands.execCommand("fontsizeselect", false, "12pt");
 					});
 
 					var topbtn = editor.addButton('valigntop', {
