@@ -284,7 +284,7 @@
 						
 						var getYGeneLabel = function(d, i, y1){
 							if (d.labelvertpos == "top"){
-								return genomeStarts[d.genomeNum] + genomeBuffer;
+								return genomeStarts[d.genomeNum] + genomeBuffer - 2;
 							}
 							else if (d.labelvertpos == "middle"){
 								return y1 + (featureheight/2) + (getGeneFontSize(d,i)/2);
