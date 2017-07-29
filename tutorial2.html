@@ -9,13 +9,28 @@
 	</head>
 	<body>
 		<h1>Tutorial 2: </h1>
+		<div class="bgcolored">
+		 <h3>Table of Contents</h3>
+            <p>
+                 <ul>
+                     <li>
+                         <a href="#fetching">Fetching Data</a>
+                     </li>
+                     <li>
+                         <a href="#modifying">Modifying</a>
+                     </li>
+                 </ul>
+		<p>The final image produced can be found <a href="data/tutorial2/tutorial2_finalproduct.svg" target="_blank">here</a> as a SVG file and <a href="data/tutorial2/tutorial2_finalproduct.png" target="_blank">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial2/tutorial2_finalproduct.tsv" target="_blank">here</a>.
+           </p>
+
+		</div>
 		<div class="bgcolored"><p>In this tutorial, we will produce a simple figure showing a similar region in two genomes by accessing data from NCBI Genbank. The figure we will make is inspired by a figure in the publication Thiaville Jennifer J., et al., 2016 as <b>Figure 2A</b>. You can access it here: <a href="http://journal.frontiersin.org/article/10.3389/fmicb.2016.00431/full" target="_blank">http://journal.frontiersin.org/article/10.3389/fmicb.2016.00431/full</a> </p>
 		<p>Thiaville Jennifer J., Frelin Océane, García-Salinas Carolina, Harrison Katherine, Hasnain Ghulam, Horenstein Nicole A., Díaz de la Garza Rocio I., Henry Christopher S., Hanson Andrew D., de Crécy-Lagard Valérie, 2016. Experimental and Metabolic Modeling Evidence for a Folate-Cleaving Side-Activity of Ketopantoate Hydroxymethyltransferase (PanB). Frontiers in Microbiology. 7, 431. doi:10.3389/fmicb.2016.00431</p>
 		<p>The image below is the image from the paper.</p></div>
 		<img src="images/tutorial2/imgpublished.png">
 		<div class="bgcolored"><p>For simplicity, we will only be comparing the first two regions found in the image. The final image that we will be produce is shown below.</p></div>
 		<img src="images/tutorial2/imgfinal.png">
-		<div class="bgcolored"><p>We will show a comparison between the neighborhoods of the <i>folK</i> gene in two genomes, <i>Acinetobacter baylyi sp. ADP1</i> and <i>Salmonella enterica strain LT2</i>. Navigate to the "Gene Graphics" app at <a href="http://www.katlabs.cc/genegraphics/" target="_blank">http://katlabs.cc/genegraphics/</a>. Then, click on "Input" and "Fetch from NCBI". This option allows you to quickly import a whole genome or a specific region of a genome from NCBI Genbank.</p></div>
+		<div class="bgcolored"><h2><a name="fetching">Fetching Data</a></h2><p>We will show a comparison between the neighborhoods of the <i>folK</i> gene in two genomes, <i>Acinetobacter baylyi sp. ADP1</i> and <i>Salmonella enterica strain LT2</i>. Navigate to the "Gene Graphics" app at <a href="http://www.katlabs.cc/genegraphics/" target="_blank">http://katlabs.cc/genegraphics/</a>. Then, click on "Input" and "Fetch from NCBI". This option allows you to quickly import a whole genome or a specific region of a genome from NCBI Genbank.</p></div>
 		<img src="images/tutorial2/img0.png">
 		<div class="bgcolored"><p>Search by Genome location.  The Import tool can take genome name or Genbank ID.  Enter "Acinetobacter sp." and notice how it narrows down the search as you type.  You could simply type "ADP1" and get the result directly, as well.  You can click on the genome that you want at any time.  Use region 2986058 to 2991851.</p></div>
 		<img src="images/tutorial2/img1.png">
@@ -31,7 +46,7 @@
 		<img src="images/tutorial2/img6.png">
 		<div class="bgcolored"><p>Next, return to the Gene Graphics tab and click "Import a File". Follow the dialog options to upload your Genbank file.</p></div>
 		<img src="images/tutorial2/img7.png">
-		<div class="bgcolored"><p>Now that both regions are uploaded into the tool, the image can be edited. You may have noticed that our first region has an extra partial gene at the beginning. This is because this gene overlaps the first part of our region by a few bases. We can simply delete the gene by clicking on it and then selecting the trash can icon in the resulting window.</p></div>
+		<div class="bgcolored"><h2><a name="modifying">Modifying</a></h2><p>Now that both regions are uploaded into the tool, the image can be edited. You may have noticed that our first region has an extra partial gene at the beginning. This is because this gene overlaps the first part of our region by a few bases. We can simply delete the gene by clicking on it and then selecting the trash can icon in the resulting window.</p></div>
 		<img src="images/tutorial2/img8.png">
 		<div class="bgcolored"><p>Decrease the width of the image by clicking on "Graph Settings", then "Size settings", and entering 1000 for the "Image Width". Change the height of the genes by decreasing "Gene height" to 30.  The resulting image will update when you click Update or tab away from the fields.</p></div>
 		<img src="images/tutorial2/img9.png">
@@ -54,7 +69,6 @@
 		<div class="bgcolored"><p>Change the font family by clicking on 'Font Family' and choosing "Veranda".</p></div>
 		<img src="images/tutorial2/img22.png">
 		<div class="bgcolored"><p>The final produced image can be exported as a SVG file or as a PNG file, by clicking on the “Export” button. The edits done in the “Gene Graphics” application can also be exported as a TSV file, which will produce a table. This can be useful if an image is started, but is not yet finished. Reloading the produced TSV file will allow you to continue your edits.</p> 
-		<p>The final image produced can be found <a href="data/tutorial2/tutorial2_finalproduct.svg" target="_blank">here</a> as a SVG file and <a href="data/tutorial2/tutorial2_finalproduct.png" target="_blank">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial2/tutorial2_finalproduct.tsv" target="_blank">here</a>.</p></div>
 		<img src="images/tutorial2/img23.png">
 
 	</body>

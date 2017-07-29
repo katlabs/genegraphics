@@ -9,11 +9,24 @@
 	</head>
 	<body>
 		<h1>Tutorial 3: DUF89 Subfamily I Neighborhoods</h1>
+		<div class="bgcolored">
+		 <h3>Table of Contents</h3>
+				<p>
+					 <ul>
+						 <li>
+							<a href="#fetching">Fetching Data</a>
+						 </li>
+						 <li>
+							 <a href="#modifying">Modifying</a>
+						 </li>
+					 </ul>
+					The final image produced can be found <a href="data/tutorial3/tutorial3_finalproduct.svg" target="_blank">here</a> as a SVG file and <a href="data/tutorial3/tutorial3_finalproduct.png" target="_blank">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial3/tutorial3_finalproduct.tsv" target="_blank">here</a>.</p>
+			</div>
 		<div class="bgcolored"><p>In this tutorial, we are going to reproduce a figure similar to one that has been published. The figure to recreate can be found in the supplemental material associated with the publication Huang, et al., 2016, as <b>Supplementary Figure 4B</b>. You can access it here: <a href=http://www.nature.com/nchembio/journal/v12/n8/abs/nchembio.2108.html#supplementary-information" target="_blank">http://www.nature.com/nchembio/journal/v12/n8/abs/nchembio.2108.html#supplementary-information</a></p>
 		<p>Huang, L., Khusnutdinova, A., Nocek, B., Brown, G., Xu, X., Cui, H., Petit, P., Flick, R., Zallot, R., Balmant, K., Ziemak, M.J., Shanklin, J., de Crécy-Lagard, V., Fiehn, O., Gregory, J.F., Joachimiak, A., Savchenko, A., Yakunin, A.F., Hanson, A.D., 2016. A family of metal-dependent phosphatases implicated in metabolite damage-control. Nat. Chem. Biol. 12, 621–7. doi:10.1038/nchembio.2108</p>
 		<p>The image presented below is the one we will reproduce.</p></div>
 		<img src="images/tutorial3/img0.png">
-		<div class="bgcolored"><p>The original publication identified a new family of phosphatases. With this Figure, we want to illustrate that genes encoding the phosphatase DUF89 are often found closely associated, on the genome of several non-closely related bacteria, with genes involved in the purine synthesis (i.e. purM, purF, GuaB, purE, IMPC and AICARF).</p>
+		<div class="bgcolored"><h2><a name="fetching">Fetching Data</a></h2><p>The original publication identified a new family of phosphatases. With this Figure, we want to illustrate that genes encoding the phosphatase DUF89 are often found closely associated, on the genome of several non-closely related bacteria, with genes involved in the purine synthesis (i.e. purM, purF, GuaB, purE, IMPC and AICARF).</p>
 		<p>For this tutorial, we are going use the public SEED database (pubSEED) to obtain the necessary genome information to create the Figure. Access the SEED database at <a href="http://pubseed.theseed.org" target="_blank">http://pubseed.theseed.org</a>.</p></div>
 		<img src="images/tutorial3/img1.png">
 		<div class="bgcolored"><p>From the homepage, use the search box to obtain the needed information about the gene DUF89 from Methanococcus vannieli. The first result for this search is the gene we are looking for, that encodes the protein “DUF89 protein CxxC subfamily”, from the genome Methanococcus vannieli vannielii SB.</p></div>
@@ -44,7 +57,7 @@
 		<div class="bgcolored"><p>We need to export the table as a TSV file (Tab-separated values) that we will load into Gene Graphics. The exported table can be directly obtained <a href="data/tutorial3/tutorial3_SEEDexport.tsv" target="_blank">here</a>.</p>
 		<p>In Gene Graphics, load the edited table by going to the “Input” tab, and then press the “Import a file” button, and then, upload the table file.</p></div>
 		<img src="images/tutorial3/img09.png">
-		<div class="bgcolored"><p>Each genome has more genes in it then we need. To start, we should identify the DUF89 gene.  As you pass the mouse over each gene, the readout in the upper right will give details about it.  Passing over "Gene_5" will show "DUF89 protein CxxC subfamily".</p></div>
+		<div class="bgcolored"><h2><a name="modifying">Modifying</a></h2><p>Each genome has more genes in it then we need. To start, we should identify the DUF89 gene.  As you pass the mouse over each gene, the readout in the upper right will give details about it.  Passing over "Gene_5" will show "DUF89 protein CxxC subfamily".</p></div>
 		<img src="images/tutorial3/img10.png">
 		<div class="bgcolored"><p>Click on the gene to edit the text and change it to DUF89.  At this time we can also change the gene's color to match the published image.</p></div>
 		<img src="images/tutorial3/img11.png">
@@ -64,7 +77,6 @@
 		<div class="bgcolored"><p>Finally, we should edit the text of the DUF89 genes to match the published image.  The text editor can set the font to bold, italics, and the text color to white.</p></div>
 		<img src="images/tutorial3/img19.png">
 		<div class="bgcolored"><p>The final produced image can be exported, as a SVG file or as a PNG file, by clicking on the “Export” button. The edits done in the “Gene Graphics” application, can also be exported as a TSV file. This can be useful if an image is started, but is not yet finished. Reloading the produced TSV file will allow you to continue your edits.</p>
-		<p>The final image produced can be found <a href="data/tutorial3/tutorial3_finalproduct.svg" target="_blank">here</a> as a SVG file and <a href="data/tutorial3/tutorial3_finalproduct.png" target="_blank">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial3/tutorial3_finalproduct.tsv" target="_blank">here</a>.</p></div>
-		
+		</div>
 	</body>
 </html>
