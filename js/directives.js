@@ -118,8 +118,10 @@
 						
 						console.log("render " + rennum);
 						rennum = rennum + 1;
-						
+
+						var csstext = "text { font-family: Arial }";
 						svg.selectAll("*").remove();
+						svg.append("style").text(csstext);
 						
 						// do nothing if there is no data
 						if (data.length <= 0) {
