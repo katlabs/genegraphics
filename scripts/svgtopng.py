@@ -53,7 +53,23 @@ fullfnemf = fld + fn + '.emf'
 fullfntmpsvg = gettempdir() + '/' + fn + '.svg'
 fullfntmppng = gettempdir() + '/' + fn + '.png'
 fullfntsv = fld + fn + '.tsv'
+htmlfn = gettempdir() + '/' + fn + '.html'
 
+# write an html file (for correct rendering for png)
+f = open(htmlfn, 'w')
+f.write("""<!DOCTYPE html>
+    <html>
+        <head>
+            <style>
+                body {font-family:Arial;}
+            </style>
+        </head>
+        <body>
+        """)
+f.write(svgdata)
+f.write("""
+        </body>
+    </html>""")
 
 # write svg file
 f = open(fullfnsvg, 'w')
@@ -65,7 +81,7 @@ logging.info("Wrote tmp svg file: " + fullfnsvg)
 isfile = Path(fullfnpng1)
 if not isfile.is_file():
     run(["/usr/bin/rsvg-convert", fullfnsvg, "-w", "1920", "-f", "svg", "-o", fullfntmpsvg], stderr=DEVNULL, stdout=DEVNULL)
-    run(["/usr/bin/xvfb-run", "--server-args", "-screen 0, 1920x1024x24", "/home/ubuntu/bin/wkhtmltoimage", "-f", "png", "--use-xserver", fullfntmpsvg , fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
+    run(["/usr/bin/xvfb-run", "--server-args", "-screen 0, 1920x1024x24", "/home/ubuntu/bin/wkhtmltoimage", "-f", "png", "--use-xserver", htmlfn , fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
     run(["/usr/bin/pngcrush", "-res", "300", fullfntmppng, fullfnpng1], stdout=DEVNULL, stderr=DEVNULL)
     run(["/usr/bin/inkscape", "--file", fullfnsvg, "--export-emf", fullfnemf], stdout=DEVNULL, stderr=DEVNULL)
     run(["/usr/bin/convert", fullfnpng1, "-resize", svg_w, fullfnpng2], stdout=DEVNULL, stderr=DEVNULL)
