@@ -20,7 +20,7 @@
 							 <a href="#modifying">Modifying</a>
 						 </li>
 					 </ul>
-					The final image produced can be found <a href="data/tutorial3/tutorial3_finalproduct.svg" target="_blank">here</a> as a SVG file and <a href="data/tutorial3/tutorial3_finalproduct.png" target="_blank">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial3/tutorial3_finalproduct.tsv" target="_blank">here</a>.</p>
+					Final files that can be obtained by following this tutorial: <a href="data/tutorial3/tutorial3_finalproduct.svg" target="_blank">SVG</a> <a href="data/tutorial3/tutorial3_finalproduct.png" target="_blank">PNG</a> <a href="data/tutorial3/tutorial3_finalproduct.tsv" target="_blank">TSV</a></p>
 			</div>
 		<div class="bgcolored"><p>In this tutorial, we are going to reproduce a figure similar to one that has been published. The figure to recreate can be found in the supplemental material associated with the publication Huang, et al., 2016, as <b>Supplementary Figure 4B</b>. You can access it here: <a href=http://www.nature.com/nchembio/journal/v12/n8/abs/nchembio.2108.html#supplementary-information" target="_blank">http://www.nature.com/nchembio/journal/v12/n8/abs/nchembio.2108.html#supplementary-information</a></p>
 		<p>Huang, L., Khusnutdinova, A., Nocek, B., Brown, G., Xu, X., Cui, H., Petit, P., Flick, R., Zallot, R., Balmant, K., Ziemak, M.J., Shanklin, J., de Crécy-Lagard, V., Fiehn, O., Gregory, J.F., Joachimiak, A., Savchenko, A., Yakunin, A.F., Hanson, A.D., 2016. A family of metal-dependent phosphatases implicated in metabolite damage-control. Nat. Chem. Biol. 12, 621–7. doi:10.1038/nchembio.2108</p>
@@ -29,7 +29,7 @@
 		<div class="bgcolored"><h2><a name="fetching">Fetching Data</a></h2><p>The original publication identified a new family of phosphatases. With this Figure, we want to illustrate that genes encoding the phosphatase DUF89 are often found closely associated, on the genome of several non-closely related bacteria, with genes involved in the purine synthesis (i.e. purM, purF, GuaB, purE, IMPC and AICARF).</p>
 		<p>For this tutorial, we are going use the public SEED database (pubSEED) to obtain the necessary genome information to create the Figure. Access the SEED database at <a href="http://pubseed.theseed.org" target="_blank">http://pubseed.theseed.org</a>.</p></div>
 		<img src="images/tutorial3/img1.png">
-		<div class="bgcolored"><p>From the homepage, use the search box to obtain the needed information about the gene DUF89 from <i>Methanococcus vannieli</i>. The first result for this search is the gene we are looking for, that encodes the protein “DUF89 protein CxxC subfamily”, from the genome <i>Methanococcus vannieli</i> vannielii SB.</p></div>
+		<div class="bgcolored"><p>From the homepage, use the search box to obtain the needed information about the gene DUF89 from <em>Methanococcus vannieli</em>. The first result for this search is the gene we are looking for, that encodes the protein “DUF89 protein CxxC subfamily”, from the genome <em>Methanococcus vannieli</em> vannielii SB.</p></div>
 		<img src="images/tutorial3/img2.png">
 		<div class="bgcolored"><p>Browsing to the associated FIG page (<a href="http://pubseed.theseed.org/?page=Annotation&feature=fig%7C406327.7.peg.591" target="_blank">fig|406327.7.peg.591</a>), will bring you to the individual gene page information. Going down, on the webpage, once the “Compare Regions” has loaded, the neighboring genes of our gene of interest can be visualized. The red arrow represents the queried gene, while colored arrows represent conserved neighboring genes and grey arrows correspond to genes that are not conserved among the genomes displayed.</p></div>
 		<img src="images/tutorial3/img3.png">
@@ -38,15 +38,15 @@
 		<div class="bgcolored"><p>We need to have shown to us, more genomes on the “Compare Regions” area, by changing the number of regions (similar to genome) to 1000. In addition, we want to focus on the defined orthologous families “PGfams”, by switching the “Pinned CDS selection” to the appropriate setting, and then press the “update with selected” button.</p>
 		<p>We are now going to need to selected the genomes of interest, for our figure. We basically want to have genomes from taxonomically diverse bacteria, to show that the gene relations are well conserved. Because by default, all genomes are selected, we need to unselect these by clicking the “uncheck all” button.</p>
 		<p>We are then going to select the following genomes:<br>
-				M. vannieli van (Methanococcus vannieli vannielii SB)<br>
-				M. maripaludis (Methanococcus maripaludis C6)<br>
-				M. jannaschii D (Methanocaldococcus jannaschii DSM 2661)<br>
-				M. stadtmanae D (Methanosphaera stadtmanae DSM 3091)<br>
-				T. ammonificans (Thermovibrio ammonificans HB-1)<br>
-				C. mediatlantic (Caminibacter mediatlanticus TB-2)<br>
-				N. sp. SB155-2 (Nitratiruptor sp. SB155-2)<br>
-				L. bacterium 1_ (Lachnospiraceae bacterium 1 4 56FAA)<br>
-				H. cinaedi ATCC (Helicobacter cinaedi ATCC BAA-847)<br>
+			<em>M. vannieli van</em> (<em>Methanococcus vannieli</em> vannielii SB)<br>
+			<em>M. maripaludis</em> (<em>Methanococcus maripaludis</em> C6)<br>
+			<em>M. jannaschii</em> D (<em>Methanocaldococcus jannaschii</em> DSM 2661)<br>
+			<em>M. stadtmanae</em> D (<em>Methanosphaera stadtmanae</em> DSM 3091)<br>
+			<em>T. ammonificans</em> (<em>Thermovibrio ammonificans</em> HB-1)<br>
+			<em>C. mediatlantic</em> (<em>Caminibacter mediatlanticus</em> TB-2)<br>
+			<em>N.</em> sp. SB155-2 (<em>Nitratiruptor</em> sp. SB155-2)<br>
+			<em>L. bacterium</em> 1_ (<em>Lachnospiraceae bacterium</em> 1 4 56FAA)<br>
+			<em>H. cinaedi</em> ATCC (<em>Helicobacter cinaedi</em> ATCC BAA-847)<br>
 				And press the “update with selected” button.</p>
 		<p>The following selection is obtained:</p></div>
 		<img src="images/tutorial3/img6.png">

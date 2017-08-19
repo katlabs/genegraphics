@@ -23,13 +23,13 @@
 						<a href="#modifying">Modifying</a>
 					</li>
 				</ul>
-						Final files that can be obtained by following this tutorial: <a href="data/tutorial1/genegraphics_tutorial1_finished.tsv">TSV</a> <a href="data/tutorial1/genegraphics_tutorial1.svg">SVG</a> <a href="data/tutorial1/genegraphics_tutorial1.png">PNG</a>
+						Final files that can be obtained by following this tutorial: <a href="data/tutorial1/genegraphics_tutorial1_finished.tsv" target="_blank">TSV</a> <a href="data/tutorial1/genegraphics_tutorial1.svg" target="_blank">SVG</a> <a href="data/tutorial1/genegraphics_tutorial1.png" target="_blank">PNG</a>
 			</p>
 		</div>
 		<div class="bgcolored">
-			<p>The goal of this tutorial is to make you learn fetching data from teh NCBI website using the tool and learning to manipulate the information to produce an image matching your design requirements.  In the end, you will have used Gene Graphics to produce an image similar to a Figure from a publication.
-			<p>DUF208, recently renamed QueH has been identified as involved in the biosynthesis of the tRNA modification Queuosine. It is often associated with known queuosine related genes.</p>
-			<p>The figure to recreate can be found as <b>Figure 1C</b> in the publication Zallot, et al., 2017 and can be accessed at <a href="http://pubs.acs.org/doi/full/10.1021/acschembio.6b01100">http://pubs.acs.org/doi/full/10.1021/acschembio.6b01100</a>.</p>
+			<p>The goal of this tutorial is to demonstrate how to fetch data from the NCBI website using the tool and how to manipulate the information to produce an image that matches your design requirements.  You will produce an image similar to a figure that has been published.
+			<p>DUF208, recently renamed QueH, has been identified as involved in the biosynthesis of the tRNA modification Queuosine. It is often associated with known queuosine related genes.</p>
+			<p>The figure to recreate can be found as <b>Figure 1C</b> in the publication Zallot, et al., 2017. It can be accessed at <a href="http://pubs.acs.org/doi/full/10.1021/acschembio.6b01100">http://pubs.acs.org/doi/full/10.1021/acschembio.6b01100</a>.</p>
 			<p>Identification of a Novel Epoxyqueuosine Reductase Family by Comparative Genomics Rémi Zallot, Robert Ross, Wei-Hung Chen, Steven D. Bruner, Patrick A. Limbach, and Valérie de Crécy-Lagard ACS Chemical Biology 2017 12 (3), 844-851 DOI: 10.1021/acschembio.6b01100</p>
 			<p>The image below is from the paper.</p>
 		</div>
@@ -37,33 +37,33 @@
 		<div class="bgcolored">
 			<h2><a name="fetching">Fetching Data</a></h2>
 			<p>The figure shows the gene clustering of DUF208 with Queuosine related genes in 5 genomes.  All of the information shown can be fetched from NCBI using the "Input" -> "Fetch from NCBI" submenu.</p>
-			<p>The complete genome of Cryptobacterium curtum DSM 15641 is present in the NCBI nucleotide database as a genbank file under the entry CP001682.1. Selecting Genome Location, we can isolate the region between 1429479 and 1436151 to insert into the image the genes from TGT to QueF.  You can enter ‘15641’ or ‘CP001682’ to quickly find the corresponding genome entry.</p>
+			<p>The complete genome of <em>Cryptobacterium curtum</em> DSM 15641 is present in the NCBI nucleotide database as a genbank file under the entry CP001682.1. Selecting Genome Location, we can isolate the region between 1429479 and 1436151 to insert into the image the genes from TGT to QueF.  You can enter ‘15641’ or ‘CP001682’ to quickly find the corresponding genome entry.</p>
 		</div>
 		<img src="images/tutorial1/tutorial1_1.png">
 		<img src="images/tutorial1/tutorial1_2.png">
 		<div class="bgcolored">
-			<p>Next, we need to add genes from the genome of <i>Syntrophomonas wolfei</i> subsp. wolfei str. Goettingen G311. We will do a "Search by Protein ID", with the default window size, with the unique protein identifier for TGT in that organism: ABI68735.1.  This centers the view on TGT.</p>
+			<p>Next, we need to add genes from the genome of <em>Syntrophomonas wolfei</em> subsp. wolfei str. Goettingen G311. We will do a "Search by Protein ID", with the default window size, with the unique protein identifier for TGT in that organism: ABI68735.1.  This centers the view on TGT.</p>
 		</div>
 		<img src="images/tutorial1/tutorial1_3.png">
 		<img src="images/tutorial1/tutorial1_4.png">
 		<div class="bgcolored">
-			<p>We will then retrieve the information from <i>Eggerthella lenta</i> DSM 2243.  Search by gene symbol and organism.  Use ‘duf208’ for Gene symbol and ‘Eggerthella’ to bring up ‘Eggerthella lenta DSM 2243’ genome. The default window size is large enough to display the information needed.</p>
+			<p>We will then retrieve the information from <em>Eggerthella lenta</em> DSM 2243.  Search by gene symbol and organism.  Use ‘duf208’ for Gene symbol and ‘Eggerthella’ to bring up ‘Eggerthella lenta DSM 2243’ genome. The default window size is large enough to display the information needed.</p>
 		</div>
 		<img src="images/tutorial1/tutorial1_5.png">
 		<img src="images/tutorial1/tutorial1_6.png">
 		<div class="bgcolored">
-			<p>To add the information for <i>Solobacterium moorei DSM 22971</i>, do a "Search by protein ID" with ID ‘EFW24078.1’ which corresponds to DUF208.  Let's keep the standard window size of 5000 bp.</p>
+			<p>To add the information for <em>Solobacterium moorei DSM 22971</em>, do a "Search by protein ID" with ID ‘EFW24078.1’ which corresponds to DUF208.  Let's keep the standard window size of 5000 bp.</p>
 		</div>
 		<img src="images/tutorial1/tutorial1_7.png">
 		<img src="images/tutorial1/tutorial1_8.png">
 		<div class="bgcolored">
-			<p>The final genome to add is from <i>Atopobium rimae</i> ATCC 49626. A "Search by protein ID" with EEE17942.1 allows us to display the genome neighborhood of DUF208 for this genome.</p>
+			<p>The final genome to add is from <em>Atopobium rimae</em> ATCC 49626. A "Search by protein ID" with EEE17942.1 allows us to display the genome neighborhood of DUF208 for this genome.</p>
 		</div>
 		<img src="images/tutorial1/tutorial1_9.png">
 		<img src="images/tutorial1/tutorial1_10.png">
 		<div class="bgcolored">
 			<h2><a name="trimming">Trimming</a></h2>
-			<p>Now that the data is imported, we can edit the image to our desired design.  On the first genome, <i>Cryptobacterium curtum</i> DSM 15641, we have, from left to right: TGT, HAD, DUF208(QueH), QueA, COG1738(YhhQ), QueC, and QueF.  The information fetched shows the gene IDs present in the NCBI database. We will change the gene names so it is more obvious what they are.</p>
+			<p>Now that the data is imported, we can edit the image to our desired design.  On the first genome, <em>Cryptobacterium curtum</em> DSM 15641, we have, from left to right: TGT, HAD, DUF208(QueH), QueA, COG1738(YhhQ), QueC, and QueF.  The information fetched shows the gene IDs present in the NCBI database. We will change the gene names so it is more obvious what they are.</p>
 			<p>Click on a gene to edit it.  The gene that is currently edited is highlighted in blue.  You can adjust the font, background and text color, and alignment of the individual gene’s label using this editor.</p>
 		</div>
 		<img src="images/tutorial1/tutorial1_11.png">
@@ -75,7 +75,7 @@
 		</div>
 		<img src="images/tutorial1/tutorial1_12.png">
 		<div class="bgcolored">
-			<p>For the second genome, <i>Syntrophomonas wolfei</i> subsp. wolfei str. Goettingen G311, more information than needed is shown.  TGT, the entry point, is the gene in the center.  You can identify TGT by mousing over the light green arrow and noting the label "queuine tRNA-ribosyltransferase" in the upper right corner.</p>
+			<p>For the second genome, <em>Syntrophomonas wolfei</em> subsp. wolfei str. Goettingen G311, more information than needed is shown.  TGT, the entry point, is the gene in the center.  You can identify TGT by mousing over the light green arrow and noting the label "queuine tRNA-ribosyltransferase" in the upper right corner.</p>
 		</div>
 		<img src="images/tutorial1/tutorial1_13.png">
 		<div class="bgcolored">
@@ -83,7 +83,7 @@
 		</div>
 		<img src="images/tutorial1/tutorial1_14.png">
 		<div class="bgcolored">
-			<p>Overall, we need to remove several genes:<ul><li>From <i>Synthrophomonas wolfei subsp. Wolfei str</i>: Swol_1246, Swol_1427 and Swol_1431</li><li>From <i>Eggertherlla lenta</i> DSM 2243: Elen_0978, Elen_0979</li><li>From <i>Solobacterium moorei</i> F0204: HMPREF9430_01455, HMPREF9430_01456, HMPREF9430_01457, HMPREF9430_01458</li><li>From <i>Atopobium rimae</i> ATCC 49626: ATORI0001_0305, ATORI0001_0306, ATORI0001_0309</li></p>
+			<p>Overall, we need to remove several genes:<ul><li>From <em>Synthrophomonas wolfei</em> subsp. Wolfei str. Goettingen G311: Swol_1246, Swol_1427 and Swol_1431</li><li>From <em>Eggertherlla lenta</em> DSM 2243: Elen_0978, Elen_0979</li><li>From <em>Solobacterium moorei</em> F0204: HMPREF9430_01455, HMPREF9430_01456, HMPREF9430_01457, HMPREF9430_01458</li><li>From <em>Atopobium rimae</em> ATCC 49626: ATORI0001_0305, ATORI0001_0306, ATORI0001_0309</li></p>
 		</div>
 		<img src="images/tutorial1/tutorial1_15.png">
 		<div class="bgcolored">

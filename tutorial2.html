@@ -8,7 +8,7 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 	<body>
-		<h1>Tutorial 2: </h1>
+		<h1>Tutorial 2: Genbank File</h1>
 		<div class="bgcolored">
 		 <h3>Table of Contents</h3>
             <p>
@@ -20,7 +20,7 @@
                          <a href="#modifying">Modifying</a>
                      </li>
                  </ul>
-		<p>The final image produced can be found <a href="data/tutorial2/tutorial2_finalproduct.svg" target="_blank">here</a> as a SVG file and <a href="data/tutorial2/tutorial2_finalproduct.png" target="_blank">here</a> as a PNG file. The associated TSV file can be found <a href="data/tutorial2/tutorial2_finalproduct.tsv" target="_blank">here</a>.
+				 <p>Final files that can be obtained by following this tutorial: <a href="data/tutorial2/tutorial2_finalproduct.svg" target="_blank">SVG</a> <a href="data/tutorial2/tutorial2_finalproduct.png" target="_blank">PNG</a> <a href="data/tutorial2/tutorial2_finalproduct.tsv" target="_blank">TSV</a>
            </p>
 
 		</div>
@@ -30,13 +30,13 @@
 		<img src="images/tutorial2/imgpublished.png">
 		<div class="bgcolored"><p>For simplicity, we will only be comparing the first two regions found in the image. The final image that we will be produce is shown below.</p></div>
 		<img src="images/tutorial2/imgfinal.png">
-		<div class="bgcolored"><h2><a name="fetching">Fetching Data</a></h2><p>We will show a comparison between the neighborhoods of the <i>folK</i> gene in two genomes, <i>Acinetobacter baylyi sp. ADP1</i> and <i>Salmonella enterica strain LT2</i>. Navigate to the "Gene Graphics" app at <a href="http://www.katlabs.cc/genegraphics/" target="_blank">http://katlabs.cc/genegraphics/</a>. Then, click on "Input" and "Fetch from NCBI". This option allows you to quickly import a whole genome or a specific region of a genome from NCBI Genbank.</p></div>
+		<div class="bgcolored"><h2><a name="fetching">Fetching Data</a></h2><p>We will show a comparison between the neighborhoods of the <em>folK</em> gene in two genomes, <em>Acinetobacter baylyi</em> sp. ADP1 and <em>Salmonella enterica</em> strain LT2. Navigate to the "Gene Graphics" app at <a href="http://www.katlabs.cc/genegraphics/" target="_blank">http://katlabs.cc/genegraphics/</a>. Then, click on "Input" and "Fetch from NCBI". This option allows you to quickly import a whole genome or a specific region of a genome from NCBI Genbank.</p></div>
 		<img src="images/tutorial2/img0.png">
 		<div class="bgcolored"><p>Search by Genome location.  The Import tool can take genome name or Genbank ID.  Enter "Acinetobacter sp." and notice how it narrows down the search as you type.  You could simply type "ADP1" and get the result directly, as well.  You can click on the genome that you want at any time.  Use region 2986058 to 2991851.</p></div>
 		<img src="images/tutorial2/img1.png">
 		<div class="bgcolored"><p>After the data is imported, you should see the following region on your screen:</p></div>
 		<img src="images/tutorial2/img2.png">
-		<div class="bgcolored"><p>Sometimes, you might want the reverse complement of region accessed from Genbank. The <i>Salmonella enterica strain LT2</i> genome found in NCBI Genbank by default displays the region we are interested in reversed from the <i>Acinetobacter baylyi</i> region. We can use the NCBI interface to export a file that will show us the region in reverse complement, then upload it to the Gene Graphics tool. In a new tab or window, access the NCBI database homepage at <a href="https://www.ncbi.nlm.nih.gov/nucleotide/" target="_blank">https://www.ncbi.nlm.nih.gov/nucleotide/</a>. Type "Salmonella enterica strain LT2" into the search box. Click "Search".</p></div>
+		<div class="bgcolored"><p>Sometimes, you might want the reverse complement of region accessed from Genbank. The <em>Salmonella enterica</em> strain LT2 genome found in NCBI Genbank by default displays the region we are interested in reversed from the <em>Acinetobacter baylyi</em> region. We can use the NCBI interface to export a file that will show us the region in reverse complement, then upload it to the Gene Graphics tool. In a new tab or window, access the NCBI database homepage at <a href="https://www.ncbi.nlm.nih.gov/nucleotide/" target="_blank">https://www.ncbi.nlm.nih.gov/nucleotide/</a>. Type "Salmonella enterica strain LT2" into the search box. Click "Search".</p></div>
 		<img src="images/tutorial2/img3.png">
 		<div class="bgcolored"><p>Click on the result "Salmonella enterica strain LT2, complete genome". It will bring you to the page <a href="https://www.ncbi.nlm.nih.gov/nuccore/CP014051.1" target="_blank"> https://www.ncbi.nlm.nih.gov/nuccore/CP014051.1</a>.</p></div>
 		<img src="images/tutorial2/img4.png">
@@ -54,11 +54,11 @@
 		<img src="images/tutorial2/img10.png">
 		<div class="bgcolored"><p>Under "Graph Settings", then "Gene shape", toggle the option to change the symbols to tags instead of arrows.</p></div>
 		<img src="images/tutorial2/img10a.png">
-		<div class="bgcolored"><p>Some of the genes in the region we selected have an unknown or irrelevant function, so we should use a neutral color such as gray. Click on the first gene in the <i>Acinetobacter sp. ADP1</i> region and select a gray color. Edit the text to remove the label. Then, click on the "Copy Gene Colors" button. This will copy the Gene and Label colors of this gene so that you can paste it to the other genes with unknown or irrelevant functions.</p></div>
+		<div class="bgcolored"><p>Some of the genes in the region we selected have an unknown or irrelevant function, so we should use a neutral color such as gray. Click on the first gene in the <em>Acinetobacter</em> sp. ADP1 region and select a gray color. Edit the text to remove the label. Then, click on the "Copy Gene Colors" button. This will copy the Gene and Label colors of this gene so that you can paste it to the other genes with unknown or irrelevant functions.</p></div>
 		<img src="images/tutorial2/img11.png">
-		<div class="bgcolored"><p>Click or right click on the last and second to last genes in the <i>Acinetobacter sp. ADP1</i> region, and the first and last gene in the <i>Salmonella enterica strain LT2</i> region, then select Paste to apply the color to all of them. Note that genes will be outlined with red while they are selected as a destination for the paste.</p></div>
+		<div class="bgcolored"><p>Click or right click on the last and second to last genes in the <em>Acinetobacter</em> sp. ADP1 region, and the first and last gene in the <em>Salmonella enterica</em> strain LT2 region, then select Paste to apply the color to all of them. Note that genes will be outlined with red while they are selected as a destination for the paste.</p></div>
 		<img src="images/tutorial2/img13.png">
-		<div class="bgcolored"><p>The folK gene in <i>Acinetobacter sp. ADP1</i> was not annotated as folK, and its "product" is annotated slightly differently than the folK gene in <i>Salmonella enterica strain LT2</i>. This results in the two genes having different colors, but we would like the colors to be the same. Select folK in <i>Acinetobacter sp. ADP1</i> and Copy to the second folK as shown below.</p></div>
+		<div class="bgcolored"><p>The folK gene in <em>Acinetobacter</em> sp. ADP1 was not annotated as folK, and its "product" is annotated slightly differently than the folK gene in <em>Salmonella enterica</em> strain LT2. This results in the two genes having different colors, but we would like the colors to be the same. Select folK in <em>Acinetobacter</em> sp. ADP1 and Copy to the second folK as shown below.</p></div>
 		<img src="images/tutorial2/img15.png">
 		<div class="bgcolored"><p>Continue naming and editing the colors of the genes as shown in the following image.</p></div>
 		<img src="images/tutorial2/img19.png">

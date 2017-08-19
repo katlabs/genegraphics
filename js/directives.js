@@ -540,7 +540,7 @@
 							svgstr = svgstr.replace(/<span/g, '<tspan');
 							svgstr = svgstr.replace(/style=\"(font-family|font-size):\s?([^\"\;]*);"/g, '$1="$2"');
 							svgstr = svgstr.replace(/style=\"(color):\s?([^\"\;]*);"/g, 'fill="$2"');
-							svgstr = svgstr.replace(/<\/[strong|em|span|p]/g, '</tspan');
+							svgstr = svgstr.replace(/(<\/strong>)|(<\/em>)|(<\/span>)|(<\/p>)/g, '</tspan>');
 							return svgstr;
 						}
 
