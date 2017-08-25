@@ -643,8 +643,7 @@
 
 						// Render PNG and SVG serverside
 						var svg = d3.select("svg")[0][0];
-						document.getElementById("pnglink1").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
-						document.getElementById("pnglink2").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
+						document.getElementById("pnglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
 						document.getElementById("svglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
 						document.getElementById("emflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
 						document.getElementById("tsvlink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
@@ -663,23 +662,20 @@
 						$http(req).then(function successCallback(response) {
 							console.log(response.data);
 							var files = response.data.split("\n");
-							var whstr = files[5];
+							var whstr = files[4];
 
-							var pnglink1 = document.getElementById("pnglink1");
-							pnglink1.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>';
-							pnglink1.href = files[1];
-							var pnglink2 = document.getElementById("pnglink2");
-							pnglink2.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>High resolution<br>PNG<br>';
-							pnglink2.href = files[0];
+							var pnglink = document.getElementById("pnglink");
+							pnglink.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>';
+							pnglink.href = files[0];
 							var svglink = document.getElementById("svglink");
 							svglink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>SVG';
-							svglink.href = files[2];
+							svglink.href = files[1];
 							var emflink = document.getElementById("emflink");
 							emflink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EMF';
-							emflink.href = files[3];
+							emflink.href = files[2];
 							var tsvlink = document.getElementById("tsvlink");
 							tsvlink.innerHTML = '<i class="fa fa-file-excel-o fa-2x" aria-hidden="true"></i><br>TSV';
-							tsvlink.href = files[4];
+							tsvlink.href = files[3];
 						});
 						
 						scope.showexportpanel = true;

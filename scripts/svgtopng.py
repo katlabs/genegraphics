@@ -47,7 +47,6 @@ if not os.path.isdir(fld):
 
 fn = md5(svgdata.encode('utf-8')).hexdigest()
 fullfnpng1 = fld + fn + '.png'
-fullfnpng2 = fld + fn + '_origres.png'
 fullfnsvg = fld + fn + '.svg'
 fullfnemf = fld + fn + '.emf'
 fullfntmpsvg = gettempdir() + '/' + fn + '.svg'
@@ -85,7 +84,6 @@ if not isfile.is_file():
     run(["/usr/bin/convert", fullfntmppng, "-blur", "1x0.2", fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
     run(["/usr/bin/pngcrush", "-res", "300", fullfntmppng, fullfnpng1], stdout=DEVNULL, stderr=DEVNULL)
     run(["/usr/bin/inkscape", "--file", fullfnsvg, "--export-emf", fullfnemf], stdout=DEVNULL, stderr=DEVNULL)
-    run(["/usr/bin/convert", fullfnpng1, "-resize", svg_w, fullfnpng2], stdout=DEVNULL, stderr=DEVNULL)
 
 # create a tsv file
 f = open(fullfntsv, 'w')
@@ -104,7 +102,6 @@ logging.info("wxh string = " + wh_str)
 # output the filenames as the response data
 print("Content-type: text/html\n")
 print("/genegraphics/temp/" + fn + ".png")
-print("/genegraphics/temp/" + fn + "_origres.png")
 print("/genegraphics/temp/" + fn + ".svg")
 print("/genegraphics/temp/" + fn + ".emf")
 print("/genegraphics/temp/" + fn + ".tsv")
