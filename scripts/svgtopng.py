@@ -80,7 +80,7 @@ logging.info("Wrote tmp svg file: " + fullfnsvg)
 isfile = Path(fullfnpng1)
 if not isfile.is_file():
     run(["/usr/bin/rsvg-convert", fullfnsvg, "-w", "1920", "-f", "svg", "-o", fullfntmpsvg], stderr=DEVNULL, stdout=DEVNULL)
-    run(["/usr/bin/xvfb-run", "--server-args", "-screen 0, 1920x1024x24", "/home/ubuntu/bin/wkhtmltoimage", "-f", "png", "--use-xserver", htmlfn , fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
+    run(["/usr/bin/xvfb-run", "--server-args", "-screen 0, 1920x1024x24", "/home/ubuntu/bin/wkhtmltoimage", "--zoom", "3", "-f", "png", "--use-xserver", htmlfn , fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
     run(["/usr/bin/convert", fullfntmppng, "-blur", "1x0.2", fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
     run(["/usr/bin/pngcrush", "-res", "300", fullfntmppng, fullfnpng1], stdout=DEVNULL, stderr=DEVNULL)
     run(["/usr/bin/inkscape", "--file", fullfnsvg, "--export-emf", fullfnemf], stdout=DEVNULL, stderr=DEVNULL)
