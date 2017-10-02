@@ -84,7 +84,7 @@
 				plugins: 'textcolor colorpicker',
 				menubar: false,
 				toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright | valigntop valignmid valignbot',
-				toolbar2: 'fontselect fontsizeselect | forecolor',
+				toolbar2: 'fontsizeselect | forecolor',
 				textcolor_map: [
 					"000000", "Black",
 					"993300", "Burnt orange",
@@ -502,62 +502,6 @@
 				boldButtonSetter();
 			});
 			
-			$scope.globalFontFamily = function(labeltype, newfont){
-				if (typeof newfont === 'undefined') { return;}
-				var origName;
-				for (var i=0; i < $scope.geneData.length; i++){
-					var change_name
-					if (labeltype === 'genomes') { 
-						if ($scope.geneData[i]['genomelocked'] == true){ continue;}
-						change_name = $scope.geneData[i]['genomehtml'];}
-					else if (labeltype === 'genes') {
-						if ($scope.geneData[i]['genelocked'] == true) { continue;}
-						change_name = $scope.geneData[i]['namehtml'];}
-					else { return; }
-					if (origName == change_name){
-						continue;
-					}
-					try {
-						var $tempdom = $(change_name);
-						if ($tempdom.length == 0){
-							change_name = '<p><span style="font-family: ' +newfont.value+ ';">' + change_name + '</span></p>'
-						}
-						else {
-							$tempdom.find('span').css('font-family', '');
-							$tempdom.find('span:not([style])').contents().unwrap();
-							change_name = $tempdom[0].outerHTML.replace(/(<p[\w\s\d-:=,"'#;]*>)/g, '$1<span style="font-family: ' + newfont.value + ';">');
-							change_name = change_name.replace(/<\/p>/g, '</span></p>');
-						}
-					}
-					catch(err){
-						change_name = '<p><span style="font-family: ' +newfont.value+ ';">' + change_name + '</span></p>'
-					}
-					origName = change_name;
-					if (labeltype === 'genomes') {
-						$scope.graphSettings.selectedGene = i;
-						$scope.genome.newGenome = change_name;
-						$scope.genome.oldGenome = $scope.geneData[i]['genomehtml'];
-						$scope.editGenomeName();
-						try {
-							var $tempdom = $($scope.geneData[i]['genomehtml']);
-							$scope.geneData[i].genome = $tempdom[0].textContent;
-						}
-						catch (err) {
-							$scope.geneData[i].genome = $scope.geneData[i].genomehtml;
-						}
-					}
-					else {
-						$scope.geneData[i]['namehtml'] = change_name;
-						try {
-							var $tempdom = $($scope.geneData[i]['namehtml']);
-							$scope.geneData[i].name = $tempdom[0].textContent;
-						}
-						catch (err) {
-							$scope.geneData[i].name = $scope.geneData[i].namehtml;
-						}
-					}
-				}
-			}
 			
 			$scope.openFontSizeMenu = function($mdOpenMenu, ev){
 				$mdOpenMenu(ev);
@@ -880,41 +824,6 @@
 			}, true);
 			
 		}])
-		.controller('autoCompCtrl', function($scope) {
-			
-			$scope.fonts        = [
-				{value:"'andale mono', monospace", name:"Andale Mono"},
-				{value:"arial, helvetica, sans-serif", name:"Arial"},
-				{value:"'arial black', sans-serif", name:"Arial Black"},
-				{value:"'book antiqua', palatino, sans-serif", name:"Book Antiqua"},
-				{value:"'comic sans ms', sans-serif", name:"Comic Sans MS"},
-				{value:"'courier new', courier, monospace", name:"Courier New"},
-				{value:"georgia, palatino, serif", name:"Georgia"},
-				{value:"helvetica, arial, sans-serif", name:"Helvetica"},
-				{value:"impact, sans-serif", name:"Impact"},
-				{value:"symbol", name:"Symbol"},
-				{value:"tahoma, arial, helvetica, sans-serif", name:"Tahoma"},
-				{value:"terminal, monaco, monospace", name:"Terminal"},
-				{value:"'times new roman', Times, serif", name:"Times New Roman"},
-				{value:"'trebuchet ms', geneva, sans-serif", name:"Trebuchet MS"},
-				{value:"verdana, geneva, sans-serif", name:"Verdana"},
-				{value:"webdings", name:"Webdings"},
-				{value:"wingdings, 'zapf dingbats'", name:"Wingdings"},
-			]
-			
-			$scope.querySearch = function querySearch (query) {
-				var results = query ? $scope.fonts.filter( createFilterFor(query) ) : $scope.fonts,
-						deferred;
-				return results;
-			}
-			function createFilterFor(query) {
-				var lowercaseQuery = angular.lowercase(query);
-
-				return function filterFn(font) {
-					return (font.name.toLowerCase().indexOf(lowercaseQuery) === 0);
-				};
-			}
-		})
 		.controller('tabsCtrl', [ function() {
 			var self = this;
 			self.tabs = [
@@ -1874,10 +1783,7 @@
 					$scope.toggleItalic["genes"] = true;
 					$scope.globalEm("genes");
 
-					var defaultFontFamily = {value:"arial, helvetica, sans-serif", name:"Arial"}
 					var defaultFontSize = "12pt";
-					$scope.globalFontFamily("genomes", defaultFontFamily);
-					$scope.globalFontFamily("genes", defaultFontFamily);
 					$scope.globalFontSize("genomes", defaultFontSize);
 					$scope.globalFontSize("genes", defaultFontSize);
 					console.log(geneService.offset);

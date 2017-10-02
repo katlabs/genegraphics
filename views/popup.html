@@ -302,27 +302,6 @@
 				</button>
 			</div>
 		</div>
-		<div ng-controller="autoCompCtrl" ng-cloak>
-			<md-autocomplete
-					class="fontFamily"
-					ng-disabled="false"
-					md-no-cache="true"
-					md-selected-item="selectedItem"
-					md-search-text="searchText"
-					md-selected-item-change="globalFontFamily((showGlobalGenome ? 'genomes' : 'genes'), item)"
-					md-items="item in querySearch(searchText)"
-					md-item-text="item.name"
-					md-min-length="0"
-					placeholder="Font Family">
-				<md-item-template>
-					<span style="font-family: {{item.value}}" md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
-				</md-item-template>
-				<md-not-found>
-					No Families matching "{{searchText}}" were found.
-				</md-not-found>
-			</md-autocomplete>
-		</div>
-	</div>
 
 	<!-- Gene copy/paste Dialog -->
 	<div id="geneCPDialog" ng-show="showGeneCPDialog">

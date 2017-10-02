@@ -643,10 +643,12 @@
 
 						// Render PNG and SVG serverside
 						var svg = d3.select("svg")[0][0];
-						document.getElementById("pnglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
-						document.getElementById("svglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
-						document.getElementById("emflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
-						document.getElementById("tsvlink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading...';
+						document.getElementById("pnglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+						document.getElementById("svglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+						document.getElementById("emflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+						document.getElementById("tsvlink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+						document.getElementById("tifflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+						document.getElementById("epslink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
 						var svg_w = d3.select("svg").style("width").replace(/\D/g,'');
 						var svg_h = d3.select("svg").style("height").replace(/\D/g,'');
 						console.log(svg_w);
@@ -662,7 +664,7 @@
 						$http(req).then(function successCallback(response) {
 							console.log(response.data);
 							var files = response.data.split("\n");
-							var whstr = files[4];
+							var whstr = files[6];
 
 							var pnglink = document.getElementById("pnglink");
 							pnglink.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>';
@@ -676,8 +678,14 @@
 							var tsvlink = document.getElementById("tsvlink");
 							tsvlink.innerHTML = '<i class="fa fa-file-excel-o fa-2x" aria-hidden="true"></i><br>TSV';
 							tsvlink.href = files[3];
+							var tifflink = document.getElementById("tifflink");
+							tifflink.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>TIFF';
+							tifflink.href = files[4];
+							var epslink = document.getElementById("epslink");
+							epslink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EPS';
+							epslink.href = files[5];
 						});
-						
+
 						scope.showexportpanel = true;
 					});
 				}
