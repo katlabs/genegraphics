@@ -918,7 +918,7 @@
 							else if (key === 'labelPosition'){
 								$scope.graphSettings[key] = newsettings[key];
 							}
-							else if (key === 'keepgaps' || key === 'multilane' || key === 'shiftgenes' || key === 'scaleOn'){
+							else if (key === 'keepgaps' || key === 'multilane' || key === 'shiftgenes' || key === 'scaleOn' || key === 'arrows'){
 								if (newsettings[key].toLowerCase() === "true"){
 									$scope.graphSettings[key] = true;
 								}
