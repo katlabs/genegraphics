@@ -1187,7 +1187,7 @@
 					var supported_features = ["CDS","gene","mRNA"];
 					while ( i < parsed.features.length){
 						var j = i;
-						if (supported_features.includes(parsed.features[i].feature)){
+						if (supported_features.indexOf(parsed.features[i].feature) > -1){
 							// Get basic info from gene feature
 							var gene = parsed.features[i].gene;
 							var locus_tag = parsed.features[i].locus_tag;
@@ -1201,7 +1201,7 @@
 							while ((j < parsed.features.length) &&
 								(parseInt(parsed.features[j].location[0].start) == start) && 
 								(parseInt(parsed.features[j].location[0].end) == end)) {
-								if (supported_features.includes(parsed.features[j].feature)){
+								if (supported_features.indexOf(parsed.features[j].feature) > -1){
 									if (typeof gene == 'undefined') gene = parsed.features[j].gene;
 									if (typeof locus_tag == 'undefined') locus_tag = parsed.features[j].locus_tag;
 									if (typeof product == 'undefined') product = parsed.features[j].product;

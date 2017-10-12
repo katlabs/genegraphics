@@ -566,6 +566,7 @@
 											.attr("y", function(d,i){ return getYGenomeLabel(d,i);})
 											.attr("x", function(d,i){ return getXGenomeLabel(d,i);})
 											.attr("z-index", 100)
+											.attr("style", "font-family: arial, helvetica, sans-serif")
 										var svgstr = htmltosvg(d.genomehtml, d.genome);
 										text.html(svgstr);
 									}
@@ -593,6 +594,7 @@
 							.attr("y", function(d, i){return d.labelpos.y;})
 							.attr("x", function(d, i){return d.labelpos.x;})
 							.attr("z-index", 100)
+							.attr("style", "font-family: arial, helvetica, sans-serif")
 							.html(function(d,i){
 								var svgstr = htmltosvg(d.namehtml, d.name);
 								return svgstr;
