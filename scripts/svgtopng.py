@@ -51,7 +51,6 @@ fullfnsvg = fld + fn + '.svg'
 fullfnemf = fld + fn + '.emf'
 fullfntmpsvg = gettempdir() + '/' + fn + '.svg'
 fullfntmppng = gettempdir() + '/' + fn + '.png'
-fullfn_tmpsvgforeps = gettempdir() + '/eps' + fn + '.svg'
 fullfntsv = fld + fn + '.tsv'
 fullfn_tiff = fld + fn + '.tiff'
 fullfn_eps = fld + fn + '.eps'
@@ -82,21 +81,15 @@ logging.info("Wrote tmp svg file: " + fullfnsvg)
 # create a compressed png file from svg using wkhtmltoimage and pngcrush
 isfile = Path(fullfnpng1)
 if not isfile.is_file():
-    # Upscale base SVG for PNG
-    run(["/usr/bin/rsvg-convert", fullfnsvg, "-w", "1920", "-f", "svg", "-o", fullfntmpsvg], stderr=DEVNULL, stdout=DEVNULL)
-    # Upscale base SVG for EPS
-    run(["/usr/bin/rsvg-convert", fullfnsvg, "-z", "3", "-f", "svg", "-o", fullfn_tmpsvgforeps], stderr=DEVNULL, stdout=DEVNULL)
     # Render SVG to PNG
     run(["/usr/bin/xvfb-run", "--server-args", "-screen 0, 1920x1024x24", "/home/ubuntu/bin/wkhtmltoimage", "--zoom", "3", "-f", "png", "--use-xserver", htmlfn , fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
     # Soften PNG 
     run(["/usr/bin/convert", fullfntmppng, "-blur", "1x0.2", fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
     # Create TIFF from PNG
     run(["/usr/bin/convert", fullfntmppng, fullfn_tiff], stderr=DEVNULL, stdout=DEVNULL)
-#    run(["/usr/bin/convert", fullfntmpsvg, "-E", fullfn_eps, "--export-ignore-filters", "--export-ps-level", "3"], stderr=DEVNULL, stdout=DEVNULL)
     # Create EPS from SVG
-    #run(["/usr/bin/convert", fullfn_tmpsvgforeps, fullfn_eps], stderr=DEVNULL, stdout=DEVNULL)
-    run(["/usr/bin/inkscape", "-E", fullfn_eps,  fullfn_tmpsvgforeps], stderr=DEVNULL, stdout=DEVNULL)
-    logging.info("/usr/bin/inkscape" + "-E" +fullfn_eps+ fullfn_tmpsvgforeps)
+    run(["/usr/bin/inkscape", "-E", fullfn_eps,  fullfnsvg, "--export-area-page","--export-text-to-path", "--export-ignore-filters"], stderr=DEVNULL, stdout=DEVNULL)
+    logging.info("/usr/bin/inkscape" + "-E" +fullfn_eps+ fullfnsvg +"--export-area-page --export-text-to-path --export-ignore-filters")
     # Compress PNG (lossless)
     run(["/usr/bin/pngcrush", "-res", "300", fullfntmppng, fullfnpng1], stdout=DEVNULL, stderr=DEVNULL)
     # Create EMF from SVG
