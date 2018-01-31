@@ -937,10 +937,10 @@
 						var genomehtmltest = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+genome+'</span></p>';
 						if(genomehtmltest in geneService.genomesHash || geneService.offset.hasOwnProperty(genomehtmltest)){
 							var copynum = 0;
-							for(var j=1; j < 100; j++){
-								var testgenome = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+genome+' ('+i+')</span></p>';
+							for(var jj=1; jj < 100; jj++){
+								var testgenome = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+genome+' ('+jj+')</span></p>';
 								if(!(testgenome in geneService.genomesHash) && !(geneService.offset.hasOwnProperty(testgenome))){
-									copynum = j;
+									copynum = jj;
 									//console.log(copynum);
 									break;
 								}
@@ -1174,10 +1174,10 @@
 					var organismhtmltest = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+organism+'</span></p>';
 					if (organismhtmltest in geneService.genomesHash || geneService.offset.hasOwnProperty(organismhtmltest)){
 						var copynum = 0;
-						for(var i=1; i<100; i++){
-							var testgenome = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+organism+' ('+i+')</span></p>';
+						for(var ii=1; ii<100; ii++){
+							var testgenome = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+organism+' ('+ii+')</span></p>';
 							if(!(testgenome in geneService.genomesHash) && !(geneService.offset.hasOwnProperty(testgenome))){
-								copynum = i;
+								copynum = ii;
 								break;
 							}
 						}
