@@ -854,6 +854,13 @@
 			var baseURL;
 			$scope.fn = "";
 
+			$scope.strip = function(html) {
+				// Uses the browser to strip HTML 
+				var tmp = document.createElement("DIV");
+				tmp.innerHTML = html;
+				return tmp.textContent || tmp.innerText || "";
+			}
+
 			$scope.parseTSV = function(lines){
 
 				$scope.data = [];
@@ -933,20 +940,21 @@
 						var columns = lines[i].split('\t');
 						
 						var genome = columns[headerpos['genome']];
-						gene['genome'] = genome;
-						var genomehtmltest = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+genome+'</span></p>';
-						if(genomehtmltest in geneService.genomesHash || geneService.offset.hasOwnProperty(genomehtmltest)){
+						if(Object.entries(geneService.genomesHash).map(x=>$scope.strip(x[0])).indexOf(genome)!=-1) {
 							var copynum = 0;
 							for(var jj=1; jj < 100; jj++){
-								var testgenome = '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 12pt;">'+genome+' ('+jj+')</span></p>';
-								if(!(testgenome in geneService.genomesHash) && !(geneService.offset.hasOwnProperty(testgenome))){
+								var testgenome = genome+' ('+jj+')';
+								if(Object.entries(geneService.genomesHash).map(x=>$scope.strip(x[0])).indexOf(testgenome)==-1){
 									copynum = jj;
 									//console.log(copynum);
 									break;
 								}
 							}
 							genome = genome + " ("+copynum+")"
+							// Replace the html with a new genome name, preserving the html
+							columns[headerpos['genomehtml']] = columns[headerpos['genomehtml']].replace(columns[headerpos['genome']], genome)
 						}
+						gene['genome'] = genome;
 
 						for (var key in gene) {
 							if ((key === 'name' || key === 'namehtml' || key === 'genefunction' || key === 'strand' || key === 'color' || key === 'labelcolor' || key === 'labelstyle' || key === 'genomehtml' || key === 'labelvertpos') && headerpos[key] !== null){
