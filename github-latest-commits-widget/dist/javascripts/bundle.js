@@ -46,7 +46,7 @@ $(function() {
     }
     return _results;
   };
-	container.find('h4')[0].innerHTML = "Latest Commits to <a href='https://github.com/katlabs/genegraphics'>" + username + "/" + repo+ "</a>";
+	container.find('h4')[0].innerHTML = "Latest Commits to <a href='https://github.com/katlabs/genegraphics' target='_top'>" + username + "/" + repo+ "</a>";
   url = "https://api.github.com/repos/" + username + "/" + repo + "/commits?callback=callback";
   if (params.branch != null) {
     url += "&sha=" + branch;
