@@ -1801,8 +1801,46 @@
 				}
 			};
 		}])
-		.controller('popupCtrl', ['$scope', 'popupMenuService', function($scope, popupMenuService){
-			
+	  .controller('progressbarCtrl', ['$scope', '$interval', '$timeout', 'md5', 'd3', '$http', function($scope, $interval, $timeout, md5, d3, $http) {
+			$scope.finished = false;
+			$scope.percent = 0;
+			$scope.hash = "";
+
+			$scope.updateProgress = function(){
+				// Update hash of svg, which functions as request id
+				var svg = d3.select("svg")[0][0];
+				var svgxml = new XMLSerializer().serializeToString(svg);
+				$scope.hash = md5.createHash(svgxml);
+				$scope.finished = false;
+
+				console.log("update processing start");
+
+				var $intervalCancel = $interval(function() {
+			    $timeout(function() {
+					  var req = {
+							method: 'POST',
+							url: '/cgi-bin/status.py',
+							data: $.param({status: $scope.hash}),
+							headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+						};
+
+					  console.log("requesting update");
+
+				    $http(req).then(function successCallback(response) {
+
+							$scope.percent = (response.data/6)*100;
+							console.log("updating the progress [" + $scope.hash + "] " + $scope.percent);
+							if (response.data == "6\n"){
+								console.log("finished processing");
+								$scope.finished = true;
+								$interval.cancel($intervalCancel);
+							}
+						});
+					}, 10);
+				}, 3000);
+			}
+		}])
+		.controller('popupCtrl', ['$scope', '$interval', 'popupMenuService', function($scope, $interval, popupMenuService){
 			$scope.showPopupMenu = false;
 			$scope.showGBSelect = false;
 			$scope.showExportPanel = false;
@@ -1814,8 +1852,7 @@
 			$scope.showGlobalGenome = false;
 			$scope.showGlobalGene = false;
 			$scope.showGeneCPDialog = false;
-			
-			
+
 			$scope.$on('updateMenuStatus', function(){
 				$scope.showPopupMenu = popupMenuService.MenuVisible;
 				$scope.showGBSelect = popupMenuService.GBSelectVisible;
@@ -1899,6 +1936,7 @@
 				popupMenuService.updateGeneCPDialog(false);
 				return;
 			};
+
 		}])
 		.controller('gbAutoCompCtrl', ['$scope', '$http', 'popupMenuService', function($scope, $http, popupMenuService){
 

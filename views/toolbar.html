@@ -117,7 +117,7 @@
 				</md-menu-item>
 			</md-menu-content>
 		</md-menu>
-		<button ng-exportbutton class="btn1 md-button md-raised md-primary" ng-click="openPopup('exportPanel');" data="geneData" settings="graphSettings" showexportpanel="showExportPanel">
+		<button ng-exportbutton class="btn1 md-button md-raised md-primary" ng-click="openPopup('exportPanel');" data="geneData" settings="graphSettings" showexportpanel="showExportPanel" update-progress="updateProgress()">
 			Export
 		</button>
 		<span id="genefunction">{{graphSettings.displayedFunction}}</span>

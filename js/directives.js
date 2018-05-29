@@ -605,13 +605,14 @@
 				}
 			};
 		}])
-		.directive('ngExportbutton', ['d3', '$http', function(d3, $http) {
+		.directive('ngExportbutton', ['d3', '$http', '$interval', '$timeout', function(d3, $http, $interval, $timeout) {
 			return {
 				restrict: 'AE',
 				scope: {
 					data: "=data",
 					settings: "=settings",
-					showexportpanel: "=showexportpanel"
+					showexportpanel: "=showexportpanel",
+					updateProgress: "&updateProgress",
 				},
 				link: function(scope, element, attrs){
 					
@@ -661,10 +662,19 @@
 							data: $.param({svgdata: new XMLSerializer().serializeToString(svg), 
 										tsvdata: tsvstring,
 										width: svg_w}), 
-							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-						}
+
+							headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+						};
+
+						var sbarPromise = scope.updateProgress();
+
 						$http(req).then(function successCallback(response) {
 							console.log(response.data);
+
+							// Stop updating the progress bar
+							//$interval.cancel(sbarPromise);
+							//scope.finished = true;
+
 							var files = response.data.split("\n");
 							var whstr = files[6];
 

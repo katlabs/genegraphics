@@ -1,31 +1,32 @@
 <md-content class="md-padding">
-<div ng-controller="graphCtrl as gCtrl">
+	<div ng-controller="graphCtrl as gCtrl">
+		<div ng-controller="progressbarCtrl as pbCtrl">
 
-	<div ng-include="'views/toolbar.html'"></div>
+		<div ng-include="'views/toolbar.html'"></div>
 	
-	<!-- This is where the SVG will live -->
-	<div id="graphcontainer">
-		<d3-genes data="geneData" 
+		<!-- This is where the SVG will live -->
+		<div id="graphcontainer">
+			<d3-genes data="geneData" 
 							settings="graphSettings" 
 							copy="copy"
 							on-click="selectGene(index, x, y)" 
 							on-click-genome="selectGenome(index, x, y)" 
 							on-click-paste="addToClipboard(index)"
 							on-mouse-over-gene="changeDisplayedFunction(newfunction)">
-		</d3-genes>
-	</div>
-	<!-- A little footer that shows what files have been uploaded -->
-	<div>Files: 
-		<span ng-hide="graphSettings.currentFilesList.length">No file chosen</span>
-		<span ng-repeat="file in graphSettings.currentFilesList">{{file}}{{$last ? '' : ', '}}</span>
-	</div>
-	<br>
+			</d3-genes>
+		</div>
+		<!-- A little footer that shows what files have been uploaded -->
+		<div>Files: 
+			<span ng-hide="graphSettings.currentFilesList.length">No file chosen</span>
+			<span ng-repeat="file in graphSettings.currentFilesList">{{file}}{{$last ? '' : ', '}}</span>
+		</div>
+		<br>
 	
-	<!-- This popup box will be used for different types of menus -->
-	<div ng-include="'views/popup.html'" ng-controller="FileCtrl"></div>
+		<!-- This popup box will be used for different types of menus -->
+		<div ng-include="'views/popup.html'" ng-controller="FileCtrl"></div>
 	
-	<!-- This popup box will be used to point out the scrollbar -->
-	<div ng-include="'views/scrollbaralert.html'"></div>
-
+		<!-- This popup box will be used to point out the scrollbar -->
+		<div ng-include="'views/scrollbaralert.html'"></div>
+	</div>
 </div>
 </md-content>

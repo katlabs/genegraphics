@@ -13,6 +13,11 @@ from xml.etree import ElementTree as ET
 import sys
 import logging
 
+def writestatus(temp, status):
+    f = open(gettempdir() + "/" + temp, 'w')
+    f.write(status)
+    f.close()
+
 # Logging file location is based on script location
 logpath = os.path.abspath(os.path.realpath(__file__) + "/../../../log/svgtopng/")
 
@@ -83,17 +88,24 @@ isfile = Path(fullfnpng1)
 if not isfile.is_file():
     # Render SVG to PNG
     run(["/usr/bin/xvfb-run", "--server-args", "-screen 0, 1920x1024x24", "/home/ubuntu/bin/wkhtmltoimage", "--zoom", "3", "-f", "png", "--use-xserver", htmlfn , fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
+    writestatus(fn, "1")
     # Soften PNG 
     run(["/usr/bin/convert", fullfntmppng, "-blur", "1x0.2", fullfntmppng], stderr=DEVNULL, stdout=DEVNULL)
+    writestatus(fn, "2")
     # Create TIFF from PNG
     run(["/usr/bin/convert", fullfntmppng, fullfn_tiff], stderr=DEVNULL, stdout=DEVNULL)
+    writestatus(fn, "3")
     # Create EPS from SVG
     run(["/usr/bin/inkscape", "-E", fullfn_eps,  fullfnsvg, "--export-area-page","--export-text-to-path", "--export-ignore-filters"], stderr=DEVNULL, stdout=DEVNULL)
+    writestatus(fn, "4")
     logging.info("/usr/bin/inkscape" + "-E" +fullfn_eps+ fullfnsvg +"--export-area-page --export-text-to-path --export-ignore-filters")
     # Compress PNG (lossless)
     run(["/usr/bin/pngcrush", "-res", "300", fullfntmppng, fullfnpng1], stdout=DEVNULL, stderr=DEVNULL)
+    writestatus(fn, "5")
     # Create EMF from SVG
     run(["/usr/bin/inkscape", "--file", fullfnsvg, "--export-emf", fullfnemf], stdout=DEVNULL, stderr=DEVNULL)
+
+writestatus(fn, "6")
 
 # create a tsv file
 f = open(fullfntsv, 'w')
