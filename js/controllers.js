@@ -1805,6 +1805,7 @@
 			$scope.finished = false;
 			$scope.percent = 0;
 			$scope.hash = "";
+			$scope.error = "";
 
 			$scope.updateProgress = function(){
 				// Update hash of svg, which functions as request id
@@ -1812,6 +1813,7 @@
 				var svgxml = new XMLSerializer().serializeToString(svg);
 				$scope.hash = md5.createHash(svgxml);
 				$scope.finished = false;
+				$scope.errormsg = "";
 
 				console.log("update processing start");
 
@@ -1827,13 +1829,19 @@
 					  console.log("requesting update");
 
 				    $http(req).then(function successCallback(response) {
-
-							$scope.percent = (response.data/6)*100;
-							console.log("updating the progress [" + $scope.hash + "] " + $scope.percent);
-							if (response.data == "6\n"){
-								console.log("finished processing");
-								$scope.finished = true;
+							if (response.data.substr(0,7) == "Error: "){
+								console.log("There was an error: " + response.data.substr(7));
+								$scope.percent = 0;
+								$scope.errormsg = "There was an error: " + response.data.substr(7);
 								$interval.cancel($intervalCancel);
+							} else {
+								$scope.percent = (response.data/6)*100;
+								console.log("updating the progress [" + $scope.hash + "] " + $scope.percent);
+								if (response.data == "6\n"){
+									console.log("finished processing");
+									$scope.finished = true;
+									$interval.cancel($intervalCancel);
+								}
 							}
 						});
 					}, 10);

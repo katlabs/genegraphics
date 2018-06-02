@@ -116,7 +116,7 @@
 
 					scope.render = function(data){
 						
-						console.log("render " + rennum);
+						//console.log("render " + rennum);
 						rennum = rennum + 1;
 
 						var csstext = "text { font-family: Arial }";
@@ -644,14 +644,54 @@
 						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"scaleOn\":\"" + scope.settings.scaleOn +  "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\",\"arrows\":\"" + scope.settings.arrows + "\"}";
 						var tsvstring = outputtext;
 
+						var set_loading_icons = function(){
+							document.getElementById("pnglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+							document.getElementById("svglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+							document.getElementById("emflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+							document.getElementById("tsvlink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+							document.getElementById("tifflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+							document.getElementById("epslink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+						}
+						
+						var set_error_icons = function(){
+							document.getElementById("pnglink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
+							document.getElementById("pnglink").removeAttribute("href");
+							document.getElementById("pnglink").removeAttribute("download");
+							document.getElementById("svglink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
+							document.getElementById("svglink").removeAttribute("href");
+							document.getElementById("svglink").removeAttribute("download");
+							document.getElementById("emflink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
+							document.getElementById("emflink").removeAttribute("href");
+							document.getElementById("emflink").removeAttribute("download");
+							document.getElementById("tsvlink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
+							document.getElementById("tsvlink").removeAttribute("href");
+							document.getElementById("tsvlink").removeAttribute("download");
+							document.getElementById("tifflink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
+							document.getElementById("tifflink").removeAttribute("href");
+							document.getElementById("tifflink").removeAttribute("download");
+							document.getElementById("epslink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
+							document.getElementById("epslink").removeAttribute("href");
+							document.getElementById("epslink").removeAttribute("download");
+						}
+
+						var set_finished_icons = function(files){
+							document.getElementById("pnglink").innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>';
+							document.getElementById("pnglink").href = files[0];
+							document.getElementById("svglink").innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>SVG';
+							document.getElementById("svglink").href = files[1];
+							document.getElementById("emflink").innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EMF';
+							document.getElementById("emflink").href = files[2];
+							document.getElementById("tsvlink").innerHTML = '<i class="fa fa-file-excel-o fa-2x" aria-hidden="true"></i><br>TSV';
+							document.getElementById("tsvlink").href = files[3];
+							document.getElementById("tifflink").innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>TIFF';
+							document.getElementById("tifflink").href = files[4];
+							document.getElementById("epslink").innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EPS';
+							document.getElementById("epslink").removeAttribute("href");
+						}
+
 						// Render PNG and SVG serverside
 						var svg = d3.select("svg")[0][0];
-						document.getElementById("pnglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-						document.getElementById("svglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-						document.getElementById("emflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-						document.getElementById("tsvlink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-						document.getElementById("tifflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-						document.getElementById("epslink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
+						set_loading_icons();
 						var svg_w = d3.select("svg").style("width").replace(/\D/g,'');
 						var svg_h = d3.select("svg").style("height").replace(/\D/g,'');
 						console.log(svg_w);
@@ -669,33 +709,21 @@
 						var sbarPromise = scope.updateProgress();
 
 						$http(req).then(function successCallback(response) {
-							console.log(response.data);
-
-							// Stop updating the progress bar
-							//$interval.cancel(sbarPromise);
-							//scope.finished = true;
 
 							var files = response.data.split("\n");
-							var whstr = files[6];
-
-							var pnglink = document.getElementById("pnglink");
-							pnglink.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>';
-							pnglink.href = files[0];
-							var svglink = document.getElementById("svglink");
-							svglink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>SVG';
-							svglink.href = files[1];
-							var emflink = document.getElementById("emflink");
-							emflink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EMF';
-							emflink.href = files[2];
-							var tsvlink = document.getElementById("tsvlink");
-							tsvlink.innerHTML = '<i class="fa fa-file-excel-o fa-2x" aria-hidden="true"></i><br>TSV';
-							tsvlink.href = files[3];
-							var tifflink = document.getElementById("tifflink");
-							tifflink.innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>TIFF';
-							tifflink.href = files[4];
-							var epslink = document.getElementById("epslink");
-							epslink.innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EPS';
-							epslink.href = files[5];
+							console.log(files[0]);
+							if (files[0] == "Error"){
+								console.log("setting error icons");
+								set_error_icons();
+							}
+							else if (files === "Retry"){
+								console.log("Retrying...");
+							}
+							else {
+								var whstr = files[6];
+								console.log("setting finished icons");
+								set_finished_icons(files);
+							}
 						});
 
 						scope.showexportpanel = true;
