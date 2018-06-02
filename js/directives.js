@@ -686,7 +686,7 @@
 							document.getElementById("tifflink").innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>TIFF';
 							document.getElementById("tifflink").href = files[4];
 							document.getElementById("epslink").innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EPS';
-							document.getElementById("epslink").removeAttribute("href");
+							document.getElementById("epslink").href = files[5];
 						}
 
 						// Render PNG and SVG serverside
