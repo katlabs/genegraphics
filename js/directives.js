@@ -613,6 +613,7 @@
 					settings: "=settings",
 					showexportpanel: "=showexportpanel",
 					updateProgress: "&updateProgress",
+					updateError: "&updateError",
 				},
 				link: function(scope, element, attrs){
 					
@@ -694,8 +695,8 @@
 						set_loading_icons();
 						var svg_w = d3.select("svg").style("width").replace(/\D/g,'');
 						var svg_h = d3.select("svg").style("height").replace(/\D/g,'');
-						console.log(svg_w);
-
+						//console.log(svg_w);
+						
 						var req = {
 							method: 'POST',
 							url: '/cgi-bin/svgtopng.py',
@@ -711,19 +712,23 @@
 						$http(req).then(function successCallback(response) {
 
 							var files = response.data.split("\n");
-							console.log(files[0]);
+							//console.log(files[0]);
 							if (files[0] == "Error"){
-								console.log("setting error icons");
+								//console.log("setting error icons");
+								scope.updateError({msg:"The server encountered an error. Please try again in a few minutes."});
 								set_error_icons();
-							}
-							else if (files === "Retry"){
-								console.log("Retrying...");
 							}
 							else {
 								var whstr = files[6];
-								console.log("setting finished icons");
-								set_finished_icons(files);
+								//console.log("setting finished icons");
+								$timeout(function() {
+									scope.updateError({msg:"Success!"});
+									set_finished_icons(files);
+								}, 2000);
 							}
+						}, function errorCallback(response) {
+							scope.updateError({msg:"The server encountered an error. Please try again in a few minutes."});
+							set_error_icons();
 						});
 
 						scope.showexportpanel = true;

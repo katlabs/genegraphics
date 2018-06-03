@@ -343,6 +343,10 @@ md-autocomplete md-autocomplete-wrap button {
 	transition: 0.3s;
 }
 
+.fa-exclamation-triangle {
+	color: red;
+}
+
 input[type=range][orient=vertical]
 {
 		writing-mode: bt-lr; /* IE */

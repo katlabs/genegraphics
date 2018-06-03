@@ -8,7 +8,7 @@ import subprocess
 from PIL import Image
 import shlex
 #from subprocess import run, DEVNULL
-from subprocess import check_output, DEVNULL, STDOUT, Popen, PIPE
+from subprocess import check_output, run, DEVNULL, STDOUT, Popen, PIPE
 from tempfile import gettempdir
 from pathlib import Path
 from xml.etree import ElementTree as ET
@@ -24,6 +24,7 @@ def writestatus(temp, status):
 def send_error(msg, errs):
     logging.error("[error] " + msg)
     logging.error("[error] {0}".format(errs))
+    logging.error("[error] line no {0}".format(sys.exc_info()[-1].tb_lineno))
     writestatus(fn, "Error: " + msg)
     print("Content-type: text/html\n")
     print("Error")
@@ -40,7 +41,6 @@ def exec_command(cmd, statusnum, statusfn):
         logging.info('[cmd] ' + cmd)
         output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=20)
         logging.info('[cmd] command finished')
-            
         if output:
             logging.error("[output] " + str(output))
 
@@ -88,6 +88,7 @@ try:
         os.mkdir(fld)
 except Exception as e:
     logging.error("[error] {0}".format(e))
+    logging.error("[error] --- {0}".os.path.realpath(__file__))
     sys.exit()
 
 fn = md5(svgdata.encode('utf-8')).hexdigest()
@@ -102,6 +103,12 @@ fullfn_eps = fld + fn + '.eps'
 htmlfn = gettempdir() + '/' + fn + '.html'
 
 try:
+    # write svg file
+    f = open(fullfnsvg, 'w')
+    f.write(svgdata)
+    f.close()
+    logging.info("Wrote tmp svg file: " + fullfnsvg)
+
     # write an html file (for correct rendering for png)
     f = open(htmlfn, 'w')
     f.write("""<!DOCTYPE html>
@@ -117,15 +124,9 @@ try:
     f.write("""
             </body>
         </html>""")
-
-    # write svg file
-    f = open(fullfnsvg, 'w')
-    f.write(svgdata)
     f.close()
-    logging.info("Wrote tmp svg file: " + fullfnsvg)
 except Exception as e:
-    logging.error("[error] {0}".format(e))
-    sys.exit()
+    send_error("Decoding SVG to HTML", e)
 
 # create a compressed png file from svg using wkhtmltoimage and pngcrush
 isfile = Path(fullfnpng1)

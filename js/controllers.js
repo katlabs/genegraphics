@@ -1091,24 +1091,24 @@
 						}
 					}
 					else if ("DBSOURCE" === lines[i].slice(0, 8)) {
-						console.log("protein");
+						//console.log("protein");
 						var re = /[A-Z]+[_]?[A-Z]*[\d]+[\.]?[\d]?/;
 						var matches = lines[i].match(re);
 						obj.nuccsource = matches[0];
-						console.log(obj.nuccsource);
+						//console.log(obj.nuccsource);
 						j = i + 1;
 						while (typeof lines[j] !== 'undefined') {
 							textline = lines[j].trim().slice(1);
 							matches = textline.match(/([\w|\W]*)=([\w|\W]*)/);
-							console.log(matches);
+							//console.log(matches);
 							if(matches != null && matches[1] == "coded_by"){
 								obj.sourceloc = process_location(matches[2].replace(/\"/g, ''));
-								console.log(obj.sourceloc);
+								//console.log(obj.sourceloc);
 								return obj;
 							}
 							j++;
 						}
-						console.log("no coded_by");
+						//console.log("no coded_by");
 						return obj;
 					}
 					else if ("FEATURES" === lines[i].slice(0, 8)) {
@@ -1191,7 +1191,7 @@
 						}
 						organism = organism + " ("+copynum+")";
 					}
-					console.log(organism);
+					//console.log(organism);
 					var supported_features = ["CDS","gene","mRNA"];
 					while ( i < parsed.features.length){
 						var j = i;
@@ -1369,7 +1369,7 @@
 					var text = response.data;
 					var re_err = /Error.+/ig;
 					var err_match = re_err.exec(text);
-					console.log(err_match);
+					//console.log(err_match);
 					if (err_match != null){
 						$scope.gb.loadingFile = false;
 						$scope.gb.fetchID ="";
@@ -1378,7 +1378,7 @@
 					}
 					var re_listnum = /\d\. .+/g;
 					var items = text.match(re_listnum);
-					console.log(items)
+					//console.log(items)
 					if (items != null && items.length != 1){
 						$scope.gb.loadingFile = false;
 						$scope.gb.fetchID = "";
@@ -1422,7 +1422,7 @@
 						+ $scope.gb.fetchID;
 
 					$scope.fn = "NCBI query: " + $scope.gb.fetchID + "(" + $scope.gb.seqRangeStart + ".." + $scope.gb.seqRangeEnd + ")";
-				console.log(fetchURL);
+					//console.log(fetchURL);
 
 				$http.get(fetchURL).then(function successCallback(response){
 					parseNuccoreRes(response);
@@ -1460,13 +1460,13 @@
 			}
 
 			var tryProteinName = function(){
-				console.log($scope.gb.organismName);
+				//console.log($scope.gb.organismName);
 				var searchTerm = "("+$scope.gb.organismName+"[Primary Organism]) AND "+$scope.gb.geneName;
 				var searchTerm = encodeURI(searchTerm);
 				var searchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db="
 					+ "protein&term="
 					+ searchTerm;
-				console.log(searchURL);
+				//console.log(searchURL);
 				$http.get(searchURL).then(function successCallback(response){
 					parseProteinNameSearch(response);
 				}, function errorCallback(response){
@@ -1489,7 +1489,7 @@
 						$scope.gb.fetchID = $Id.text();
 						var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=gene&id="
 							+ $scope.gb.fetchID + "&retmode=text";
-						console.log(fetchURL);
+						//console.log(fetchURL);
 						$http.get(fetchURL).then(function successCallback(response){
 							parseGeneIDFetch(response);
 						}, function errorCallback(response){
@@ -1559,13 +1559,13 @@
 					$scope.gb.statusMessage = "Please enter a valid region (between 1 and 100,000 bp large).";
 					return;
 				}
-				console.log($scope.gb.geneName);
+				//console.log($scope.gb.geneName);
 				var searchTerm = "("+$scope.gb.fetchID+"[Nucleotide Accession]) AND "+$scope.gb.geneName+"[Gene Name]";
 				var searchTerm = encodeURI(searchTerm);
 				var searchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db="
 					+ $scope.gb.idtype.db + "&term="
 					+ searchTerm;
-				console.log(searchURL);
+				//console.log(searchURL);
 
 				$http.get(searchURL).then(function successCallback(response){
 					parseGeneNameSearch(response);
@@ -1595,13 +1595,13 @@
 			}
 
 			var tryGeneIDSearch = function(){
-				console.log($scope.gb.fetchID + "not a gene ID. Searching...");
+				//console.log($scope.gb.fetchID + "not a gene ID. Searching...");
 				var searchTerm = "("+ $scope.gb.fetchID + " AND (alive[prop]))";
 				var searchTerm = encodeURI(searchTerm);
 				var searchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db="
 					+ "gene&term="
 					+ searchTerm;
-				console.log(searchURL);
+				//console.log(searchURL);
 				$http.get(searchURL).then(function successCallback(response){
 					parseGeneIDSearch(response);
 				}, function errorCallback(response){
@@ -1610,7 +1610,7 @@
 			}
 
 			var getGeneID = function(){
-				console.log("gene ID");
+				//console.log("gene ID");
 				if($scope.gb.fetchID==""){
 					$scope.gb.loadingFile = false;
 					$scope.gb.statusMessage = "Please enter a valid gene ID."
@@ -1625,7 +1625,7 @@
 					var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db="
 						+ $scope.gb.idtype.db + "&id="
 						+ $scope.gb.fetchID + "&retmode=text";
-					console.log(fetchURL);
+					//console.log(fetchURL);
 
 					$http.get(fetchURL).then(function successCallback(response){
 						parseGeneIDFetch(response);
@@ -1656,7 +1656,7 @@
 				}
 				var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id="
 					+ $scope.gb.fetchID + "&rettype=gb&retmode=text";
-				console.log(fetchURL);
+				//console.log(fetchURL);
 				$http.get(fetchURL).then(function successCallback(response){
 					if(response.status == 200){
 						var parsed = readGBFeatures(response.data.match(/[^\r\n]+/g));
@@ -1672,7 +1672,7 @@
 							sourcestart = parseInt(parsed["sourceloc"][0]["start"]);
 							sourceend = parseInt(parsed["sourceloc"][0]["end"]);
 						}
-						console.log(nuccsource);
+						//console.log(nuccsource);
 						if (typeof nuccsource === 'undefined' || nuccsource === null) {
 							$scope.gb.loadingFile = false;
 							$scope.gb.statusMessage = "No source genome found. The entry may represent a protein annotated on multiple different genomes.";
@@ -1683,7 +1683,7 @@
 						} else {
 							$scope.gb.fetchID = nuccsource;
 							var region_flank = parseInt($scope.gb.fullRange/2);
-							console.log($scope.gb.fullRange + " " + region_flank);
+							//console.log($scope.gb.fullRange + " " + region_flank);
 							var gene_midpoint = parseInt((sourcestart+sourceend)/2);
 							if (sourcestart < region_flank){
 								$scope.gb.seqRangeStart = 0;
@@ -1697,7 +1697,7 @@
 							+ $scope.gb.seqRangeStart + "&seq_stop="
 							+ $scope.gb.seqRangeEnd + "&id="
 							+ $scope.gb.fetchID;
-						console.log(fetchURL);
+						//console.log(fetchURL);
 
 						$scope.fn = "NCBI query: " + $scope.gb.fetchID + "(" + $scope.gb.seqRangeStart + ".." + $scope.gb.seqRangeEnd + ")";
 						$http.get(fetchURL).then(function successCallback(response){
@@ -1732,7 +1732,7 @@
 				}
 				else {
 					$scope.gb.loadingFile = false;
-					console.log($scope.gb.idtype.display);
+					//console.log($scope.gb.idtype.display);
 				}
 				$scope.gb.selectedItem = undefined;
 				$scope.gb.searchText = '';
@@ -1770,7 +1770,7 @@
 			$scope.clearGraphSettings = function(){
 				var ret = confirm("This will clear all of your custom graph and font settings and return them to default values.\nAre you sure you would like to clear this data?");
 				if (ret == true){
-					console.log(geneService.offset)
+					//console.log(geneService.offset)
 					localStorage.savedSettings = null;
 					$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;
 					$scope.graphSettings.featureheight = 50;
@@ -1794,7 +1794,7 @@
 					var defaultFontSize = "12pt";
 					$scope.globalFontSize("genomes", defaultFontSize);
 					$scope.globalFontSize("genes", defaultFontSize);
-					console.log(geneService.offset);
+					//console.log(geneService.offset);
 				}
 				else {
 					return;
@@ -1805,7 +1805,11 @@
 			$scope.finished = false;
 			$scope.percent = 0;
 			$scope.hash = "";
-			$scope.error = "";
+			$scope.errormsg = "";
+
+			$scope.updateError = function(msg){
+				$scope.errormsg = msg;
+			}
 
 			$scope.updateProgress = function(){
 				// Update hash of svg, which functions as request id
@@ -1815,7 +1819,7 @@
 				$scope.finished = false;
 				$scope.errormsg = "";
 
-				console.log("update processing start");
+				//console.log("update processing start");
 
 				var $intervalCancel = $interval(function() {
 			    $timeout(function() {
@@ -1826,26 +1830,25 @@
 							headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 						};
 
-					  console.log("requesting update");
+						//console.log("requesting update");
 
 				    $http(req).then(function successCallback(response) {
 							if (response.data.substr(0,7) == "Error: "){
-								console.log("There was an error: " + response.data.substr(7));
+								//console.log("There was an error: " + response.data.substr(7));
 								$scope.percent = 0;
-								$scope.errormsg = "There was an error: " + response.data.substr(7);
 								$interval.cancel($intervalCancel);
 							} else {
 								$scope.percent = (response.data/6)*100;
-								console.log("updating the progress [" + $scope.hash + "] " + $scope.percent);
+								//console.log("updating the progress [" + $scope.hash + "] " + $scope.percent);
 								if (response.data == "6\n"){
-									console.log("finished processing");
+									//console.log("finished processing");
 									$scope.finished = true;
 									$interval.cancel($intervalCancel);
 								}
 							}
 						});
 					}, 10);
-				}, 3000);
+				}, 1000);
 			}
 		}])
 		.controller('popupCtrl', ['$scope', '$interval', 'popupMenuService', function($scope, $interval, popupMenuService){
