@@ -39,7 +39,7 @@ def exec_command(cmd, statusnum, statusfn):
         #outs, errs = proc.communicate(timeout=40)
         #cmd = 'exec ' + cmd
         logging.info('[cmd] ' + cmd)
-        output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=20)
+        output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=40)
         logging.info('[cmd] command finished')
         if output:
             logging.error("[output] " + str(output))
