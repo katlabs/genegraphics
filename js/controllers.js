@@ -1416,13 +1416,13 @@
 					var mid = Math.floor((stop + start)/2)
 					$scope.gb.seqRangeStart = mid - Math.floor($scope.gb.fullRange/2);
 					$scope.gb.seqRangeEnd = mid + Math.ceil($scope.gb.fullRange/2);
-					var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gbwithparts&seq_start="
+					var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gbwithparts&retmode=text&seq_start="
 						+ $scope.gb.seqRangeStart + "&seq_stop="
 						+ $scope.gb.seqRangeEnd + "&id="
 						+ $scope.gb.fetchID;
 
 					$scope.fn = "NCBI query: " + $scope.gb.fetchID + "(" + $scope.gb.seqRangeStart + ".." + $scope.gb.seqRangeEnd + ")";
-					//console.log(fetchURL);
+					console.log(fetchURL);
 
 				$http.get(fetchURL).then(function successCallback(response){
 					parseNuccoreRes(response);
@@ -1529,7 +1529,7 @@
 				}
 
 				var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db="
-					+ $scope.gb.idtype.db + "&rettype=gbwithparts&seq_start="
+					+ $scope.gb.idtype.db + "&rettype=gbwithparts&retmode=text&seq_start="
 					+ $scope.gb.seqRangeStart + "&seq_stop="
 					+ $scope.gb.seqRangeEnd + "&id="
 					+ $scope.gb.fetchID;
@@ -1693,7 +1693,7 @@
 								$scope.gb.seqRangeEnd = gene_midpoint + region_flank;
 							}
 						}
-						var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gbwithparts&seq_start="
+						var fetchURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gbwithparts&retmode=text&seq_start="
 							+ $scope.gb.seqRangeStart + "&seq_stop="
 							+ $scope.gb.seqRangeEnd + "&id="
 							+ $scope.gb.fetchID;
