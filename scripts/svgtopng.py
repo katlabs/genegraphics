@@ -132,7 +132,7 @@ except Exception as e:
 isfile = Path(fullfnpng1)
 if not isfile.is_file():
     # Render SVG to PNG
-    cmd = 'xvfb-run -e /dev/stderr --server-args="-screen 0, 1920x1024x24" /home/ubuntu/bin/wkhtmltoimage --zoom 3 -f png --use-xserver {} {}'.format(htmlfn,fullfntmppng)
+    cmd = 'xvfb-run -a -e /dev/stderr --server-args="-screen 0, 1920x1024x24" /home/ubuntu/bin/wkhtmltoimage --zoom 3 -f png --use-xserver {} {}'.format(htmlfn,fullfntmppng)
     exec_command(cmd, "1", fn)
 
     # Soften PNG
