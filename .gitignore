@@ -1,1 +1,5 @@
-temp/
+static/userimgs
+imageproc/secrets.py
+__pycache__
+*.pyc
+*.wsgi
