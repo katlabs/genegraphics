@@ -2,7 +2,9 @@
 	<div ng-controller="graphCtrl as gCtrl">
 		<div ng-controller="progressbarCtrl as pbCtrl">
 
-		<div ng-include="'views/toolbar.html'"></div>
+			<div>
+				{% include 'toolbar.html' %}
+			</div>
 	
 		<!-- This is where the SVG will live -->
 		<div id="graphcontainer">
@@ -18,15 +20,19 @@
 		<!-- A little footer that shows what files have been uploaded -->
 		<div>Files: 
 			<span ng-hide="graphSettings.currentFilesList.length">No file chosen</span>
-			<span ng-repeat="file in graphSettings.currentFilesList">{{file}}{{$last ? '' : ', '}}</span>
+			<span ng-repeat="file in graphSettings.currentFilesList">{a file a}{a $last ? '' : ', ' a}</span>
 		</div>
 		<br>
 	
 		<!-- This popup box will be used for different types of menus -->
-		<div ng-include="'views/popup.html'" ng-controller="FileCtrl"></div>
+		<div ng-controller="FileCtrl">
+			{% include 'popup.html' %}
+		</div>
 	
 		<!-- This popup box will be used to point out the scrollbar -->
-		<div ng-include="'views/scrollbaralert.html'"></div>
+		<div>
+			{% include 'scrollbaralert.html' %}
+		</div>
 	</div>
 </div>
 </md-content>

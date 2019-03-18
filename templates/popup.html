@@ -10,8 +10,8 @@
 		<md-input-container class="md-block" flex-gt-sm>
 			<label>Search by</label>
 			<md-select ng-model="gb.idtype" ng-model-options="{trackBy: '$value.display'}">
-				<md-option ng-repeat="type in gb.idtypes" ng-value="{{type}}">
-					{{type.display}}
+				<md-option ng-repeat="type in gb.idtypes" ng-value="{a type a}">
+					{a type.display a}
 				</md-option>
 			</md-select>
 		</md-input-container>
@@ -20,7 +20,7 @@
 			<input ng-model="gb.geneName">
 		</md-input-container>
 		<md-input-container class="md-block" ng-show="gb.idtype.display=='Gene ID'||gb.idtype.display=='Protein ID'" flex-gt-sm>
-			<label>{{gb.idtype.display}}</label>
+			<label>{a gb.idtype.display a}</label>
 			<input ng-model="gb.fetchID">
 		</md-input-container>
 		<md-input-container ng-controller="gbAutoCompCtrl" class="md-block" ng-show="gb.idtype.display=='Genome location'||gb.idtype.display=='Gene symbol and organism'" flex-gt-sm>
@@ -40,12 +40,12 @@
 					md-menu-class="autocomplete-custom-template">
 					<md-item-template>
 						<span class="item-title">
-							<span md-highlight-text="gb.searchText" md-highlight-flags="i"> {{item.organism}} </span>
+							<span md-highlight-text="gb.searchText" md-highlight-flags="i"> {a item.organism a} </span>
 						</span>
 						<span class="item-metadata">
 							<span>
-								<span md-highlight-text="gb.searchText" md-highlight-flags="i">RefSeq ID: {{item.refseqid}}</span>
-								<span md-highlight-text="gb.searchText" md-highlight-flags="i">GenBank ID: {{item.gbid}}</span>
+								<span md-highlight-text="gb.searchText" md-highlight-flags="i">RefSeq ID: {a item.refseqid a}</span>
+								<span md-highlight-text="gb.searchText" md-highlight-flags="i">GenBank ID: {a item.gbid a}</span>
 							</span>
 						</span>
 					</md-item-template>
@@ -70,44 +70,40 @@
 		</div>
 		<button class="btn1 md-button md-raised md-primary" ng-click="submitNCBIQuery();">Submit</button><br>
 		<md-progress-linear ng-show="gb.loadingFile" md-mode="indeterminate"></md-progress-linear>
-		<span id="statusmessage">{{gb.statusMessage}}</span>
+		<span id="statusmessage">{a gb.statusMessage a}</span>
 	</div>
 	
 	<!-- Export panel -->
-	<div id="exportPanel" class="popupcontentsglb" ng-show="showExportPanel">
+	<div id="exportPanel" class="popupcontentsglb" ng-show="showExportPanel" ng-controller="exportCtrl">
 		<h4>Export Files</h4> 
 		To save a file, right click on the link and choose "Save As". (On Mac:⌘ + click and "Download linked file as..." Then, give the file a name and the correct file extension on the save prompt.)<br><br>
-			<md-progress-linear md-mode="determinate" value="{{percent}}"></md-progress-linear>
-			<span id="exporterror">{{errormsg}}</span>
-		<table style="width:100%; border-spacing: 10px; font-size: 10pt">
-			<col style="width:16%">
-			<col style="width:16%">
-			<col style="width:17%">
-			<col style="width:17%">
-			<col style="width:17%">
-			<col style="width:17%">
-			<tr>
-				<td style="text-align:center; vertical-align:top;">
-					<a id="pnglink" href="" download="newgenegraphic.png"></a>
-				</td>
-				<td style="text-align:center; vertical-align:top;">
-					<a id="svglink" href="" download="newgenegraphic.svg"></a>
-				</td>
-				<td style="text-align:center; vertical-align:top;">
-					<a id="emflink" href="" download="newgenegraphic.emf"></a>
-				</td>
-				<td style="text-align:center; vertical-align:top;">
-					<a id="tsvlink" href="" download="newgenegraphic.tsv"></a>
-				</td>
-				<td style="text-align:center; vertical-align:top;">
-					<a id="tifflink" href="" download="newgenegraphic.tiff"></a>
-				</td>
-				<td style="text-align:center; vertical-align:top;">
-					<a id="epslink" href="" download="newgenegraphic.eps"></a>
-				</td>
-			</tr>
-		</table>
-	</div>
+		<form name="exportForm">
+			<div layout="row" layout-align="space-around" >
+				<div flex="70">
+					<md-select name="exporttype" ng-model="exportType" placeholder="Select filetype for download" required>
+						<md-option ng-value="type" ng-repeat="type in exportTypes">
+							{a type a}
+						</md-option>
+					</md-select>
+			  </div>
+			  <div>
+				  <button ng-click="submitExport()" class="btn1 md-button md-raised md-primary">Submit</button>
+			  </div>
+		  </div>
+	  </form>
+	  <div>
+		  <h3>Progress</h3>
+	    <md-progress-linear md-mode="determinate" value="{a percent a}"></md-progress-linear>
+		  <div layout="row" layout-align="space-around center">
+			  <span id="exportmessage" ng-show="message" layout="row" flex="70">{a message a}</span>
+			  <div>
+				  <md-button class="btn1 md-button md-raised md-primary" download="{a image_name a}" href="{a image_path a}" ng-show="image_path">
+					  <i class="material-icons">cloud_download</i> Download
+				  </md-button>
+			  </div>
+		  </div>
+	  </div>
+  </div>
 	
 	<!-- Menu for editing a gene -->
 	<div id="geneMenu" ng-show="showGeneMenu">
@@ -122,9 +118,9 @@
 				</button>
 				<button class="icoIndivBtn md-icon-button" ng-click="toggleLockGene(graphSettings.selectedGene)">
 					<md-tooltip>
-						{{geneData[graphSettings.selectedGene]['genelocked'] === true ? 'Unlock' : 'Lock'}} gene label
+						{a geneData[graphSettings.selectedGene]['genelocked'] === true ? 'Unlock' : 'Lock' a} gene label
 					</md-tooltip>
-					<md-icon class="material-icons md-18 blueicon">{{geneData[graphSettings.selectedGene]['genelocked'] === true ? 'lock_outline' : 'lock_open'}}</md-icon>
+					<md-icon class="material-icons md-18 blueicon">{a geneData[graphSettings.selectedGene]['genelocked'] === true ? 'lock_outline' : 'lock_open' a}</md-icon>
 				</button>
 				<button class="icoIndivBtn md-icon-button" ng-click="deleteGene(graphSettings.selectedGene);">
 					<md-tooltip>
@@ -150,9 +146,9 @@
 			<div>
 			<button class="icoIndivBtn md-icon-button" ng-click="toggleLockGenome(genome.newGenome)">
 				<md-tooltip>
-					{{geneData[genomesHash[genome.newGenome][0]]['genomelocked'] === true ? 'Unlock' : 'Lock'}} genome label
+					{a geneData[genomesHash[genome.newGenome][0]]['genomelocked'] === true ? 'Unlock' : 'Lock' a} genome label
 				</md-tooltip>
-				<md-icon class="material-icons md-18 blueicon">{{geneData[genomesHash[genome.newGenome][0]]['genomelocked'] === true ? 'lock_outline' : 'lock_open'}}</md-icon>
+				<md-icon class="material-icons md-18 blueicon">{a geneData[genomesHash[genome.newGenome][0]]['genomelocked'] === true ? 'lock_outline' : 'lock_open' a}</md-icon>
 			</button>
 			<button class="icoIndivBtn md-icon-button" ng-click="deleteGenome(graphSettings.selectedGene);">
 				<md-tooltip>
@@ -186,13 +182,13 @@
 	<div id="laneDialog" ng-show="showLaneDialog">
 		<h4>Edit Lane Settings</h4> 
 		<md-switch class="md-primary" ng-model="graphSettings.multilane" ng-click="clickMultiLane()">
-			{{graphSettings.multilane === true ? "Overlapping genes move to a new lane" : "All genes will be on the same lane"}}
+			{a graphSettings.multilane === true ? "Overlapping genes move to a new lane" : "All genes will be on the same lane" a}
 		</md-switch>
 		<md-switch class="md-primary" ng-disabled="graphSettings.multilane" ng-model="graphSettings.shiftgenes" ng-click="clickShiftgenes()">
-			{{graphSettings.shiftgenes === true ? "Overlapping genes are shifted" : "Genes may overlap each other"}}
+			{a graphSettings.shiftgenes === true ? "Overlapping genes are shifted" : "Genes may overlap each other" a}
 		</md-switch>
 		<md-switch class="md-primary" ng-disabled="!graphSettings.shiftgenes || graphSettings.multilane" ng-model="graphSettings.keepgaps">
-			{{graphSettings.keepgaps === true ? "Gaps between genes are visible" : "No gaps are shown between genes"}}
+			{a graphSettings.keepgaps === true ? "Gaps between genes are visible" : "No gaps are shown between genes" a}
 		</md-switch>
 	</div>
 	
@@ -200,7 +196,7 @@
 	<div id="scaleDialog" ng-show="showScaleDialog">
 		<h4>Edit Scale Settings</h4>
 		<md-switch ng-model="graphSettings.scaleOn">
-			{{graphSettings.scaleOn === true ? "Scale is on" : "Scale is off"}}
+			{a graphSettings.scaleOn === true ? "Scale is on" : "Scale is off" a}
 		</md-switch>
 	</div>
 
@@ -209,15 +205,15 @@
 		<h4>Edit Gene Shape</h4>
 		<md-switch ng-model="graphSettings.arrows">
 			<md-icon class="material-icons md-18 blueicon">
-				{{graphSettings.arrows === true ? 'compare_arrows' : 'label_outline'}}
+				{a graphSettings.arrows === true ? 'compare_arrows' : 'label_outline' a}
 			</md-icon>
-				{{graphSettings.arrows === true ? 'Arrows' : 'Tags'}}
+				{a graphSettings.arrows === true ? 'Arrows' : 'Tags' a}
 		</md-switch>
 	</div>
 	
 	<!-- Global Dialog for Genome or Gene Labels -->
 	<div id="globalLabels" class="popupcontentsglb" ng-show="showGlobalGenome || showGlobalGene">
-		<h4>Change Settings for All {{showGlobalGenome ? 'Genome' : 'Gene'}} Labels</h4>
+		<h4>Change Settings for All {a showGlobalGenome ? 'Genome' : 'Gene' a} Labels</h4>
 		<div id="TB1" class="customToolbar">
 			<div id="TB1g1" class="customBtnGrp">
 				<button id="alignleft" class="icoFormatBtn md-icon-button" ng-click="globalAlign((showGlobalGenome ? 'genomes' : 'genes'),'left');">
@@ -249,7 +245,7 @@
 					</button>
 					<md-menu-content width="2">
 						<md-menu-item ng-repeat="size in graphSettings.fontSizeOptions">
-							<button class="md-button btn2" ng-click="globalFontSize((showGlobalGenome ? 'genomes' : 'genes'), size)">{{size}}</button>
+							<button class="md-button btn2" ng-click="globalFontSize((showGlobalGenome ? 'genomes' : 'genes'), size)">{a size a}</button>
 						</md-menu-item>
 					</md-menu-content>
 				</md-menu>
@@ -273,19 +269,19 @@
 					<md-tooltip>
 						Align top
 					</md-tooltip>
-					<md-icon class="material-icons md-16 {{showGlobalGenome ? 'grayicon' : 'blackicon'}}">vertical_align_top</md-icon>
+					<md-icon class="material-icons md-16 {a showGlobalGenome ? 'grayicon' : 'blackicon' a}">vertical_align_top</md-icon>
 				</button>		
 				<button id="middlegenes" class="icoFormatBtn md-icon-button" ng-disabled="showGlobalGenome" ng-click="globalAlign('genes','middle');">
 					<md-tooltip>
 						Align middle
 					</md-tooltip>
-					<md-icon class="material-icons md-16 {{showGlobalGenome ? 'grayicon' : 'blackicon'}}">vertical_align_center</md-icon>
+					<md-icon class="material-icons md-16 {a showGlobalGenome ? 'grayicon' : 'blackicon' a}">vertical_align_center</md-icon>
 				</button>		
 				<button id="bottomgenes" class="icoFormatBtn md-icon-button" ng-disabled="showGlobalGenome" ng-click="globalAlign('genes','bottom');">
 					<md-tooltip>
 						Align bottom
 					</md-tooltip>
-					<md-icon class="material-icons md-16 {{showGlobalGenome ? 'grayicon' : 'blackicon'}}">vertical_align_bottom</md-icon>
+					<md-icon class="material-icons md-16 {a showGlobalGenome ? 'grayicon' : 'blackicon' a}">vertical_align_bottom</md-icon>
 				</button>	
 			</div>
 			<div id="TB2g2" class="customBtnGrp">
@@ -300,15 +296,15 @@
 			<div id="TB2g3" class="customBtnGrp">
 				<button id="unlocklabels" class="icoFormatBtn md-icon-button" ng-click="unlockLabels((showGlobalGenome ? 'genome' : 'gene'));">
 					<md-tooltip>
-						Unlock all {{showGlobalGenome ? 'genome' : 'gene'}} labels
+						Unlock all {a showGlobalGenome ? 'genome' : 'gene' a} labels
 					</md-tooltip>
 					<md-icon class="material-icons md-16 blueicon">lock_open</md-icon>
 				</button>
 				<button id="deleteLabels" class="icoFormatBtn md-icon-button blueicon" ng-click="remOrToggleLabels((showGlobalGenome ? 'genome' : 'gene'));" >
 					<md-tooltip>
-						{{showGlobalGenome ? graphSettings.genomesHidden ? 'Show genome labels' : 'Hide all genome labels' : 'Delete all gene labels'}}
+						{a showGlobalGenome ? graphSettings.genomesHidden ? 'Show genome labels' : 'Hide all genome labels' : 'Delete all gene labels' a}
 					</md-tooltip>
-					<md-icon class="material-icons md-16 blueicon">{{showGlobalGenome ? graphSettings.genomesHidden ? 'visibility' : 'visibility_off' : 'delete_forever'}}</md-icon>
+					<md-icon class="material-icons md-16 blueicon">{a showGlobalGenome ? graphSettings.genomesHidden ? 'visibility' : 'visibility_off' : 'delete_forever' a}</md-icon>
 				</button>
 			</div>
 		</div>
@@ -320,13 +316,13 @@
 			Choose which attributes to apply, then click on each gene you would like the attributes applied to, and click "Paste".<br/><br/>
 			<div>
 				<md-checkbox ng-model="copy.settings.genecolor.value">
-					{{copy.settings.genecolor.label}}
-				</md-checkbox><span id="colorbox" style="background-color: {{geneData[graphSettings.selectedGene]['color']}};"></span><br/>
+					{a copy.settings.genecolor.label a}
+				</md-checkbox><span id="colorbox" style="background-color: {a geneData[graphSettings.selectedGene]['color'] a};"></span><br/>
 				<md-checkbox ng-model="copy.settings.labeltext.value">
-					{{copy.settings.labeltext.label}}
-				</md-checkbox><span id="labeltext">{{geneData[graphSettings.selectedGene]['name']}}</span><br/>
+					{a copy.settings.labeltext.label a}
+				</md-checkbox><span id="labeltext">{a geneData[graphSettings.selectedGene]['name'] a}</span><br/>
 			</div>
-		<span >Selected <strong>{{copy.geneClipboard.length}}</strong> gene<span ng-if="copy.geneClipboard.length!=1">s</span>.</span>
+		<span >Selected <strong>{a copy.geneClipboard.length a}</strong> gene<span ng-if="copy.geneClipboard.length!=1">s</span>.</span>
 		<button class="btn1 md-button md-raised md-primary" ng-click="clickPaste()" style="position:absolute; right: 20px; bottom: 10px;">Paste</button>
 	</div>
 </div>

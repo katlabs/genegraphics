@@ -23,31 +23,31 @@
 							<strong style="padding:5px">Tutorial 1</strong>
 							<md-divider></md-divider>
 							<md-menu-item>
-								<button class="md-button btn2" ng-click="tutorialFile('data/tutorial1/genegraphics_tutorial1_unedited.tsv','tsv');">
+								<button class="md-button btn2" ng-click="tutorialFile('/genegraphics/static/data/tutorial1/genegraphics_tutorial1_unedited.tsv','tsv');">
 									Unedited
 								</button>
 							</md-menu-item>
 							<md-menu-item>
-								<button class="md-button btn2" ng-click="tutorialFile('data/tutorial1/genegraphics_tutorial1_finished.tsv ','tsv');">
+								<button class="md-button btn2" ng-click="tutorialFile('/genegraphics/static/data/tutorial1/genegraphics_tutorial1_finished.tsv ','tsv');">
 									Final Result
 								</button>
 							</md-menu-item>
 							<strong style="padding:5px">Tutorial 2</strong>
 							<md-divider></md-divider>
 							<md-menu-item>
-								<button class="md-button btn2" ng-click="tutorialFile('data/tutorial2/tutorial2_finalproduct.tsv','tsv');">
+								<button class="md-button btn2" ng-click="tutorialFile('/genegraphics/static/data/tutorial2/tutorial2_finalproduct.tsv','tsv');">
 									Final Result
 								</button>
 							</md-menu-item>
 							<strong style="5px">Tutorial 3</strong>
 							<md-divider></md-divider>
 							<md-menu-item>
-								<button class="md-button btn2" ng-click="tutorialFile('data/tutorial3/tutorial3_SEEDexport.tsv','tsv');">
+								<button class="md-button btn2" ng-click="tutorialFile('/genegraphics/static/data/tutorial3/tutorial3_SEEDexport.tsv','tsv');">
 									Unedited
 								</button>
 							</md-menu-item>
 							<md-menu-item>
-								<button class="md-button btn2" ng-click="tutorialFile('data/tutorial3/tutorial3_finalproduct.tsv','tsv');">
+								<button class="md-button btn2" ng-click="tutorialFile('/genegraphics/static/data/tutorial3/tutorial3_finalproduct.tsv','tsv');">
 									Final Result
 								</button>
 							</md-menu-item>
@@ -117,9 +117,9 @@
 				</md-menu-item>
 			</md-menu-content>
 		</md-menu>
-		<button ng-exportbutton class="btn1 md-button md-raised md-primary" ng-click="openPopup('exportPanel');" data="geneData" settings="graphSettings" showexportpanel="showExportPanel" update-progress="updateProgress()" update-error="updateError(msg)">
+		<button class="btn1 md-button md-raised md-primary" ng-click="openPopup('exportPanel');">
 			Export
 		</button>
-		<span id="genefunction">{{graphSettings.displayedFunction}}</span>
+		<span id="genefunction">{a graphSettings.displayedFunction a}</span>
 	</md-menu-bar>
 </md-toolbar>

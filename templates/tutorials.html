@@ -1,13 +1,13 @@
 <md-content class="md-padding">
 
 <h1 class="md-display-2">Tutorials</h1>
-<p class="tutDesc"><b><a href="tutorial1.html" target="_blank">Tutorial 1: DUF208</a></b><br>
+<p class="tutDesc"><b><a href="{{ url_for('tutorials', tutorial_num='1') }}" target="_blank">Tutorial 1: DUF208</a></b><br>
 With this example, learn to obtain needed genomic information using the “Fetch from NCBI” menu, and learn how to manipulate an image to your expected design. This tutorial is focused on DUF208, a gene discovered involved in Queuosine biosynthesis.
 </p>
-<p class="tutDesc"><b><a href="tutorial2.html" target="_blank">Tutorial 2: Genbank File</a></b><br>
+<p class="tutDesc"><b><a href="{{ url_for('tutorials', tutorial_num='2') }}" target="_blank">Tutorial 2: Genbank File</a></b><br>
 	Learn how to obtain a genome on NCBI Genbank and use it to create an image. This tutorial focuses on the folate-cleaving side-activity of ketopantoate hydroxymethyltransferase (PanB).
 </p>
-<p class="tutDesc"><b><a href="tutorial3.html" target="_blank">Tutorial 3: DUF89 Subfamily I Neighborhoods</a></b><br>
+<p class="tutDesc"><b><a href="{{ url_for('tutorials', tutorial_num='3') }}" target="_blank">Tutorial 3: DUF89 Subfamily I Neighborhoods</a></b><br>
 	Learn to acquire and then edit a TSV file from the SEED database. Upload the file to Genegraphics, edit the image, and export the image. This tutorial illustrates that DUF89 is associated with purine metabolism genes.
 </p>
 </md-content>

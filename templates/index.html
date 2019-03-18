@@ -4,36 +4,47 @@
 		<meta charset="utf-8"/>
 		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 		<title>Gene Graphics</title>
-		<script src="https://use.fontawesome.com/dffe5a7418.js"></script>
-		<link rel="stylesheet" type="text/css" href="styles/main.css">
-		<link rel="stylesheet" type="text/css" href="bower_components/spectrum/spectrum.css">
-		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css')  }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/spectrum/spectrum.css')  }}">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand|Raleway:500" rel="stylesheet">
+		<script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/angular/angular.min.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/angular-material/angular-material.min.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/angular-animate/angular-animate.min.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/angular-aria/angular-aria.min.js')  }}"></script>
+		<script src="https://use.fontawesome.com/dffe5a7418.js"></script>
+		<script src="{{ url_for('static', filename='bower_components/angular-messages/angular-messages.min.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/angular-md5/angular-md5.min.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/spectrum/spectrum.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/tinymce/tinymce.min.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/angular-ui-tinymce/src/tinymce.js')  }}"></script>
+		<script src="{{ url_for('static', filename='bower_components/angular-spectrum-colorpicker/dist/angular-spectrum-colorpicker.min.js')  }}"></script>
+		<script src="{{ url_for('static', filename='js/geneGraphApp.js')  }}"></script>
+		<script src="{{ url_for('static', filename='js/services.js')  }}"></script>
+		<script src="{{ url_for('static', filename='js/controllers.js')  }}"></script>
+		<script src="{{ url_for('static', filename='js/directives.js')  }}"></script>
 	</head>
-	<body ng-app="geneGraphApp" class="tabsClass">
-		<md-content ng-controller="tabsCtrl as tCtrl">
-			<md-tabs md-dynamic-height="" md-border-bottom="">
-				<md-tab ng-repeat="tab in tCtrl.tabs" label="{{tab.title}}">
-					<div ng-include="tab.content"></div>
-				</md-tab>
-				</md-tabs>
-			</md-content>
-		<script src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
-		<script src="bower_components/tinymce/tinymce.min.js"></script>
-		<script src="bower_components/angular/angular.min.js"></script>
-		<script type="text/javascript" src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
-		<script src="bower_components/angular-md5/angular-md5.min.js"></script>
-		<script src="bower_components/angular-aria/angular-aria.min.js"></script>
-		<script src="bower_components/angular-messages/angular-messages.min.js"></script>
-		<script src="bower_components/angular-material/angular-material.min.js"></script>
-		<script src="bower_components/angular-animate/angular-animate.min.js"></script>
-		<script src="bower_components/spectrum/spectrum.js"></script>
-		<script src="bower_components/angular-spectrum-colorpicker/dist/angular-spectrum-colorpicker.min.js"></script>
-		<script src="js/geneGraphApp.js"></script>
-		<script src="js/services.js"></script>
-		<script src="js/controllers.js"></script>
-		<script src="js/directives.js"></script>
+	<body ng-app="geneGraphApp">
+		<md-content class="md-padding" ng-controller="NavCtrl" ng-cloak>
+			<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+				<md-nav-item md-nav-href="{{ url_for('genegraphics_tab', tab='description') }}" name="description">Description</md-nav-item>
+				<md-nav-item md-nav-href="{{ url_for('genegraphics_tab', tab='app') }}" name="app">App</md-nav-item>
+				<md-nav-item md-nav-href="{{ url_for('genegraphics_tab', tab='tutorials') }}" name="tutorials">Tutorials</md-nav-item>
+			</md-nav-bar>
+			<div class="ext-content" ng-cloak>
+				{% if tab == 'description' %}
+					{% include 'description.html' %}
+				{% endif %}
+				{% if tab == 'app' %}
+					{% include 'app.html' %}
+				{% endif %}
+				{% if tab == 'tutorials' %}
+					{% include 'tutorials.html' %}
+				{% endif %}
+			</div>
+		</md-content>
 	</body>
 </html>

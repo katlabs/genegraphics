@@ -538,8 +538,8 @@
 								svgstr = svgstr.replace(re, replacement);
 							}
 							svgstr = svgstr.replace(/<span/g, '<tspan');
-							svgstr = svgstr.replace(/style=\"(font-family|font-size):\s?([^\"\;]*);"/g, '$1="$2"');
-							svgstr = svgstr.replace(/style=\"(color):\s?([^\"\;]*);"/g, 'fill="$2"');
+							svgstr = svgstr.replace(/(font-family|font-size):\s?([^\"\;]*)/g, '$1:$2');
+							svgstr = svgstr.replace(/(color):\s?([^\"\;]*)/g, 'fill:$2');
 							svgstr = svgstr.replace(/(<\/strong>)|(<\/em>)|(<\/span>)|(<\/p>)/g, '</tspan>');
 							return svgstr;
 						}
@@ -604,137 +604,6 @@
 					};
 				}
 			};
-		}])
-		.directive('ngExportbutton', ['d3', '$http', '$interval', '$timeout', function(d3, $http, $interval, $timeout) {
-			return {
-				restrict: 'AE',
-				scope: {
-					data: "=data",
-					settings: "=settings",
-					showexportpanel: "=showexportpanel",
-					updateProgress: "&updateProgress",
-					updateError: "&updateError",
-				},
-				link: function(scope, element, attrs){
-					
-					element.bind('click', function exportFiles() {
-
-						if (scope.data == null){
-							return;
-						}
-						// Create TSV String
-						var outputtext = "genome\tgenomehtml\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tname\tnamehtml\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
-						var genelines = "";
-						for (var i = 0; i < scope.data.length; i++) {
-							genelines += scope.data[i].genome + "\t";
-							genelines += scope.data[i].genomehtml + "\t";
-							genelines += scope.data[i].genelocked + "\t";
-							genelines += scope.data[i].genomelocked + "\t";
-							genelines += scope.data[i].labelpos.x + "," + scope.data[i].labelpos.x + "\t";
-							genelines += scope.data[i].labelvertpos + "\t";
-							genelines += scope.data[i].name + "\t";
-							genelines += scope.data[i].namehtml + "\t";
-							genelines += scope.data[i].color + "\t";
-							genelines += scope.data[i].size + "\t";
-							genelines += scope.data[i].start + "\t";
-							genelines += scope.data[i].stop + "\t";
-							genelines += scope.data[i].strand + "\t";
-							genelines += scope.data[i].genefunction + "\n";
-						}
-						outputtext += genelines;
-						outputtext += "GraphSettings:{\"graphwidth\":\"" + scope.settings.graphwidth + "\",\"featureheight\":\"" + scope.settings.featureheight + "\",\"scaleOn\":\"" + scope.settings.scaleOn +  "\",\"keepgaps\":\"" + scope.settings.keepgaps + "\",\"multilane\":\"" + scope.settings.multilane + "\",\"shiftgenes\":\"" + scope.settings.shiftgenes + "\",\"arrows\":\"" + scope.settings.arrows + "\"}";
-						var tsvstring = outputtext;
-
-						var set_loading_icons = function(){
-							document.getElementById("pnglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-							document.getElementById("svglink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-							document.getElementById("emflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-							document.getElementById("tsvlink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-							document.getElementById("tifflink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-							document.getElementById("epslink").innerHTML = '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" aria-hidden="true"></i><br>Loading';
-						}
-						
-						var set_error_icons = function(){
-							document.getElementById("pnglink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
-							document.getElementById("pnglink").removeAttribute("href");
-							document.getElementById("pnglink").removeAttribute("download");
-							document.getElementById("svglink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
-							document.getElementById("svglink").removeAttribute("href");
-							document.getElementById("svglink").removeAttribute("download");
-							document.getElementById("emflink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
-							document.getElementById("emflink").removeAttribute("href");
-							document.getElementById("emflink").removeAttribute("download");
-							document.getElementById("tsvlink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
-							document.getElementById("tsvlink").removeAttribute("href");
-							document.getElementById("tsvlink").removeAttribute("download");
-							document.getElementById("tifflink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
-							document.getElementById("tifflink").removeAttribute("href");
-							document.getElementById("tifflink").removeAttribute("download");
-							document.getElementById("epslink").innerHTML = '<i class="fa fa-exclamation-triangle fa-2x fa-fw" aria-hidden="true"></i><br>';
-							document.getElementById("epslink").removeAttribute("href");
-							document.getElementById("epslink").removeAttribute("download");
-						}
-
-						var set_finished_icons = function(files){
-							document.getElementById("pnglink").innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>PNG<br>';
-							document.getElementById("pnglink").href = files[0];
-							document.getElementById("svglink").innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>SVG';
-							document.getElementById("svglink").href = files[1];
-							document.getElementById("emflink").innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EMF';
-							document.getElementById("emflink").href = files[2];
-							document.getElementById("tsvlink").innerHTML = '<i class="fa fa-file-excel-o fa-2x" aria-hidden="true"></i><br>TSV';
-							document.getElementById("tsvlink").href = files[3];
-							document.getElementById("tifflink").innerHTML = '<i class="fa fa-file-image-o fa-2x" aria-hidden="true"></i><br>TIFF';
-							document.getElementById("tifflink").href = files[4];
-							document.getElementById("epslink").innerHTML = '<i class="fa fa-file-code-o fa-2x" aria-hidden="true"></i><br>EPS';
-							document.getElementById("epslink").href = files[5];
-						}
-
-						// Render PNG and SVG serverside
-						var svg = d3.select("svg")[0][0];
-						set_loading_icons();
-						var svg_w = d3.select("svg").style("width").replace(/\D/g,'');
-						var svg_h = d3.select("svg").style("height").replace(/\D/g,'');
-						//console.log(svg_w);
-						
-						var req = {
-							method: 'POST',
-							url: '/cgi-bin/svgtopng.py',
-							data: $.param({svgdata: new XMLSerializer().serializeToString(svg), 
-										tsvdata: tsvstring,
-										width: svg_w}), 
-
-							headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-						};
-
-						var sbarPromise = scope.updateProgress();
-
-						$http(req).then(function successCallback(response) {
-
-							var files = response.data.split("\n");
-							//console.log(files[0]);
-							if (files[0] == "Error"){
-								//console.log("setting error icons");
-								scope.updateError({msg:"The server encountered an error. Please try again in a few minutes."});
-								set_error_icons();
-							}
-							else {
-								var whstr = files[6];
-								//console.log("setting finished icons");
-								$timeout(function() {
-									scope.updateError({msg:"Success!"});
-									set_finished_icons(files);
-								}, 2000);
-							}
-						}, function errorCallback(response) {
-							scope.updateError({msg:"The server encountered an error. Please try again in a few minutes."});
-							set_error_icons();
-						});
-
-						scope.showexportpanel = true;
-					});
-				}
-			}
 		}])
 		.directive('onReadFile', function ($parse) {
 			return {

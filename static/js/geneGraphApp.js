@@ -13,7 +13,11 @@
 		'geneGraphApp.directives'
 		]);
 	
-	geneGraphApp.config(function($mdThemingProvider) {
+	geneGraphApp.config( function($mdThemingProvider, $interpolateProvider) {
+		
+		$interpolateProvider.startSymbol('{a');
+		$interpolateProvider.endSymbol('a}');
+		
 		var customPrimary = {
         '50': '#50b6f2',
         '100': '#38acf1',

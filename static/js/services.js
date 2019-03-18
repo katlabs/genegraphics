@@ -98,6 +98,37 @@
 		
 		return geneSvc;
 	}])
+	.factory("exportStatus",['$rootScope', function($rootScope){
+
+		var exportStatus = {};
+		exportStatus.url = false;
+		exportStatus.err = false;
+		exportStatus.result = false;
+
+		exportStatus.getExportURL = function() {
+			return this.url;
+		};
+		exportStatus.getExportErr = function() {
+			return this.err;
+		};
+		exportStatus.getExportResult = function() {
+			return this.result;
+		};
+		exportStatus.setExportURL = function(url) {
+			this.url = url;
+			$rootScope.$broadcast('updateExportURL');
+		};
+		exportStatus.setExportErr = function(err) {
+			this.err = err;
+			$rootScope.$broadcast('updateExportErr');
+		};
+		exportStatus.setExportResult = function(result) {
+			this.result = result;
+			$rootScope.$broadcast('updateExportResult');
+		};
+
+		return exportStatus;
+	}])
 	.factory("popupMenuService", [ '$rootScope', function($rootScope){
 		var popupMenuService = {};
 		
