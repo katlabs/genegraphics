@@ -3,3 +3,4 @@ imageproc/secrets.py
 __pycache__
 *.pyc
 *.wsgi
+updates.md

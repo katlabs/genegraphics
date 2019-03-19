@@ -12,6 +12,7 @@ import signal
 from hashlib import md5
 from xml.etree import ElementTree as ET
 from pathlib import Path
+import mistune
 
 
 app = Flask(__name__)
@@ -25,7 +26,9 @@ def genegraphics():
 
 @app.route("/<tab>")
 def genegraphics_tab(tab):
-    return render_template('index.html', tab=tab)
+    with open(app.root_path+"/updates.md", "r") as f:
+        message = mistune.markdown(f.read())
+    return render_template('index.html', tab=tab, message=message)
 
 
 @app.route("/tutorials/<tutorial_num>")
