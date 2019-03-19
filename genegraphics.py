@@ -78,7 +78,6 @@ def export():
 
     # get temp folder path (create it if it doesn't exist)
     fld = Path(__file__).parent.joinpath('static','userimgs').resolve()
-    print(fld, file=sys.stderr)
     fld.mkdir(exist_ok=True)
 
     # create filename from hash function
@@ -126,7 +125,7 @@ def exportstatus(task_id):
 
     else:
         # job failed & reached retry limit
-        print(task.info, file=sys.stderr)
+        print("Task failed: "+task.info, file=sys.stderr)
         response = {
             'state': task.state,
             'current': 1,
