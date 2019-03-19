@@ -21,7 +21,9 @@ api = Api(app)
 
 @app.route("/")
 def genegraphics():
-    return render_template('index.html', tab='description')
+    with open(app.root_path+"/updates.md", "r") as f:
+        message = mistune.markdown(f.read())
+    return render_template('index.html', tab='description', message=message)
 
 
 @app.route("/<tab>")
