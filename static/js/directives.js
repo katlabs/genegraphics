@@ -26,18 +26,19 @@
 					onClick: "&onClick",
 					onClickPaste: "&onClickPaste",
 					onClickGenome: "&onClickGenome",
-					onMouseOverGene: "&onMouseOverGene"
+					onMouseOverGene: "&onMouseOverGene",
 				},
 				link: function(scope, iElement, iAttrs) {
 					var maxGeneFontSize;
 					var maxGenomeFontSize;
-					
+
 					// select the svg element and set its width
 					var svg = d3.select(iElement[0])
 						.append("svg")
 						.attr("xmlns", "http://www.w3.org/2000/svg")
-						.attr("width", scope.settings.graphwidth)
+						//						.attr("width", scope.settings.graphwidth)
 						.attr("id", "svg");
+					
 
 					// maximum width of the data
 					var maxwidth = 0;
@@ -123,6 +124,16 @@
 						svg.selectAll("*").remove();
 						svg.append("style").text(csstext);
 						
+						if(document.getElementById('graphcontainer').offsetWidth == 0) {
+							// Dom not loaded, so width is invalid
+							return;
+						}
+						if(typeof scope.settings.graphwidth === "undefined") {
+							// First time after dom loaded, we get value of div width
+							//scope.onChangeGraphWidth({'newwidth': newwidth});
+							scope.settings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;
+						}
+
 						// do nothing if there is no data
 						if (data.length <= 0) {
 							return;

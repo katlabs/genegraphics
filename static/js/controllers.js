@@ -16,7 +16,7 @@
 				alert("Your browser does not support saving. Please export your graphic manually on a regular basis so not to lose your data");
 			}
 
-			$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;
+			//$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;
 			$scope.graphSettings.maxwidth = 0;
 			$scope.graphSettings.featureheight = 50;
 			$scope.graphSettings.multilane = true;
@@ -230,7 +230,7 @@
 					$scope.graphSettings = savedSettingsJson;
 				}
 			}
-			
+
 			$scope.$on('updateGeneData', function(){
 				$scope.geneData = geneService.geneData;
 				$scope.genomesHash = geneService.genomesHash;
@@ -711,10 +711,11 @@
 					$scope.$apply();
 				}
 			};
-			
+
 			$scope.changeGraphWidth = function(newWidth){
 				$scope.graphSettings.graphwidth = parseInt(newWidth);
 			};
+			
 			$scope.changeFeatureHeight = function(newHeight){
 				$scope.graphSettings.featureheight = parseInt(newHeight);
 			};
@@ -731,10 +732,10 @@
 				var copy = $scope.graphSettings.selectedGene
 				for (var i = 0; i < $scope.copy.geneClipboard.length; i++){
 					var paste = $scope.copy.geneClipboard[i];
-					if ($scope.copy.graphSettings.genecolor.value){
+					if ($scope.copy.settings.genecolor.value){
 						$scope.geneData[paste]["color"] = $scope.geneData[copy]["color"];
 					}
-					if ($scope.copy.graphSettings.labeltext.value){
+					if ($scope.copy.settings.labeltext.value){
 						$scope.geneData[paste]["name"] = $scope.geneData[copy]["name"];
 						$scope.geneData[paste]["namehtml"] = $scope.geneData[copy]["name"];
 					}
@@ -838,7 +839,9 @@
 			$scope.currentNavItem = $location.absUrl().split('/')[$location.absUrl().split('/').length-1];
 		}])
 		.controller('FileCtrl', ['$scope', '$http', 'geneService', 'colorService', 'popupMenuService', function($scope, $http, geneService, colorService, popupMenuService){
-			$scope.data = [];
+			if(typeof $scope.geneData === 'undefined') {
+			  $scope.geneData = [];
+			}
 			$scope.gb = {};
 			$scope.gb.searchText;
 			$scope.gb.selectedItem;
@@ -955,7 +958,9 @@
 							}
 							genome = genome + " ("+copynum+")"
 							// Replace the html with a new genome name, preserving the html
-							columns[headerpos['genomehtml']] = columns[headerpos['genomehtml']].replace(columns[headerpos['genome']], genome)
+							if(headerpos['genomehtml'] != null) {
+								columns[headerpos['genomehtml']] = columns[headerpos['genomehtml']].replace(columns[headerpos['genome']], genome)
+							}
 						}
 						gene['genome'] = genome;
 
@@ -1728,7 +1733,7 @@
 				var ret = confirm("This will delete all genomes from the page.\nAre you sure you would like to clear the data?");
 				if (ret == true){
 					geneService.clearGenes();
-					$scope.data =[];
+					$scope.geneData =[];
 					$scope.graphSettings.displayedFunction = "";
 					$scope.graphSettings.currentFilesList = [];
 					document.getElementById('file').value = '';
@@ -1825,21 +1830,21 @@
 			$scope.get_TSV_str = function() {
 				var outputtext = "genome\tgenomehtml\tgenelocked\tgenomelocked\tlabelpos\tlabelvertpos\tname\tnamehtml\tcolor\tsize\tstart\tstop\tstrand\tfunction\n";
 				var genelines = "";
-				for (var i = 0; i < $scope.data.length; i++) {
-					genelines += $scope.data[i].genome + "\t";
-					genelines += $scope.data[i].genomehtml + "\t";
-					genelines += $scope.data[i].genelocked + "\t";
-					genelines += $scope.data[i].genomelocked + "\t";
-					genelines += $scope.data[i].labelpos.x + "," + $scope.data[i].labelpos.x + "\t";
-					genelines += $scope.data[i].labelvertpos + "\t";
-					genelines += $scope.data[i].name + "\t";
-					genelines += $scope.data[i].namehtml + "\t";
-					genelines += $scope.data[i].color + "\t";
-					genelines += $scope.data[i].size + "\t";
-					genelines += $scope.data[i].start + "\t";
-					genelines += $scope.data[i].stop + "\t";
-					genelines += $scope.data[i].strand + "\t";
-					genelines += $scope.data[i].genefunction + "\n";
+				for (var i = 0; i < $scope.geneData.length; i++) {
+					genelines += $scope.geneData[i].genome + "\t";
+					genelines += $scope.geneData[i].genomehtml + "\t";
+					genelines += $scope.geneData[i].genelocked + "\t";
+					genelines += $scope.geneData[i].genomelocked + "\t";
+					genelines += $scope.geneData[i].labelpos.x + "," + $scope.geneData[i].labelpos.x + "\t";
+					genelines += $scope.geneData[i].labelvertpos + "\t";
+					genelines += $scope.geneData[i].name + "\t";
+					genelines += $scope.geneData[i].namehtml + "\t";
+					genelines += $scope.geneData[i].color + "\t";
+					genelines += $scope.geneData[i].size + "\t";
+					genelines += $scope.geneData[i].start + "\t";
+					genelines += $scope.geneData[i].stop + "\t";
+					genelines += $scope.geneData[i].strand + "\t";
+					genelines += $scope.geneData[i].genefunction + "\n";
 				}
 				outputtext += genelines;
 				outputtext += "GraphSettings:{\"graphwidth\":\"" + $scope.graphSettings.graphwidth + "\",\"featureheight\":\"" + $scope.graphSettings.featureheight + "\",\"scaleOn\":\"" + $scope.graphSettings.scaleOn +  "\",\"keepgaps\":\"" + $scope.graphSettings.keepgaps + "\",\"multilane\":\"" + $scope.graphSettings.multilane + "\",\"shiftgenes\":\"" + $scope.graphSettings.shiftgenes + "\",\"arrows\":\"" + $scope.graphSettings.arrows + "\"}";
