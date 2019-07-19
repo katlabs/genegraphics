@@ -8,13 +8,29 @@
 			document.getElementById("graphcontainer").style.height = window.innerHeight - 200 + "px";
 
 			$scope.graphSettings = {};
+			
+			// localStorage should be loaded into variables. We wait until the graphcontainer
+			// is loaded to load the data.
+			var savedDataStr = null;
+			var savedDataJson = null;
+			var savedSettingsStr = null;
+			var savedSettingsJson = null;
+			
 			if(typeof(Storage!=="undefined")) {
-				$scope.graphSettings.lsSupport = true;
-			}
-			else{
+					$scope.graphSettings.lsSupport = true;
+				if(localStorage.savedData!=null && localStorage.savedData!='null' && localStorage.savedData!=="[]"){
+					savedDataStr = localStorage.savedData;
+					savedDataJson = JSON.parse(savedDataStr);
+				}
+				if(localStorage.savedSettings!=null && localStorage.savedSettings!='null'){
+					savedSettingsStr = localStorage.savedSettings;
+					savedSettingsJson = JSON.parse(savedSettingsStr);
+				}
+			}else{
 				$scope.graphSettings.lsSupport = false;
 				alert("Your browser does not support saving. Please export your graphic manually on a regular basis so not to lose your data");
 			}
+
 
 			//$scope.graphSettings.graphwidth = document.getElementById('graphcontainer').offsetWidth - 100;
 			$scope.graphSettings.maxwidth = 0;
@@ -218,20 +234,28 @@
 
 			$scope.geneData = geneService.geneData;
 
-			if($scope.graphSettings.lsSupport == true){
-				if(localStorage.savedData!=null && localStorage.savedData!='null' && localStorage.savedData!=="[]"){
-					var savedDataStr = localStorage.savedData;
-					var savedDataJson = JSON.parse(savedDataStr);
+			function waitForElement(elementId, callBack){
+				window.setTimeout(function(){
+					var element = document.getElementById(elementId);
+					if(element){
+						callBack(elementId, element);
+					}else{
+						waitForElement(elementId, callBack);
+					}
+				},500)
+			};
+
+			waitForElement("graphcontainer", function(){
+				if(savedDataStr!=null && savedDataStr!='null' && savedDataStr!=="[]"){
 					geneService.addGenes(savedDataJson);
 				}
-				if(localStorage.savedSettings!=null && localStorage.savedSettings!='null'){
-					var savedSettingsStr = localStorage.savedSettings;
-					var savedSettingsJson = JSON.parse(savedSettingsStr);
+				if(savedSettingsStr!=null && savedSettingsStr!='null'){
 					$scope.graphSettings = savedSettingsJson;
 				}
-			}
+			});
 
 			$scope.$on('updateGeneData', function(){
+				console.log("updateGeneData");
 				$scope.geneData = geneService.geneData;
 				$scope.genomesHash = geneService.genomesHash;
 				$scope.graphSettings.maxwidth = geneService.getMaxWidth($scope.geneData);
@@ -833,6 +857,7 @@
 				  $scope.globalFontColor('genes', newVal);
 				}
 			}, true);
+
 			
 		}])
 		.controller('NavCtrl', ['$scope', '$location', function($scope, $location) {
