@@ -9,6 +9,8 @@ import shlex
 import sys
 from pathlib import Path
 
+TIMEOUT = 90
+
 logger = get_task_logger(__name__)
 
 @app.task(bind=True)
@@ -175,7 +177,7 @@ def html_to_png(self, svg, png_file, progress_data):
     cmd3 = " ".join(["/usr/bin/pngcrush","-ow", "-res", "300", png_file, pngcrush_temp])
     cmds = [cmd1, cmd2, cmd3]
     for i, cmd in enumerate(cmds):
-        output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=40)
+        output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=TIMEOUT)
         if output:
             logger.info("cmd" + str(i) + ": " + str(output))
         progress_data["current"] = progress_data["current"]+1
@@ -197,7 +199,7 @@ def svg_to_emf(self, svg, emf_file, progress_data):
     svg_file = progress_data["result"]
     # Make EMF file from SVG file
     cmd = " ".join(["/usr/bin/inkscape", "--file", svg_file, "--export-emf", emf_file])
-    output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=40)
+    output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=TIMEOUT)
     if output:
         logger.info("cmd" + cmd + ": " + str(output))
 
@@ -220,7 +222,7 @@ def svg_to_eps(self, svg, eps_file, progress_data):
     svg_file = progress_data["result"]
     # Make EPS file from SVG file
     cmd = " ".join(["/usr/bin/inkscape", "-E", eps_file,  svg_file, "--export-area-page","--export-text-to-path", "--export-ignore-filters"])
-    output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=40)
+    output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=TIMEOUT)
     if output:
         logger.info("cmd" + cmd + ": " + str(output)) 
     progress_data["current"] = progress_data["current"]+1
@@ -243,7 +245,7 @@ def png_to_tiff(self, svg, tiff_file, progress_data):
     png_file = progress_data["result"]
     # Make TIFF file from PNG file
     cmd = " ".join(["/usr/bin/convert", png_file, tiff_file])
-    output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=40)
+    output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=TIMEOUT)
     if output:
         logger.info("cmd" + cmd + ": " + str(output))
     progress_data["current"] = progress_data["current"]+1

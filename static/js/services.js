@@ -14,6 +14,24 @@
 		geneSvc.offset = {};
 		
 		geneSvc.addGenes = function(gData) {
+			// Sometimes the genes are not in order when importing a TSV file,
+			// and the offset is wrong. The following code sorts the genes
+			// for each genome with an insertion sort before doing other processing.
+			this.updateGenomesHash(gData);
+			const entries = Object.entries(this.genomesHash);
+			for (const [genomename, indicies] of entries) {
+				for (var i=0; i<indicies.length; i++){
+					var ind = indicies[i];
+					var temp = gData[ind];
+					var j = ind - 1;
+					while ( j >= indicies[0] && Math.min(gData[j].start, gData[j].stop) > Math.min(temp.start, temp.stop)){
+						gData[j+1] = gData[j];
+						j--;
+					}
+					gData[j+1] = temp;
+				}
+			}
+			// The offsets are now the minimum of start/stop of the first gene in each genome.
 			for (var i=0; i < gData.length; i++){
 				if(!this.offset.hasOwnProperty(gData[i].genomehtml)){
 					this.offset[gData[i].genomehtml] = Math.min(gData[i].start, gData[i].stop);
@@ -24,7 +42,11 @@
 				gData[i].genomeNum=this.totalGenomes;
 				this.geneData.push(gData[i]);
 			}
+			// Update the genomes hash now and tell the controller the service
+			// has updated the data.
 			this.updateGenomesHash(this.geneData);
+			console.log(this.geneData);
+			console.log(this.genomesHash);
 			$rootScope.$broadcast('updateGeneData');
 		}
 
