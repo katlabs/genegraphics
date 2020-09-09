@@ -4,7 +4,8 @@ from celery.utils.log import get_task_logger
 import time
 from PIL import Image
 import subprocess
-from subprocess import check_output, run, DEVNULL, STDOUT, Popen, PIPE
+from cairosvg import svg2png
+from subprocess import check_output, STDOUT
 import shlex
 import sys
 from pathlib import Path
@@ -46,10 +47,10 @@ def process_session(self, ft, tsv, svg, output_file):
                                  progress_data)
 
     elif ft == "PNG":
-        progress_data["total"] = 4
+        progress_data["total"] = 2
         progress_data["message"] = update_message(progress_data)
         self.update_state(state="PROGRESS", meta=progress_data)
-        progress_data = html_to_png(self, 
+        progress_data = svg_to_png(self, 
                                     svg, 
                                     output_file, 
                                     progress_data)
@@ -73,7 +74,7 @@ def process_session(self, ft, tsv, svg, output_file):
                                    progress_data)
 
     elif ft == "TIFF":
-        progress_data["total"] = 5
+        progress_data["total"] = 3
         progress_data["message"] = update_message(progress_data)
         self.update_state(state="PROGRESS", meta=progress_data)
         progress_data = png_to_tiff(self, 
@@ -123,67 +124,23 @@ def make_svg(self, svg, svg_file, progress_data):
 
     return progress_data
 
-def make_html(self, svg, html_file, progress_data):
-    """ Make html file if it doesn't exist 
-    
-    and return the file name. If it exists, 
-    just return the file name.
-    """
-
-    # Get html output name and save dir
-    html_path = Path(html_file)
-    # Check if html file exists
-    if not html_path.is_file():
-        # Create the html file
-        with open(html_file, 'w') as outfile:
-            outfile.write(
-"""<!DOCTYPE html>
-  <html>
-    <head>
-      <style>
-        body {font-family:Arial;}
-      </style>
-    </head>
-    <body>
-    """)
-            outfile.write(svg)
-            outfile.write("""
-    </body>
-  </html>""")
-    else:
-        html_file = str(html_path)
-    
-    progress_data["current"] = progress_data["current"]+1
-    progress_data["message"] = update_message(progress_data)
-    progress_data["result"] = html_file
-    self.update_state(state="PROGRESS", meta=progress_data)
-
-    return progress_data
-
-def html_to_png(self, svg, png_file, progress_data):
+def svg_to_png(self, svg, png_file, progress_data):
     
     png_path = Path(png_file)
     filehash = png_path.name.split('.')[0]
     save_dir = png_path.parent
-    progress_data = make_html(self, 
-                          svg, 
-                          str(save_dir.joinpath(filehash+'.html')),
-                          progress_data)
-    html_file = progress_data["result"]
-    pngcrush_temp = str(save_dir.joinpath(filehash+"-temp.png"))
-    # Create a png from html file
-    cmd1 = 'xvfb-run -a -e /dev/stderr --server-args="-screen 0, 1920x1024x24" /home/ubuntu/bin/wkhtmltoimage --zoom 3 -f png --use-xserver {} {}'.format(html_file, png_file)
-    cmd2 = " ".join(["/usr/bin/convert", png_file, "-blur", "1x0.2", png_file])
-    cmd3 = " ".join(["/usr/bin/pngcrush","-ow", "-res", "300", png_file, pngcrush_temp])
-    cmds = [cmd1, cmd2, cmd3]
-    for i, cmd in enumerate(cmds):
-        output = check_output(shlex.split(cmd), stderr=STDOUT, timeout=TIMEOUT)
-        if output:
-            logger.info("cmd" + str(i) + ": " + str(output))
-        progress_data["current"] = progress_data["current"]+1
-        progress_data["message"] = update_message(progress_data)
-        progress_data["result"] = png_file
-        self.update_state(state="PROGRESS", meta=progress_data)
+    progress_data = make_svg(self, 
+                             svg, 
+                             str(save_dir.joinpath(filehash+'.svg')),
+                             progress_data)
+    svg_file = progress_data["result"]
+    # Make PNG file from SVG file
+    svg2png(open(svg_file, 'rb').read(), write_to=open(png_file, 'wb'))
+
+    progress_data["current"] = progress_data["current"]+1
+    progress_data["message"] = update_message(progress_data)
+    progress_data["result"] = png_file
+    self.update_state(state="PROGRESS", meta=progress_data)
 
     return progress_data
 
@@ -238,7 +195,7 @@ def png_to_tiff(self, svg, tiff_file, progress_data):
     tiff_path = Path(tiff_file)
     filehash = tiff_path.name.split('.')[0]
     save_dir = tiff_path.parent
-    progress_data = html_to_png(self, 
+    progress_data = svg_to_png(self, 
                                 svg,
                                 str(save_dir.joinpath(filehash+'.png')),
                                 progress_data)
