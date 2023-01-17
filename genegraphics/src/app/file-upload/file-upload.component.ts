@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TsvParseService } from '../tsv-parse.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -10,7 +11,7 @@ export class FileUploadComponent {
   fileContent: string = "";
   loading: boolean = false;
 
-  constructor(){}
+  constructor(private tsvParseService: TsvParseService){}
 
   async onFileChange(event: any){
     let file = event.target.files[0];
@@ -19,7 +20,7 @@ export class FileUploadComponent {
 
   onUpload(newSession: boolean) {
     this.loading = true;
-    console.log(this.fileContent);
+    this.tsvParseService.parseAndStore(this.fileContent, newSession)
     this.loading = false;
   }
 
