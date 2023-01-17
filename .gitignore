@@ -4,3 +4,5 @@ __pycache__
 *.pyc
 *.wsgi
 updates.md
+
+.env

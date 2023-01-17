@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  genegraphics:
+    build: 
+      context: ./genegraphics
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.genegraphics.entrypoints=websecure"
+      - "traefik.http.routers.genegraphics.tls.certresolver=lets-encrypt"
+      - "traefik.http.routers.genegraphics.middlewares=localonly@file"
+      - "traefik.http.services.genegraphics-genegraphics.loadBalancer.server.port=80"
+
+networks:
+  traefik:
+    name: web

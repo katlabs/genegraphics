@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  genegraphics:
+    build: 
+      target: prod
+    image: "genegraphics:prod"
+    labels:
+      - 'traefik.http.routers.genegraphics.rule=Host(`${HOST_PROD}`)'

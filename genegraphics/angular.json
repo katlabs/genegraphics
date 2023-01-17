@@ -68,7 +68,8 @@
               "browserTarget": "genegraphics:build:production"
             },
             "development": {
-              "browserTarget": "genegraphics:build:development"
+              "browserTarget": "genegraphics:build:development",
+              "disableHostCheck": true
             }
           },
           "defaultConfiguration": "development"

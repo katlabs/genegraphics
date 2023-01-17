@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  genegraphics:
+    build: 
+      target: dev
+    image: "genegraphics:dev"
+    volumes:
+      - ./genegraphics/:/app
+    labels:
+      - 'traefik.http.routers.genegraphics.rule=Host(`${HOST_DEV}`)'
