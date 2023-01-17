@@ -1,1 +1,13 @@
-<p>file-upload works!</p>
+<div>
+  <input type="file"
+    (change)="onFileChange($event)">
+  <button (click)="onUpload(true)">
+    Create New
+  </button>
+  <button (click)="onUpload(false)">
+    Add to Current
+  </button>
+</div>
+<div *ngIf="loading">
+  <h3>Loading...</h3>
+</div>

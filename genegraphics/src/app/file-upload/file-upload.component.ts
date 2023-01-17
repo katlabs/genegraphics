@@ -7,4 +7,20 @@ import { Component } from '@angular/core';
 })
 export class FileUploadComponent {
 
+  fileContent: string = "";
+  loading: boolean = false;
+
+  constructor(){}
+
+  async onFileChange(event: any){
+    let file = event.target.files[0];
+    this.fileContent = await file.text();
+  }
+
+  onUpload(newSession: boolean) {
+    this.loading = true;
+    console.log(this.fileContent);
+    this.loading = false;
+  }
+
 }
