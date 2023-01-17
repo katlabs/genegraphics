@@ -4,6 +4,8 @@ WORKDIR /app
 COPY package.json /app/package.json
 RUN npm install -g npm@9.2.0
 RUN npm install -g @angular/cli@15.0.4
+RUN npm install dexie --save
+RUN npm install ngx-papaparse --save
 COPY . /app
 
 # Development stage
