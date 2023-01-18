@@ -1,2 +1,6 @@
-<p>gene-graphic works!</p>
-<app-region></app-region>
+<div id="geneGraphic">
+  <h2>{{geneGraphic.title}}</h2>
+  <div *ngFor="let region of regions$ | async">
+    <app-region [region]="region"></app-region>
+  </div>
+</div>

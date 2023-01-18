@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DatabaseService } from './database.service';
+import { DatabaseService, GeneGraphic, Region, Feature } from './database.service';
 import { Papa } from 'ngx-papaparse';
 
 @Injectable({
@@ -50,30 +50,46 @@ export class TsvParseService {
     let lengthField = this.getFieldName(fields, this.lengthFields);
     let regionChangeField = fields.includes("Region number")? "Region number" : regionNameField;
 
-    data.forEach(async (item: any, index: number)=>{
-      var currGenomeId!: number;
+    let addRegions: Region[] = [];
+    let addFeatures: Feature[] = [];
+    let currRegionId!: number;
+    await this.db.regions.orderBy('id').last().then(val => {
+      if (val?.id){
+        currRegionId = val.id +1;
+      } else {
+        currRegionId = 1;
+      }
+    });
+    data.forEach((item: any, index: number)=>{
       if(index === 0){
-        currGenomeId = await this.db.regions.add({
-          name: item[this.getFieldName(fields, this.regionNameFields)],
-          geneGraphicId: geneGraphicId
-        });
-      } else if (data[index][regionChangeField] !== data[index-1][regionChangeField]){
-        currGenomeId = await this.db.regions.add({
+        addRegions.push({
+          id: currRegionId,
           name: item[regionNameField],
           geneGraphicId: geneGraphicId
         })
-      } else {
-        await this.db.regions.orderBy('id').last().then((x) => {
-            currGenomeId = x?.id !==undefined ? x?.id : currGenomeId;
+      } else if (data[index][regionChangeField] !== data[index-1][regionChangeField]){
+        currRegionId++;
+        addRegions.push({
+          id: currRegionId,
+          name: item[regionNameField],
+          geneGraphicId: geneGraphicId
         })
       }
-      await this.db.features.add({
+      addFeatures.push({
         name: item[featureNameField],
         start: item[startField],
         stop: item[stopField],
         length: item[lengthField],
-        regionId: currGenomeId
+        regionId: currRegionId
       })
+
     });
+    console.log(addRegions);
+    console.log(addFeatures);
+
+    this.db.transaction("rw", this.db.regions, this.db.features, ()=>{
+      this.db.regions.bulkAdd(addRegions);
+      this.db.features.bulkAdd(addFeatures);
+    })
   }
 }

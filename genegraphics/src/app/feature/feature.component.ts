@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Feature } from '../database.service';
 
 @Component({
   selector: 'app-feature',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./feature.component.scss']
 })
 export class FeatureComponent {
+  @Input() feature!: Feature;
 
 }

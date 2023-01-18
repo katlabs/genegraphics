@@ -1,1 +1,21 @@
-<p>editor works!</p>
+<div id="editor">
+  <select
+    [formControl]="selectCtrl"
+    (change)="changeActiveGeneGraphic($event)"
+    >
+    <option
+      *ngFor="let geneGraphic of geneGraphics$ | async; index as i"
+      [value]="geneGraphic.id">
+      {{ geneGraphic.title }}&nbsp;{{geneGraphic.id}}
+    </option>
+  </select>
+
+  <label for="addGeneGraphic">
+    <input
+      autocomplete="off"
+      type="text"
+      [formControl]="inputCtrl"
+    />
+  </label>
+  <button type="submit" (click)="addGeneGraphic()">New GeneGraphic</button>
+</div>

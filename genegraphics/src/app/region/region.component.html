@@ -1,2 +1,4 @@
-<p>region works!</p>
-<app-feature></app-feature>
+<h3>{{region.name}}</h3>
+<div *ngFor="let feature of features$ | async">
+  <app-feature [feature]="feature"></app-feature>
+</div>
