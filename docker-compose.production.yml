@@ -6,3 +6,5 @@ services:
     image: "genegraphics:prod"
     labels:
       - 'traefik.http.routers.genegraphics.rule=Host(`${HOST_PROD}`)'
+    environment:
+      - "NODE_ENV=production"
