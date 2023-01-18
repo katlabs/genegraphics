@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
-import { DatabaseService, GeneGraphic, Region, Feature } from './database.service';
+import { DatabaseService, Region, Feature } from './database.service';
 import { Papa } from 'ngx-papaparse';
+import { getUnknownFieldNames, Fields } from './utils/tsv-fields';
+import { isGizmogeneData, GizmogeneFields } from './utils/tsv-gizmogene'
+import { isSeedData, SeedFields } from './utils/tsv-seed';
+import { isLegacyData, LegacyFields } from './utils/tsv-legacy';
 
 @Injectable({
   providedIn: 'root'
@@ -12,44 +16,18 @@ export class TsvParseService {
     private papa: Papa
   ) { }
 
-  private regionNameFields = ["Genome",  "genome", "Genome ID"];
-  private featureNameFields = ["Function", "ID", "Feature ID", "PATRIC Local Family", "PATRIC Global Family"];
-  private startFields = ["Start", "start"];
-  private stopFields = ["Stop", "End", "stop", "end"];
-  private lengthFields = ["Length (nt)", "Size (nt)", "size"];
+  private async parseTsvData(geneGraphicId: number, data: any[], fields: string[]) {
 
-  private getFieldName(fields: string[], validFields: string[]): string{
-    let fieldName = validFields.find( f => {
-      return fields.includes(f);
-    })
-    return fieldName ? fieldName : "";
-  }
-
-  async parseAndStore(fileContent: string, newSession: boolean){
-    let geneGraphicId: number;
-    if (newSession){
-       geneGraphicId = await this.db.geneGraphics.add({
-        title: "New GeneGraphic",
-        opened: Date.now()
-      });
+    let fieldNames!: Fields;
+    if (isGizmogeneData(data)){
+      fieldNames = GizmogeneFields;
+    } else if (isSeedData(data)) {
+      fieldNames = SeedFields;
+    } else if (isLegacyData(data)){
+      fieldNames = LegacyFields;
     } else {
-      await this.db.geneGraphics.orderBy('opened').last().then(val=>{
-        if(val?.id){
-          geneGraphicId = val.id
-        }
-      })
-         }
-
-    let result = this.papa.parse(fileContent, {header: true});
-    let data = result.data;
-    let fields = result.meta.fields;
-    let regionNameField = this.getFieldName(fields, this.regionNameFields);
-    let featureNameField = this.getFieldName(fields, this.featureNameFields);
-    let startField = this.getFieldName(fields, this.startFields);
-    let stopField = this.getFieldName(fields, this.stopFields);
-    let lengthField = this.getFieldName(fields, this.lengthFields);
-    let regionChangeField = fields.includes("Region number")? "Region number" : regionNameField;
-
+      fieldNames = getUnknownFieldNames(fields);
+    }
     let addRegions: Region[] = [];
     let addFeatures: Feature[] = [];
     let currRegionId!: number;
@@ -64,32 +42,59 @@ export class TsvParseService {
       if(index === 0){
         addRegions.push({
           id: currRegionId,
-          name: item[regionNameField],
+          name: item[fieldNames.regionName],
           geneGraphicId: geneGraphicId
         })
-      } else if (data[index][regionChangeField] !== data[index-1][regionChangeField]){
+      } else if (data[index][fieldNames.regionChange] !== data[index-1][fieldNames.regionChange]){
         currRegionId++;
         addRegions.push({
           id: currRegionId,
-          name: item[regionNameField],
+          name: item[fieldNames.regionName],
           geneGraphicId: geneGraphicId
         })
       }
       addFeatures.push({
-        name: item[featureNameField],
-        start: item[startField],
-        stop: item[stopField],
-        length: item[lengthField],
+        name: item[fieldNames.featureName],
+        start: item[fieldNames.start],
+        stop: item[fieldNames.stop],
+        length: item[fieldNames.length],
         regionId: currRegionId
       })
 
     });
-    console.log(addRegions);
-    console.log(addFeatures);
+
+    return [addRegions, addFeatures];
+  }
+
+  private async getOrCreateGeneGraphic(newSession: boolean){
+    let geneGraphicId!: number;
+    if (newSession){
+       geneGraphicId = await this.db.geneGraphics.add({
+        title: "New GeneGraphic",
+        opened: Date.now()
+      });
+    } else {
+      await this.db.geneGraphics.orderBy('opened').last().then(val=>{
+        if(val?.id){
+          geneGraphicId = val.id
+        }
+      })
+    }
+    if (!geneGraphicId){
+      throw new Error('Cannot retrieve id of the GeneGraphic');
+    }
+    return geneGraphicId;
+  }
+
+  async parseAndStore(fileContent: string, newSession: boolean){
+    let geneGraphicId = await this.getOrCreateGeneGraphic(newSession);
+    let result = this.papa.parse(fileContent, {header: true, skipEmptyLines: true});
+    let [addRegions, addFeatures] = await this.parseTsvData(geneGraphicId, result.data, result.meta.fields);
 
     this.db.transaction("rw", this.db.regions, this.db.features, ()=>{
       this.db.regions.bulkAdd(addRegions);
       this.db.features.bulkAdd(addFeatures);
     })
+
   }
 }
