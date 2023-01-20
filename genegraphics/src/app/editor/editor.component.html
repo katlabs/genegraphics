@@ -1,21 +1,12 @@
 <div id="editor">
-  <select
-    [formControl]="selectCtrl"
-    (change)="changeActiveGeneGraphic($event)"
-    >
-    <option
-      *ngFor="let geneGraphic of geneGraphics$ | async; index as i"
-      [value]="geneGraphic.id">
-      {{ geneGraphic.title }}&nbsp;{{geneGraphic.id}}
-    </option>
-  </select>
-
-  <label for="addGeneGraphic">
-    <input
-      autocomplete="off"
-      type="text"
-      [formControl]="inputCtrl"
-    />
-  </label>
-  <button type="submit" (click)="addGeneGraphic()">New GeneGraphic</button>
+  <div id="editor-tabs">
+    <button type="button" (click)="onChangeTab('GeneGraphic')">GeneGraphic</button>
+    <button type="button" (click)="onChangeTab('Settings')">Settings</button>
+    <button type="button" (click)="onChangeTab('Export')">Export</button>
+  </div>
+  <div id="editor-content">
+    <app-editor-gene-graphic *ngIf="openTab == 'GeneGraphic'" [geneGraphic]="geneGraphic"></app-editor-gene-graphic>
+    <app-editor-settings *ngIf="openTab=='Settings'" [geneGraphic]="geneGraphic"></app-editor-settings>
+    <app-editor-export *ngIf="openTab=='Export'"></app-editor-export>
+  </div>
 </div>

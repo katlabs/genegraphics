@@ -1,0 +1,2 @@
+<svg:path [attr.d]="getFeaturePoints()" fill="white" [attr.stroke]="getStrokeColor()" stroke-width="1" (click)="onClickFeature($event)" />
+

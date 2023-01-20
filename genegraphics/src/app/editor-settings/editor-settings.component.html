@@ -1,0 +1,23 @@
+<div class="container-flex-column">
+    <div>Title</div>
+    <div>Text:
+      <input
+      [formControl]="inputCtrl"
+      autocomplete="off"
+      type="text"
+      (change)="changeGeneGraphicName($event)" />
+  </div>
+    <div>Font Size
+      <select>
+        <option value="10pt">10pt</option>
+        <option value="12pt">12pt</option>
+      </select>
+      Font Family
+      <select>
+        <option value="Helvetica">Helvetica</option>
+        <option value="Times">Times</option>
+      </select>
+    </div>
+    <div>Bold <input type="checkbox"> Italic <input type="checkbox"></div>
+  </div>
+

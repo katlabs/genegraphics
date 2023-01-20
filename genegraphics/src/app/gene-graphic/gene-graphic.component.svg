@@ -1,0 +1,5 @@
+<svg id="geneGraphic" [attr.height]="svg_height" [attr.width]="geneGraphic.width" (click)="onClick($event)" >
+  <text x="0" y="20">{{geneGraphic.title}}</text>
+  <svg:g app-region *ngFor="let region of regions$ | async" [region]="region" [svg_width]="geneGraphic.width" [attr.transform]="getRegionTransform(region.position)" />
+</svg>
+

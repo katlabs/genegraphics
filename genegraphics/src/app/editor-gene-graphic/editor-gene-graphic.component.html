@@ -1,0 +1,26 @@
+<div class="container-flex-row">
+  <div class="container-flex-column">
+    <div>Your GeneGraphics</div>
+    <div>
+      <select
+        [formControl]="selectCtrl"
+        (change)="changeActiveGeneGraphic($event)"
+        >
+        <option
+          *ngFor="let geneGraphic of geneGraphics$ | async; index as i"
+          [value]="geneGraphic.id">
+          {{ geneGraphic.title }}&nbsp;{{geneGraphic.id}}
+        </option>
+        <option value=0 >Add new...</option>
+      </select>
+      </div>
+  </div>
+  <div class="container-flex-column">
+    <div> File upload </div>
+    <app-file-upload></app-file-upload>
+  </div>
+  <div class="container-flex-column">
+    <div> NCBI Fetch </div>
+    <div> Stuff here </div>
+  </div>
+  </div>

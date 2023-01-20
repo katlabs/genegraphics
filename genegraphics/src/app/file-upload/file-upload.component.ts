@@ -8,20 +8,22 @@ import { TsvParseService } from '../tsv-parse.service';
 })
 export class FileUploadComponent {
 
-  fileContent: string = "";
-  loading: boolean = false;
+  private newGeneGraphic = true;
 
   constructor(private tsvParseService: TsvParseService){}
 
   async onFileChange(event: any){
     let file = event.target.files[0];
-    this.fileContent = await file.text();
+    let fileContent = await file.text();
+    this.tsvParseService.parseAndStore(fileContent, this.newGeneGraphic)
   }
 
-  onUpload(newSession: boolean) {
-    this.loading = true;
-    this.tsvParseService.parseAndStore(this.fileContent, newSession)
-    this.loading = false;
+  async onClick(newGeneGraphic: boolean) {
+    this.newGeneGraphic = newGeneGraphic;
+    let uploader = document.getElementById("uploader");
+    if (uploader){
+      uploader.click();
+    }
   }
 
 }

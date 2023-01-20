@@ -1,8 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { DatabaseService, GeneGraphic } from '../database.service';
-import { liveQuery } from 'dexie';
-
+import { Component, Input } from '@angular/core';
+import { GeneGraphic } from '../database.service';
 
 @Component({
   selector: 'app-editor',
@@ -10,35 +7,13 @@ import { liveQuery } from 'dexie';
   styleUrls: ['./editor.component.scss']
 })
 
-export class EditorComponent implements OnChanges {
+export class EditorComponent {
   @Input() geneGraphic!: GeneGraphic;
-  geneGraphics$ = liveQuery(()=> this.listGeneGraphics());
-  selectCtrl = new FormControl();
-  inputCtrl = new FormControl();
+  openTab = "GeneGraphic";
 
-  constructor( private db: DatabaseService ){}
+  constructor(){}
 
-  async listGeneGraphics() {
-    return await this.db.geneGraphics.toArray();
+  onChangeTab(tab: string){
+    this.openTab = tab;
   }
-
-  async changeActiveGeneGraphic(e: any) {
-    let id = parseInt(e.target.value);
-    await this.db.geneGraphics.update(id, {
-      opened: Date.now()
-    })
-  }
-
-  async addGeneGraphic() {
-    await this.db.geneGraphics.add({
-      title: this.inputCtrl.value,
-      opened: Date.now()
-    });
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes['geneGraphic']){
-      this.selectCtrl.setValue(changes['geneGraphic'].currentValue.id);
-    }
-  }
-
 }

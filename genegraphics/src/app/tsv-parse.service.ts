@@ -16,8 +16,12 @@ export class TsvParseService {
     private papa: Papa
   ) { }
 
-  private async parseTsvData(geneGraphicId: number, data: any[], fields: string[]) {
-
+  private async parseTsvData(geneGraphicId: number, data: any[], fields: string[]): Promise<any[]> {
+    let existingRegions = await this.db.regions.where({geneGraphicId: geneGraphicId}).toArray();
+    let regionPos = 1;
+    if (existingRegions){
+      regionPos = existingRegions.length + 1;
+    }
     let fieldNames!: Fields;
     if (isGizmogeneData(data)){
       fieldNames = GizmogeneFields;
@@ -43,14 +47,17 @@ export class TsvParseService {
         addRegions.push({
           id: currRegionId,
           name: item[fieldNames.regionName],
-          geneGraphicId: geneGraphicId
+          geneGraphicId: geneGraphicId,
+          position: regionPos,
         })
       } else if (data[index][fieldNames.regionChange] !== data[index-1][fieldNames.regionChange]){
         currRegionId++;
+        regionPos++;
         addRegions.push({
           id: currRegionId,
           name: item[fieldNames.regionName],
-          geneGraphicId: geneGraphicId
+          geneGraphicId: geneGraphicId,
+          position: regionPos,
         })
       }
       addFeatures.push({
@@ -71,7 +78,8 @@ export class TsvParseService {
     if (newSession){
        geneGraphicId = await this.db.geneGraphics.add({
         title: "New GeneGraphic",
-        opened: Date.now()
+        opened: Date.now(),
+        width: 1000
       });
     } else {
       await this.db.geneGraphics.orderBy('opened').last().then(val=>{
