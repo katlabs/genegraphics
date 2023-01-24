@@ -4,11 +4,11 @@ import { DatabaseService, GeneGraphic } from '../database.service';
 import { liveQuery } from 'dexie';
 
 @Component({
-  selector: 'app-editor-gene-graphic',
-  templateUrl: './editor-gene-graphic.component.html',
-  styleUrls: ['./editor-gene-graphic.component.scss']
+  selector: 'app-editor-data',
+  templateUrl: './editor-data.component.html',
+  styleUrls: ['./editor-data.component.scss']
 })
-export class EditorGeneGraphicComponent implements OnChanges {
+export class EditorDataComponent implements OnChanges {
   @Input() geneGraphic!: GeneGraphic;
   geneGraphics$ = liveQuery(()=> this.listGeneGraphics())
   selectCtrl = new FormControl();

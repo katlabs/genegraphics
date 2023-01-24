@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class EditorService {
 
   selectedFeatures: number[] = new Array();
-  openTab = "GeneGraphic";
+  openTab = "Data";
   imageWidth = 1000;
 
   constructor() { }

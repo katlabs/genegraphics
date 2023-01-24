@@ -8,7 +8,7 @@ import { RegionComponent } from './region/region.component';
 import { FeatureComponent } from './feature/feature.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { EditorComponent } from './editor/editor.component';
-import { EditorGeneGraphicComponent } from './editor-gene-graphic/editor-gene-graphic.component';
+import { EditorDataComponent } from './editor-data/editor-data.component';
 import { EditorSettingsComponent } from './editor-settings/editor-settings.component';
 import { EditorExportComponent } from './editor-export/editor-export.component';
 
@@ -20,7 +20,7 @@ import { EditorExportComponent } from './editor-export/editor-export.component';
     FeatureComponent,
     FileUploadComponent,
     EditorComponent,
-    EditorGeneGraphicComponent,
+    EditorDataComponent,
     EditorSettingsComponent,
     EditorExportComponent,
   ],
