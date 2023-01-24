@@ -5,5 +5,5 @@ export function getWindowWidth() {
     document.body.offsetWidth,
     document.documentElement.offsetWidth,
     document.documentElement.clientWidth
-  );
+  ) + 16;
 }

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { GeneGraphic } from '../database.service';
+import { EditorService } from '../editor.service';
 
 @Component({
   selector: 'app-editor',
@@ -9,11 +10,14 @@ import { GeneGraphic } from '../database.service';
 
 export class EditorComponent {
   @Input() geneGraphic!: GeneGraphic;
-  openTab = "GeneGraphic";
 
-  constructor(){}
+  constructor(private editorService: EditorService){}
+
+  getOpenTab(){
+    return this.editorService.openTab;
+  }
 
   onChangeTab(tab: string){
-    this.openTab = tab;
+    this.editorService.openTab = tab;
   }
 }

@@ -1,23 +1,44 @@
-<div class="container-flex-column">
-    <div>Title</div>
-    <div>Text:
-      <input
-      [formControl]="inputCtrl"
-      autocomplete="off"
-      type="text"
-      (change)="changeGeneGraphicName($event)" />
-  </div>
-    <div>Font Size
-      <select>
-        <option value="10pt">10pt</option>
-        <option value="12pt">12pt</option>
-      </select>
-      Font Family
-      <select>
-        <option value="Helvetica">Helvetica</option>
-        <option value="Times">Times</option>
-      </select>
+<div id="settings-content" class="container-flex-row">
+  <form [formGroup]="globalForm">
+    <div id="global-settings" class="container-flex-column">
+      <div class="container-flex-row">
+        <div class="container-flex-column">
+          <div class="container-flex-row">
+            <label for="width">Image Width: </label>
+            <input id="width" type="number" min="100" max="3000" size="4" formControlName="width">
+          </div>
+          <div class="container-flex-row">
+            <label for="featureHeight">Feature Height: </label>
+            <input id="featureHeight" type="number" min="5" max="300" size="4" formControlName="featureHeight">
+          </div>
+          <div class="container-flex-row">
+            <input id="showScale" type="checkbox" formControlName="showScale">
+            <label for="showScale">Show Scale</label>
+          </div>
+        </div>
+        <div class="container-flex-column">
+          <div class="container-flex-row">
+            <input id="multilane" type="checkbox" formControlName="multilane">
+            <label for="mulilane">Multiple Lanes</label>
+          </div>
+          <div class="container-flex-row">
+            <input id="gaps" type="checkbox" formControlName="gaps">
+            <label for="gaps">Keep Gaps</label>
+          </div>
+          <div class="container-flex-row">
+            <input id="overlap" type="checkbox" formControlName="overlap">
+            <label for="overlap">Allow Overlapping</label>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>Bold <input type="checkbox"> Italic <input type="checkbox"></div>
+  </form>
+  <div id="group-settings" class="container-flex-column">
+    <div>Groups</div>
+    <div>Something 1</div>
+    <div>Something 2</div>
+    <div>Something 3</div>
   </div>
-
+  <div *ngIf="displaySelectedSettings()">
+  </div>
+</div>

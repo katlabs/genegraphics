@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DatabaseService, GeneGraphic } from '../database.service';
 import { EditorService } from '../editor.service';
 import { liveQuery } from 'dexie';
@@ -8,12 +8,10 @@ import { liveQuery } from 'dexie';
   templateUrl: './gene-graphic.component.svg',
   styleUrls: ['./gene-graphic.component.scss']
 })
-export class GeneGraphicComponent implements OnChanges, OnInit {
+export class GeneGraphicComponent implements OnChanges {
   @Input() geneGraphic!: GeneGraphic;
-  regions$ = liveQuery(() => this.getRegions());
+  regions$: any;
   svg_height!: number;
-
-  // TODO: Make settings
   private top_margin = 40;
   private left_margin = 5;
   private region_height = 100;
@@ -29,19 +27,30 @@ export class GeneGraphicComponent implements OnChanges, OnInit {
     return `translate(${this.left_margin},${(pos-1)*this.region_height+this.top_margin})`
   }
 
+  getTitleTransform(){
+    return `translate(0,20)`;
+  }
+
+  getScaleTransform(){
+    let y = 20;
+    if (this.geneGraphic.titleProps.show){
+      y += 20;
+    }
+    return `translate(0,${y})`;
+  }
+
+  updateSvgHeight(vals: any){
+    this.svg_height = vals.length*this.region_height+this.top_margin;
+  }
+
   onClick(e: any){
     this.editorService.deselectFeatures();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['geneGraphic']){
-      this.regions$ = liveQuery(()=> this.getRegions())
+      this.regions$ = liveQuery(()=> this.getRegions());
+      this.regions$.subscribe((vals: any[])=>this.updateSvgHeight(vals));
     }
-  }
-
-  ngOnInit(): void {
-    this.regions$.subscribe(vals=> {
-      this.svg_height = vals.length*this.region_height+this.top_margin;
-    });
   }
 }

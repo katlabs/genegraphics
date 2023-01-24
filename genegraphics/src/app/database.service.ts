@@ -4,33 +4,33 @@ import { getWindowWidth } from './utils/window';
 
 export interface TextProps {
   show: boolean;
-  bold?: boolean;
-  italic?: boolean;
-  fontSize?: number;
-  fontFamily?: string;
-  color?: string;
-  posHor?: string;
-  posVert?: string;
+  bold: boolean;
+  italic: boolean;
+  fontSize: number;
+  fontFamily: string;
+  color: string;
+  posHor: string;
+  posVert: string;
 }
 
 export interface Feature {
   id?: number;
   regionId: number;
   name: string;
-  nameProps?: TextProps;
+  nameProps: TextProps;
   start: number;
   stop: number;
   length: number;
-  shape?: string;
+  shape: string;
 }
 
 export interface Region {
   id?: number;
   geneGraphicId: number;
   name: string;
-  nameProps?: TextProps;
+  nameProps: TextProps;
   position: number;
-  lanes?: number;
+  lanes: number;
 }
 
 export interface GeneGraphic {
@@ -38,11 +38,12 @@ export interface GeneGraphic {
   title: string;
   opened: number;
   width: number;
-  featureHeight?: number;
-  showScale?: boolean;
-  multilane?: boolean;
-  gaps?: boolean;
-  overlap?: boolean;
+  titleProps: TextProps;
+  featureHeight: number;
+  showScale: boolean;
+  multilane: boolean;
+  gaps: boolean;
+  overlap: boolean;
 }
 
 @Injectable({
@@ -53,17 +54,6 @@ export class DatabaseService extends Dexie {
   geneGraphics!: Table<GeneGraphic, number>;
   regions!: Table<Region, number>;
   features!: Table<Feature, number>;
-  public initGeneGraphic = {
-    id: 1,
-    title: "New GeneGraphic",
-    opened: Date.now(),
-    width: getWindowWidth(),
-    featureHeight: 50,
-    showScale: true,
-    multilane: true,
-    gaps: true,
-    overlap: true
-  }
 
   constructor() {
     super('GeneGraphicsDB');
@@ -76,8 +66,39 @@ export class DatabaseService extends Dexie {
     this.on('populate', () => this.populate());
   }
 
+  makeNewTextProps(){
+    return {
+      show: true,
+      bold: false,
+      italic: false,
+      fontSize: 12,
+      fontFamily: "Arial, sans-serif",
+      color: "#000000",
+      posHor: "left",
+      posVert: "above"
+    }
+  }
+
+  async addNewGeneGraphic(){
+    return await this.geneGraphics.add(this.makeNewGeneGraphic());
+  }
+
+  makeNewGeneGraphic(title?: string, titleProps?: TextProps, width?: number, featureHeight?: number, showScale?: boolean, multilane?: boolean, gaps?: boolean, overlap?: boolean){
+    return {
+      title: title ? title : "New GeneGraphic",
+      titleProps: titleProps? titleProps : this.makeNewTextProps(),
+      opened: Date.now(),
+      width: width ? width : getWindowWidth(),
+      featureHeight: featureHeight ? featureHeight : 50,
+      showScale: showScale ? showScale : true,
+      multilane: multilane ? multilane : true,
+      gaps: gaps ? gaps : true,
+      overlap: overlap ? overlap : true
+    }
+  }
+
   async populate() {
-    return await this.geneGraphics.add(this.initGeneGraphic);
+    return await this.addNewGeneGraphic();
   }
 
 }

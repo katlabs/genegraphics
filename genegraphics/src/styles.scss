@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+div.container-flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+div.container-flex-column {
+  display: flex;
+  flex-direction: column;
+}

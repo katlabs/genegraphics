@@ -1,3 +1,5 @@
 <h1>{{title}}</h1>
-<app-editor [geneGraphic]="geneGraphic"></app-editor>
-<app-gene-graphic [geneGraphic]="geneGraphic"></app-gene-graphic>
+<app-editor *ngIf="geneGraphic" [geneGraphic]="geneGraphic"></app-editor>
+<div id="genegraphic-container">
+  <app-gene-graphic *ngIf="geneGraphic" [geneGraphic]="geneGraphic"></app-gene-graphic>
+</div>

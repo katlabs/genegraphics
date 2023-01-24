@@ -5,8 +5,8 @@
     <button type="button" (click)="onChangeTab('Export')">Export</button>
   </div>
   <div id="editor-content">
-    <app-editor-gene-graphic *ngIf="openTab == 'GeneGraphic'" [geneGraphic]="geneGraphic"></app-editor-gene-graphic>
-    <app-editor-settings *ngIf="openTab=='Settings'" [geneGraphic]="geneGraphic"></app-editor-settings>
-    <app-editor-export *ngIf="openTab=='Export'"></app-editor-export>
+    <app-editor-gene-graphic *ngIf="getOpenTab()== 'GeneGraphic'" [geneGraphic]="geneGraphic"></app-editor-gene-graphic>
+    <app-editor-settings *ngIf="getOpenTab()=='Settings'" [geneGraphic]="geneGraphic"></app-editor-settings>
+    <app-editor-export *ngIf="getOpenTab()=='Export'"></app-editor-export>
   </div>
 </div>

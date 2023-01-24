@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Region, Feature, DatabaseService } from '../database.service';
+import { Region, Feature, DatabaseService, GeneGraphic } from '../database.service';
 import { liveQuery } from 'dexie';
 
 @Component({
@@ -10,10 +10,10 @@ import { liveQuery } from 'dexie';
 export class RegionComponent implements OnInit {
   @Input() region!: Region;
   @Input() svg_width!: number;
+  @Input() geneGraphic!: GeneGraphic;
   features$ = liveQuery(() => this.getFeatures());
   offset = 0;
   region_size = 0;
-  feature_height = 50; //TODO: Make setting
 
   constructor(private db: DatabaseService){}
 
@@ -24,7 +24,7 @@ export class RegionComponent implements OnInit {
   }
 
   bpToPx(x: number){
-    return x*(this.svg_width/this.region_size);
+    return x*(this.geneGraphic.width/this.region_size);
   }
 
   getFeatureLength(feat: Feature){
@@ -37,14 +37,16 @@ export class RegionComponent implements OnInit {
 
   ngOnInit(): void {
     this.features$.subscribe(feats=>{
-      let first_bp = feats[0].start;
-      let last_bp = feats[0].stop;
-      feats.forEach(feat=>{
-        first_bp = feat.start < first_bp ? feat.start : feat.stop < first_bp ? feat.stop : first_bp;
-        last_bp = feat.start > last_bp ? feat.start : feat.stop > last_bp ? feat.stop : last_bp;
-      })
-      this.offset = first_bp;
-      this.region_size = last_bp - first_bp;
+      if(feats.length != 0){
+        let first_bp = feats[0].start;
+        let last_bp = feats[0].stop;
+        feats.forEach(feat=>{
+          first_bp = feat.start < first_bp ? feat.start : feat.stop < first_bp ? feat.stop : first_bp;
+          last_bp = feat.start > last_bp ? feat.start : feat.stop > last_bp ? feat.stop : last_bp;
+        })
+        this.offset = first_bp;
+        this.region_size = last_bp - first_bp;
+      }
     })
   }
 

@@ -10,7 +10,7 @@ import { liveQuery } from 'dexie';
 export class AppComponent implements OnInit{
   title = 'genegraphics';
   geneGraphics$ = liveQuery(()=> this.getGeneGraphics());
-  geneGraphic: GeneGraphic = this.db.initGeneGraphic;
+  geneGraphic: GeneGraphic | undefined;
 
   constructor(private db: DatabaseService){}
 

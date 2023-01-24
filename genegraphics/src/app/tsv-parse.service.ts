@@ -47,8 +47,10 @@ export class TsvParseService {
         addRegions.push({
           id: currRegionId,
           name: item[fieldNames.regionName],
+          nameProps: this.db.makeNewTextProps(),
           geneGraphicId: geneGraphicId,
           position: regionPos,
+          lanes: 1
         })
       } else if (data[index][fieldNames.regionChange] !== data[index-1][fieldNames.regionChange]){
         currRegionId++;
@@ -56,15 +58,19 @@ export class TsvParseService {
         addRegions.push({
           id: currRegionId,
           name: item[fieldNames.regionName],
+          nameProps: this.db.makeNewTextProps(),
           geneGraphicId: geneGraphicId,
           position: regionPos,
+          lanes: 1
         })
       }
       addFeatures.push({
         name: item[fieldNames.featureName],
+        nameProps: this.db.makeNewTextProps(),
         start: item[fieldNames.start],
         stop: item[fieldNames.stop],
         length: item[fieldNames.length],
+        shape: "arrow",
         regionId: currRegionId
       })
 
@@ -76,11 +82,7 @@ export class TsvParseService {
   private async getOrCreateGeneGraphic(newSession: boolean){
     let geneGraphicId!: number;
     if (newSession){
-       geneGraphicId = await this.db.geneGraphics.add({
-        title: "New GeneGraphic",
-        opened: Date.now(),
-        width: 1000
-      });
+       geneGraphicId = await this.db.addNewGeneGraphic();
     } else {
       await this.db.geneGraphics.orderBy('opened').last().then(val=>{
         if(val?.id){

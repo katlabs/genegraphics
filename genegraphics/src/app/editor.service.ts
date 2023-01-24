@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 export class EditorService {
 
   selectedFeatures: number[] = new Array();
+  openTab = "GeneGraphic";
+  imageWidth = 1000;
 
   constructor() { }
 
@@ -18,8 +20,10 @@ export class EditorService {
         this.selectedFeatures = this.selectedFeatures.filter(item => item !== id);
     } else if(multi){
       this.selectedFeatures.push(id);
+      this.openTab = "Settings";
     } else {
-      this.selectedFeatures = [id]
+      this.selectedFeatures = [id];
+      this.openTab = "Settings";
     }
   }
 }

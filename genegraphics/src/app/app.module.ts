@@ -22,7 +22,7 @@ import { EditorExportComponent } from './editor-export/editor-export.component';
     EditorComponent,
     EditorGeneGraphicComponent,
     EditorSettingsComponent,
-    EditorExportComponent
+    EditorExportComponent,
   ],
   imports: [
     BrowserModule,

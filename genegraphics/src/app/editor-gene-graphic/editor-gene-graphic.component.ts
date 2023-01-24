@@ -31,13 +31,22 @@ export class EditorGeneGraphicComponent implements OnChanges {
   }
 
   async addGeneGraphic() {
-    await this.db.geneGraphics.add({
-      title: 'New GeneGraphic',
-      opened: Date.now(),
-      width: this.geneGraphic.width,
-      featureHeight: this.geneGraphic.featureHeight,
-      showScale: this.geneGraphic.showScale
-    });
+    await this.db.addNewGeneGraphic();
+  }
+
+  async deleteGeneGraphic() {
+    await this.db.transaction('rw', this.db.geneGraphics, this.db.regions, this.db.features, async ()=>{
+      let regionIds = await this.db.regions.where({geneGraphicId: this.geneGraphic.id}).primaryKeys();
+      let featureIds = await this.db.features.where('regionId').anyOf(regionIds).primaryKeys();
+      let geneGraphics = await this.db.geneGraphics.toArray();
+      if(geneGraphics.length > 1){
+        await this.db.geneGraphics.where({id: this.geneGraphic.id}).delete();
+      } else if(geneGraphics[0].id) {
+        this.db.geneGraphics.update(geneGraphics[0].id, {title: "New GeneGraphic"});
+      }
+      await this.db.regions.bulkDelete(regionIds);
+      await this.db.features.bulkDelete(featureIds);
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
