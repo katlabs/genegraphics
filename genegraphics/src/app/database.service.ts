@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
-import { getWindowWidth } from './utils/window';
 
 export interface TextProps {
   show: boolean;
@@ -22,6 +21,7 @@ export interface Feature {
   stop: number;
   length: number;
   shape: string;
+  lane: number;
 }
 
 export interface Region {
@@ -31,6 +31,8 @@ export interface Region {
   nameProps: TextProps;
   position: number;
   lanes: number;
+  size: number;
+  offset: number;
 }
 
 export interface GeneGraphic {
@@ -88,7 +90,7 @@ export class DatabaseService extends Dexie {
       title: title ? title : "New GeneGraphic",
       titleProps: titleProps? titleProps : this.makeNewTextProps(),
       opened: Date.now(),
-      width: width ? width : getWindowWidth(),
+      width: width ? width : 1000,
       featureHeight: featureHeight ? featureHeight : 50,
       showScale: showScale ? showScale : true,
       multilane: multilane ? multilane : true,

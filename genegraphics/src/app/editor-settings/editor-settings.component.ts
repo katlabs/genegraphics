@@ -26,8 +26,12 @@ export class EditorSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.globalForm = new FormGroup({
-      width: new FormControl(this.geneGraphic.width, [Validators.required, Validators.min(100), Validators.max(3000)]),
-      featureHeight: new FormControl(this.geneGraphic.featureHeight, [Validators.required, Validators.min(5), Validators.max(100)]),
+      width: new FormControl(this.geneGraphic.width,{
+        validators: [Validators.required, Validators.min(100), Validators.max(3000)],
+        updateOn: "blur"}),
+      featureHeight: new FormControl(this.geneGraphic.featureHeight,{
+        validators: [Validators.required, Validators.min(5), Validators.max(100)],
+        updateOn: "blur"}),
       multilane: new FormControl(this.geneGraphic.multilane, [Validators.required]),
       gaps: new FormControl(this.geneGraphic.gaps, [Validators.required]),
       overlap: new FormControl(this.geneGraphic.overlap, [Validators.required]),

@@ -1,5 +1,5 @@
-<svg:g x="0" y="10" width="2000" height="100" id="region-{{region.id}}">
-  <svg:text x="0" y="10">{{region.name}}</svg:text>
+<svg:g x="0" y="0" width="geneGraphic.width" height="100" id="region-{{region.id}}">
+  <svg:text x="0" y="0">{{region.name}}</svg:text>
   <svg:g app-feature
     *ngFor="let feature of features$ | async"
     [feature]="feature"

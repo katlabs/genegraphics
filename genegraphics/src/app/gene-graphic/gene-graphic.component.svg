@@ -1,6 +1,22 @@
-<svg id="geneGraphic" [attr.height]="svg_height" [attr.width]="geneGraphic.width" (click)="onClick($event)" >
-  <text *ngIf="geneGraphic.titleProps.show" [attr.transform]="getTitleTransform()">{{geneGraphic.title}}</text>
-  <text *ngIf="geneGraphic.showScale" [attr.transform]="getScaleTransform()"> Scale </text>
-  <svg:g app-region *ngFor="let region of regions$ | async" [region]="region" [geneGraphic]="geneGraphic" [attr.transform]="getRegionTransform(region.position)" />
+<svg
+  id="geneGraphic"
+  *ngIf="regions"
+  [attr.height]="getSvgHeight()"
+  [attr.width]="geneGraphic.width"
+  (click)="onClick($event)" >
+  <text
+    *ngIf="geneGraphic.titleProps.show"
+    [attr.transform]="getTitleTransform()"
+    >{{geneGraphic.title}}</text>
+  <text
+    *ngIf="geneGraphic.showScale"
+    [attr.transform]="getScaleTransform()"> Scale </text>
+  <svg:g app-region
+    *ngFor="let region of regions$ | async"
+    [region]="region"
+    [geneGraphic]="geneGraphic"
+    [bpToPxRatio]="bpToPxRatio"
+    [attr.transform]="getRegionTransform(region.position)"
+    />
 </svg>
 

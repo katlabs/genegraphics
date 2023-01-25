@@ -42,6 +42,9 @@ export class TsvParseService {
         currRegionId = 1;
       }
     });
+    let first_bp = Math.min(data[0][fieldNames.start],data[0][fieldNames.stop]);
+    let last_bp = Math.min(data[0][fieldNames.start],data[0][fieldNames.stop]);
+    let region_lanes = 1;
     data.forEach((item: any, index: number)=>{
       if(index === 0){
         addRegions.push({
@@ -50,20 +53,39 @@ export class TsvParseService {
           nameProps: this.db.makeNewTextProps(),
           geneGraphicId: geneGraphicId,
           position: regionPos,
-          lanes: 1
+          lanes: 1,
+          size: 0,
+          offset: 0,
         })
       } else if (data[index][fieldNames.regionChange] !== data[index-1][fieldNames.regionChange]){
+        let lastInd = addRegions.findIndex(x => x.id == currRegionId);
+        addRegions[lastInd].size = last_bp-first_bp;
+        addRegions[lastInd].offset = first_bp;
+        addRegions[lastInd].lanes = region_lanes;
+        region_lanes = 1;
         currRegionId++;
         regionPos++;
+        first_bp = item[fieldNames.start];
+        last_bp = item[fieldNames.stop];
         addRegions.push({
           id: currRegionId,
           name: item[fieldNames.regionName],
           nameProps: this.db.makeNewTextProps(),
           geneGraphicId: geneGraphicId,
           position: regionPos,
-          lanes: 1
+          lanes: region_lanes,
+          size: 0,
+          offset: 0
         })
       }
+      let feat_lane = 1;
+      let feat_first_bp = Math.min(item[fieldNames.start],item[fieldNames.stop]);
+      if (index > 0 && addFeatures.at(-1)?.regionId == currRegionId && feat_first_bp < last_bp && addFeatures.at(-1)?.lane!=2){
+        feat_lane = 2;
+        region_lanes = 2;
+      }
+      first_bp = Math.min(first_bp, feat_first_bp);
+      last_bp = Math.max(last_bp, item[fieldNames.start], item[fieldNames.stop]);
       addFeatures.push({
         name: item[fieldNames.featureName],
         nameProps: this.db.makeNewTextProps(),
@@ -71,10 +93,15 @@ export class TsvParseService {
         stop: item[fieldNames.stop],
         length: item[fieldNames.length],
         shape: "arrow",
-        regionId: currRegionId
+        regionId: currRegionId,
+        lane: feat_lane
       })
-
     });
+    let lastInd = addRegions.findIndex(x => x.id == currRegionId);
+    addRegions[lastInd].size = last_bp-first_bp;
+    addRegions[lastInd].offset = first_bp;
+    addRegions[lastInd].lanes = region_lanes;
+
 
     return [addRegions, addFeatures];
   }

@@ -1,2 +1,11 @@
-<svg:path [attr.d]="getFeaturePoints()" fill="white" [attr.stroke]="getStrokeColor()" stroke-width="1" (click)="onClickFeature($event)" />
-
+<svg:path
+  [attr.d]="getFeaturePoints()"
+  fill="white"
+  [attr.stroke]="getStrokeColor()"
+  stroke-width="1"
+  (click)="onClickFeature($event)" />
+<svg:text
+  x="10"
+  y="25">
+  {{feature.name}}
+  </svg:text>
