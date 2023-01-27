@@ -14,8 +14,15 @@ export class FileUploadComponent {
 
   async onFileChange(event: any){
     let file = event.target.files[0];
-    let fileContent = await file.text();
-    this.tsvParseService.parseAndStore(fileContent, this.newGeneGraphic)
+    let file_ext: string = file.name.split(".")[1];
+    if (file_ext.toLowerCase() == "tsv"){
+      let fileContent = await file.text();
+      this.tsvParseService.parseAndStore(fileContent, this.newGeneGraphic).catch(error=>{
+        console.log(error);
+      })
+    } else {
+      console.log("Unknown filetype");
+    }
   }
 
   async onClick(newGeneGraphic: boolean) {

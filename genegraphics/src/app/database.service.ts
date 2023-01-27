@@ -21,7 +21,9 @@ export interface Feature {
   stop: number;
   length: number;
   shape: string;
+  colors: Array<string>;
   lane: number;
+  data: any;
 }
 
 export interface Region {
@@ -33,6 +35,7 @@ export interface Region {
   lanes: number;
   size: number;
   offset: number;
+  data: any;
 }
 
 export interface GeneGraphic {
