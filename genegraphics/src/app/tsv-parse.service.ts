@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { DatabaseService, GeneGraphic, Region, Feature, TextProps } from './database.service';
+import { DatabaseService, Region, Feature, TextProps } from './database.service';
 import { Papa } from 'ngx-papaparse';
-import { GizmogeneHeader, SeedHeader, LegacyHeader } from './utils/tsv-headers';
+import { parseBool } from './utils/tsv-functions';
 
 @Injectable({
   providedIn: 'root'
@@ -13,315 +13,204 @@ export class TsvParseService {
     private papa: Papa
   ) { }
 
-  private async getOrCreateGeneGraphic(newSession: boolean){
-    let geneGraphicId!: number;
-    if (newSession){
-       geneGraphicId = await this.db.addNewGeneGraphic();
-    } else {
-      await this.db.geneGraphics.orderBy('opened').last().then(val=>{
-        if(val?.id){
-          geneGraphicId = val.id
-        }
-      })
-    }
-    if (!geneGraphicId){
-      throw new Error('Cannot retrieve id of the GeneGraphic');
-    }
-    return geneGraphicId;
-  }
-
-  private async getRegionOffsets(geneGraphicId:number): Promise<[number,number]> {
-    let allRegions = await this.db.regions.orderBy('id').toArray()
-    let lastRegion = allRegions.at(-1);
-    let regionId_offset = lastRegion?.id ? lastRegion.id : 0;
-    let regionPos_offset = allRegions.reduce((acc, cur) => cur.geneGraphicId === geneGraphicId ? ++acc : acc, 0);
-
-    return [regionId_offset, regionPos_offset];
-  }
-
-  private headersEqual(a: string[], b: string[]): boolean {
-    if (a === b) return true;
-    if (a == null || b == null) return false;
-    if (a.length !== b.length) return false;
-
-    let a_sorted = [...a].sort();
-    let b_sorted = [...b].sort();
-
-    for (var i = 0; i < a_sorted.length; ++i) {
-      if (a_sorted[i] !== b_sorted[i]) return false;
-    }
-    return true;
-  }
-
-
-  private getIndexOrBlank(header: string[], name: string, item: any[]){
-    let val = item[header.indexOf(name)];
-    return val ? String(val) : "";
-  }
-
-  private parseBool(s: string){
-    return s.toLowerCase() == "true" ? true :
-      s.toLowerCase() == "false" ? false:
-      null;
-  }
-
   private parseFeatureProps(item: any[], header: string[]): TextProps {
     let nameProps = this.db.makeNewTextProps();
-    let namehtml: string = item[header.indexOf("namehtml")];
-    nameProps.bold = (namehtml.search("<strong>") != -1)? true: false;
-    nameProps.italic = (namehtml.search("<em>") != -1)? true : false;
-    let font_size_match = namehtml.match(/font-size: (\d+)[pt]?;/)
-    if (font_size_match?.at(1)){ nameProps.fontSize = parseInt(font_size_match[1])}
-    let color_match = namehtml.match(/color: (#?[\d|A-Z|a-z]+);/)
-    if (color_match?.at(1)){ nameProps.color = color_match[1]; }
-    let text_align_match = namehtml.match(/text-align: ([a-z|A-Z]+);/)
-    if (text_align_match?.at(1)){ nameProps.posHor = text_align_match[1]; }
-    let labelvertpos = item[header.indexOf("labelvertpos")];
-    nameProps.posVert =  (labelvertpos === "top") ? "above" :
-      (labelvertpos === "middle") ? "center" :
-        (labelvertpos === "bottom") ? "below" :
-          nameProps.posVert;
+    let namehtml: string | undefined = item[header.indexOf("namehtml")];
+    if (namehtml){
+      nameProps.bold = (namehtml.search("<strong>") != -1)? true: false;
+      nameProps.italic = (namehtml.search("<em>") != -1)? true : false;
+      let font_size_match = namehtml.match(/font-size: (\d+)[pt]?;/)
+      if (font_size_match?.at(1)){ nameProps.fontSize = parseInt(font_size_match[1])}
+      let color_match = namehtml.match(/color: (#?[\d|A-Z|a-z]+);/)
+      if (color_match?.at(1)){ nameProps.color = color_match[1]; }
+      let text_align_match = namehtml.match(/text-align: ([a-z|A-Z]+);/)
+      if (text_align_match?.at(1)){ nameProps.posHor = text_align_match[1]; }
+      let labelvertpos = item[header.indexOf("labelvertpos")];
+      nameProps.posVert =  (labelvertpos === "top") ? "above" :
+        (labelvertpos === "middle") ? "center" :
+          (labelvertpos === "bottom") ? "below" :
+            nameProps.posVert;
+    }
     return nameProps;
   }
   private parseRegionProps(item: any[], header: string[]): TextProps {
     let nameProps = this.db.makeNewTextProps();
-    let genomehtml: string = item[header.indexOf("genomehtml")];
-    nameProps.bold = (genomehtml.search("<strong>") != -1)? true: false;
-    nameProps.italic = (genomehtml.search("<em>") != -1)? true : false;
-    let font_size_match = genomehtml.match(/font-size: (\d+)[pt]?;/)
-    if (font_size_match?.at(1)){ nameProps.fontSize = parseInt(font_size_match[1])}
-    let color_match = genomehtml.match(/color: (#?[\d|A-Z|a-z]+);/)
-    if (color_match?.at(1)){ nameProps.color = color_match[1]; }
-    let text_align_match = genomehtml.match(/text-align: ([a-z|A-Z]+);/)
-    if (text_align_match?.at(1)){ nameProps.posHor = text_align_match[1]; }
+    let genomehtml: string | undefined = item[header.indexOf("genomehtml")];
+    if (genomehtml){
+      nameProps.bold = (genomehtml.search("<strong>") != -1)? true: false;
+      nameProps.italic = (genomehtml.search("<em>") != -1)? true : false;
+      let font_size_match = genomehtml.match(/font-size: (\d+)[pt]?;/)
+      if (font_size_match?.at(1)){ nameProps.fontSize = parseInt(font_size_match[1])}
+      let color_match = genomehtml.match(/color: (#?[\d|A-Z|a-z]+);/)
+      if (color_match?.at(1)){ nameProps.color = color_match[1]; }
+      let text_align_match = genomehtml.match(/text-align: ([a-z|A-Z]+);/)
+      if (text_align_match?.at(1)){ nameProps.posHor = text_align_match[1]; }
+    }
     return nameProps;
   }
 
-  private parseGizmogene(geneGraphicId:number, data:Array<Array<any>>, header:string[], regionId_offset:number, regionPos_offset:number): [Region[], Feature[]]{
-    let addRegions: Region[] = [];
-    let addFeatures: Feature[] = [];
-    let currRegionId = regionId_offset + 1;
-
-    data.forEach((item: any[], index: number)=>{
-      if ( index > 0 && item[header.indexOf("Region number")] !== data[index-1][header.indexOf("Region number")]){
-        currRegionId++;
-      }
-      let feat_start = item[header.indexOf("Start")];
-      let feat_stop = item[header.indexOf("End")];
-      let feat_first_bp = Math.min(feat_start, feat_stop);
-      let feat_last_bp = Math.max(feat_start, feat_stop);
-      let lane = 1;
-
-      let thisRegion = addRegions.find(r=> r.id === currRegionId);
-      if (!thisRegion){
-        addRegions.push({
-          id: currRegionId,
-          geneGraphicId: geneGraphicId,
-          name: item[header.indexOf("Genome")],
-          nameProps: this.db.makeNewTextProps(),
-          position: addRegions.length + 1 + regionPos_offset,
-          lanes: 1,
-          size: feat_last_bp - feat_first_bp,
-          offset: feat_first_bp,
-          data: {
-            "Genome": this.getIndexOrBlank(header, "Genome", item),
-            "Genome ID": this.getIndexOrBlank(header, "Genome ID", item)
-          }
-        });
-      } else {
-        if (thisRegion.size > (feat_first_bp-thisRegion.offset) && addFeatures.at(-1)?.lane != 2){
-          lane = 2;
-          thisRegion.lanes = 2;
-        }
-        thisRegion.size = (feat_last_bp - thisRegion.offset);
-      }
-
-      addFeatures.push({
-        regionId: currRegionId,
-        name: "",
-        nameProps: this.db.makeNewTextProps(),
-        start: feat_start,
-        stop: feat_stop,
-        length: item[header.indexOf("Length (nt)")],
-        shape: "arrow",
-        colors: ["#FFFFFF"],
-        lane: lane,
-        data: {
-          "Feature ID": this.getIndexOrBlank(header, "Feature ID", item),
-          "Product length (AA)": this.getIndexOrBlank(header, "Product length (AA)", item),
-          "Function": this.getIndexOrBlank(header, "Function", item),
-          "PATRIC Global Family": this.getIndexOrBlank(header, "PATRIC Global Family", item),
-          "PATRIC Local Family": this.getIndexOrBlank(header, "PATRIC Local Family", item),
-          "E value": this.getIndexOrBlank(header, "E value", item),
-          "% identity":this.getIndexOrBlank(header, "% identity", item)
-        }
-      })
-    })
-    return [addRegions, addFeatures];
+  private getGraphSettings(data:Array<Array<any>>) {
+    let last_row_first_col = data.at(-1)?.at(0);
+    if ((typeof last_row_first_col =="string") && last_row_first_col.startsWith("GraphSettings:")){
+      return JSON.parse(data.pop()?.at(0)?.replace("GraphSettings:",""));
+    } else {
+      return null;
+    }
   }
 
-  private parseSeed(geneGraphicId:number, data:Array<Array<any>>, header:string[], regionId_offset:number, regionPos_offset:number): [Region[], Feature[]]{
-    let addRegions: Region[] = [];
-    let addFeatures: Feature[] = [];
-    let currRegionId = regionId_offset + 1;
-
-    data.forEach((item: any[], index: number)=>{
-      if ( index > 0 && item[header.indexOf("Genome")] !== data[index-1][header.indexOf("Genome")]){
-        currRegionId++;
-      }
-      let feat_start = item[header.indexOf("Start")];
-      let feat_stop = item[header.indexOf("Stop")];
-      let feat_first_bp = Math.min(feat_start, feat_stop);
-      let feat_last_bp = Math.max(feat_start, feat_stop);
-      let lane = 1;
-
-      let thisRegion = addRegions.find(r=> r.id === currRegionId);
-      if (!thisRegion){
-        addRegions.push({
-          id: currRegionId,
-          geneGraphicId: geneGraphicId,
-          name: item[header.indexOf("Genome")],
-          nameProps: this.db.makeNewTextProps(),
-          position: addRegions.length + 1 + regionPos_offset,
-          lanes: 1,
-          size: feat_last_bp - feat_first_bp,
-          offset: feat_first_bp,
-          data: {
-            "Genome": this.getIndexOrBlank(header, "Genome", item)
-          }
-        });
-      } else {
-        if (thisRegion.size > (feat_first_bp-thisRegion.offset) && addFeatures.at(-1)?.lane != 2){
-          lane = 2;
-          thisRegion.lanes = 2;
-        }
-        thisRegion.size = (feat_last_bp - thisRegion.offset);
-      }
-
-      addFeatures.push({
-        regionId: currRegionId,
-        name: "",
-        nameProps: this.db.makeNewTextProps(),
-        start: feat_start,
-        stop: feat_stop,
-        length: item[header.indexOf("Size (nt)")],
-        shape: "arrow",
-        colors: ["#FFFFFF"],
-        lane: lane,
-        data: {
-          "ID": this.getIndexOrBlank(header, "ID", item),
-          "Strand": this.getIndexOrBlank(header, "Strand", item),
-          "Function": this.getIndexOrBlank(header, "Function", item),
-          "FC": this.getIndexOrBlank(header, "FC", item),
-          "SS": this.getIndexOrBlank(header, "SS", item),
-          "Set": this.getIndexOrBlank(header, "Set", item)
-        }
-      })
-    })
-    return [addRegions, addFeatures];
-  }
-  private parseLegacy(geneGraphicId:number, data:Array<Array<any>>, header:string[], regionId_offset:number, regionPos_offset:number): [Region[], Feature[], {} | null ]{
-    let graphSettings = data.at(-1)?.at(0).startsWith("GraphSettings:") ?
-      JSON.parse(data.pop()?.at(0)?.replace("GraphSettings:","")) :
-      null;
-    let addRegions: Region[] = [];
-    let addFeatures: Feature[] = [];
-    let updateGenegraphic: {} | null = graphSettings ?
+  private getGenegraphicUpdates(graphSettings: any){
+    return graphSettings ?
       {
         width: parseInt(graphSettings["graphwidth"]),
         featureHeight: parseInt(graphSettings["featureheight"]),
-        showScale: this.parseBool(graphSettings["scaleOn"]),
-        multilane: this.parseBool(graphSettings["multilane"]),
-        gaps: this.parseBool(graphSettings["keepgaps"]),
-        overlap: !this.parseBool(graphSettings["shiftgenes"])
+        showScale: parseBool(graphSettings["scaleOn"]),
+        multilane: parseBool(graphSettings["multilane"]),
+        gaps: parseBool(graphSettings["keepgaps"]),
+        overlap: !parseBool(graphSettings["shiftgenes"])
       } : null;
-    let shape = "arrow";
-    if (graphSettings && graphSettings["arrows"] == "false"){
-      shape = "tag";
+  }
+
+  private getIndexes(header: string[]){
+    let header_lower = header.map(f=>f.toLowerCase());
+    let indexes = {
+      start: header_lower.indexOf("start"),
+      stop: this.getFieldInd(header_lower, ["stop", "end"]),
+      region_change: this.getFieldInd(header_lower, ["region number", "genome", "genome id"]),
+      region_name: this.getFieldInd(header_lower, ["genome", "genome id"]),
+      feature_name:  header_lower.indexOf("name"),
+      genome: header_lower.indexOf("genome"),
+      genome_id: header_lower.indexOf("genome id"),
+      length: this.getFieldInd(header_lower, ["size", "size (nt)", "length", "length (nt)"]),
+      color: header_lower.indexOf("color"),
+      BRC_ID: this.getFieldInd(header_lower, ["feature id", "id"]),
+      product: header_lower.indexOf("function"),
+      patric_global: header_lower.indexOf("patric global family"),
+      patric_local: header_lower.indexOf("patric local family"),
+      product_length: this.getFieldInd(header_lower, ["product length (aa)", "product length"]),
     }
+    if (indexes.start == -1 || indexes.stop ==-1 || indexes.region_change == -1){
+      throw new Error("File format unsupported.");
+    }
+    return indexes;
+  }
+
+  private getFieldInd(header: string[], possible_fields: string[]){
+    for (let f of possible_fields){
+      let ind = header.indexOf(f);
+      if (ind != -1){
+        return ind;
+      }
+    }
+    return -1;
+  }
+
+  private getFieldOrBlank(item: any[], index: number): string{
+    if (index == -1){
+      return "";
+    } else {
+      return item[index];
+    }
+  }
+
+  private parseTSV(geneGraphicId:number, data:Array<Array<any>>, header:string[], regionId_offset:number, regionPos_offset:number): [Region[],Feature[], {} | null]{
+    let addRegions: Region[] = [];
+    let addFeatures: Feature[] = [];
+    let graphSettings = this.getGraphSettings(data);
+    let shape = (graphSettings && graphSettings["arrows"] == "false") ? "tag" : "arrow";
+    let updateGenegraphic = this.getGenegraphicUpdates(graphSettings);
     let currRegionId = regionId_offset + 1;
 
+    let indexes = this.getIndexes(header);
+
     data.forEach((item: any[], index: number)=>{
-      if ( index > 0 && item[header.indexOf("genome")] !== data[index-1][header.indexOf("genome")]){
+      if(index > 0 && item[indexes.region_change] !== data[index-1][indexes.region_change]){
         currRegionId++;
       }
-      let feat_start = item[header.indexOf("start")];
-      let feat_stop = item[header.indexOf("stop")];
+      let feat_start:number = item[indexes.start];
+      let feat_stop:number = item[indexes.stop];
       let feat_first_bp = Math.min(feat_start, feat_stop);
       let feat_last_bp = Math.max(feat_start, feat_stop);
       let lane = 1;
-
-      let colors: string[] = [item[header.indexOf("color")]]
+      let length: number;
+      try {
+        length = parseInt(this.getFieldOrBlank(item, indexes.length))
+      } catch {
+        length = feat_last_bp-feat_first_bp;
+      }
+      let color = this.getFieldOrBlank(item, indexes.color);
+      if (color == "") color = "#FFFFFF";
 
       let thisRegion = addRegions.find(r=> r.id === currRegionId);
       if (!thisRegion){
         addRegions.push({
           id: currRegionId,
           geneGraphicId: geneGraphicId,
-          name: item[header.indexOf("genome")],
+          name: this.getFieldOrBlank(item, indexes.region_name),
           nameProps: this.parseRegionProps(item, header),
           position: addRegions.length + 1 + regionPos_offset,
           lanes: 1,
           size: feat_last_bp - feat_first_bp,
-          offset: feat_first_bp,
-          data: {
-            "Genome": this.getIndexOrBlank(header, "genome", item),
-          }
+          start: feat_first_bp,
+          stop: feat_last_bp,
+          Genome_ID: this.getFieldOrBlank(item, indexes.genome_id),
+          Genome_Name: this.getFieldOrBlank(item, indexes.genome),
+          Accession: ""
         });
       } else {
-        if (thisRegion.size > (feat_first_bp-thisRegion.offset) && addFeatures.at(-1)?.lane != 2){
+        if (thisRegion.size > (feat_first_bp-thisRegion.start) && addFeatures.at(-1)?.lane != 2){
           lane = 2;
           thisRegion.lanes = 2;
         }
-        thisRegion.size = (feat_last_bp - thisRegion.offset);
+        thisRegion.stop = feat_last_bp;
+        thisRegion.size = (feat_last_bp - thisRegion.start);
       }
 
       addFeatures.push({
         regionId: currRegionId,
-        name: item[header.indexOf("name")],
+        name: this.getFieldOrBlank(item, indexes.feature_name),
         nameProps: this.parseFeatureProps(item, header),
         start: feat_start,
         stop: feat_stop,
-        length: item[header.indexOf("size")],
+        length: length,
         shape: shape,
-        colors: colors,
+        color1: color,
         lane: lane,
-        data: {
-          "Feature Name": this.getIndexOrBlank(header, "name", item),
-          "Function": this.getIndexOrBlank(header, "function", item),
-        }
+        BRC_ID: this.getFieldOrBlank(item, indexes.BRC_ID),
+        Locus_Tag: "",
+        Gene_Name: "",
+        Gene_ID: "",
+        Protein_ID: "",
+        Uniprot_Acc: "",
+        Product: this.getFieldOrBlank(item, indexes.product),
+        PATRIC_Local_Family: this.getFieldOrBlank(item, indexes.patric_local),
+        PATRIC_Global_Family: this.getFieldOrBlank(item, indexes.patric_global),
+        Product_Length: this.getFieldOrBlank(item, indexes.product_length)
       })
     })
 
     return [addRegions, addFeatures, updateGenegraphic];
   }
 
-
   async parseAndStore(fileContent: string, newSession: boolean){
-    const geneGraphicId = await this.getOrCreateGeneGraphic(newSession);
-    const [regionId_offset, regionPos_offset] = await this.getRegionOffsets(geneGraphicId);
+    const geneGraphicId = await this.db.getOrCreateGeneGraphic(newSession);
+    let last_region_id =  await this.db.getLastRegionId();
+    const regionId_offset: number = last_region_id ? last_region_id : 0;
+    let last_region_pos = await this.db.getLastRegionPosition(geneGraphicId);
+    const regionPos_offset: number = last_region_pos ? last_region_pos : 0;
     let result = this.papa.parse(fileContent, {header: false, dynamicTyping: true, skipEmptyLines: true});
     const header = result.data.shift();
+    let [addRegions, addFeatures, updateGenegraphic] = this.parseTSV(geneGraphicId, result.data, header, regionId_offset, regionPos_offset);
 
-    let addRegions: Region[];
-    let addFeatures: Feature[];
-    let updateGenegraphic: {} | null = null;
-    if (this.headersEqual(header, GizmogeneHeader)){
-      [addRegions, addFeatures] = this.parseGizmogene(geneGraphicId, result.data, header, regionId_offset, regionPos_offset);
-    } else if ( this.headersEqual(header, SeedHeader)){
-      [addRegions, addFeatures] = this.parseSeed(geneGraphicId, result.data, header, regionId_offset, regionPos_offset);
-    } else if (this.headersEqual(header, LegacyHeader)){
-      [addRegions, addFeatures, updateGenegraphic] = this.parseLegacy(geneGraphicId, result.data, header, regionId_offset, regionPos_offset);
-    } else {
-      throw new Error("Unrecognized file format.")
+    if (addRegions.length == 0 || addFeatures.length == 0){
+      throw new Error("Unable to parse file.");
     }
-    this.db.transaction("rw", this.db.geneGraphics, this.db.regions, this.db.features, ()=>{
+
+    return await this.db.transaction("rw", this.db.geneGraphics, this.db.regions, this.db.features, ()=>{
       if (updateGenegraphic){
         this.db.geneGraphics.update(geneGraphicId, updateGenegraphic);
       }
       this.db.regions.bulkAdd(addRegions);
       this.db.features.bulkAdd(addFeatures);
-    })
-
+    });
   }
 }

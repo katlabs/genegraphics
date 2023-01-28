@@ -17,7 +17,7 @@ export class RegionComponent implements OnInit {
 
   getFeatureTransform(feat: Feature){
     let begin = feat.start<feat.stop ? feat.start : feat.stop;
-    let x = this.bpToPx(begin - this.region.offset);
+    let x = this.bpToPx(begin - this.region.start);
     let lane = this.geneGraphic.multilane ? feat.lane-1 : 0;
     let y = lane*(this.geneGraphic.featureHeight+5) + 20;
     return `translate(${x},${y})`;

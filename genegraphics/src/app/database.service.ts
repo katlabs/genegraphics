@@ -21,9 +21,19 @@ export interface Feature {
   stop: number;
   length: number;
   shape: string;
-  colors: Array<string>;
+  color1: string;
+  color2?: string;
   lane: number;
-  data: any;
+  BRC_ID: string;
+  Locus_Tag: string;
+  Gene_Name: string;
+  Gene_ID: string;
+  Protein_ID: string;
+  Uniprot_Acc: string;
+  Product: string;
+  PATRIC_Local_Family: string;
+  PATRIC_Global_Family: string;
+  Product_Length: string;
 }
 
 export interface Region {
@@ -33,9 +43,12 @@ export interface Region {
   nameProps: TextProps;
   position: number;
   lanes: number;
+  start: number;
+  stop: number;
   size: number;
-  offset: number;
-  data: any;
+  Genome_ID: string;
+  Genome_Name: string;
+  Accession: string;
 }
 
 export interface GeneGraphic {
@@ -100,6 +113,36 @@ export class DatabaseService extends Dexie {
       gaps: gaps ? gaps : true,
       overlap: overlap ? overlap : true
     }
+  }
+
+  async getLastRegionPosition(geneGraphicId:number){
+    let ordered_regions = await this.regions.where({geneGraphicId: geneGraphicId}).sortBy('position')
+    let last_position = ordered_regions.at(-1)?.position;
+    return last_position;
+  }
+
+  async getLastRegionId(){
+    let ordered_regions = await this.regions.orderBy('id').toArray()
+    let last_id = ordered_regions.at(-1)?.id;
+    return last_id;
+  }
+
+  async getOrCreateGeneGraphic(newSession: boolean){
+    let geneGraphicId!: number;
+    if (newSession){
+       geneGraphicId = await this.addNewGeneGraphic();
+    } else {
+      await this.geneGraphics.orderBy('opened').last().then(val=>{
+        if(val?.id){
+          geneGraphicId = val.id
+        }
+      })
+    }
+    if (!geneGraphicId){
+      throw new Error('Cannot retrieve id of the GeneGraphic');
+    }
+    return geneGraphicId;
+
   }
 
   async populate() {
