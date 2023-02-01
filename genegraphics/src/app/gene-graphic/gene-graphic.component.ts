@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { DatabaseService, GeneGraphic, Region } from '../database.service';
 import { EditorService } from '../editor.service';
 import { liveQuery } from 'dexie';
@@ -8,9 +8,9 @@ import { liveQuery } from 'dexie';
   templateUrl: './gene-graphic.component.svg',
   styleUrls: ['./gene-graphic.component.scss']
 })
-export class GeneGraphicComponent implements OnChanges {
+export class GeneGraphicComponent implements OnInit, OnChanges {
   @Input() geneGraphic!: GeneGraphic;
-  regions$: any;
+  regions$ = liveQuery(()=> this.getRegions());
   regions: Region[] =[];
   bpToPxRatio!: number;
 
@@ -68,17 +68,24 @@ export class GeneGraphicComponent implements OnChanges {
     return this.getHeaderSpace() + region_space;
   }
 
-  onClick(e: any){
-    this.editorService.deselectFeatures();
+  getViewbox(){
+    return `0 0 ${this.geneGraphic.width} ${this.getSvgHeight()}`;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['geneGraphic']){
-      this.regions$ = liveQuery(()=> this.getRegions());
+  onClick(e: any){
+    this.editorService.deselectAll();
+  }
+  ngOnInit(): void {
+    if (this.geneGraphic.id){
       this.regions$.subscribe((vals: any[])=>{
         this.regions = vals
         this.bpToPxRatio = this.geneGraphic.width/Math.max(...this.regions.map(o => o.size));
       });
+    }
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['geneGraphic']){
+      this.ngOnInit()
     }
   }
 }

@@ -1,6 +1,14 @@
+ <svg:defs *ngIf="feature.color2">
+    <svg:linearGradient id="test" >
+      <svg:stop offset="0%" style="stop-color:{{feature.color1}};stop-opacity:1" />
+      <svg:stop offset="50%" style="stop-color:{{feature.color1}};stop-opacity:1" />
+      <svg:stop offset="50%" style="stop-color:{{feature.color2}};stop-opacity:1" />
+      <svg:stop offset="100%" style="stop-color:{{feature.color2}};stop-opacity:1" />
+    </svg:linearGradient>
+  </svg:defs>
 <svg:path
   [attr.d]="getFeaturePoints()"
-  fill="white"
+  [attr.fill]="getFill()"
   [attr.stroke]="getStrokeColor()"
   stroke-width="1"
   (click)="onClickFeature($event)" />

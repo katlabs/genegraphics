@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Region, Feature, DatabaseService, GeneGraphic } from '../database.service';
+import { EditorService } from '../editor.service';
 import { liveQuery } from 'dexie';
 
 @Component({
@@ -13,7 +14,10 @@ export class RegionComponent implements OnInit {
   @Input() bpToPxRatio!: number;
   features$ = liveQuery(() => this.getFeatures());
 
-  constructor(private db: DatabaseService){}
+  constructor(
+    private db: DatabaseService,
+    private editorService: EditorService
+  ){}
 
   getFeatureTransform(feat: Feature){
     let begin = feat.start<feat.stop ? feat.start : feat.stop;
@@ -35,10 +39,32 @@ export class RegionComponent implements OnInit {
     return await this.db.features.where({regionId: this.region.id}).toArray();
   }
 
+  regionSelected(): boolean{
+    if(this.region.id &&
+      this.editorService.currentSelectionType == "region" &&
+      this.editorService.currentSelectionIds.includes(this.region.id)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getRegionBound(){
+    let box = document.getElementById(`region-${this.region.id}`)?.getBoundingClientRect();
+    console.log(box);
+    return box;
+  }
+
+  onClickRegion(e: any){
+    if(!this.region.id){
+      throw new Error("Undefined region clicked");
+    }
+    this.editorService.selectItem(this.region.id, 'region', e.ctrlKey);
+    e.stopPropagation();
+  }
+
   ngOnInit(): void {
-    this.features$.subscribe(feats=>{
-      //this.fillLaneNumbers(feats);
-    })
+    this.features$.subscribe();
   }
 
 }

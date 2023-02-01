@@ -1,29 +1,52 @@
 import { Injectable } from '@angular/core';
+import { DatabaseService, GeneGraphic, SelectionGroup } from './database.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EditorService {
 
-  selectedFeatures: number[] = new Array();
-  openTab = "Data";
-  imageWidth = 1000;
+  tabIndex = 0;
+  currentSelectionIds: number[] = [];
+  currentSelectionType: string = "empty";
+  currentSelectionItems: any[] = [];
 
-  constructor() { }
+  constructor(private db: DatabaseService) {}
 
-  deselectFeatures(){
-    this.selectedFeatures = [];
+
+  deselectAll(){
+    this.currentSelectionType = "empty";
+    this.currentSelectionIds = [];
   }
 
-  selectFeature(id: number, multi: boolean){
-    if(multi && this.selectedFeatures.includes(id)){
-        this.selectedFeatures = this.selectedFeatures.filter(item => item !== id);
-    } else if(multi){
-      this.selectedFeatures.push(id);
-      this.openTab = "Settings";
+  getCurrentFeatures(){
+    this.db.features.where('id').anyOf(this.currentSelectionIds).toArray()
+    .then(vals=>this.currentSelectionItems = vals)
+  }
+
+  selectItem(id: number, selectionType: string, select_multi: boolean){
+    console.log(selectionType);
+    console.log(this.currentSelectionType);
+    if (this.currentSelectionType != selectionType){
+      this.currentSelectionType = selectionType;
+      this.currentSelectionIds = [id];
+      this.tabIndex = 1;
+    } else if (select_multi && this.currentSelectionIds.includes(id)){
+      this.currentSelectionIds = this.currentSelectionIds.filter(x=> x!==id);
+      if (this.currentSelectionIds.length === 0) this.currentSelectionType = "empty";
+    } else if (select_multi){
+      this.currentSelectionIds.push(id);
+      this.tabIndex = 1;
     } else {
-      this.selectedFeatures = [id];
-      this.openTab = "Settings";
+      console.log("not multi");
+      this.currentSelectionIds = [id];
+      this.tabIndex = 1;
     }
+    if(this.currentSelectionType=="feature") this.getCurrentFeatures();
   }
+
+  async getSavedSelectionGroups(){
+    return await this.db.selectionGroups.toArray();
+  }
+  
 }

@@ -64,6 +64,14 @@ export interface GeneGraphic {
   overlap: boolean;
 }
 
+export interface SelectionGroup {
+  id?: number;
+  geneGraphicId: number;
+  name: string;
+  type: string;
+  ids_list: number[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -72,6 +80,7 @@ export class DatabaseService extends Dexie {
   geneGraphics!: Table<GeneGraphic, number>;
   regions!: Table<Region, number>;
   features!: Table<Feature, number>;
+  selectionGroups!: Table<SelectionGroup, number>;
 
   constructor() {
     super('GeneGraphicsDB');
@@ -79,7 +88,8 @@ export class DatabaseService extends Dexie {
     this.version(1).stores({
       geneGraphics: '++id, opened',
       regions: '++id, geneGraphicId',
-      features: '++id, regionId'
+      features: '++id, regionId',
+      selectionGroups: '++id, geneGraphicId'
     })
     this.on('populate', () => this.populate());
   }
@@ -100,6 +110,7 @@ export class DatabaseService extends Dexie {
   async addNewGeneGraphic(){
     return await this.geneGraphics.add(this.makeNewGeneGraphic());
   }
+
 
   makeNewGeneGraphic(title?: string, titleProps?: TextProps, width?: number, featureHeight?: number, showScale?: boolean, multilane?: boolean, gaps?: boolean, overlap?: boolean){
     return {
@@ -142,11 +153,10 @@ export class DatabaseService extends Dexie {
       throw new Error('Cannot retrieve id of the GeneGraphic');
     }
     return geneGraphicId;
-
   }
 
   async populate() {
-    return await this.addNewGeneGraphic();
+    return await this.addNewGeneGraphic().catch(err => console.log(err));
   }
 
 }

@@ -205,7 +205,7 @@ export class TsvParseService {
       throw new Error("Unable to parse file.");
     }
 
-    return await this.db.transaction("rw", this.db.geneGraphics, this.db.regions, this.db.features, ()=>{
+    return await this.db.transaction("rw", this.db.geneGraphics, this.db.selectionGroups, this.db.regions, this.db.features, ()=>{
       if (updateGenegraphic){
         this.db.geneGraphics.update(geneGraphicId, updateGenegraphic);
       }

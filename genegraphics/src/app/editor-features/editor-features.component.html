@@ -1,0 +1,22 @@
+<div id="editor-features" class="container-flex-column">
+  <form [formGroup]="featuresForm">
+    <div class="container-flex-row">
+      <div class="container-flex-column">
+        <span *ngIf="features.length>1">Selected {{features.length}} features</span>
+        <div *ngIf="features.length===1" class="container-flex-row">
+          <label for="feature-name">Name: </label>
+          <input id="feature-name" type="text" size="8" formControlName="nameCtrl" >
+          <button type="Submit">Update</button>
+        </div>
+        <div class="container-flex-row">
+          <label for="names-from">Use field as name(s)</label>
+          <select id="names-from" formControlName="namesFromCtrl">
+            <option *ngFor="let field of getFeatureNamesFields()">
+              {{field}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,12 +1,23 @@
-<div id="editor">
-  <div id="editor-tabs">
-    <button type="button" (click)="onChangeTab('Data')">GeneGraphic</button>
-    <button type="button" (click)="onChangeTab('Settings')">Settings</button>
-    <button type="button" (click)="onChangeTab('Export')">Export</button>
-  </div>
-  <div id="editor-content">
-    <app-editor-data *ngIf="getOpenTab()== 'Data'" [geneGraphic]="geneGraphic"></app-editor-data>
-    <app-editor-settings *ngIf="getOpenTab()=='Settings'" [geneGraphic]="geneGraphic"></app-editor-settings>
-    <app-editor-export *ngIf="getOpenTab()=='Export'"></app-editor-export>
-  </div>
-</div>
+<mat-tab-group 
+  id="tab-group"
+  animationDuration="0ms" 
+  [selectedIndex]="getTabIndex()"
+  mat-stretch-tabs="false" 
+  mat-align-tabs="start"
+  disableRipple 
+  disablePagination
+  preserveContent
+  >
+  <mat-tab label="Data" bodyClass="editor-content">
+    <app-editor-data class="editor-section" [geneGraphic]="geneGraphic"></app-editor-data>
+    <app-file-upload class="editor-section"></app-file-upload>
+    <app-ncbi-fetch class="editor-section"></app-ncbi-fetch>
+  </mat-tab>
+  <mat-tab label="Settings" bodyClass="editor-content">
+    <app-editor-settings class="editor-section" [geneGraphic]="geneGraphic"></app-editor-settings>
+    <app-editor-selections class="editor-section" [geneGraphic]="geneGraphic"></app-editor-selections>
+  </mat-tab>
+  <mat-tab label="Export" class="editor-section" bodyClass="editor-content">
+    <app-editor-export ></app-editor-export>
+  </mat-tab>
+</mat-tab-group>

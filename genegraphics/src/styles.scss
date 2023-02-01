@@ -1,21 +1,82 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+@use './_palettes.scss' as custom_palettes;
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$genegraphics-primary: mat.define-palette(custom_palettes.$gg-blue-palette, 500, 300, 900);
+$genegraphics-accent: mat.define-palette(custom_palettes.$gg-green-palette, 500, 300, 900);
+
+// The warn palette is optional (defaults to red).
+$genegraphics-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$genegraphics-theme: mat.define-light-theme((
+  color: (
+    primary: $genegraphics-primary,
+    accent: $genegraphics-accent,
+    warn: $genegraphics-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($genegraphics-theme);
+
+
 /* You can add global styles to this file, and also import other style files */
-div.container-flex-row {
+html, body { height: 100%; }
+body { 
+  margin: 10px; 
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h1 {
+  color: mat.get-color-from-palette($genegraphics-primary, 'darker');
+}
+
+button {
+  flex-grow:0;
+  width: fit-content;
+}
+
+.editor-content>div {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  height: 250px;
+}
+.editor-section {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid mat.get-color-from-palette($genegraphics-primary, 'default');
+  border-radius: 4px;
+  padding: 5px;
+  max-width: 33%;
+}
+.editor-section-row {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  gap: 20px;
 }
-
-div.container-flex-column {
+.editor-section-column{
   display: flex;
   flex-direction: column;
+  width: 50%;
 }
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type=number]{
-  -moz-appearance: textfield;
+.editor-section-title {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px;
 }

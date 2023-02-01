@@ -8,22 +8,19 @@ import { liveQuery } from 'dexie';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  title = 'genegraphics';
-  geneGraphics$ = liveQuery(()=> this.getGeneGraphics());
   geneGraphic: GeneGraphic | undefined;
 
   constructor(private db: DatabaseService){}
 
-  async getGeneGraphics() {
-    return await this.db.geneGraphics.orderBy('opened').toArray();
-  }
-
   ngOnInit(): void {
-    this.geneGraphics$.subscribe(val => {
-      let lastOpened = val.at(-1);
-      if(lastOpened){
-        this.geneGraphic = lastOpened;
-      }
+    liveQuery(()=> this.db.geneGraphics
+      .orderBy('opened')
+      .toArray())
+      .subscribe(val => {
+        let lastOpened = val.at(-1);
+        if(lastOpened){
+          this.geneGraphic = lastOpened;
+        }
     })
   }
 }

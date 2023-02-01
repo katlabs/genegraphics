@@ -20,10 +20,10 @@ export class EditorDataComponent implements OnChanges {
   }
 
   async changeActiveGeneGraphic(e: any) {
-    if(e.target.value == 0){
+    if(e.value == 0){
       this.addGeneGraphic();
     } else {
-      let id = parseInt(e.target.value);
+      let id = parseInt(e.value);
       await this.db.geneGraphics.update(id, {
         opened: Date.now()
       })
@@ -51,6 +51,7 @@ export class EditorDataComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['geneGraphic']){
+      console.log("changed");
       this.selectCtrl.setValue(changes['geneGraphic'].currentValue.id);
     }
   }

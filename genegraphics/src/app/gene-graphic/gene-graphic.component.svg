@@ -3,6 +3,7 @@
   *ngIf="regions"
   [attr.height]="getSvgHeight()"
   [attr.width]="geneGraphic.width"
+  [attr.viewbox]="getViewbox()"
   (click)="onClick($event)" >
   <text
     *ngIf="geneGraphic.titleProps.show"

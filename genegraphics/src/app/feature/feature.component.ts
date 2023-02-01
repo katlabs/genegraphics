@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Feature } from '../database.service';
 import { EditorService } from '../editor.service';
 
@@ -7,29 +7,37 @@ import { EditorService } from '../editor.service';
   templateUrl: './feature.component.svg',
   styleUrls: ['./feature.component.scss']
 })
-export class FeatureComponent {
+export class FeatureComponent implements OnChanges{
   @Input() feature!: Feature;
   @Input() feature_height!: number;
   @Input() feature_length!: number;
+
+  public flipped = false;
 
   constructor(private editorService: EditorService){}
 
   getFeaturePoints(){
     let d = "";
-    let flipped = this.feature.start>this.feature.stop;
-
     if (this.feature.shape =="arrow"){
-      d = this.getArrow(flipped);
+      d = this.getArrow();
     }
     return d;
   }
 
-  getArrow(flipped:boolean): string{
+  getFill(){
+    if (this.feature.color2){
+      return "url(#twocolors)"
+    } else {
+      return this.feature.color1;
+    }
+  }
+
+  getArrow(): string{
     let arrowHeadLength = this.feature_length*0.2;
     let lineLength = this.feature_length - arrowHeadLength;
     let lineHeight = this.feature_height*0.8;
     let d: any[] = [];
-    if (!flipped){
+    if (!this.flipped){
       d = [
         'm', 0, (this.feature_height/2)-(lineHeight/2),
         'h', lineLength,
@@ -56,7 +64,9 @@ export class FeatureComponent {
   }
 
   getStrokeColor(): string{
-    if (this.feature.id && this.editorService.selectedFeatures.includes(this.feature.id)){
+    if (this.feature.id &&
+      this.editorService.currentSelectionType == "feature" &&
+      this.editorService.currentSelectionIds.includes(this.feature.id)){
       return "red";
     } else {
       return "black";
@@ -67,11 +77,14 @@ export class FeatureComponent {
     if (!this.feature.id){
       throw new Error('Undefined feature clicked');
     }
-    if (e.ctrlKey){
-      this.editorService.selectFeature(this.feature.id, true);
-    } else {
-      this.editorService.selectFeature(this.feature.id, false);
-    }
+    this.editorService.selectItem(this.feature.id, 'feature', e.ctrlKey);
     e.stopPropagation();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['feature']){
+      let current_feature = changes['feature'].currentValue;
+      this.flipped = current_feature.start > current_feature.stop;
+    }
   }
 }

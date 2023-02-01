@@ -13,11 +13,10 @@ export class EditorComponent {
 
   constructor(private editorService: EditorService){}
 
-  getOpenTab(){
-    return this.editorService.openTab;
+  getTabIndex(){
+    return this.editorService.tabIndex;
   }
 
-  onChangeTab(tab: string){
-    this.editorService.openTab = tab;
-  }
+
+
 }

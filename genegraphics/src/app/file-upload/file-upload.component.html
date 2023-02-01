@@ -1,5 +1,13 @@
-<div id="upload-file">
-  <input id="uploader" type="file" (change)="onFileChange($event)" style="display:none;" />
-  <button (click)="onClick(false)">Upload to Current</button>
-  <button (click)="onClick(true)">Upload to New</button>
+<span class="editor-section-title">Import from file</span>
+<input id="uploader" type="file" (change)="onFileChange($event)" style="display:none;" />
+<span id="description">Acceptable files include .tsv files from Seed, legacy save .tsv files from genegraphics v1, .tsv files from gizmogene.com and genbank files.</span>
+<div class="editor-section-row">
+  <button mat-raised-button color="primary" (click)="onClick(false)">
+    <mat-icon>upload</mat-icon>
+    Upload to Current
+  </button>
+  <button mat-raised-button color="primary" (click)="onClick(true)">
+    <mat-icon>add</mat-icon>
+    Upload to New
+  </button>
 </div>
