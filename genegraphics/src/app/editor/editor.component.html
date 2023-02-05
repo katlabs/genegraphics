@@ -1,7 +1,7 @@
 <mat-tab-group 
   id="tab-group"
   animationDuration="0ms" 
-  [selectedIndex]="getTabIndex()"
+  [(selectedIndex)]="tabIndex"
   mat-stretch-tabs="false" 
   mat-align-tabs="start"
   disableRipple 
@@ -10,7 +10,7 @@
   >
   <mat-tab label="Data" bodyClass="editor-content">
     <app-editor-data class="editor-section" [geneGraphic]="geneGraphic"></app-editor-data>
-    <app-file-upload class="editor-section"></app-file-upload>
+    <app-file-upload class="editor-section" [geneGraphic]="geneGraphic"></app-file-upload>
     <app-ncbi-fetch class="editor-section"></app-ncbi-fetch>
   </mat-tab>
   <mat-tab label="Settings" bodyClass="editor-content">

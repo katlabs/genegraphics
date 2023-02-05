@@ -1,16 +1,9 @@
-<svg:rect 
-    *ngIf="regionSelected()" 
-    [attr.width]="geneGraphic.width"
-    [attr.height]="getRegionBound()?.height"
-    [attr.x]="0"
-    [attr.y]="0"
-    fill="none" 
-    stroke="red" 
-    stroke-width="1" />
-<svg:g [attr.width]="geneGraphic.width" id="region-{{region.id}}" (click)="onClickRegion($event)">
-  <svg:text dominant-baseline="hanging" x="0" y="0">{{region.name}}</svg:text>
+<svg:g 
+  [attr.width]="geneGraphic.width" 
+  (click)="onClickRegion($event)">
+  <svg:text x="0" [attr.y]="region.nameProps.fontSize">{{region.name}}</svg:text>
   <svg:g app-feature
-    *ngFor="let feature of features$ | async"
+    *ngFor="let feature of region.features;"
     [feature]="feature"
     [feature_height]="geneGraphic.featureHeight"
     [feature_length]="getFeatureLength(feature)"

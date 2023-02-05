@@ -1,3 +1,5 @@
 <h1>GeneGraphics</h1>
 <app-editor *ngIf="geneGraphic && geneGraphic.id" [geneGraphic]="geneGraphic"></app-editor>
-<app-gene-graphic *ngIf="geneGraphic && geneGraphic.id" [geneGraphic]="geneGraphic"></app-gene-graphic>
+<div id="genegraphic-container">
+  <app-gene-graphic *ngIf="geneGraphic && geneGraphic.id" [geneGraphic]="geneGraphic"></app-gene-graphic>
+</div>

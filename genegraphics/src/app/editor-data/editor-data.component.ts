@@ -1,6 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DatabaseService, GeneGraphic } from '../database.service';
+import { GeneGraphic } from '../models';
+import { DatabaseService } from '../database.service';
+import { createGeneGraphic, deleteGeneGraphic } from '../utils/db-functions';
 import { liveQuery } from 'dexie';
 
 @Component({
@@ -8,51 +10,39 @@ import { liveQuery } from 'dexie';
   templateUrl: './editor-data.component.html',
   styleUrls: ['./editor-data.component.scss']
 })
-export class EditorDataComponent implements OnChanges {
+export class EditorDataComponent implements OnInit, OnChanges {
   @Input() geneGraphic!: GeneGraphic;
-  geneGraphics$ = liveQuery(()=> this.listGeneGraphics())
+  geneGraphics: GeneGraphic[] = [];
   selectCtrl = new FormControl();
 
   constructor( private db: DatabaseService ){}
 
-  async listGeneGraphics() {
-    return await this.db.geneGraphics.toArray();
+  onClickDelete(){
+    deleteGeneGraphic(this.db, this.geneGraphic);
   }
 
-  async changeActiveGeneGraphic(e: any) {
-    if(e.value == 0){
-      this.addGeneGraphic();
+  onSelect(e: any){
+    if(e.value==0){
+      console.log("add new");
+      createGeneGraphic(this.db);
     } else {
-      let id = parseInt(e.value);
-      await this.db.geneGraphics.update(id, {
+      this.db.geneGraphics.update(parseInt(e.value), {
         opened: Date.now()
       })
     }
   }
 
-  async addGeneGraphic() {
-    await this.db.addNewGeneGraphic();
-  }
-
-  async deleteGeneGraphic() {
-    await this.db.transaction('rw', this.db.geneGraphics, this.db.regions, this.db.features, async ()=>{
-      let regionIds = await this.db.regions.where({geneGraphicId: this.geneGraphic.id}).primaryKeys();
-      let featureIds = await this.db.features.where('regionId').anyOf(regionIds).primaryKeys();
-      let geneGraphics = await this.db.geneGraphics.toArray();
-      if(geneGraphics.length > 1){
-        await this.db.geneGraphics.where({id: this.geneGraphic.id}).delete();
-      } else if(geneGraphics[0].id) {
-        this.db.geneGraphics.update(geneGraphics[0].id, {title: "New GeneGraphic"});
-      }
-      await this.db.regions.bulkDelete(regionIds);
-      await this.db.features.bulkDelete(featureIds);
-    })
+  ngOnInit(): void {
+    liveQuery(()=>this.db.geneGraphics.toArray())
+      .subscribe(geneGraphics=>{
+        this.geneGraphics = geneGraphics;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['geneGraphic']){
-      console.log("changed");
-      this.selectCtrl.setValue(changes['geneGraphic'].currentValue.id);
+    if(changes["geneGraphic"]){
+      this.selectCtrl.setValue(this.geneGraphic.id);
     }
   }
+
 }

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { GeneGraphic } from '../database.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { GeneGraphic } from '../models';
 import { EditorService } from '../editor.service';
 
 @Component({
@@ -8,15 +8,13 @@ import { EditorService } from '../editor.service';
   styleUrls: ['./editor.component.scss']
 })
 
-export class EditorComponent {
+export class EditorComponent implements OnInit {
   @Input() geneGraphic!: GeneGraphic;
+  tabIndex!: number;
 
   constructor(private editorService: EditorService){}
 
-  getTabIndex(){
-    return this.editorService.tabIndex;
+  ngOnInit(): void {
+    this.editorService.tabIndex$.subscribe(tab=>this.tabIndex = tab);
   }
-
-
-
 }

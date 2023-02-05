@@ -1,5 +1,5 @@
 # Base stage
-FROM node:18.12.1-alpine as base
+FROM node:hydrogen-alpine as base
 WORKDIR /app
 COPY package.json /app/package.json
 RUN npm install

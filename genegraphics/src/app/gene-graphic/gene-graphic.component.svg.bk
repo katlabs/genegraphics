@@ -1,0 +1,43 @@
+<svg
+  id="gene-graphic"
+  [attr.width]="geneGraphic.width"
+  [attr.height]="getSvgHeight()"
+  (click)="onClick($event)">
+    <text 
+      id="title-text"
+      *ngIf="this.geneGraphic.titleProps.show"
+      [attr.width]="geneGraphic.width"
+      [attr.font-size]="geneGraphic.titleProps.fontSize"
+      text-anchor="middle"
+      [attr.y]="geneGraphic.titleProps.fontSize"
+      x="50%">
+      {{geneGraphic.title}}
+    </text>
+    <g
+      id="scale-group"
+      *ngIf="this.geneGraphic.showScale"
+      [attr.transform]="getScaleTransform()">
+      <polyline
+        [attr.points]="getScalePoints()"
+        fill="none"
+        stroke="black" />
+      <text
+        x="10"
+        y="37"
+        font-size="12"
+        font-style="italic">
+        Scale: 1kB
+      </text>
+    </g>
+    <g
+      id="regions-group"
+      [attr.transform]="getRegionGroupTransform()">
+      <svg:g app-region
+        *ngFor="let region of regions; "
+        [region]="region"
+        [geneGraphic]="geneGraphic"
+        [scale_ratio]="scale_ratio"
+        [attr.transform]="getRegionTransform(region)"/>
+    </g>
+</svg>
+

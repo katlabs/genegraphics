@@ -1,53 +1,112 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DatabaseService, GeneGraphic } from '../database.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EditorService } from '../editor.service';
+import {
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core'
+import { FormBuilder, Validators } from '@angular/forms'
+import { GeneGraphic } from '../models'
+import { DatabaseService } from '../database.service';
+import { updateGeneGraphic, updateGeneGraphicTitleProps } from '../utils/db-functions';
 
 @Component({
   selector: 'app-editor-settings',
   templateUrl: './editor-settings.component.html',
-  styleUrls: ['./editor-settings.component.scss']
+  styleUrls: ['./editor-settings.component.scss'],
 })
 export class EditorSettingsComponent implements OnInit {
   @Input() geneGraphic!: GeneGraphic;
-  imageSettingsForm!: FormGroup;
+  settingsForm = this.fb.group({
+    width: [
+      0,
+      {
+        validators: [
+          Validators.required,
+          Validators.min(100),
+          Validators.max(3000),
+        ],
+        updateOn: 'blur',
+      },
+    ],
+    featureHeight: [
+      0,
+      {
+        validators: [
+          Validators.required,
+          Validators.min(5),
+          Validators.max(100),
+        ],
+        updateOn: 'blur',
+      },
+    ],
+    showTitle: [false],
+    showScale: [false],
+    laneSettings: this.fb.group({
+      multilane: [true],
+      overlap: [false],
+      gaps: [false],
+    }),
+  })
 
   constructor(
     private db: DatabaseService,
-    private editorService: EditorService){}
+    private fb: FormBuilder
+  ) {}
+
+  checkLaneSettings(values:any){
+    let newVals = values;
+    if(values['multilane']===true){
+      newVals['overlap']=false;
+      newVals['gaps']=false;
+    } else if(values['overlap']==true){
+      newVals['gaps']=false;
+    }
+    return newVals;
+  }
 
   ngOnInit(): void {
-    if(this.geneGraphic.id){
-      this.imageSettingsForm = new FormGroup({
-        width: new FormControl(this.geneGraphic.width,{
-          validators: [Validators.required, Validators.min(100), Validators.max(3000)],
-          updateOn: "blur"}),
-        featureHeight: new FormControl(this.geneGraphic.featureHeight,{
-          validators: [Validators.required, Validators.min(5), Validators.max(100)],
-          updateOn: "blur"}),
-        showTitle: new FormControl(this.geneGraphic.titleProps.show),
-        showScale: new FormControl(this.geneGraphic.showScale),
-        multilane: new FormControl(this.geneGraphic.multilane),
-        overlap: new FormControl(this.geneGraphic.overlap),
-        gaps: new FormControl(this.geneGraphic.gaps),
-      })
+    this.settingsForm.get('width')?.setValue(this.geneGraphic.width);
+    this.settingsForm.get('width')?.setValue(this.geneGraphic.width)
+    this.settingsForm
+      .get('featureHeight')
+      ?.setValue(this.geneGraphic.featureHeight)
+    this.settingsForm
+      .get('showTitle')
+      ?.setValue(this.geneGraphic.titleProps.show)
+    this.settingsForm.get('showScale')?.setValue(this.geneGraphic.showScale)
+    this.settingsForm
+      .get('laneSettings.multilane')
+      ?.setValue(this.geneGraphic.multilane)
+    this.settingsForm
+      .get('laneSettings.overlap')
+      ?.setValue(this.geneGraphic.overlap)
+    this.settingsForm
+      .get('laneSettings.gaps')
+      ?.setValue(this.geneGraphic.gaps)
 
-      for (const field in this.imageSettingsForm.controls){
-        const control = this.imageSettingsForm.get(field);
-        control?.valueChanges.subscribe(selectedValue=>{
-          if(control.status == "VALID" && this.geneGraphic.id){
-            if(field=="showTitle"){
-              this.db.geneGraphics.update(this.geneGraphic.id,{
-                titleProps: { show : selectedValue }});
-            } else {
-              let update: Record<string,string> = {};
-              update[field] = selectedValue;
-              this.db.geneGraphics.update(this.geneGraphic.id, update);
-            }
+    Object.keys(this.settingsForm.controls).forEach((key) => {
+      const formCtl = this.settingsForm.get(key)
+      formCtl?.valueChanges.subscribe((selectedValue) => {
+        if (formCtl.status !== 'INVALID') {
+          let update: {[key:string]:string} = {}
+          switch (key) {
+            case 'width': 
+            case'featureHeight':
+            case 'showScale':
+              update[key] = selectedValue
+              updateGeneGraphic(this.db, this.geneGraphic, update);
+              break
+            case 'showTitle':
+              update['titleProps.show'] = selectedValue
+              updateGeneGraphicTitleProps(this.db, this.geneGraphic, update);
+              break
+            case 'laneSettings':
+              update = this.checkLaneSettings(selectedValue)
+              updateGeneGraphic(this.db, this.geneGraphic, update);
+              break
           }
-        })
-      }
-    }
+        }
+      })
+    })
   }
 
 }

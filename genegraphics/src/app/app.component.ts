@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService, GeneGraphic } from './database.service';
-import { liveQuery } from 'dexie';
+import { DatabaseService } from './database.service';
+import { GeneGraphic } from './models';
+import { getCurrentGeneGraphic } from './utils/db-functions';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +14,10 @@ export class AppComponent implements OnInit{
   constructor(private db: DatabaseService){}
 
   ngOnInit(): void {
-    liveQuery(()=> this.db.geneGraphics
-      .orderBy('opened')
-      .toArray())
+    getCurrentGeneGraphic(this.db)
       .subscribe(val => {
-        let lastOpened = val.at(-1);
-        if(lastOpened){
-          this.geneGraphic = lastOpened;
-        }
-    })
+        this.geneGraphic=val;
+        console.log(this.geneGraphic);
+      })
   }
 }

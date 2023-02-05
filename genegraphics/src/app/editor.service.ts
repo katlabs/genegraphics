@@ -1,52 +1,24 @@
-import { Injectable } from '@angular/core';
-import { DatabaseService, GeneGraphic, SelectionGroup } from './database.service';
+import { Injectable } from '@angular/core'
+import { BehaviorSubject } from 'rxjs'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EditorService {
-
-  tabIndex = 0;
-  currentSelectionIds: number[] = [];
-  currentSelectionType: string = "empty";
-  currentSelectionItems: any[] = [];
-
-  constructor(private db: DatabaseService) {}
-
-
-  deselectAll(){
-    this.currentSelectionType = "empty";
-    this.currentSelectionIds = [];
+  tabIndex$ = new BehaviorSubject(0);
+  private tabsHash: { [key: string]: number } = {
+    data: 0,
+    settings: 1,
+    export: 2,
   }
 
-  getCurrentFeatures(){
-    this.db.features.where('id').anyOf(this.currentSelectionIds).toArray()
-    .then(vals=>this.currentSelectionItems = vals)
-  }
+  constructor() {}
 
-  selectItem(id: number, selectionType: string, select_multi: boolean){
-    console.log(selectionType);
-    console.log(this.currentSelectionType);
-    if (this.currentSelectionType != selectionType){
-      this.currentSelectionType = selectionType;
-      this.currentSelectionIds = [id];
-      this.tabIndex = 1;
-    } else if (select_multi && this.currentSelectionIds.includes(id)){
-      this.currentSelectionIds = this.currentSelectionIds.filter(x=> x!==id);
-      if (this.currentSelectionIds.length === 0) this.currentSelectionType = "empty";
-    } else if (select_multi){
-      this.currentSelectionIds.push(id);
-      this.tabIndex = 1;
+  openTab(tab: string | number) {
+    if (typeof tab == 'string') {
+      this.tabIndex$.next(this.tabsHash[tab]);
     } else {
-      console.log("not multi");
-      this.currentSelectionIds = [id];
-      this.tabIndex = 1;
+      this.tabIndex$.next(tab);
     }
-    if(this.currentSelectionType=="feature") this.getCurrentFeatures();
   }
-
-  async getSavedSelectionGroups(){
-    return await this.db.selectionGroups.toArray();
-  }
-  
 }

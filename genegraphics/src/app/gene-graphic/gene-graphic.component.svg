@@ -1,23 +1,48 @@
 <svg
-  id="geneGraphic"
-  *ngIf="regions"
-  [attr.height]="getSvgHeight()"
+  id="gene-graphic"
   [attr.width]="geneGraphic.width"
-  [attr.viewbox]="getViewbox()"
-  (click)="onClick($event)" >
-  <text
+  [attr.height]="getSvgHeight()"
+  (click)="editGeneGraphic($event)"
+  >
+  <svg:text
     *ngIf="geneGraphic.titleProps.show"
-    [attr.transform]="getTitleTransform()"
-    >{{geneGraphic.title}}</text>
-  <text
-    *ngIf="geneGraphic.showScale"
-    [attr.transform]="getScaleTransform()"> Scale </text>
-  <svg:g app-region
-    *ngFor="let region of regions$ | async"
-    [region]="region"
-    [geneGraphic]="geneGraphic"
-    [bpToPxRatio]="bpToPxRatio"
-    [attr.transform]="getRegionTransform(region.position)"
-    />
+    id="title-text"
+    [attr.width]="geneGraphic.width"
+    [attr.font-size]="geneGraphic.titleProps.fontSize"
+    [attr.text-anchor]="'middle'"
+    [attr.y]="getTitleY()"
+    [attr.x]="'50%'"
+    >
+    {{geneGraphic.title}}
+  </svg:text>
+  <svg:g
+      id="scale-group"
+      *ngIf="this.geneGraphic.showScale && geneGraphic.regions"
+      [attr.transform]="getScaleTransform()">
+      <polyline
+        [attr.points]="getScalePoints()"
+        fill="none"
+        stroke="black" />
+      <svg:text
+        x="10"
+        y="37"
+        font-size="12"
+        font-style="italic">
+        Scale: 1kB
+      </svg:text>
+    </svg:g>
+  <svg:g
+    id="region-group"
+    [attr.width]="geneGraphic.width"
+    [attr.transform]="getRegionsTransform()"
+    >
+    <svg:g app-region
+      *ngFor="let region of geneGraphic.regions"
+      [region]="region"
+      [geneGraphic]="geneGraphic"
+      [attr.width]="geneGraphic.width"
+      [attr.transform]="getRegionTransform(region)"
+      />
+  </svg:g>
 </svg>
 

@@ -1,91 +1,87 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { DatabaseService, GeneGraphic, Region } from '../database.service';
-import { EditorService } from '../editor.service';
-import { liveQuery } from 'dexie';
+import { Component, Input } from '@angular/core'
+import { GeneGraphic, Region } from '../models'
+import { SelectionService } from '../selection.service';
 
 @Component({
   selector: 'app-gene-graphic',
   templateUrl: './gene-graphic.component.svg',
-  styleUrls: ['./gene-graphic.component.scss']
+  styleUrls: ['./gene-graphic.component.scss'],
 })
-export class GeneGraphicComponent implements OnInit, OnChanges {
-  @Input() geneGraphic!: GeneGraphic;
-  regions$ = liveQuery(()=> this.getRegions());
-  regions: Region[] =[];
-  bpToPxRatio!: number;
+export class GeneGraphicComponent {
+  @Input() geneGraphic!: GeneGraphic
 
-  constructor(private db: DatabaseService, private editorService: EditorService){}
+  constructor(
+    private sel: SelectionService
+  ) {}
 
-  async getRegions() {
-    return await this.db.regions.where({geneGraphicId: this.geneGraphic.id }).sortBy('position');
+  getSvgHeight() {
+    let height = 0;
+    height += this.getRegionsY();
+    height += this.getRegionY(this.geneGraphic.regions.length+1);
+    return height;
   }
 
-
-  getTitleTransform(){
-    return `translate(0,20)`;
-  }
-
-  getScaleTransform(){
-    let y = 20;
-    if (this.geneGraphic.titleProps.show){
-      y += 20;
-    }
-    return `translate(0,${y})`;
-  }
-
-  getRegionsSpace(pos: number){
-    let total_space = 0;
-    if(this.regions.length >= pos){
-      if (pos == 0){
-        return total_space;
-      } else {
-        for(let i=0; i<pos; i++){
-          let name_height = this.regions[i].nameProps.show ? 23 : 0;
-          let lanes = this.geneGraphic.multilane? this.regions[i].lanes : 1;
-          let this_space = name_height + 20 + (this.geneGraphic.featureHeight)*lanes;
-          total_space += this_space;
-        }
-        return total_space;
-      }
-    } else {
-      return total_space;
+  getTitleY(){
+    if(this.geneGraphic.titleProps.show){
+      return this.geneGraphic.titleProps.fontSize;
+    }else{
+      return 0;
     }
   }
 
-  getRegionTransform(pos: number){
-    return `translate(0,${this.getHeaderSpace()+this.getRegionsSpace(pos-1)})`
+  getScaleY(){
+    if(!this.geneGraphic.showScale) return 0;
+    let y = 10;
+    if(this.geneGraphic.titleProps.show) y+= this.geneGraphic.titleProps.fontSize;
+    return y
   }
 
-  getHeaderSpace(){
-    let total_space = 20;
-    total_space += this.geneGraphic.titleProps.show ? 23 : 0;
-    total_space += this.geneGraphic.showScale ? 23 : 0;
-    return total_space;
+  getRegionsY(){
+    if(this.geneGraphic.showScale) return 60 + this.getScaleY();
+    else return this.getScaleY();
   }
 
-  getSvgHeight(){
-    let region_space = this.regions ? this.getRegionsSpace(this.regions.length) : 0;
-    return this.getHeaderSpace() + region_space;
+  getRegionsTransform(){
+    return `translate(0,${this.getRegionsY()})`;
   }
 
-  getViewbox(){
-    return `0 0 ${this.geneGraphic.width} ${this.getSvgHeight()}`;
+  getRegionY(pos: number){
+    let y = 0;
+    const buffer = 10;
+    for (let i=1; i<pos; i++){
+      const region = this.geneGraphic.regions[i-1];
+      const region_name = region.nameProps.show ? region.nameProps.fontSize + 10 : 0;
+      const lane_size = this.geneGraphic.featureHeight+buffer;
+      const lanes = region.lanes;
+      y += region_name + lanes*lane_size;
+    }
+    return y
   }
 
-  onClick(e: any){
-    this.editorService.deselectAll();
+  getRegionTransform(region: Region){
+    return `translate(0,${this.getRegionY(region.position)})`;
   }
-  ngOnInit(): void {
-    if (this.geneGraphic.id){
-      this.regions$.subscribe((vals: any[])=>{
-        this.regions = vals
-        this.bpToPxRatio = this.geneGraphic.width/Math.max(...this.regions.map(o => o.size));
-      });
+
+  getScaleTransform() {
+    return `translate(0,${this.getScaleY()})`
+  }
+
+  bpToPx(bp: number) {
+    return bp * this.geneGraphic.scale_ratio;
+  }
+
+  getScalePoints() {
+    let width = this.bpToPx(1000);
+    return `10,10,10,25,${width},25,${width},10`
+  }
+
+  editGeneGraphic(e: any){
+    e.stopPropagation();
+    if(this.geneGraphic.id){
+      this.sel.selectItem(this.geneGraphic.id, "geneGraphic", e.ctrlKey);
+    }else{
+      this.sel.deselectAll();
     }
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes['geneGraphic']){
-      this.ngOnInit()
-    }
-  }
+
 }
