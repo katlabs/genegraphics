@@ -1,22 +1,42 @@
-<div id="editor-features" class="container-flex-column">
-  <form [formGroup]="featuresForm">
-    <div class="container-flex-row">
-      <div class="container-flex-column">
-        <span *ngIf="features.length>1">Selected {{features.length}} features</span>
-        <div *ngIf="features.length===1" class="container-flex-row">
-          <label for="feature-name">Name: </label>
-          <input id="feature-name" type="text" size="8" formControlName="nameCtrl" >
-          <button type="Submit">Update</button>
-        </div>
-        <div class="container-flex-row">
-          <label for="names-from">Use field as name(s)</label>
-          <select id="names-from" formControlName="namesFromCtrl">
-            <option *ngFor="let field of getFeatureNamesFields()">
-              {{field}}
-            </option>
-          </select>
-        </div>
+<div class="editor-section-title">
+  <span class="editor-section-title-text">Selected {{features.length}} Feature{{features.length>1?'s':''}}</span>
+  <button mat-icon-button 
+    class="delete-button" 
+    color="warn"
+    (click)="deleteFeatures()"><mat-icon>delete_forever</mat-icon></button>
+</div>
+<div class="editor-section-row" [formGroup]="featuresForm">
+  <div class="editor-section-column">
+    <mat-form-field appearance="fill">
+      <mat-label>Shape</mat-label>
+      <mat-select formControlName="shape">
+        <mat-option *ngFor="let option of shapeOptions" [value]="option.toLowerCase()">
+        {{option}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="editor-section-column" formGroupName="color">
+      <mat-checkbox formControlName="split">Two Colors</mat-checkbox>
+      <div class="editor-section-row">
+      <mat-form-field appearance="outline" style="width:80px !important">
+          <mat-label>Color{{featuresForm.get('color.split')?.value==true?" 1":""}}</mat-label>
+        <input matInput
+          class="color-input"
+          type="color" 
+          formControlName="color1"/>
+      </mat-form-field>
+        <mat-form-field 
+          *ngIf="featuresForm.get('color.split')?.value===true"
+          appearance="outline" 
+          style="width:80px !important">
+          <mat-label>Color 2</mat-label>
+          <input matInput
+            class="color-input"
+            type="color" 
+            formControlName="color2"/>
+        </mat-form-field>
       </div>
     </div>
-  </form>
+  </div>
+  <app-editor-text class="editor-section-row" [items]="features" [geneGraphic]="geneGraphic" type="feature"></app-editor-text>
 </div>

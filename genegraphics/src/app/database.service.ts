@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Dexie, { Table } from 'dexie';
-import { GeneGraphic, SelectionGroup } from './models';
-import { createGeneGraphic } from './utils/db-functions';
+import { GeneGraphic, SavedSelection } from './models';
+import { createGeneGraphic } from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { createGeneGraphic } from './utils/db-functions';
 export class DatabaseService extends Dexie {
 
   public geneGraphics!: Table<GeneGraphic, number>;
-  public selectionGroups!: Table<SelectionGroup, number>;
+  public selections!: Table<SavedSelection, number>;
 
   constructor() {
     super('GeneGraphicsDB');
@@ -17,7 +17,7 @@ export class DatabaseService extends Dexie {
 
     db.version(1).stores({
       geneGraphics: '++id, opened',
-      selectionGroups: '++id, geneGraphicId'
+      selections: '++id, geneGraphicId, name, type, ids_list'
     })
     db.on('populate', () => db.populate());
   }

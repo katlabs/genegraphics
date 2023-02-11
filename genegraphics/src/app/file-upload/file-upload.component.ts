@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { GeneGraphic } from '../models';
+import { SelectionService } from '../selection.service';
 import { TsvParseService } from '../tsv-parse.service';
 //import { GbParseService } from '../gb-parse.service';
 
@@ -13,6 +14,7 @@ export class FileUploadComponent {
   private newGeneGraphic = true;
 
   constructor(
+    private sel: SelectionService,
     private tsvParseService: TsvParseService,
     //private gbParseService: GbParseService
   ){}
@@ -22,6 +24,7 @@ export class FileUploadComponent {
     let file_ext: string = file.name.split(".")[1];
     if (file_ext.toLowerCase() == "tsv"){
       let fileContent = await file.text();
+      this.sel.deselectAll();
       await this.tsvParseService
       .parseAndStore(fileContent,
         (!this.newGeneGraphic ? this.geneGraphic : undefined)

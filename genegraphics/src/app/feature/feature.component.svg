@@ -1,5 +1,5 @@
- <svg:defs *ngIf="feature.color2">
-    <svg:linearGradient id="test" >
+ <svg:defs *ngIf="feature.color2!=null">
+    <svg:linearGradient [id]="fillGradientName()" >
       <svg:stop offset="0%" style="stop-color:{{feature.color1}};stop-opacity:1" />
       <svg:stop offset="50%" style="stop-color:{{feature.color1}};stop-opacity:1" />
       <svg:stop offset="50%" style="stop-color:{{feature.color2}};stop-opacity:1" />
@@ -13,7 +13,19 @@
   stroke-width="1"
   (click)="onClickFeature($event)" />
 <svg:text
-  x="10"
-  y="25">
+  *ngIf="!feature.nameProps.hide"
+  (click)="onClickFeature($event)"
+  dominant-baseline="middle"
+  style="white-space:pre"
+  [attr.text-anchor]="getNameAnchor()"
+  [attr.fill]="feature.nameProps.color"
+  [attr.font-size]="feature.nameProps.fontSize"
+  [attr.font-family]="feature.nameProps.fontFamily"
+  [attr.font-weight]="feature.nameProps.bold?'bold':'normal'"
+  [attr.font-style]="feature.nameProps.italic?'italic':'normal'"
+  [attr.x]="getNameX()"
+  [attr.y]="getNameY()"
+  y=25
+  >
   {{feature.name}}
   </svg:text>

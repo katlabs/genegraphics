@@ -5,15 +5,19 @@
   (click)="editGeneGraphic($event)"
   >
   <svg:text
-    *ngIf="geneGraphic.titleProps.show"
-    id="title-text"
+    *ngIf="!geneGraphic.nameProps.hide"
+    id="name-text"
     [attr.width]="geneGraphic.width"
-    [attr.font-size]="geneGraphic.titleProps.fontSize"
-    [attr.text-anchor]="'middle'"
+    [attr.font-size]="geneGraphic.nameProps.fontSize"
+    [attr.font-family]="geneGraphic.nameProps.fontFamily"
+    [attr.font-weight]="geneGraphic.nameProps.bold?'bold':'normal'"
+    [attr.font-style]="geneGraphic.nameProps.italic?'italic':'normal'"
+    [attr.text-anchor]="getTitleAnchor()"
+    [attr.fill]="geneGraphic.nameProps.color"
     [attr.y]="getTitleY()"
-    [attr.x]="'50%'"
+    [attr.x]="getTitleX()"
     >
-    {{geneGraphic.title}}
+    {{geneGraphic.name}}
   </svg:text>
   <svg:g
       id="scale-group"

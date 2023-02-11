@@ -27,7 +27,8 @@ import { EditorExportComponent } from './editor-export/editor-export.component'
 import { EditorSelectionsComponent } from './editor-selections/editor-selections.component'
 import { EditorFeaturesComponent } from './editor-features/editor-features.component'
 import { EditorRegionsComponent } from './editor-regions/editor-regions.component'
-import { NcbiFetchComponent } from './ncbi-fetch/ncbi-fetch.component'
+import { NcbiFetchComponent } from './ncbi-fetch/ncbi-fetch.component';
+import { EditorTextComponent } from './editor-text/editor-text.component'
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { NcbiFetchComponent } from './ncbi-fetch/ncbi-fetch.component'
     EditorFeaturesComponent,
     EditorRegionsComponent,
     NcbiFetchComponent,
+    EditorTextComponent,
   ],
   imports: [
     BrowserModule,

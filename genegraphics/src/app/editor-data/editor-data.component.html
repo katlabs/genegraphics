@@ -1,11 +1,13 @@
-<span class="editor-section-title">Your GeneGraphics</span>
+<div class="editor-section-title">
+  <span class="editor-section-title-text">Your GeneGraphics</span>
+</div>
 <mat-form-field appearance="fill">
   <mat-label>Selected GeneGraphic</mat-label>
   <mat-select [formControl]="selectCtrl" (selectionChange)="onSelect($event)">
     <mat-option
       *ngFor="let geneGraphic of geneGraphics;" 
       [value]="geneGraphic.id">
-      {{ geneGraphic.title }}&nbsp;{{geneGraphic.id}}
+      {{ geneGraphic.name }}&nbsp;{{geneGraphic.id}}
     </mat-option>
     <mat-option value="0">Add new...</mat-option>
   </mat-select>

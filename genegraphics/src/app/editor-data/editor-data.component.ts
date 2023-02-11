@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { FormControl } from '@angular/forms';
 import { GeneGraphic } from '../models';
 import { DatabaseService } from '../database.service';
-import { createGeneGraphic, deleteGeneGraphic } from '../utils/db-functions';
+import { createGeneGraphic, deleteGeneGraphic } from '../utils';
 import { liveQuery } from 'dexie';
 
 @Component({
@@ -41,7 +41,7 @@ export class EditorDataComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes["geneGraphic"]){
-      this.selectCtrl.setValue(this.geneGraphic.id);
+      this.selectCtrl.setValue(this.geneGraphic.id, {emitEvent:false});
     }
   }
 

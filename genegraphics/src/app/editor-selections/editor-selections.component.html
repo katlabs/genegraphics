@@ -1,11 +1,39 @@
-<span class="editor-section-title">
-  Your Selections
-</span>
-<mat-form-field appearance="fill">
-  <mat-label>Selection Group</mat-label>
-  <mat-select [formControl]="selectGroup">
-    <mat-option>
-      Nothing
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<div class="editor-section-title">
+  <span class="editor-section-title-text">Your Selections</span>
+</div>
+<div class="editor-section-column">
+  <mat-form-field appearance="fill">
+    <mat-label>Selection Group</mat-label>
+    <mat-select [formControl]="selectCtrl">
+      <mat-optgroup *ngFor="let group of selectionOptions" [label]="group.name">
+        <mat-option
+          *ngFor="let option of group.options"
+          [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field
+    *ngIf="!isInOptions(selectCtrl.value)">
+    <mat-label>New Selection Name</mat-label>
+    <input matInput
+      type="text"
+      [formControl]="saveCtrl"
+    >  
+  </mat-form-field>
+  <button mat-raised-button 
+    *ngIf="!isInOptions(selectCtrl.value)"
+    color="primary" 
+    type="submit" 
+    (click)="saveNewSelection()">
+    Save New Selection
+  </button>
+  <button mat-raised-button
+    *ngIf="isSavedSelection(selectCtrl.value)"
+    color="primary"
+    type="button"
+    (click)="deleteSavedSelection()">
+    Delete
+  </button>
+</div>

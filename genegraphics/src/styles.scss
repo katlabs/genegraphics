@@ -55,28 +55,50 @@ button {
   display: flex;
   flex-direction: row;
   gap: 0;
-  height: 250px;
+  height: 300px;
 }
 .editor-section {
+  position: relative;
   display: flex;
   flex-direction: column;
   border: 1px solid mat.get-color-from-palette($genegraphics-primary, 'default');
   border-radius: 4px;
   padding: 5px;
-  max-width: 33%;
+  width: fit-content;
 }
 .editor-section-row {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  width: 100%;
+  gap: 4px;
 }
 .editor-section-column{
   display: flex;
   flex-direction: column;
-  width: 50%;
+  justify-content: flex-start;
+
+  button{
+    align-self: center;
+  }
 }
 .editor-section-title {
-  text-align: center;
-  font-weight: bold;
-  margin: 10px;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: center;
+
+  .editor-section-title-text{
+    text-align: center;
+    font-weight: bold;
+    padding: 16px;
+  }
+  .delete-button {
+    position: absolute;
+    right: 0;
+  }
+}
+
+app-editor-text{
+  display: content;
 }

@@ -1,0 +1,77 @@
+<div class="editor-section-column" [formGroup]="textPropsForm">
+  <div formGroupName="name">
+    <mat-form-field appearance="fill">
+      <mat-label>{{getTextLabel()}}</mat-label>
+      <input matInput 
+        type="text"
+        formControlName="nameInput"
+        >
+    </mat-form-field>
+  </div>  
+  <div formGroupName="name">
+    <mat-form-field 
+      appearance="fill"
+      *ngIf="getNameFields() && getNameFields().length>0">
+      <mat-label>Apply Data as Name{{items.length>1?'s':''}}</mat-label>
+      <mat-select formControlName="nameAs">
+        <mat-option
+          *ngFor="let option of getNameFields()"
+          [value]="getField(option)">
+          <strong>{{option}}</strong>
+          <br/>
+          <em *ngIf="items.length>1;else one_item_content">{{getFieldValue(option)}}</em>
+          <ng-template #one_item_content>{{getFieldValue(option)}}</ng-template>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="editor-section-row">
+    <mat-form-field [style.width.px]="100" appearance="outline">
+      <mat-label>Font Color</mat-label>
+      <input matInput
+        formControlName="color"
+        type="color"
+      >
+    </mat-form-field>
+    <mat-form-field [style.width.px]="100" appearance="fill">
+      <mat-label>Font Size (px)</mat-label>
+      <input matInput
+        formControlName="fontSize"
+        type="number"
+        min=6
+        max=60
+      >
+    </mat-form-field>
+  </div>
+</div>
+<div class="editor-section-column" [formGroup]="textPropsForm">
+  <mat-form-field appearance="fill">
+    <mat-label>Font Family</mat-label>
+    <mat-select
+      formControlName="fontFamily">
+      <mat-option
+        *ngFor="let font of fontFamilies.sort()" [value]="font">
+        <span style="font-family:{{font}}">{{font.split(', ')[0]}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+    
+  <div class="editor-section-column">
+  <mat-button-toggle-group formControlName="boldItalicHide" multiple>
+    <mat-button-toggle value="bold"><mat-icon>format_bold</mat-icon></mat-button-toggle>
+    <mat-button-toggle value="italic"><mat-icon>format_italic</mat-icon></mat-button-toggle>
+    <mat-button-toggle value="hide"><mat-icon >{{getVisibleIcon()}}</mat-icon></mat-button-toggle>
+  </mat-button-toggle-group>
+  <mat-button-toggle-group formControlName="posHor">
+    <mat-button-toggle value="left"><mat-icon fontIcon="format_align_left"></mat-icon></mat-button-toggle>
+    <mat-button-toggle value="center"><mat-icon fontIcon="format_align_center"></mat-icon></mat-button-toggle>
+    <mat-button-toggle value="right"><mat-icon fontIcon="format_align_right"></mat-icon></mat-button-toggle>
+  </mat-button-toggle-group>
+  <mat-button-toggle-group formControlName="posVert" >
+    <mat-button-toggle [disabled]="disablePosVert()" value="above"><mat-icon fontIcon="vertical_align_top"></mat-icon></mat-button-toggle>
+    <mat-button-toggle [disabled]="disablePosVert()" value="center"><mat-icon fontIcon="vertical_align_center"></mat-icon></mat-button-toggle>
+    <mat-button-toggle [disabled]="disablePosVert()" value="below"><mat-icon fontIcon="vertical_align_bottom"></mat-icon></mat-button-toggle>
+  </mat-button-toggle-group>
+  </div>
+</div>
+

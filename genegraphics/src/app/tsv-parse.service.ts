@@ -9,12 +9,11 @@ import {
   applyGraphSettings,
   getIndexes,
   getFieldOrBlank,
-} from './utils/tsv-functions'
-import {
+  getHexColor,
   createGeneGraphic,
   getMaxRegionPosition,
   saveImportedData,
-} from './utils/db-functions'
+} from './utils'
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +40,9 @@ export class TsvParseService {
           nameProps: parseRegionProps(item, header),
           position: region_pos,
           size: 0,
+          flipped: false,
           lanes: 1,
+          lines: 0,
           Genome_ID: getFieldOrBlank(item, indexes.genome_id),
           Genome_Name: getFieldOrBlank(item, indexes.genome),
           Accession: '',
@@ -50,8 +51,8 @@ export class TsvParseService {
       if(!get_region) addRegions.push(region)
       let start = item[indexes.start]
       let stop = item[indexes.stop]
-      let color = getFieldOrBlank(item, indexes.color)
-      if (color == '') color = '#FFFFFF'
+      let color = getHexColor(getFieldOrBlank(item, indexes.color))
+      if (color == "") color = '#FFFFFF'
 
       let feature: Feature = {
         id: uuid(),

@@ -12,7 +12,8 @@ export class EditorService {
     export: 2,
   }
 
-  constructor() {}
+  constructor(
+  ) {}
 
   openTab(tab: string | number) {
     if (typeof tab == 'string') {

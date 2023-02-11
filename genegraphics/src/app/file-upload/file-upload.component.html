@@ -1,6 +1,16 @@
-<span class="editor-section-title">Import from file</span>
+<div class="editor-section-title">
+  <span class="editor-section-title-text">Import from file</span>
+</div>
 <input id="uploader" type="file" (change)="onFileChange($event)" style="display:none;" />
-<span id="description">Acceptable files include .tsv files from Seed, legacy save .tsv files from genegraphics v1, .tsv files from gizmogene.com and genbank files.</span>
+<div id="description">
+  <span>Acceptable files include:</span>
+    <ul>
+      <li>TSV files from Seed</li>
+      <li>Legacy TSV save files from genegraphics v1</li>
+      <li>TSV files from gizmogene.com</li>
+      <li>Genbank files</li>
+    </ul>
+</div>
 <div class="editor-section-row">
   <button mat-raised-button color="primary" (click)="onClick(false)">
     <mat-icon>upload</mat-icon>

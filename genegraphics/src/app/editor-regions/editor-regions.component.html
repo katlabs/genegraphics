@@ -1,1 +1,39 @@
-<p>editor-regions works!</p>
+<div class="editor-section-title">
+  <span class="editor-section-title-text">Selected {{regions.length}} Region{{regions.length>1?'s':''}}</span>
+  <button mat-icon-button 
+    class="delete-button" 
+    color="warn"
+    (click)="deleteRegions()">
+    <mat-icon>delete_forever</mat-icon>
+  </button>
+</div><div class="editor-section-row" [formGroup]="regionsForm">
+  <div class="editor-section-column outer-column">
+    <button mat-raised-button color="primary" (click)="selectAllFeatures()">Select All Features</button>
+    <div
+      id="positon-buttons"
+      *ngIf="regions.length===1"
+      class="editor-section-row">
+      <button mat-icon-button 
+        [disabled]="upDisabled"
+        (click)="moveRegion('up')">
+        <mat-icon>arrow_upward</mat-icon>
+      </button>
+      <span id="position-title">Position</span>
+      <button mat-icon-button
+        [disabled]="downDisabled"
+        (click)="moveRegion('down')">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+    </div>
+    <div class="editor-section-column">
+    <mat-checkbox formControlName="flipped">Flip Region</mat-checkbox>
+    <div formGroupName="lines">
+      <mat-checkbox formControlName="show">Show Line</mat-checkbox>
+    </div>
+    <div formGroupName="lines">
+      <mat-checkbox *ngIf="geneGraphic.multilane && regionsForm.get('lines.show')?.value" formControlName="both">Line on Both Lanes</mat-checkbox>
+    </div>
+    </div>
+  </div>
+  <app-editor-text class="editor-section-row" [items]="regions" [geneGraphic]="geneGraphic" type="region"></app-editor-text>
+</div>

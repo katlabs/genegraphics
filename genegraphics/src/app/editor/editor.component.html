@@ -2,6 +2,7 @@
   id="tab-group"
   animationDuration="0ms" 
   [(selectedIndex)]="tabIndex"
+  (selectedIndexChange)="changeTabIndex($event)"
   mat-stretch-tabs="false" 
   mat-align-tabs="start"
   disableRipple 
@@ -14,10 +15,18 @@
     <app-ncbi-fetch class="editor-section"></app-ncbi-fetch>
   </mat-tab>
   <mat-tab label="Settings" bodyClass="editor-content">
-    <app-editor-settings class="editor-section" [geneGraphic]="geneGraphic"></app-editor-settings>
+    <app-editor-settings *ngIf="geneGraphic" class="editor-section" [geneGraphic]="geneGraphic"></app-editor-settings>
     <app-editor-selections class="editor-section" [geneGraphic]="geneGraphic"></app-editor-selections>
+    <app-editor-regions class="editor-section" *ngIf="regions.length>0" [regions]="regions" [geneGraphic]="geneGraphic"></app-editor-regions>
+    <app-editor-features class="editor-section" *ngIf="features.length>0" [features]="features" [geneGraphic]="geneGraphic"></app-editor-features>
+    <div class="editor-section" *ngIf="selection.type==='geneGraphic'">
+      <div class="editor-section-title">
+        <span class="editor-section-title-text">Image Title</span>
+      </div>
+      <app-editor-text class="editor-section-row" [items]="[geneGraphic]" [geneGraphic]="geneGraphic" type="geneGraphic"></app-editor-text>
+    </div>
   </mat-tab>
   <mat-tab label="Export" class="editor-section" bodyClass="editor-content">
-    <app-editor-export ></app-editor-export>
+    <app-editor-export class="editor-section" ></app-editor-export>
   </mat-tab>
 </mat-tab-group>

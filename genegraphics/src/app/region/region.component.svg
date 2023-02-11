@@ -1,11 +1,42 @@
 <svg:g 
   [attr.width]="geneGraphic.width" 
+  pointer-events="all"
   (click)="onClickRegion($event)">
-  <svg:text x="0" [attr.y]="region.nameProps.fontSize">{{region.name}}</svg:text>
+  <svg:rect
+    [attr.width]="geneGraphic.width"
+    [attr.height]="getRegionHeight()"
+    stroke="red"
+    [attr.stroke-width]="isSelected?1:0"
+    fill="none"
+   >
+   </svg:rect>
+  <svg:text
+    *ngIf="!region.nameProps.hide"
+    [attr.width]="geneGraphic.width"
+    [attr.font-size]="region.nameProps.fontSize"
+    [attr.font-family]="region.nameProps.fontFamily"
+    [attr.font-weight]="region.nameProps.bold?'bold':'normal'"
+    [attr.font-style]="region.nameProps.italic?'italic':'normal'"
+    [attr.text-anchor]="getNameAnchor()"
+    [attr.fill]="region.nameProps.color"
+    dominant-baseline="middle"
+    [attr.y]="getNameY()"
+    [attr.x]="getNameX()"
+    >{{region.name}}</svg:text>
+  <svg:line
+    *ngFor = "let line of getRegionLines()"
+    [attr.x]="0"
+    [attr.x2]="geneGraphic.width"
+    stroke="black"
+    stroke-width="3"
+    attr.transform="translate(0,{{line.y}})"
+    />
   <svg:g app-feature
     *ngFor="let feature of region.features;"
     [feature]="feature"
     [feature_height]="geneGraphic.featureHeight"
     [feature_length]="getFeatureLength(feature)"
+    [isFlipped]="isFlipped(feature)"
     [attr.transform]="getFeatureTransform(feature)" />
+
 </svg:g>
