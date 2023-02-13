@@ -7,7 +7,7 @@ Given a standard input file, “Gene Graphics” generates a default layout that
 
 In 2023, Gene Graphics was rewritten and upgraded to Angular 15.
 
-New Features:
+#### New Features:
 - Users can now select multiple features or regions and save selection groups.
 - Multiple GeneGraphics can be created, managed and saved within the application.
 - A set of identifiers parsed from the source file may be applied as feature or region names.
