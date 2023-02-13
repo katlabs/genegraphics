@@ -22,7 +22,7 @@ New Features:
 Supported input files include:
 - TSV files from Seed
 - TSV files from [GizmoGene.com](http://www.gizmogene.com/)
-- Legacy save TSV files from V1 of GeneGraphics
+- Legacy save TSV files from V1 of Gene Graphics
 - Genbank files that include only one species
 
 Users may also fetch regions from NCBI within the application.
