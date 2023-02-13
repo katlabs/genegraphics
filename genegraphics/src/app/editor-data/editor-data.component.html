@@ -3,13 +3,26 @@
 </div>
 <mat-form-field appearance="fill">
   <mat-label>Selected GeneGraphic</mat-label>
-  <mat-select [formControl]="selectCtrl" (selectionChange)="onSelect($event)">
+  <mat-select
+    #selectEl
+    [formControl]="selectCtrl"
+    (selectionChange)="onSelect($event)"
+  >
     <mat-option
-      *ngFor="let geneGraphic of geneGraphics;" 
-      [value]="geneGraphic.id">
-      {{ geneGraphic.name }}&nbsp;{{geneGraphic.id}}
+      *ngFor="let geneGraphic of geneGraphics"
+      [value]="geneGraphic.id"
+    >
+      <strong>{{ geneGraphic.name }}</strong>
+      <br />
+      <em style="font-size: 12px"
+        >&nbsp;&nbsp;&nbsp;&nbsp;(Last Opened:&nbsp;{{
+          getDateStr(geneGraphic.opened)
+        }})
+      </em>
     </mat-option>
     <mat-option value="0">Add new...</mat-option>
   </mat-select>
 </mat-form-field>
-<button mat-raised-button color="primary" (click)="onClickDelete()">Delete</button>
+<button mat-raised-button color="primary" (click)="onClickDelete()">
+  Delete
+</button>

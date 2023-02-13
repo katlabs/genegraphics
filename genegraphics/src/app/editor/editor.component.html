@@ -12,7 +12,7 @@
   <mat-tab label="Data" bodyClass="editor-content">
     <app-editor-data class="editor-section" [geneGraphic]="geneGraphic"></app-editor-data>
     <app-file-upload class="editor-section" [geneGraphic]="geneGraphic"></app-file-upload>
-    <app-ncbi-fetch class="editor-section"></app-ncbi-fetch>
+    <app-ncbi-fetch class="editor-section" [geneGraphic]="geneGraphic"></app-ncbi-fetch>
   </mat-tab>
   <mat-tab label="Settings" bodyClass="editor-content">
     <app-editor-settings *ngIf="geneGraphic" class="editor-section" [geneGraphic]="geneGraphic"></app-editor-settings>
@@ -27,6 +27,6 @@
     </div>
   </mat-tab>
   <mat-tab label="Export" class="editor-section" bodyClass="editor-content">
-    <app-editor-export class="editor-section" ></app-editor-export>
+    <app-editor-export class="editor-section" [geneGraphic]="geneGraphic" ></app-editor-export>
   </mat-tab>
 </mat-tab-group>

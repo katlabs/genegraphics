@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EditorService } from '../editor.service';
 import { ExportService } from '../export.service';
+import { GeneGraphic } from '../models';
 import { SelectionService } from '../selection.service';
 
 @Component({
@@ -10,9 +11,11 @@ import { SelectionService } from '../selection.service';
   styleUrls: ['./editor-export.component.scss']
 })
 export class EditorExportComponent implements OnInit{
-  exportOptions = ['SVG', 'PNG', 'TIFF', 'GeneGraphics JSON']
+  @Input() geneGraphic!: GeneGraphic;
+  exportOptions = ['SVG', 'PNG', 'TIFF', 'Current GeneGraphic (JSON)', 'All GeneGraphics (JSON)']
   exportCtrl = new FormControl(0);
   pngBGCtrl = new FormControl('None');
+  loading: boolean = false;
 
   constructor(
     private exportService: ExportService,
@@ -24,22 +27,28 @@ export class EditorExportComponent implements OnInit{
     switch (this.exportCtrl.value){
       case 0:
         this.exportService.saveSVG();
-      break
+        break
       case 1:
         this.exportService.savePNG();
-      break
+        break
       case 2:
         this.exportService.saveTIFF();
-      break
+        break
       case 3:
-        this.exportService.saveJSON();
-      break
+        if(this.geneGraphic.id) this.exportService.saveJSON(this.geneGraphic);
+        break
+      case 4:
+      this.exportService.saveJSON();
+        break;
     }
   }
 
   ngOnInit(): void {
     this.editorService.tabIndex$.subscribe(tab=>{
       if(tab===2) this.sel.deselectAll();
+    })
+    this.exportService.processing$.subscribe(val=>{
+      this.loading = val;
     })
   }
 

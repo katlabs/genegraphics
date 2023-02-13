@@ -10,7 +10,7 @@
   [attr.d]="getFeaturePoints()"
   [attr.fill]="getFill()"
   [attr.stroke]="getStrokeColor()"
-  stroke-width="1"
+  [attr.stroke-width]="getStrokeWidth()"
   (click)="onClickFeature($event)" />
 <svg:text
   *ngIf="!feature.nameProps.hide"

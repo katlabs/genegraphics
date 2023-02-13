@@ -11,6 +11,11 @@
       formControlName="width"
       min="100"
       max="3000">
+    <mat-error
+        *ngIf="settingsForm.get('width')?.invalid"
+      >
+      100px-3000px
+      </mat-error>
   </mat-form-field>
   <mat-form-field >
     <mat-label>Feature Height (px)</mat-label>
@@ -20,6 +25,11 @@
       formControlName="featureHeight"
       min="5"
       max="100" />
+      <mat-error
+        *ngIf="settingsForm.get('featureHeight')?.invalid"
+      >
+        5px-100px
+      </mat-error>
   </mat-form-field>
 </div>
 <div class="editor-section-column" [style.width.%]="50">

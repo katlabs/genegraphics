@@ -9,7 +9,7 @@ import { Selection } from './models'
 export class SelectionService {
   selection$: BehaviorSubject<Selection> = new BehaviorSubject({
     type: 'empty',
-    ids_list: [] as (string | number)[],
+    ids_list: [] as string[],
   })
 
   constructor(private editorService: EditorService) {}
@@ -29,7 +29,7 @@ export class SelectionService {
   }
 
   selectItem(
-    id: string | number,
+    id: string,
     selectionType: string,
     select_multi: boolean
   ) {

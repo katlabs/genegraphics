@@ -6,7 +6,7 @@
     [attr.width]="geneGraphic.width"
     [attr.height]="getRegionHeight()"
     stroke="red"
-    [attr.stroke-width]="isSelected?1:0"
+    [attr.stroke-width]="isSelected?2:0"
     fill="none"
    >
    </svg:rect>

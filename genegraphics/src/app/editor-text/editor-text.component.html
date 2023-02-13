@@ -26,14 +26,14 @@
     </mat-form-field>
   </div>
   <div class="editor-section-row">
-    <mat-form-field [style.width.px]="100" appearance="outline">
+    <mat-form-field class="font-color-field" appearance="outline">
       <mat-label>Font Color</mat-label>
       <input matInput
         formControlName="color"
         type="color"
       >
     </mat-form-field>
-    <mat-form-field [style.width.px]="100" appearance="fill">
+    <mat-form-field class="font-size-field" appearance="fill">
       <mat-label>Font Size (px)</mat-label>
       <input matInput
         formControlName="fontSize"
@@ -41,6 +41,10 @@
         min=6
         max=60
       >
+      <mat-error
+        *ngIf="textPropsForm.get('fontSize')?.invalid">
+        6px-60px
+      </mat-error>
     </mat-form-field>
   </div>
 </div>

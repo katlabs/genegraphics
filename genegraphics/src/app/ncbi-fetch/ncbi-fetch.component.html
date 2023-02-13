@@ -1,15 +1,93 @@
 <div class="editor-section-title">
   <span class="editor-section-title-text">Import From NCBI</span>
 </div>
-<form [formGroup]="ncbiForm">
+<div class="editor-section-row">
+<div class="editor-section-column">
   <mat-form-field appearance="fill">
     <mat-label>Search by</mat-label>
-    <mat-select>
-      <mat-option>Gene ID</mat-option>
-      <mat-option>Protein ID</mat-option>
-      <mat-option>Gene Symbol and Genome</mat-option>
-      <mat-option>Genome Region</mat-option>
-      <mat-option>UniprotKB Accession</mat-option>
+    <mat-select [formControl]="searchTypeCtrl">
+      <mat-option
+        *ngFor="let option of searchOptions; let i = index"
+        [value]="i">
+        {{ option }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
-</form>
+  <button mat-raised-button 
+    *ngIf="searchTypeCtrl.value !== null && !loading"
+    color="primary"
+    (click)="fetchFromNcbi()"
+  >
+    Import
+  </button>
+    <span
+      id="ncbi-import-description"
+      *ngIf="!error_msg && !loading">
+      (Queries may not always return results. Results are added to the current GeneGraphic.)
+    </span>
+    <span 
+      id="error-message"
+      *ngIf="error_msg">
+      {{error_msg}}
+    </span>
+  <mat-spinner
+    *ngIf="loading">
+  </mat-spinner>
+</div>
+<div class="editor-section-column" [formGroup]="ncbiForm">
+  <mat-form-field
+    *ngIf="getIdentifierLabel(searchTypeCtrl.value)">
+      <mat-label>{{getIdentifierLabel(searchTypeCtrl.value)}}</mat-label>
+    <input matInput
+      type="text"
+      formControlName="identifierCtrl"
+    />
+  </mat-form-field>
+  <mat-form-field
+    *ngIf="searchTypeCtrl.value===3||searchTypeCtrl.value===4"
+    appearance="fill">
+    <mat-label>Oranism Name</mat-label>
+    <input matInput
+      type="text"
+      formControlName="organismCtrl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete 
+      #auto="matAutocomplete"
+      [displayWith]="displayFn">
+      <mat-option
+        *ngFor="let genome of filteredGenomes | async"
+        [value]="genome">
+        {{genome.organism}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field 
+    *ngIf="useRegionSize(searchTypeCtrl.value)"
+    appearance="fill">
+    <mat-label>Region Size (bp)</mat-label>
+    <input matInput
+      type="number"
+      formControlName="regionSizeCtrl"
+      />
+  </mat-form-field>
+  <mat-form-field 
+    *ngIf="searchTypeCtrl.value===4"
+    appearance="fill">
+  <mat-label>Region Start (bp)</mat-label>
+  <input matInput
+    type="number"
+    formControlName="regionStartCtrl"
+    />
+  </mat-form-field>
+  <mat-form-field 
+    *ngIf="searchTypeCtrl.value===4"
+    appearance="fill">
+  <mat-label>Region End (bp)</mat-label>
+  <input matInput
+    type="number"
+    formControlName="regionEndCtrl"
+    />
+  </mat-form-field>
+</div>
+</div>

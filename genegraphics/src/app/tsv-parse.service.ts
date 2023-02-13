@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Papa } from 'ngx-papaparse'
-import { v4 as uuid } from 'uuid';
+import { createId } from '@paralleldrive/cuid2'
 import { DatabaseService } from './database.service'
 import { GeneGraphic, Region, Feature } from './models'
 import {
@@ -11,7 +11,6 @@ import {
   getFieldOrBlank,
   getHexColor,
   createGeneGraphic,
-  getMaxRegionPosition,
   saveImportedData,
 } from './utils'
 
@@ -35,7 +34,7 @@ export class TsvParseService {
       let get_region = addRegions.find((r: Region) => r.position === region_pos)
       const region: Region = get_region ? get_region :
         {
-          id: uuid(),
+          id: createId(),
           name: getFieldOrBlank(item, indexes.region_name),
           nameProps: parseRegionProps(item, header),
           position: region_pos,
@@ -55,7 +54,7 @@ export class TsvParseService {
       if (color == "") color = '#FFFFFF'
 
       let feature: Feature = {
-        id: uuid(),
+        id: createId(),
         name: getFieldOrBlank(item, indexes.feature_name),
         nameProps: parseFeatureProps(item, header),
         start: start,
@@ -89,14 +88,15 @@ export class TsvParseService {
   }
 
   async parseAndStore(
-    fileContent: string,
-    currentGeneGraphic: GeneGraphic | undefined
+    file: File,
+    currentGeneGraphic?: GeneGraphic
   ) {
+    const fileContent = await file.text()
     if (!currentGeneGraphic)
       currentGeneGraphic = await createGeneGraphic(this.db)
-    if (!currentGeneGraphic?.id) throw new Error('Could not create GeneGraphic')
+    if (!currentGeneGraphic) throw new Error('Could not create GeneGraphic')
 
-    const last_region_pos = getMaxRegionPosition(currentGeneGraphic)
+    const last_region_pos = currentGeneGraphic.regions.length
 
     const data = this.papa.parse(fileContent, {
       header: false,

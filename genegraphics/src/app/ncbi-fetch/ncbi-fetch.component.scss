@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+@import '../../styles.scss'; 
+
+#region-start-end{
+  max-width: 212px;
+}
+.editor-section-column{
+  align-items: center;
+}
+
+#error-message{
+  color: mat.get-color-from-palette($genegraphics-warn, 'default');
+}
+
+#ncbi-import-description{
+  text-align: center;
+  max-width: 212px;
+  margin-top: auto;
+}

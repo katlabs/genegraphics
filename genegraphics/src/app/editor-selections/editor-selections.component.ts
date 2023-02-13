@@ -11,8 +11,7 @@ import { SelectionService } from '../selection.service'
 import { 
   selectionsEqual,
   deleteSelection,
-  getCurrentSavedSelections,
-  saveNewSelection,
+  saveSelection,
 } from '../utils'
 import { DatabaseService } from '../database.service'
 
@@ -39,13 +38,12 @@ export class EditorSelectionsComponent implements OnChanges, OnInit {
     type: 'feature',
     ids_list: [],
   }
-  private savedSelections: Selection[] = []
   selectionOptions = [
     {
       name: 'Default Selections',
       options: [this.emptySelection, this.allRegionsSelection, this.allFeaturesSelection],
     },
-    { name: 'Your Selections', options: this.savedSelections },
+    { name: 'Your Selections', options: [] as Selection[] },
   ]
   selectCtrl = new FormControl()
   saveCtrl = new FormControl('New Selection')
@@ -57,13 +55,14 @@ export class EditorSelectionsComponent implements OnChanges, OnInit {
     if (this.geneGraphic.id) {
       let newSelection = this.selectCtrl.value
       newSelection.name = this.saveCtrl.value || 'New Selection'
-      saveNewSelection(this.db, this.geneGraphic.id, newSelection);
+      saveSelection(this.db, this.geneGraphic, newSelection);
     }
+    this.saveCtrl.setValue('New Selection');
   }
 
   deleteSavedSelection() {
     if(this.geneGraphic.id){
-      deleteSelection(this.db, this.geneGraphic.id, this.selectCtrl.value);
+      deleteSelection(this.db, this.geneGraphic, this.selectCtrl.value);
       this.selectCtrl.setValue(this.emptySelection);
     }
   }
@@ -80,6 +79,7 @@ export class EditorSelectionsComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['geneGraphic']) {
+      this.selectionOptions[1].options = this.geneGraphic.selections;
       this.allRegionsSelection.ids_list = this.geneGraphic.regions.map(
         (r) => r.id
       )
@@ -91,10 +91,6 @@ export class EditorSelectionsComponent implements OnChanges, OnInit {
 
   ngOnInit(): void {
     this.selectCtrl.setValue(this.emptySelection)
-    getCurrentSavedSelections(this.db).subscribe((savedSelections) => {
-      this.savedSelections.length = 0; //Keep the reference and don't make a new array
-      this.savedSelections.push(...savedSelections.map((sel)=>sel.selection));
-    })
     this.sel.selection$.subscribe((selection) => {
       const matching_sel = this.isInOptions(selection)
       if (matching_sel) this.selectCtrl.setValue(matching_sel, {emitEvent:false});

@@ -34,7 +34,8 @@ export class EditorRegionsComponent implements OnInit,OnChanges{
   }
 
   deleteRegions(){
-    deleteRegions(this.db, this.geneGraphic, this.regions.map(r=>r.id));
+    let confirmed = confirm("Are you sure you want to delete the selected region(s)?")
+    if(confirmed) deleteRegions(this.db, this.geneGraphic, this.regions.map(r=>r.id));
   }
 
   selectAllFeatures(){
@@ -47,7 +48,6 @@ export class EditorRegionsComponent implements OnInit,OnChanges{
 
   ngOnInit(): void {
     this.regionsForm.get('flipped')?.valueChanges.subscribe(val=>{
-      console.log("flip");
       if(val!==null) flipRegionsAndUpdate(this.db, this.geneGraphic, this.regions.map(r=>r.id), val);
     })
     this.regionsForm.get('lines')?.valueChanges.subscribe(val=>{
@@ -65,7 +65,6 @@ export class EditorRegionsComponent implements OnInit,OnChanges{
       const lines = getDefaultProperty(this.regions, "lines") as number || 0;
       this.regionsForm.get('lines.show')?.setValue((lines >0) ? true : false, {emitEvent:false});
       this.regionsForm.get('lines.both')?.setValue((this.geneGraphic.multilane && lines===2)? true : false, {emitEvent:false})
-      console.log(this.regions[0])
       this.upDisabled = this.regions[0].position===1;
       this.downDisabled = this.regions[0].position===this.geneGraphic.regions.length;
     }

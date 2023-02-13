@@ -12,13 +12,7 @@ export interface TextProps {
 export interface Selection {
   name?: string
   type: string
-  ids_list: (string | number)[]
-}
-
-export interface SavedSelection {
-  id?: number
-  geneGraphicId: number
-  selection: Selection
+  ids_list: string[]
 }
 
 export interface Feature {
@@ -60,22 +54,9 @@ export interface Region {
   Accession: string
   features: Feature[]
 }
-export function instanceOfRegion(object: any): object is Region {
-  return (
-    'id' in object &&
-    'name' in object &&
-    'nameProps' in object &&
-    'position' in object &&
-    'size' in object &&
-    'lanes' in object &&
-    'Genome_ID' in object &&
-    'Genome_Name' in object &&
-    'Accession' in object &&
-    'features' in object
-  )
-}
+
 export interface GeneGraphic {
-  id?: number
+  id: string
   name: string
   nameProps: TextProps
   opened: number
@@ -87,20 +68,19 @@ export interface GeneGraphic {
   gaps: boolean
   overlap: boolean
   regions: Region[]
+  selections: Selection[]
 }
 
-export function instanceOfGeneGraphic(object: any): object is GeneGraphic {
-  return (
-    'id' in object &&
-    'name' in object &&
-    'nameProps' in object &&
-    'opened' in object &&
-    'width' in object &&
-    'scale_ratio' in object &&
-    'showScale' in object &&
-    'multilane' in object &&
-    'gaps' in object &&
-    'overlap' in object &&
-    'regions' in object
-  )
+export interface NCBIGenome {
+  id: string
+  organism: string
+  refseqId: string
+  gbId: string
+}
+
+export interface DataFetch {
+  id: string
+  last_fetch: number
+  error: string[]
+  data: NCBIGenome[]
 }

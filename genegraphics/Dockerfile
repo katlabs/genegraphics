@@ -16,6 +16,6 @@ FROM base as build
 RUN npm run build
 
 # Production stage
-FROM nginx:1.23.3 as prod
+FROM nginx:1.23 as prod
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf

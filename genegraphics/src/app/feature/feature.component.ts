@@ -183,6 +183,9 @@ export class FeatureComponent implements OnInit{
   getStrokeColor(): string {
     return this.isSelected ? 'red' : 'black'
   }
+  getStrokeWidth(): string {
+    return this.isSelected ? '2' : '1'
+  }
 
   onClickFeature(e: MouseEvent) {
     e.stopPropagation();

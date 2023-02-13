@@ -1,23 +1,52 @@
 <div class="editor-section-title">
   <span class="editor-section-title-text">Import from file</span>
 </div>
-<input id="uploader" type="file" (change)="onFileChange($event)" style="display:none;" />
-<div id="description">
-  <span>Acceptable files include:</span>
-    <ul>
-      <li>TSV files from Seed</li>
-      <li>Legacy TSV save files from genegraphics v1</li>
-      <li>TSV files from gizmogene.com</li>
-      <li>Genbank files</li>
-    </ul>
-</div>
-<div class="editor-section-row">
-  <button mat-raised-button color="primary" (click)="onClick(false)">
+<input 
+  id="uploader"
+  type="file"
+  (change)="onFileChange($event)" 
+  accept="text/comma-separated-values,
+          text/tab-separated-values, .tsv, .csv, .gb, .json" style="display:none;" />
+<div class="editor-section-column">
+  <span *ngIf="message">{{message}}</span>
+  <div 
+    *ngIf="file && type"
+    class="editor-section-column">
+    <button mat-raised-button
+      *ngIf="type !== 'json'"
+      color="primary"
+      (click)="importFile(true,file,type)">
+        <mat-icon>add_box</mat-icon>
+        Import to Current GeneGraphic
+    </button>
+    <button mat-raised-button
+      *ngIf="type !== 'json'"
+      color="primary"
+      (click)="importFile(false, file, type)">
+        <mat-icon>library_add</mat-icon>
+        Import to New GeneGraphic
+    </button>
+    <button mat-raised-button
+      *ngIf="type == 'json'"
+      color="primary"
+      (click)="importJson(file)">
+      <mat-icon>library_add</mat-icon>
+      Import Saved Database Items*
+    </button>
+    <button mat-raised-button
+      color="warn"
+      (click)="cancelImport()">
+      <mat-icon>cancel</mat-icon>
+      Cancel Import
+    </button>
+    <span id="json-overwrite-note" *ngIf="type=='json'">*This will overwrite GeneGraphics from the same database that share an id.</span>
+  </div>
+  <button 
+    *ngIf="!file || !type"
+    mat-raised-button 
+    color="primary" 
+    (click)="onClick()">
     <mat-icon>upload</mat-icon>
-    Upload to Current
-  </button>
-  <button mat-raised-button color="primary" (click)="onClick(true)">
-    <mat-icon>add</mat-icon>
-    Upload to New
+    {{message==='Done!'? 'Upload another file' : 'Upload'}}
   </button>
 </div>

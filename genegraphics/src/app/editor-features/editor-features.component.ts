@@ -37,7 +37,8 @@ export class EditorFeaturesComponent implements OnChanges, OnInit {
   constructor(private fb: FormBuilder, private db: DatabaseService) {}
 
   deleteFeatures(){
-    deleteFeatures(this.db, this.geneGraphic, this.features.map(f=>f.id));
+    let confirmed = confirm("Are you sure you want to delete the selected feature(s)?")
+    if(confirmed) deleteFeatures(this.db, this.geneGraphic, this.features.map(f=>f.id));
   }
 
   ngOnInit(): void {

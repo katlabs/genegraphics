@@ -2,8 +2,14 @@
   justify-content: space-evenly;
 }
 
-#description {
+.editor-section-column{
+  gap: 5px;
+  justify-content: flex-start;
   text-align: center;
-  margin-bottom: 10px;
-  max-width: 300px;
+  width: 275px;
+  height: 100%;
+}
+
+#json-overwrite-note{
+  margin-top: auto;
 }

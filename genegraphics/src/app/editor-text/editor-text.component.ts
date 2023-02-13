@@ -5,7 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core'
-import { FormBuilder } from '@angular/forms'
+import { FormBuilder, Validators } from '@angular/forms'
 import { DatabaseService } from '../database.service'
 import { Feature, GeneGraphic, Region } from '../models'
 import {
@@ -31,7 +31,8 @@ export class EditorTextComponent implements OnChanges, OnInit {
       nameAs: [''],
     }),
     boldItalicHide: [this.getDefaultBoldItalicHide()],
-    fontSize: [DEFAULT_TEXTPROPS.fontSize],
+    fontSize: [DEFAULT_TEXTPROPS.fontSize, 
+      Validators.compose([Validators.min(6),Validators.max(60)])],
     fontFamily: [DEFAULT_TEXTPROPS.fontFamily],
     color: [DEFAULT_TEXTPROPS.color],
     posHor: [DEFAULT_TEXTPROPS.posHor],
@@ -136,15 +137,17 @@ export class EditorTextComponent implements OnChanges, OnInit {
             newVals
           )
         } else if (field !== 'name') {
-          let newVals: Record<string, any> = {}
-          newVals[field] = val
-          updateTextProps(
-            this.db,
-            this.type,
-            this.geneGraphic,
-            this.items.map((i) => i.id),
-            newVals
-          )
+          if(control.valid){
+            let newVals: Record<string, any> = {}
+            newVals[field] = val
+            updateTextProps(
+              this.db,
+              this.type,
+              this.geneGraphic,
+              this.items.map((i) => i.id),
+              newVals
+            )
+            }
         }
       })
     }

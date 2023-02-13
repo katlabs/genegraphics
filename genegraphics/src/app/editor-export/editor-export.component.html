@@ -1,14 +1,25 @@
 <div class="editor-section-title">
   <span class="editor-section-title-text">Export</span>
 </div>
-<mat-form-field appearance="fill">
-  <mat-label>File Type</mat-label>
-  <mat-select [formControl]="exportCtrl">
-    <mat-option
-      *ngFor="let option of exportOptions; let i = index;"
-      [value]="i">
-      {{option}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-<button mat-raised-button color="primary" (click)="onClickExport()">Export</button>
+<div class="editor-section-column">
+  <mat-form-field appearance="fill">
+    <mat-label>File Type</mat-label>
+    <mat-select [formControl]="exportCtrl">
+      <mat-option
+        *ngFor="let option of exportOptions; let i = index"
+        [value]="i"
+      >
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button 
+    *ngIf="!loading"
+    color="primary" 
+    (click)="onClickExport()">
+    Export
+  </button>
+  <mat-spinner
+    *ngIf="loading">
+    </mat-spinner>
+</div>

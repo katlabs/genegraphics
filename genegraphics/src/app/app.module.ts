@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule } from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http'
 
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -14,6 +15,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatIconModule } from '@angular/material/icon'
 import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; 
 
 import { AppComponent } from './app.component'
 import { GeneGraphicComponent } from './gene-graphic/gene-graphic.component'
@@ -62,6 +64,8 @@ import { EditorTextComponent } from './editor-text/editor-text.component'
     MatAutocompleteModule,
     MatIconModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

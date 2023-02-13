@@ -15,7 +15,7 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field
-    *ngIf="!isInOptions(selectCtrl.value)">
+    *ngIf="!isInOptions(selectCtrl.value) && (selectCtrl.value.type!=='geneGraphic')">
     <mat-label>New Selection Name</mat-label>
     <input matInput
       type="text"
@@ -23,7 +23,7 @@
     >  
   </mat-form-field>
   <button mat-raised-button 
-    *ngIf="!isInOptions(selectCtrl.value)"
+    *ngIf="!isInOptions(selectCtrl.value) && (selectCtrl.value.type!=='geneGraphic')"
     color="primary" 
     type="submit" 
     (click)="saveNewSelection()">
