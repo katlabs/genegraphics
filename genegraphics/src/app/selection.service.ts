@@ -16,7 +16,7 @@ export class SelectionService {
 
   deselectAll() {
     this.selection$.next({
-      type: 'none',
+      type: 'empty',
       ids_list: [],
     })
   }

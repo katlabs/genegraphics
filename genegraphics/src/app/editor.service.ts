@@ -1,25 +1,35 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
+export interface Tab {
+  index: number,
+  name: string
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class EditorService {
-  tabIndex$ = new BehaviorSubject(0);
+  tabIndex$: BehaviorSubject<Tab> = new BehaviorSubject({index:0, name:"about"});
   private tabsHash: { [key: string]: number } = {
-    data: 0,
-    settings: 1,
-    export: 2,
+    about: 0,
+    data: 1,
+    settings: 2,
+    export: 3,
   }
 
   constructor(
   ) {}
+  getKeyByValue(object:any, value:any) {
+    return Object.keys(object).find(key => object[key] === value);
+  }
 
   openTab(tab: string | number) {
     if (typeof tab == 'string') {
-      this.tabIndex$.next(this.tabsHash[tab]);
+      this.tabIndex$.next({index:this.tabsHash[tab], name:tab});
     } else {
-      this.tabIndex$.next(tab);
+      const name = this.getKeyByValue(this.tabsHash,tab)
+      if(name)this.tabIndex$.next({index:tab, name: name});
     }
   }
 }

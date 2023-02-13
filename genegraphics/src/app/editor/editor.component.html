@@ -9,6 +9,9 @@
   disablePagination
   preserveContent
   >
+  <mat-tab label="About" bodyClass="editor-content">
+    <app-about class="editor-section"></app-about>
+  </mat-tab>
   <mat-tab label="Data" bodyClass="editor-content">
     <app-editor-data class="editor-section" [geneGraphic]="geneGraphic"></app-editor-data>
     <app-file-upload class="editor-section" [geneGraphic]="geneGraphic"></app-file-upload>

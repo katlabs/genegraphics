@@ -75,7 +75,7 @@ export class EditorFeaturesComponent implements OnChanges, OnInit {
           this.features.map((f) => f.id),
           color1,
           color2
-        ).then(d=> console.log(d)).catch(err=>console.error(err));
+        )
     })
   }
 

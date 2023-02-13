@@ -24,7 +24,7 @@ export class DatabaseService extends Dexie {
   }
 
   async populate() {
-    return await createGeneGraphic(this).catch(err => console.log(err));
+    return await createGeneGraphic(this);
   }
 
 

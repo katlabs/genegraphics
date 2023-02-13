@@ -49,7 +49,6 @@ export class ExportService {
   saveTIFF() {
     this.processing$.next(true);
     const svg = document.getElementById('gene-graphic')
-    console.log(svg?.clientHeight, svg?.clientWidth)
     if (svg) {
       const pixel_ratio = window.devicePixelRatio
       const w = svg.clientWidth

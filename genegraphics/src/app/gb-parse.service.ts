@@ -53,9 +53,6 @@ export class GbParseService {
           start = feature.end
           stop = feature.start
         }
-        console.log(feature.name)
-        console.log(start)
-        console.log(stop)
         let locus_tag = feature.notes['locus_tag']
           ? feature.notes['locus_tag'][0]
           : undefined

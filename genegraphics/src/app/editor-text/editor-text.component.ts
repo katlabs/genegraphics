@@ -162,7 +162,6 @@ export class EditorTextComponent implements OnChanges, OnInit {
         )
     })
     this.textPropsForm.get('name.nameAs')?.valueChanges.subscribe((val) => {
-      console.log(this.geneGraphic)
       if (val)
         updateNameFromField(
           this.db,

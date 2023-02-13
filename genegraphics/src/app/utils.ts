@@ -109,7 +109,7 @@ export async function createGeneGraphic(db: DatabaseService) {
   const window_width = window.innerWidth;
   const newGeneGraphic: GeneGraphic = {
     id: createId(),
-    name: 'New GeneGraphic',
+    name: 'New Gene Graphic',
     nameProps: Object.assign({}, DEFAULT_TEXTPROPS),
     opened: Date.now(),
     width: window_width-40,

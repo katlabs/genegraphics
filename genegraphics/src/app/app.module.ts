@@ -30,7 +30,9 @@ import { EditorSelectionsComponent } from './editor-selections/editor-selections
 import { EditorFeaturesComponent } from './editor-features/editor-features.component'
 import { EditorRegionsComponent } from './editor-regions/editor-regions.component'
 import { NcbiFetchComponent } from './ncbi-fetch/ncbi-fetch.component';
-import { EditorTextComponent } from './editor-text/editor-text.component'
+import { EditorTextComponent } from './editor-text/editor-text.component';
+import { AboutComponent } from './about/about.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { EditorTextComponent } from './editor-text/editor-text.component'
     EditorRegionsComponent,
     NcbiFetchComponent,
     EditorTextComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { EditorTextComponent } from './editor-text/editor-text.component'
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent],

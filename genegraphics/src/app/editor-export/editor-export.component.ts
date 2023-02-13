@@ -45,7 +45,7 @@ export class EditorExportComponent implements OnInit{
 
   ngOnInit(): void {
     this.editorService.tabIndex$.subscribe(tab=>{
-      if(tab===2) this.sel.deselectAll();
+      if(tab.name==='export') this.sel.deselectAll();
     })
     this.exportService.processing$.subscribe(val=>{
       this.loading = val;

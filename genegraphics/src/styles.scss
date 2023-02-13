@@ -12,6 +12,8 @@
 @import "~@fontsource/roboto/index.css";
 @import "~@fontsource/roboto-mono/index.css";
 @import "~@fontsource/source-code-pro/index.css";
+@import "~@fontsource/raleway/index.css";
+@import "~@fontsource/quicksand/index.css";
 @import "~@fontsource/material-icons/index.css";
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -42,11 +44,12 @@ $genegraphics-theme: mat.define-light-theme((
 html, body { height: 100%; }
 body { 
   margin: 10px; 
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Raleway, "Helvetica Neue", sans-serif;
 }
 
 h1 {
   color: mat.get-color-from-palette($genegraphics-primary, 'darker');
+  margin: 5px;
 }
 
 button {

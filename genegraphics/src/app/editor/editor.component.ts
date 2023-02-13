@@ -21,12 +21,12 @@ export class EditorComponent implements OnInit {
   ) {}
 
   changeTabIndex(e: number){
-    this.editorService.tabIndex$.next(e);
+    this.editorService.openTab(e);
   }
 
   ngOnInit(): void {
-    this.tabIndex = 2;
-    this.editorService.tabIndex$.subscribe((tab) => (this.tabIndex = tab))
+    this.tabIndex = 3;
+    this.editorService.tabIndex$.subscribe((tab) => (this.tabIndex = tab.index))
     this.sel.selection$.subscribe((sel) => {
       this.selection = sel
       this.regions = []

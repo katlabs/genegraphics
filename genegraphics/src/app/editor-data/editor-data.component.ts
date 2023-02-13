@@ -35,7 +35,6 @@ export class EditorDataComponent implements OnInit, OnChanges {
 
   onSelect(e: any){
     if(e.value==0){
-      console.log("add new");
       createGeneGraphic(this.db);
     } else {
       this.db.geneGraphics.update(e.value, {

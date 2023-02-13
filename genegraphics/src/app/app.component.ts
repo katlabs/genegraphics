@@ -31,14 +31,11 @@ export class AppComponent implements OnInit {
     getCurrentGeneGraphic(this.db).subscribe((val) => {
       this.geneGraphic = val
       this.sel.reEmitSelection()
-      console.log(this.geneGraphic)
     })
     getDataFetches(this.db).then((df) => {
       if (df.length === 0) {
-        console.log("No data...")
         this.ncbiFetch.fetchNcbiGenomes(false)
       } else if (this.fetchIsOld(df[0].last_fetch)){
-        console.log("Data too old...")
         this.ncbiFetch.fetchNcbiGenomes(true)
       }
     })

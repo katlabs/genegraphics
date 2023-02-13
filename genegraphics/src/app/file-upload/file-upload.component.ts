@@ -33,8 +33,7 @@ export class FileUploadComponent {
     } else if (this.type ==='gb'|| this.type ==='gbk'){
       this.message = "GenBank file: " + this.file?.name
     } else {
-      this.message = 'Unknown filetype uploaded...'
-      console.log('Unknown filetype')
+      this.message = 'Unsupported file uploaded...'
     }
   }
 
