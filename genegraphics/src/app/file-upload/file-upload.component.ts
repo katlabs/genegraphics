@@ -27,7 +27,6 @@ export class FileUploadComponent {
   async onFileChange(event: any) {
     this.file = event.target.files[0]
     if (this.file) this.type = this.file.name.split('.')[1].toLowerCase()
-    console.log(this.type);
     if (this.type == 'tsv') {
       this.message = 'TSV file: ' + this.file?.name
     } else if (this.type == 'csv') {
