@@ -94,8 +94,12 @@ export class NcbiFetchComponent implements OnInit {
           error:error=>{
             this.loading = false;
             this.searchTypeCtrl.reset();
-            this.ncbiForm.reset();
-            this.error_msg = error;
+            this.ncbiForm.reset({
+              regionSizeCtrl: 5000,
+              regionStartCtrl: 0,
+              regionEndCtrl: 5000
+            });
+            this.error_msg = "The query did not retrieve results. Please try again.";
           }})
     }
   }
@@ -115,6 +119,11 @@ export class NcbiFetchComponent implements OnInit {
       if(this.error_msg){
         this.error_msg = null;
       }
+      this.ncbiForm.reset({
+        regionSizeCtrl: 5000,
+        regionStartCtrl: 0,
+        regionEndCtrl: 5000
+      });
     })
   }
 
