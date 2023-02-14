@@ -88,10 +88,9 @@ export class TsvParseService {
   }
 
   async parseAndStore(
-    file: File,
+    fileContent: string,
     currentGeneGraphic?: GeneGraphic
   ) {
-    const fileContent = await file.text()
     if (!currentGeneGraphic)
       currentGeneGraphic = await createGeneGraphic(this.db)
     if (!currentGeneGraphic) throw new Error('Could not create GeneGraphic')

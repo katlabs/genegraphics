@@ -641,7 +641,7 @@ export function getIndexes(header: string[]): {} {
     indexes.stop == -1 ||
     indexes.region_change == -1
   ) {
-    throw new Error('File format unsupported.')
+    throw new Error('File does not include required columns.')
   }
   return indexes
 }

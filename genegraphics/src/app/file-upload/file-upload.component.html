@@ -6,9 +6,9 @@
   type="file"
   (change)="onFileChange($event)" 
   accept="text/comma-separated-values,
-          text/tab-separated-values, .tsv, .csv, .gb, .json" style="display:none;" />
+          text/tab-separated-values, .tsv, .csv, .gb, .gbk, .json" style="display:none;" />
 <div class="editor-section-column">
-  <span *ngIf="message">{{message}}</span>
+  <span *ngIf="message" [style]="error? 'color:red':'color:black'">{{message}}</span>
   <div 
     *ngIf="file && type"
     class="editor-section-column">

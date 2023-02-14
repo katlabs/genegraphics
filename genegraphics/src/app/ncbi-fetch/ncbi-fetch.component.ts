@@ -22,9 +22,9 @@ export class NcbiFetchComponent implements OnInit {
   ncbiForm = new FormGroup({
     organismCtrl: new FormControl(),
     identifierCtrl: new FormControl(),
-    regionSizeCtrl: new FormControl(),
-    regionStartCtrl: new FormControl(),
-    regionEndCtrl: new FormControl()
+    regionSizeCtrl: new FormControl(5000, {validators: [Validators.required, Validators.min(0)]}),
+    regionStartCtrl: new FormControl(0, {validators: [Validators.required, Validators.min(0)]}),
+    regionEndCtrl: new FormControl(5000, {validators: [Validators.required, Validators.min(0)]})
 
   })
   searchOptions = ["Gene ID", "Protein ID", "UniprotKB Accession", "Gene Symbol and Genome", "Genome Region"]
