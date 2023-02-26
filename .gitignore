@@ -6,4 +6,4 @@ __pycache__
 updates.md
 
 .env
-./docker-compose.override-notraefik.yml
+docker-compose.override-notraefik.yml
