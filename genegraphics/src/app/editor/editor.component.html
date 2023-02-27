@@ -1,35 +1,71 @@
-<mat-tab-group 
+<mat-tab-group
   id="tab-group"
-  animationDuration="0ms" 
+  animationDuration="0ms"
   [(selectedIndex)]="tabIndex"
   (selectedIndexChange)="changeTabIndex($event)"
-  mat-stretch-tabs="false" 
+  mat-stretch-tabs="false"
   mat-align-tabs="start"
-  disableRipple 
+  disableRipple
   disablePagination
   preserveContent
-  >
+>
   <mat-tab label="About" bodyClass="editor-content">
     <app-about class="editor-section"></app-about>
   </mat-tab>
   <mat-tab label="Data" bodyClass="editor-content">
-    <app-editor-data class="editor-section" [geneGraphic]="geneGraphic"></app-editor-data>
-    <app-file-upload class="editor-section" [geneGraphic]="geneGraphic"></app-file-upload>
-    <app-ncbi-fetch class="editor-section" [geneGraphic]="geneGraphic"></app-ncbi-fetch>
+    <app-editor-data
+      class="editor-section"
+      [geneGraphic]="geneGraphic"
+    ></app-editor-data>
+    <app-file-upload
+      class="editor-section"
+      [geneGraphic]="geneGraphic"
+    ></app-file-upload>
+    <app-ncbi-fetch
+      class="editor-section"
+      [geneGraphic]="geneGraphic"
+    ></app-ncbi-fetch>
   </mat-tab>
-  <mat-tab label="Settings" bodyClass="editor-content">
-    <app-editor-settings *ngIf="geneGraphic" class="editor-section" [geneGraphic]="geneGraphic"></app-editor-settings>
-    <app-editor-selections class="editor-section" [geneGraphic]="geneGraphic"></app-editor-selections>
-    <app-editor-regions class="editor-section" *ngIf="regions.length>0" [regions]="regions" [geneGraphic]="geneGraphic"></app-editor-regions>
-    <app-editor-features class="editor-section" *ngIf="features.length>0" [features]="features" [geneGraphic]="geneGraphic"></app-editor-features>
-    <div class="editor-section" *ngIf="selection.type==='geneGraphic'">
+  <mat-tab label="Global Settings" bodyClass="editor-content">
+    <app-editor-settings
+      *ngIf="geneGraphic"
+      class="editor-section"
+      [geneGraphic]="geneGraphic"
+    ></app-editor-settings>
+    <div class="editor-section">
       <div class="editor-section-title">
         <span class="editor-section-title-text">Image Title</span>
       </div>
-      <app-editor-text class="editor-section-row" [items]="[geneGraphic]" [geneGraphic]="geneGraphic" type="geneGraphic"></app-editor-text>
+      <app-editor-text
+        class="editor-section-row"
+        [items]="[geneGraphic]"
+        [geneGraphic]="geneGraphic"
+        type="geneGraphic"
+      ></app-editor-text>
     </div>
   </mat-tab>
+  <mat-tab label="Settings" bodyClass="editor-content">
+    <app-editor-selections
+      class="editor-section"
+      [geneGraphic]="geneGraphic"
+    ></app-editor-selections>
+    <app-editor-regions
+      class="editor-section"
+      *ngIf="regions.length > 0"
+      [regions]="regions"
+      [geneGraphic]="geneGraphic"
+    ></app-editor-regions>
+    <app-editor-features
+      class="editor-section"
+      *ngIf="features.length > 0"
+      [features]="features"
+      [geneGraphic]="geneGraphic"
+    ></app-editor-features>
+  </mat-tab>
   <mat-tab label="Export" class="editor-section" bodyClass="editor-content">
-    <app-editor-export class="editor-section" [geneGraphic]="geneGraphic" ></app-editor-export>
+    <app-editor-export
+      class="editor-section"
+      [geneGraphic]="geneGraphic"
+    ></app-editor-export>
   </mat-tab>
 </mat-tab-group>

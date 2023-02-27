@@ -1,8 +1,8 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 // Plus imports for other components in your app.
-@use './_palettes.scss' as custom_palettes;
+@use "./_palettes.scss" as custom_palettes;
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -18,46 +18,60 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$genegraphics-primary: mat.define-palette(custom_palettes.$gg-blue-palette, 500, 300, 900);
-$genegraphics-accent: mat.define-palette(custom_palettes.$gg-green-palette, 500, 300, 900);
+$genegraphics-primary: mat.define-palette(
+  custom_palettes.$gg-blue-palette,
+  500,
+  300,
+  900
+);
+$genegraphics-accent: mat.define-palette(
+  custom_palettes.$gg-green-palette,
+  500,
+  300,
+  900
+);
 
 // The warn palette is optional (defaults to red).
 $genegraphics-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$genegraphics-theme: mat.define-light-theme((
-  color: (
-    primary: $genegraphics-primary,
-    accent: $genegraphics-accent,
-    warn: $genegraphics-warn,
+$genegraphics-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $genegraphics-primary,
+      accent: $genegraphics-accent,
+      warn: $genegraphics-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($genegraphics-theme);
 
-
 /* You can add global styles to this file, and also import other style files */
-html, body { height: 100%; }
-body { 
-  margin: 10px; 
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 10px;
   font-family: Raleway, "Helvetica Neue", sans-serif;
 }
 
 h1 {
-  color: mat.get-color-from-palette($genegraphics-primary, 'darker');
+  color: mat.get-color-from-palette($genegraphics-primary, "darker");
   margin: 5px;
 }
 
 button {
-  flex-grow:0;
+  flex-grow: 0;
   width: fit-content;
 }
 
-.editor-content>div {
+.editor-content > div {
   display: flex;
   flex-direction: row;
   gap: 0;
@@ -67,7 +81,7 @@ button {
   position: relative;
   display: flex;
   flex-direction: column;
-  border: 1px solid mat.get-color-from-palette($genegraphics-primary, 'default');
+  border: 1px solid mat.get-color-from-palette($genegraphics-primary, "default");
   border-radius: 4px;
   padding: 5px;
   width: fit-content;
@@ -80,13 +94,13 @@ button {
   width: 100%;
   gap: 4px;
 }
-.editor-section-column{
+.editor-section-column {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: flex-start;
 
-  button{
+  button {
     align-self: center;
   }
 }
@@ -96,7 +110,7 @@ button {
   flex-direction: row;
   justify-content: center;
 
-  .editor-section-title-text{
+  .editor-section-title-text {
     text-align: center;
     font-weight: bold;
     padding: 16px;
@@ -106,11 +120,11 @@ button {
     right: 0;
   }
 }
-mat-form-field{
-  flex-grow:0;
-  height:fit-content;
+mat-form-field {
+  flex-grow: 0;
+  height: fit-content;
 }
 
-app-editor-text{
+app-editor-text {
   display: content;
 }

@@ -1,16 +1,19 @@
-mat-button-toggle-group{
-  width: fit-content;
-}
-
-.editor-section-column{
+.editor-section-column {
   align-items: center;
 }
 
 .font-size-field {
-  width: 101px;
+  width: 110px;
 }
 
 .font-color-field {
-  width: 101px;
+  width: 110px;
 }
-
+.mat-button-toggle-group {
+  height: 40px;
+  width: 140px;
+  align-items: center;
+}
+.mat-button-toggle-label-content {
+  padding: 0 10px !important;
+}

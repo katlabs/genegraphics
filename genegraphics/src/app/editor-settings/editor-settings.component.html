@@ -1,47 +1,63 @@
 <div class="editor-section-title">
   <span class="editor-section-title-text">Image Settings</span>
 </div>
-<div class="editor-section-row" [style.width.px]="400" [formGroup]="settingsForm">
-<div class="editor-section-column">
-  <mat-form-field >
-    <mat-label>Image Width (px) </mat-label>
-    <input matInput
-      type="number" 
-      [value]="geneGraphic.width"
-      formControlName="width"
-      min="100"
-      max="3000">
-    <mat-error
-        *ngIf="settingsForm.get('width')?.invalid"
-      >
-      100px-3000px
+<div class="editor-section-row" [formGroup]="settingsForm">
+  <div class="editor-section-column">
+    <mat-form-field>
+      <mat-label>Image Width (px) </mat-label>
+      <input
+        matInput
+        type="number"
+        [value]="geneGraphic.width"
+        formControlName="width"
+        min="100"
+        max="3000"
+      />
+      <mat-error *ngIf="settingsForm.get('width')?.invalid">
+        100px-3000px
       </mat-error>
-  </mat-form-field>
-  <mat-form-field >
-    <mat-label>Feature Height (px)</mat-label>
-    <input matInput 
-      type="number"
-      [value]="geneGraphic.featureHeight"
-      formControlName="featureHeight"
-      min="5"
-      max="100" />
-      <mat-error
-        *ngIf="settingsForm.get('featureHeight')?.invalid"
-      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Feature Height (px)</mat-label>
+      <input
+        matInput
+        type="number"
+        [value]="geneGraphic.featureHeight"
+        formControlName="featureHeight"
+        min="5"
+        max="100"
+      />
+      <mat-error *ngIf="settingsForm.get('featureHeight')?.invalid">
         5px-100px
       </mat-error>
-  </mat-form-field>
-</div>
-<div class="editor-section-column" [style.width.%]="50">
-  <mat-checkbox [checked]="geneGraphic.showScale" formControlName="showScale">Show Scale</mat-checkbox>
-  <div formGroupName="laneSettings">
-  <mat-checkbox [checked]="geneGraphic.multilane" formControlName="multilane">Multiple Lanes</mat-checkbox>
+    </mat-form-field>
   </div>
-  <div formGroupName="laneSettings">
-  <mat-checkbox *ngIf="!geneGraphic.multilane" [checked]="geneGraphic.overlap" formControlName="overlap">Genes May Overlap</mat-checkbox>
+  <div class="editor-section-column" [style.width.px]="210">
+    <mat-checkbox [checked]="geneGraphic.showScale" formControlName="showScale"
+      >Show Scale</mat-checkbox
+    >
+    <div formGroupName="laneSettings">
+      <mat-checkbox
+        [checked]="geneGraphic.multilane"
+        formControlName="multilane"
+        >Multiple Lanes</mat-checkbox
+      >
+    </div>
+    <div formGroupName="laneSettings">
+      <mat-checkbox
+        *ngIf="!geneGraphic.multilane"
+        [checked]="geneGraphic.overlap"
+        formControlName="overlap"
+        >Genes May Overlap</mat-checkbox
+      >
+    </div>
+    <div formGroupName="laneSettings">
+      <mat-checkbox
+        *ngIf="!geneGraphic.multilane && !geneGraphic.overlap"
+        [checked]="geneGraphic.gaps"
+        formControlName="gaps"
+        >Keep Gaps Between Features</mat-checkbox
+      >
+    </div>
   </div>
-  <div formGroupName="laneSettings">
-  <mat-checkbox *ngIf="!geneGraphic.multilane && !geneGraphic.overlap" [checked]="geneGraphic.gaps" formControlName="gaps">Keep Gaps Between Features</mat-checkbox>
-  </div>
-</div>
 </div>
