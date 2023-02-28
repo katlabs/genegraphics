@@ -1,0 +1,67 @@
+<div class="editor-section-title">
+  <span class="editor-section-title-text"
+    >Selected {{ features.length }} Feature{{
+      features.length > 1 ? "s" : ""
+    }}</span
+  >
+  <button
+    mat-icon-button
+    class="delete-button"
+    color="warn"
+    (click)="deleteFeatures()"
+  >
+    <mat-icon>delete_forever</mat-icon>
+  </button>
+</div>
+<div class="editor-section-row" [formGroup]="featuresForm">
+  <div class="editor-section-column">
+    <mat-form-field appearance="fill">
+      <mat-label>Shape</mat-label>
+      <mat-select formControlName="shape">
+        <mat-option
+          *ngFor="let option of shapeOptions"
+          [value]="option.toLowerCase()"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="editor-section-column" formGroupName="color">
+      <mat-checkbox formControlName="split">Two Colors</mat-checkbox>
+      <div class="editor-section-row">
+        <mat-form-field appearance="outline" style="width: 80px !important">
+          <mat-label
+            >Color{{
+              featuresForm.get("color.split")?.value == true ? " 1" : ""
+            }}</mat-label
+          >
+          <input
+            matInput
+            class="color-input"
+            type="color"
+            formControlName="color1"
+          />
+        </mat-form-field>
+        <mat-form-field
+          *ngIf="featuresForm.get('color.split')?.value === true"
+          appearance="outline"
+          style="width: 80px !important"
+        >
+          <mat-label>Color 2</mat-label>
+          <input
+            matInput
+            class="color-input"
+            type="color"
+            formControlName="color2"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <edit-text
+    class="editor-section-row"
+    [items]="features"
+    [geneGraphic]="geneGraphic"
+    type="feature"
+  ></edit-text>
+</div>

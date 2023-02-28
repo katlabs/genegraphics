@@ -10,13 +10,13 @@
   preserveContent
 >
   <mat-tab label="About" bodyClass="editor-content">
-    <app-about class="editor-section"></app-about>
+    <editor-about class="editor-section"></editor-about>
   </mat-tab>
   <mat-tab label="Data" bodyClass="editor-content">
-    <app-editor-data
+    <editor-data
       class="editor-section"
       [geneGraphic]="geneGraphic"
-    ></app-editor-data>
+    ></editor-data>
     <app-file-upload
       class="editor-section"
       [geneGraphic]="geneGraphic"
@@ -27,45 +27,45 @@
     ></app-ncbi-fetch>
   </mat-tab>
   <mat-tab label="Global Settings" bodyClass="editor-content">
-    <app-editor-settings
+    <editor-global
       *ngIf="geneGraphic"
       class="editor-section"
       [geneGraphic]="geneGraphic"
-    ></app-editor-settings>
+    ></editor-global>
     <div class="editor-section">
       <div class="editor-section-title">
         <span class="editor-section-title-text">Image Title</span>
       </div>
-      <app-editor-text
+      <edit-text
         class="editor-section-row"
         [items]="[geneGraphic]"
         [geneGraphic]="geneGraphic"
         type="geneGraphic"
-      ></app-editor-text>
+      ></edit-text>
     </div>
   </mat-tab>
-  <mat-tab label="Settings" bodyClass="editor-content">
-    <app-editor-selections
+  <mat-tab label="Selection Settings" bodyClass="editor-content">
+    <editor-selections
       class="editor-section"
       [geneGraphic]="geneGraphic"
-    ></app-editor-selections>
-    <app-editor-regions
+    ></editor-selections>
+    <edit-regions
       class="editor-section"
       *ngIf="regions.length > 0"
       [regions]="regions"
       [geneGraphic]="geneGraphic"
-    ></app-editor-regions>
-    <app-editor-features
+    ></edit-regions>
+    <edit-features
       class="editor-section"
       *ngIf="features.length > 0"
       [features]="features"
       [geneGraphic]="geneGraphic"
-    ></app-editor-features>
+    ></edit-features>
   </mat-tab>
   <mat-tab label="Export" class="editor-section" bodyClass="editor-content">
-    <app-editor-export
+    <editor-export
       class="editor-section"
       [geneGraphic]="geneGraphic"
-    ></app-editor-export>
+    ></editor-export>
   </mat-tab>
 </mat-tab-group>

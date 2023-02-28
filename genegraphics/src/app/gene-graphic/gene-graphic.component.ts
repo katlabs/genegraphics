@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { GeneGraphic, Region } from '../models';
-import { SelectionService } from '../selection.service';
-import { getRegionTop } from '../utils';
+import { GeneGraphic, Region } from '@models/models';
+import { SelectionService } from '@services/selection.service';
+import { getRegionTop } from '@helpers/utils';
 
 @Component({
   selector: 'app-gene-graphic',

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core'
-import { DatabaseService } from './database.service'
-import { GeneGraphic } from './models'
-import { NcbiFetchService } from './ncbi-fetch.service'
-import { SelectionService } from './selection.service'
-import { getCurrentGeneGraphic, getDataFetches } from './utils'
+import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from '@services/database.service';
+import { GeneGraphic } from '@models/models';
+import { NcbiFetchService } from '@services/ncbi-fetch.service';
+import { SelectionService } from '@services/selection.service';
+import { getCurrentGeneGraphic, getDataFetches } from '@helpers/utils';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import { getCurrentGeneGraphic, getDataFetches } from './utils'
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  geneGraphic: GeneGraphic | undefined
+  geneGraphic: GeneGraphic | undefined;
 
   constructor(
     private db: DatabaseService,
@@ -19,25 +19,25 @@ export class AppComponent implements OnInit {
     private ncbiFetch: NcbiFetchService
   ) {}
 
-  fetchIsOld(lastFetch:number){
+  fetchIsOld(lastFetch: number) {
     //Re-fetch monthly
     const limit = 2629746000;
     const msSince = Date.now() - lastFetch;
-    if(msSince > limit) return true;
+    if (msSince > limit) return true;
     else return false;
   }
 
   ngOnInit(): void {
     getCurrentGeneGraphic(this.db).subscribe((val) => {
-      this.geneGraphic = val
-      this.sel.reEmitSelection()
-    })
+      this.geneGraphic = val;
+      this.sel.reEmitSelection();
+    });
     getDataFetches(this.db).then((df) => {
       if (df.length === 0) {
-        this.ncbiFetch.fetchNcbiGenomes(false)
-      } else if (this.fetchIsOld(df[0].last_fetch)){
-        this.ncbiFetch.fetchNcbiGenomes(true)
+        this.ncbiFetch.fetchNcbiGenomes(false);
+      } else if (this.fetchIsOld(df[0].last_fetch)) {
+        this.ncbiFetch.fetchNcbiGenomes(true);
       }
-    })
+    });
   }
 }

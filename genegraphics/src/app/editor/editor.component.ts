@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Feature, GeneGraphic, Region, Selection } from '../models'
-import { EditorService } from '../editor.service'
-import { SelectionService } from '../selection.service'
+import { Feature, GeneGraphic, Region, Selection } from '@models/models'
+import { EditorService } from '@services/editor.service'
+import { SelectionService } from '@services/selection.service'
 
 @Component({
   selector: 'app-editor',
