@@ -1,9 +1,22 @@
-#position-title {
-  padding: 14px;
-}
+#position-buttons {
+  justify-content: space-evenly;
 
-.outer-column {
-  flex-shrink: 0;
-  width: 190px;
-  gap: 10px;
+  span {
+    padding: 4px;
+  }
+
+  button {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #ededf0;
+    }
+
+    &:disabled {
+      background-color: white;
+      color: rgba(0, 0, 0, 0.26);
+    }
+  }
 }

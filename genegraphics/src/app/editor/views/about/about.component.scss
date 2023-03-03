@@ -1,16 +1,35 @@
-.editor-section-row{
-  gap:0;
+#about-column {
+  width: fit-content;
 }
 
-.editor-section-column{
-  gap:0;
-  max-width:1000px;
+#about-header {
+  position: relative;
+
+  h1 {
+    color: var(--color-primary-darker);
+    margin: 0.5rem;
+  }
+
+  a {
+    position: absolute;
+    right: 0;
+  }
 }
 
-#github-button{
-  margin-left: auto;
-}
+#about-body {
+  gap: 1rem;
 
-h1 {
-  font-family: 'Quicksand', sans-serif;
+  #about-text {
+    width: 60%;
+    text-align: justify;
+  }
+  #citation {
+    width: 40%;
+    h3 {
+      color: var(--color-primary);
+      margin: 0;
+      margin-bottom: 0.5rem;
+      text-align: justify;
+    }
+  }
 }

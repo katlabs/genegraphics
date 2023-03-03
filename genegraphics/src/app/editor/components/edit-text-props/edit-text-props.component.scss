@@ -1,0 +1,21 @@
+#text-edit-buttons {
+  .column {
+    width: 146px;
+    gap: 2px;
+
+    .row {
+      min-height: 48px;
+
+      mat-form-field {
+        margin-top: 0.3em;
+      }
+    }
+  }
+}
+
+#fontFamilyButton {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  padding: 4px;
+}

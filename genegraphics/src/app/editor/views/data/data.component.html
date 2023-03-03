@@ -1,28 +1,39 @@
-<div class="editor-section-title">
-  <span class="editor-section-title-text">Your GeneGraphics</span>
-</div>
-<mat-form-field appearance="fill">
-  <mat-label>Selected Gene Graphic</mat-label>
-  <mat-select
-    #selectEl
-    [formControl]="selectCtrl"
-    (selectionChange)="onSelect($event)"
-  >
-    <mat-option
-      *ngFor="let geneGraphic of geneGraphics"
-      [value]="geneGraphic.id"
+<div class="editor-section">
+  <div class="column">
+    <div class="title-row">
+      <span class="title-text">Your GeneGraphics</span>
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Selected Gene Graphic</mat-label>
+      <mat-select
+        #selectEl
+        [formControl]="selectCtrl"
+        (selectionChange)="onSelect($event)"
+      >
+        <mat-option
+          *ngFor="let geneGraphic of geneGraphics"
+          [value]="geneGraphic.id"
+        >
+          <strong>{{ geneGraphic.name }}</strong>
+          <br />
+          <em style="font-size: 12px"
+            >&nbsp;&nbsp;&nbsp;&nbsp;(Last Opened:&nbsp;{{
+              getDateStr(geneGraphic.opened)
+            }})
+          </em>
+        </mat-option>
+        <mat-option value="0">Add new...</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      class="centered"
+      color="primary"
+      (click)="onClickDelete()"
     >
-      <strong>{{ geneGraphic.name }}</strong>
-      <br />
-      <em style="font-size: 12px"
-        >&nbsp;&nbsp;&nbsp;&nbsp;(Last Opened:&nbsp;{{
-          getDateStr(geneGraphic.opened)
-        }})
-      </em>
-    </mat-option>
-    <mat-option value="0">Add new...</mat-option>
-  </mat-select>
-</mat-form-field>
-<button mat-raised-button color="primary" (click)="onClickDelete()">
-  Delete
-</button>
+      Delete
+    </button>
+  </div>
+</div>
+<app-file-upload class="editor-section"></app-file-upload>
+<app-ncbi-fetch class="editor-section">, </app-ncbi-fetch>

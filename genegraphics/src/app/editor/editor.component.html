@@ -9,62 +9,31 @@
   disablePagination
   preserveContent
 >
-  <mat-tab label="About" bodyClass="editor-content">
-    <editor-about class="editor-section"></editor-about>
+  <mat-tab label="About">
+    <editor-about class="editor-content"></editor-about>
   </mat-tab>
-  <mat-tab label="Data" bodyClass="editor-content">
+  <mat-tab label="Data">
     <editor-data
-      class="editor-section"
+      class="editor-content"
       [geneGraphic]="geneGraphic"
     ></editor-data>
-    <app-file-upload
-      class="editor-section"
-      [geneGraphic]="geneGraphic"
-    ></app-file-upload>
-    <app-ncbi-fetch
-      class="editor-section"
-      [geneGraphic]="geneGraphic"
-    ></app-ncbi-fetch>
   </mat-tab>
-  <mat-tab label="Global Settings" bodyClass="editor-content">
+  <mat-tab label="Global Settings">
     <editor-global
       *ngIf="geneGraphic"
-      class="editor-section"
+      class="editor-content"
       [geneGraphic]="geneGraphic"
     ></editor-global>
-    <div class="editor-section">
-      <div class="editor-section-title">
-        <span class="editor-section-title-text">Image Title</span>
-      </div>
-      <edit-text
-        class="editor-section-row"
-        [items]="[geneGraphic]"
-        [geneGraphic]="geneGraphic"
-        type="geneGraphic"
-      ></edit-text>
-    </div>
   </mat-tab>
-  <mat-tab label="Selection Settings" bodyClass="editor-content">
+  <mat-tab label="Selection Settings">
     <editor-selections
-      class="editor-section"
+      class="editor-content"
       [geneGraphic]="geneGraphic"
     ></editor-selections>
-    <edit-regions
-      class="editor-section"
-      *ngIf="regions.length > 0"
-      [regions]="regions"
-      [geneGraphic]="geneGraphic"
-    ></edit-regions>
-    <edit-features
-      class="editor-section"
-      *ngIf="features.length > 0"
-      [features]="features"
-      [geneGraphic]="geneGraphic"
-    ></edit-features>
   </mat-tab>
-  <mat-tab label="Export" class="editor-section" bodyClass="editor-content">
+  <mat-tab label="Export">
     <editor-export
-      class="editor-section"
+      class="editor-content"
       [geneGraphic]="geneGraphic"
     ></editor-export>
   </mat-tab>

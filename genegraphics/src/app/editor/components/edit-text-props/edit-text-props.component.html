@@ -1,0 +1,83 @@
+<div class="row" id="text-edit-buttons">
+  <div class="column left">
+    <div class="row top">
+      <button
+        mat-raised-button
+        id="fontFamilyButton"
+        [matMenuTriggerFor]="fontFamMenu"
+        [style.font-family]="fontFamily.value"
+      >
+        {{ getFontFamButtonText() }}
+      </button>
+      <mat-menu #fontFamMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let font of fontFamilies.sort()"
+          (click)="fontFamily.setValue(font)"
+        >
+          <span style="font-family:{{ font }}">{{ font.split(", ")[0] }}</span>
+        </button>
+      </mat-menu>
+    </div>
+    <div class="row middle">
+      <mat-button-toggle-group [formControl]="posHor">
+        <mat-button-toggle value="left"
+          ><mat-icon fontIcon="format_align_left"></mat-icon
+        ></mat-button-toggle>
+        <mat-button-toggle value="center"
+          ><mat-icon fontIcon="format_align_center"></mat-icon
+        ></mat-button-toggle>
+        <mat-button-toggle value="right"
+          ><mat-icon fontIcon="format_align_right"></mat-icon
+        ></mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="row bottom">
+      <mat-form-field appearance="outline">
+        <mat-label>Font Size (px)</mat-label>
+        <input
+          matInput
+          [formControl]="fontSize"
+          type="number"
+          min="6"
+          max="60"
+        />
+        <mat-error *ngIf="fontSize.invalid">6px-60px</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="column right">
+    <div class="row top">
+      <mat-button-toggle-group [formControl]="boldItalicHide" multiple>
+        <mat-button-toggle value="bold"
+          ><mat-icon>format_bold</mat-icon></mat-button-toggle
+        >
+        <mat-button-toggle value="italic"
+          ><mat-icon>format_italic</mat-icon></mat-button-toggle
+        >
+        <mat-button-toggle value="hide"
+          ><mat-icon>{{ getVisibleIcon() }}</mat-icon></mat-button-toggle
+        >
+      </mat-button-toggle-group>
+    </div>
+    <div class="row middle">
+      <mat-button-toggle-group [formControl]="posVert">
+        <mat-button-toggle [disabled]="disablePosVert()" value="above"
+          ><mat-icon fontIcon="vertical_align_top"></mat-icon
+        ></mat-button-toggle>
+        <mat-button-toggle [disabled]="disablePosVert()" value="center"
+          ><mat-icon fontIcon="vertical_align_center"></mat-icon
+        ></mat-button-toggle>
+        <mat-button-toggle [disabled]="disablePosVert()" value="below"
+          ><mat-icon fontIcon="vertical_align_bottom"></mat-icon
+        ></mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="row bottom">
+      <mat-form-field appearance="outline">
+        <mat-label>Font Color</mat-label>
+        <input matInput [formControl]="color" type="color" />
+      </mat-form-field>
+    </div>
+  </div>
+</div>

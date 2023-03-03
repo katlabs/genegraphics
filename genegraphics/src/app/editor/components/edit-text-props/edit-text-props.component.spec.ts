@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditTextComponent } from './edit-text.component';
+import { EditTextPropsComponent } from './edit-text-props.component';
 
-describe('EditTextComponent', () => {
-  let component: EditTextComponent;
-  let fixture: ComponentFixture<EditTextComponent>;
+describe('EditTextPropsComponent', () => {
+  let component: EditTextPropsComponent;
+  let fixture: ComponentFixture<EditTextPropsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EditTextComponent],
+      declarations: [EditTextPropsComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EditTextComponent);
+    fixture = TestBed.createComponent(EditTextPropsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

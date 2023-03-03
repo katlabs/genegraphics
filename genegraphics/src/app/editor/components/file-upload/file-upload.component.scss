@@ -1,15 +1,7 @@
-.editor-section-row{
-  justify-content: space-evenly;
-}
-
-.editor-section-column{
-  gap: 5px;
-  justify-content: flex-start;
-  text-align: center;
-  width: 275px;
-  height: 100%;
-}
-
-#json-overwrite-note{
+#json-overwrite-note {
   margin-top: auto;
+}
+
+.column {
+  gap: 0.5rem;
 }

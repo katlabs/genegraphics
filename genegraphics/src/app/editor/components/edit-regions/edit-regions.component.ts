@@ -65,6 +65,14 @@ export class EditRegionsComponent implements OnInit, OnChanges {
     this.sel.selectGroup(newSelection);
   }
 
+  getEditRegionsTitle() {
+    let text = 'Editing ';
+    if (this.regions.length === 1) return text + '1 Region';
+    if (this.regions.length === this.geneGraphic.regions.length)
+      return text + ' All Regions';
+    else return text + `${this.regions.length} Regions`;
+  }
+
   ngOnInit(): void {
     this.regionsForm.get('flipped')?.valueChanges.subscribe((val) => {
       if (val !== null)

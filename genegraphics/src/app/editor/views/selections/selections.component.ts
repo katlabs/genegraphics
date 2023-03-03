@@ -51,7 +51,6 @@ export class SelectionsComponent implements OnChanges, OnInit {
   ];
   selectCtrl = new FormControl();
   saveCtrl = new FormControl('New Selection');
-  currentSelection!: Selection;
 
   constructor(private sel: SelectionService, private db: DatabaseService) {}
 
@@ -82,6 +81,16 @@ export class SelectionsComponent implements OnChanges, OnInit {
     // Returns the selection that matches a saved selection or undefined
     return this.selectionOptions[1].options.find((sel) =>
       selectionsEqual(sel, selection)
+    );
+  }
+
+  getSelectedRegions(ids_list: string[]) {
+    return this.geneGraphic.regions.filter((r) => ids_list.includes(r.id));
+  }
+
+  getSelectedFeatures(ids_list: string[]) {
+    return this.geneGraphic.regions.flatMap((r) =>
+      r.features.filter((f) => ids_list.includes(f.id))
     );
   }
 

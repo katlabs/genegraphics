@@ -1,39 +1,65 @@
-<div class="editor-section-title">
-  <span class="editor-section-title-text">Your Selections</span>
+<div class="editor-section">
+  <div class="column">
+    <div class="title-row">
+      <span class="title-text">Your Selections</span>
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Selection Group</mat-label>
+      <mat-select [formControl]="selectCtrl">
+        <mat-optgroup
+          *ngFor="let group of selectionOptions"
+          [label]="group.name"
+        >
+          <mat-option *ngFor="let option of group.options" [value]="option">
+            {{ option.name }}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      *ngIf="
+        !isInOptions(selectCtrl.value) &&
+        selectCtrl.value.type !== 'geneGraphic'
+      "
+    >
+      <mat-label>New Selection Name</mat-label>
+      <input matInput type="text" [formControl]="saveCtrl" />
+    </mat-form-field>
+    <button
+      mat-raised-button
+      *ngIf="
+        !isInOptions(selectCtrl.value) &&
+        selectCtrl.value.type !== 'geneGraphic'
+      "
+      color="primary"
+      type="submit"
+      (click)="saveNewSelection()"
+    >
+      Save New Selection
+    </button>
+    <button
+      mat-raised-button
+      *ngIf="isSavedSelection(selectCtrl.value)"
+      color="primary"
+      type="button"
+      (click)="deleteSavedSelection()"
+    >
+      Delete
+    </button>
+  </div>
 </div>
-<div class="editor-section-column">
-  <mat-form-field appearance="fill">
-    <mat-label>Selection Group</mat-label>
-    <mat-select [formControl]="selectCtrl">
-      <mat-optgroup *ngFor="let group of selectionOptions" [label]="group.name">
-        <mat-option
-          *ngFor="let option of group.options"
-          [value]="option">
-          {{option.name}}
-        </mat-option>
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field
-    *ngIf="!isInOptions(selectCtrl.value) && (selectCtrl.value.type!=='geneGraphic')">
-    <mat-label>New Selection Name</mat-label>
-    <input matInput
-      type="text"
-      [formControl]="saveCtrl"
-    >  
-  </mat-form-field>
-  <button mat-raised-button 
-    *ngIf="!isInOptions(selectCtrl.value) && (selectCtrl.value.type!=='geneGraphic')"
-    color="primary" 
-    type="submit" 
-    (click)="saveNewSelection()">
-    Save New Selection
-  </button>
-  <button mat-raised-button
-    *ngIf="isSavedSelection(selectCtrl.value)"
-    color="primary"
-    type="button"
-    (click)="deleteSavedSelection()">
-    Delete
-  </button>
-</div>
+<edit-regions
+  *ngIf="selectCtrl.value.type === 'region'"
+  class="editor-section"
+  [geneGraphic]="geneGraphic"
+  [regions]="getSelectedRegions(selectCtrl.value.ids_list)"
+>
+</edit-regions>
+<edit-features
+  *ngIf="selectCtrl.value.type === 'feature'"
+  class="editor-section"
+  [geneGraphic]="geneGraphic"
+  [features]="getSelectedFeatures(selectCtrl.value.ids_list)"
+>
+</edit-features>

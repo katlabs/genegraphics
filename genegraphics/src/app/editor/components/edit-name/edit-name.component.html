@@ -1,0 +1,18 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ getTextLabel() }}</mat-label>
+  <input matInput type="text" [formControl]="nameInput" />
+  <button matSuffix mat-icon-button (click)="nameInput.setValue('')">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+<mat-form-field
+  *ngIf="type === 'feature' || type === 'region'"
+  appearance="outline"
+>
+  <mat-label>Name from Data</mat-label>
+  <mat-select [formControl]="nameDataSel">
+    <mat-option *ngFor="let field of getNameFields()" [value]="getField(field)">
+      {{ field }}:&nbsp;{{ getFieldValue(field) }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

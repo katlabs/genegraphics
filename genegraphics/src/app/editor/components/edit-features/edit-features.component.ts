@@ -5,7 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { DatabaseService } from '@services/database.service';
 import { Feature, GeneGraphic } from '@models/models';
 import {
@@ -23,14 +23,7 @@ import {
 export class EditFeaturesComponent implements OnChanges, OnInit {
   @Input() features!: Feature[];
   @Input() geneGraphic!: GeneGraphic;
-  featuresForm = this.fb.group({
-    shape: [''],
-    color: this.fb.group({
-      split: [false],
-      color1: ['' as string],
-      color2: [null as string | null],
-    }),
-  });
+  shape = new FormControl('');
 
   shapeOptions = ['Arrow', 'Tag', 'Narrow Tag', 'Bar', 'Narrow Bar'];
 
@@ -48,8 +41,22 @@ export class EditFeaturesComponent implements OnChanges, OnInit {
       );
   }
 
+  getEditFeaturesTitle() {
+    let text = 'Editing ';
+    if (this.features.length === 1) return text + '1 Feature';
+    if (
+      this.features.length ===
+      this.geneGraphic.regions.reduce(
+        (res, { features }) => res + features.length,
+        0
+      )
+    )
+      return text + ' All Features';
+    else return text + `${this.features.length} Features`;
+  }
+
   ngOnInit(): void {
-    this.featuresForm.get('shape')?.valueChanges.subscribe((val) => {
+    this.shape.valueChanges.subscribe((val) => {
       updateFeatureShapes(
         this.db,
         this.geneGraphic,
@@ -57,58 +64,14 @@ export class EditFeaturesComponent implements OnChanges, OnInit {
         val as string
       );
     });
-    this.featuresForm.get('color.split')?.valueChanges.subscribe((val) => {
-      const color2 = this.featuresForm.get('color.color1')?.value;
-      if (val && color2)
-        this.featuresForm.get('color.color2')?.setValue(color2);
-      if (!val || !color2)
-        this.featuresForm.get('color.color2')?.setValue(null);
-    });
-    this.featuresForm.get('color.color1')?.valueChanges.subscribe((val) => {
-      const color1 = val || '#FFFFFF';
-      const color2 = this.featuresForm.get('color.color2')?.value || null;
-      updateFeatureColors(
-        this.db,
-        this.geneGraphic,
-        this.features.map((f) => f.id),
-        color1,
-        color2
-      );
-    });
-    this.featuresForm.get('color.color2')?.valueChanges.subscribe((val) => {
-      const color1 = this.featuresForm.get('color.color1')?.value || '#FFFFFF';
-      const color2 = val;
-      updateFeatureColors(
-        this.db,
-        this.geneGraphic,
-        this.features.map((f) => f.id),
-        color1,
-        color2
-      );
-    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['features']) {
-      this.featuresForm
-        .get('shape')
-        ?.setValue(
-          (getDefaultProperty(this.features, 'shape') as string) || 'arrow',
-          { emitEvent: false }
-        );
-      let color1 =
-        (getDefaultProperty(this.features, 'color1') as string) || '#FFFFFF';
-      let color2 = getDefaultProperty(this.features, 'color2') as string | null;
-      let split = color2 === null ? false : true;
-      this.featuresForm
-        .get('color.color1')
-        ?.setValue(color1, { emitEvent: false });
-      this.featuresForm
-        .get('color.color2')
-        ?.setValue(color2, { emitEvent: false });
-      this.featuresForm
-        .get('color.split')
-        ?.setValue(split, { emitEvent: false });
+      this.shape.setValue(
+        (getDefaultProperty(this.features, 'shape') as string) || 'arrow',
+        { emitEvent: false }
+      );
     }
   }
 }

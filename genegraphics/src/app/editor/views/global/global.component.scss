@@ -1,7 +1,11 @@
-.editor-section-column {
-  flex-shrink: 0;
-  gap: 10px;
+.column.custom-width {
+  width: 300px;
 }
-.lane-column {
-  width: 190px;
+
+.row.lane-settings {
+  width: 100%;
+
+  .column {
+    width: 50%;
+  }
 }

@@ -52,79 +52,97 @@ $genegraphics-theme: mat.define-light-theme(
 @include mat.all-component-themes($genegraphics-theme);
 
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --color-primary: #{mat.get-color-from-palette(
+      $genegraphics-primary,
+      "default"
+    )};
+  --color-primary-darker: #{mat.get-color-from-palette(
+      $genegraphics-primary,
+      "darker"
+    )};
+  --color-warn: #{mat.get-color-from-palette($genegraphics-warn, "default")};
+}
+
 html,
 body {
   height: 100%;
-}
-body {
   margin: 10px;
   font-family: Raleway, "Helvetica Neue", sans-serif;
 }
 
-h1 {
-  color: mat.get-color-from-palette($genegraphics-primary, "darker");
-  margin: 5px;
-}
-
-button {
-  flex-grow: 0;
-  width: fit-content;
-}
-
-.editor-content > div {
+.editor-content {
   display: flex;
   flex-direction: row;
   gap: 0;
   height: 300px;
 }
+
 .editor-section {
   position: relative;
   display: flex;
-  flex-direction: column;
-  border: 1px solid mat.get-color-from-palette($genegraphics-primary, "default");
-  border-radius: 4px;
-  padding: 5px;
+  flex-direction: row;
+  border: 1px solid var(--color-primary);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
   width: fit-content;
+  max-width: 1400px;
+  gap: 0.5rem;
 }
-.editor-section-row {
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.2rem;
+
+  &:not(.no-width) {
+    width: 212px;
+  }
+}
+
+.row {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  flex-grow: 1;
-  width: 100%;
-  gap: 4px;
+  gap: 0.5rem;
 }
-.editor-section-column {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: flex-start;
 
-  button {
-    align-self: center;
-  }
-}
-.editor-section-title {
+.title-row {
   display: flex;
   position: relative;
   flex-direction: row;
   justify-content: center;
+  height: 52px;
 
-  .editor-section-title-text {
+  .title-text {
     text-align: center;
     font-weight: bold;
     padding: 16px;
   }
-  .delete-button {
-    position: absolute;
-    right: 0;
+}
+
+.column-header {
+  display: flex;
+  justify-content: center;
+  min-height: 52px;
+
+  .info-text {
+    text-align: center;
+    padding-top: 16px;
   }
 }
+
+.delete-button-row {
+  justify-content: flex-end;
+}
+
 mat-form-field {
   flex-grow: 0;
   height: fit-content;
 }
 
-app-editor-text {
-  display: content;
+button.centered {
+  align-self: center;
 }

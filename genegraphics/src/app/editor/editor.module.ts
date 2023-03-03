@@ -4,6 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -32,6 +33,7 @@ import * as sharedComponents from './components';
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatMenuModule,
     MatSelectModule,
     MatButtonModule,
     MatButtonToggleModule,

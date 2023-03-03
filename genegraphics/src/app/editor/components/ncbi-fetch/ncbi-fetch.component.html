@@ -1,93 +1,80 @@
-<div class="editor-section-title">
-  <span class="editor-section-title-text">Import From NCBI</span>
-</div>
-<div class="editor-section-row">
-<div class="editor-section-column">
-  <mat-form-field appearance="fill">
+<div class="column">
+  <div class="title-row">
+    <span class="title-text">Import From NCBI</span>
+  </div>
+  <mat-form-field appearance="outline">
     <mat-label>Search by</mat-label>
     <mat-select [formControl]="searchTypeCtrl">
       <mat-option
         *ngFor="let option of searchOptions; let i = index"
-        [value]="i">
+        [value]="i"
+      >
         {{ option }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-raised-button 
+  <button
+    mat-raised-button
     *ngIf="searchTypeCtrl.value !== null && !loading"
     color="primary"
     (click)="fetchFromNcbi()"
   >
     Import
   </button>
-    <span
-      id="ncbi-import-description"
-      *ngIf="!error_msg && !loading">
-      (Queries may not always return the expected results. Results are added to the current Gene Graphic.)
-    </span>
-    <span 
-      id="error-message"
-      *ngIf="error_msg">
-      {{error_msg}}
-    </span>
-  <mat-spinner
-    *ngIf="loading">
-  </mat-spinner>
+  <span id="ncbi-import-description" *ngIf="!error_msg && !loading">
+    (Queries may not always return the expected results. Results are added to
+    the current Gene Graphic.)
+  </span>
+  <span id="error-message" *ngIf="error_msg">
+    {{ error_msg }}
+  </span>
+  <mat-spinner *ngIf="loading"> </mat-spinner>
 </div>
-<div class="editor-section-column" [formGroup]="ncbiForm">
-  <mat-form-field
-    *ngIf="getIdentifierLabel(searchTypeCtrl.value)">
-      <mat-label>{{getIdentifierLabel(searchTypeCtrl.value)}}</mat-label>
-    <input matInput
-      type="text"
-      formControlName="identifierCtrl"
-    />
+<div
+  *ngIf="searchTypeCtrl.value !== null"
+  class="column"
+  [formGroup]="ncbiForm"
+>
+  <div class="column-header">
+    <span class="info-text"> Info about IDs here </span>
+  </div>
+  <mat-form-field *ngIf="searchTypeCtrl.value !== 4" appearance="outline">
+    <mat-label>{{ getIdentifierLabel(searchTypeCtrl.value) }}</mat-label>
+    <input matInput type="text" formControlName="identifierCtrl" />
   </mat-form-field>
   <mat-form-field
-    *ngIf="searchTypeCtrl.value===3||searchTypeCtrl.value===4"
-    appearance="fill">
+    *ngIf="searchTypeCtrl.value === 3 || searchTypeCtrl.value === 4"
+    appearance="outline"
+  >
     <mat-label>Oranism Name</mat-label>
-    <input matInput
+    <input
+      matInput
       type="text"
       formControlName="organismCtrl"
       [matAutocomplete]="auto"
     />
-    <mat-autocomplete 
-      #auto="matAutocomplete"
-      [displayWith]="displayFn">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
       <mat-option
         *ngFor="let genome of filteredGenomes | async"
-        [value]="genome">
-        {{genome.organism}}
+        [value]="genome"
+      >
+        {{ genome.organism }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  <mat-form-field 
+  <mat-form-field
     *ngIf="useRegionSize(searchTypeCtrl.value)"
-    appearance="fill">
+    appearance="outline"
+  >
     <mat-label>Region Size (bp)</mat-label>
-    <input matInput
-      type="number"
-      formControlName="regionSizeCtrl"
-      />
+    <input matInput type="number" formControlName="regionSizeCtrl" />
   </mat-form-field>
-  <mat-form-field 
-    *ngIf="searchTypeCtrl.value===4"
-    appearance="fill">
-  <mat-label>Region Start (bp)</mat-label>
-  <input matInput
-    type="number"
-    formControlName="regionStartCtrl"
-    />
+  <mat-form-field *ngIf="searchTypeCtrl.value === 4" appearance="outline">
+    <mat-label>Region Start (bp)</mat-label>
+    <input matInput type="number" formControlName="regionStartCtrl" />
   </mat-form-field>
-  <mat-form-field 
-    *ngIf="searchTypeCtrl.value===4"
-    appearance="fill">
-  <mat-label>Region End (bp)</mat-label>
-  <input matInput
-    type="number"
-    formControlName="regionEndCtrl"
-    />
+  <mat-form-field *ngIf="searchTypeCtrl.value === 4" appearance="outline">
+    <mat-label>Region End (bp)</mat-label>
+    <input matInput type="number" formControlName="regionEndCtrl" />
   </mat-form-field>
-</div>
 </div>

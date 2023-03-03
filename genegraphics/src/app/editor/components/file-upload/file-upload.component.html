@@ -1,52 +1,70 @@
-<div class="editor-section-title">
-  <span class="editor-section-title-text">Import from file</span>
-</div>
-<input 
-  id="uploader"
-  type="file"
-  (change)="onFileChange($event)" 
-  accept="text/comma-separated-values,
-          text/tab-separated-values, .tsv, .csv, .gb, .gbk, .json" style="display:none;" />
-<div class="editor-section-column">
-  <span *ngIf="message" [style]="error? 'color:red':'color:black'">{{message}}</span>
-  <div 
-    *ngIf="file && type"
-    class="editor-section-column">
-    <button mat-raised-button
+<div class="column">
+  <div class="title-row">
+    <span class="title-text">Import from file</span>
+  </div>
+  <input
+    id="uploader"
+    type="file"
+    (change)="onFileChange($event)"
+    accept="text/comma-separated-values,
+          text/tab-separated-values, .tsv, .csv, .gb, .gbk, .json"
+    style="display: none"
+  />
+
+  <span *ngIf="message" [style]="error ? 'color:red' : 'color:black'">{{
+    message
+  }}</span>
+  <div *ngIf="file && type" class="column">
+    <button
+      mat-raised-button
       *ngIf="type !== 'json'"
       color="primary"
-      (click)="importFile(true,file,type)">
-        <mat-icon>add_box</mat-icon>
-        Import to Current GeneGraphic
+      (click)="importFile(true, file, type)"
+    >
+      <mat-icon>add_box</mat-icon>
+      Import to Current GeneGraphic
     </button>
-    <button mat-raised-button
+    <button
+      mat-raised-button
       *ngIf="type !== 'json'"
       color="primary"
-      (click)="importFile(false, file, type)">
-        <mat-icon>library_add</mat-icon>
-        Import to New GeneGraphic
+      (click)="importFile(false, file, type)"
+    >
+      <mat-icon>library_add</mat-icon>
+      Import to New GeneGraphic
     </button>
-    <button mat-raised-button
+    <button
+      mat-raised-button
+      class="centered"
       *ngIf="type == 'json'"
       color="primary"
-      (click)="importJson(file)">
+      (click)="importJson(file)"
+    >
       <mat-icon>library_add</mat-icon>
       Import Saved Database Items*
     </button>
-    <button mat-raised-button
+    <button
+      mat-raised-button
+      class="centered"
       color="warn"
-      (click)="cancelImport()">
+      (click)="cancelImport()"
+    >
       <mat-icon>cancel</mat-icon>
       Cancel Import
     </button>
-    <span id="json-overwrite-note" *ngIf="type=='json'">*This will overwrite GeneGraphics from the same database that share an id.</span>
+    <span id="json-overwrite-note" *ngIf="type == 'json'"
+      >*This will overwrite GeneGraphics from the same database that share an
+      id.</span
+    >
   </div>
-  <button 
+  <button
     *ngIf="!file || !type"
-    mat-raised-button 
-    color="primary" 
-    (click)="onClick()">
+    mat-raised-button
+    class="centered"
+    color="primary"
+    (click)="onClick()"
+  >
     <mat-icon>upload</mat-icon>
-    {{message==='Done!'? 'Upload another file' : 'Upload'}}
+    {{ message === "Done!" ? "Upload another file" : "Upload" }}
   </button>
 </div>
