@@ -5,11 +5,12 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormControl, FormBuilder } from '@angular/forms';
 import { DatabaseService } from '@services/database.service';
 import { Feature, GeneGraphic } from '@models/models';
 import {
   deleteFeatures,
+  getDefaultColors,
   getDefaultProperty,
   updateFeatureColors,
   updateFeatureShapes,
@@ -23,8 +24,9 @@ import {
 export class EditFeaturesComponent implements OnChanges, OnInit {
   @Input() features!: Feature[];
   @Input() geneGraphic!: GeneGraphic;
-  shape = new FormControl('');
 
+  shape = new FormControl('' as string);
+  colors = this.fb.array([] as FormControl[]);
   shapeOptions = ['Arrow', 'Tag', 'Narrow Tag', 'Bar', 'Narrow Bar'];
 
   constructor(private fb: FormBuilder, private db: DatabaseService) {}
@@ -55,6 +57,22 @@ export class EditFeaturesComponent implements OnChanges, OnInit {
     else return text + `${this.features.length} Features`;
   }
 
+  addOrRemoveColor(add: boolean) {
+    if (add) {
+      this.colors.push(new FormControl('#FFFFFF'));
+    } else {
+      this.colors.removeAt(this.colors.value.length - 1);
+    }
+  }
+
+  getNumColors() {
+    if (this.colors.value) {
+      return this.colors.value.length;
+    } else {
+      return 0;
+    }
+  }
+
   ngOnInit(): void {
     this.shape.valueChanges.subscribe((val) => {
       updateFeatureShapes(
@@ -62,6 +80,14 @@ export class EditFeaturesComponent implements OnChanges, OnInit {
         this.geneGraphic,
         this.features.map((f) => f.id),
         val as string
+      );
+    });
+    this.colors.valueChanges.subscribe((vals) => {
+      updateFeatureColors(
+        this.db,
+        this.geneGraphic,
+        this.features.map((f) => f.id),
+        vals
       );
     });
   }
@@ -72,6 +98,23 @@ export class EditFeaturesComponent implements OnChanges, OnInit {
         (getDefaultProperty(this.features, 'shape') as string) || 'arrow',
         { emitEvent: false }
       );
+      const newColors = getDefaultColors(this.features);
+      const currentFormColors = this.colors.value;
+
+      newColors.forEach((color, i) => {
+        if (currentFormColors[i]) {
+          if (currentFormColors[i] !== color) {
+            this.colors.at(i).setValue(color, { emitEvent: false });
+          }
+        } else {
+          this.colors.push(new FormControl(color), { emitEvent: false });
+        }
+        while (this.colors.value.length > newColors.length) {
+          this.colors.removeAt(this.colors.value.length - 1, {
+            emitEvent: false,
+          });
+        }
+      });
     }
   }
 }

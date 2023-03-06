@@ -5,6 +5,7 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  AfterViewInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { GeneGraphic } from '@models/models';
@@ -13,6 +14,7 @@ import { createGeneGraphic, deleteGeneGraphic, timeAgo } from '@helpers/utils';
 import { liveQuery } from 'dexie';
 import { MatSelect } from '@angular/material/select';
 import { JsonImportService } from '@services/json-import.service';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
 @Component({
   selector: 'editor-data',
@@ -34,10 +36,10 @@ export class DataComponent implements OnInit, OnChanges {
     deleteGeneGraphic(this.db, this.geneGraphic);
   }
 
-  getDateStr(opened: number) {
+  getDateStr(opened: number): Observable<string> {
     const d = new Date(opened);
     const str = timeAgo(d);
-    return str;
+    return of(str);
   }
 
   onSelect(e: any) {

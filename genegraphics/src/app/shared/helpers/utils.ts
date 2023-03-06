@@ -20,6 +20,8 @@ export const DEFAULT_TEXTPROPS = {
   posVert: 'above',
 };
 
+export const DEFAULT_COLOR = '#FFFFFF';
+
 export function timeAgo(date: Date) {
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
@@ -333,6 +335,18 @@ export function selectionsEqual(sel1: Selection, sel2: Selection) {
     : sel1_set.every((x) => sel2_set.includes(x));
 }
 
+export function getDefaultColors(features: Feature[]): string[] {
+  return features.every((a, _, [b]) => {
+    if (a.colors.length !== b.colors.length) return false;
+    for (let i = 0; i < a.colors.length; i++) {
+      if (a.colors[i] !== b.colors[i]) return false;
+    }
+    return true;
+  })
+    ? features[0].colors
+    : [DEFAULT_COLOR];
+}
+
 export function getDefaultProperty(
   items: GeneGraphic[] | Region[] | Feature[],
   property: string
@@ -478,14 +492,12 @@ export function updateFeatureColors(
   db: DatabaseService,
   geneGraphic: GeneGraphic,
   ids: string[],
-  color1: string,
-  color2: string | null
+  colors: string[]
 ) {
   geneGraphic.regions.forEach((region) => {
     region.features.forEach((feature) => {
       if (ids.includes(feature.id)) {
-        feature.color1 = color1;
-        feature.color2 = color2;
+        feature.colors = colors;
       }
     });
   });

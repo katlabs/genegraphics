@@ -15,6 +15,23 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <div id="color-number-buttons" class="row">
+    <button [disabled]="getNumColors() <= 1" (click)="addOrRemoveColor(false)">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <span>{{ getNumColors() }} color{{ getNumColors() > 1 ? "s" : "" }}</span>
+    <button [disabled]="getNumColors() >= 3" (click)="addOrRemoveColor(true)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div id="color-pickers" class="row">
+    <mat-form-field
+      *ngFor="let color of colors.controls; let i = index"
+      appearance="outline"
+    >
+      <input matInput type="color" [formControl]="color" />
+    </mat-form-field>
+  </div>
 </div>
 <div class="column">
   <div class="title-row">

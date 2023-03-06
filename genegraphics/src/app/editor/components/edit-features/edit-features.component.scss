@@ -1,0 +1,27 @@
+#color-number-buttons {
+  justify-content: center;
+}
+
+#color-pickers {
+  justify-content: center;
+
+  width: 100%;
+
+  mat-form-field {
+    width: 30%;
+  }
+}
+
+button {
+  background-color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+
+  mat-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+}
