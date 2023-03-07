@@ -13,6 +13,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from '../shared/shared.module';
 
 import { EditorComponent } from './editor.component';
@@ -42,6 +43,7 @@ import * as sharedComponents from './components';
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   exports: [EditorComponent],
 })

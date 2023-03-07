@@ -1,6 +1,14 @@
 <div class="column">
   <div class="title-row">
     <span class="title-text">Import from file</span>
+    <button
+      mat-icon-button
+      class="info-button"
+      color="primary"
+      matTooltip="Click to view wiki page on file import."
+    >
+      <mat-icon>info</mat-icon>
+    </button>
   </div>
   <input
     id="uploader"
@@ -18,33 +26,42 @@
     <button
       mat-raised-button
       *ngIf="type !== 'json'"
+      matTooltip="Import data to the current Gene Graphic."
+      matTooltipPosition="right"
+      class="centered"
       color="primary"
       (click)="importFile(true, file, type)"
     >
       <mat-icon>add_box</mat-icon>
-      Import to Current GeneGraphic
+      Current Gene Graphic
     </button>
     <button
       mat-raised-button
       *ngIf="type !== 'json'"
+      matTooltip="Import data into a new Gene Graphic."
+      matTooltipPosition="right"
+      class="centered"
       color="primary"
       (click)="importFile(false, file, type)"
     >
       <mat-icon>library_add</mat-icon>
-      Import to New GeneGraphic
+      New Gene Graphic
     </button>
     <button
       mat-raised-button
+      matTooltip="Import previously saved data."
+      matTooltipPosition="right"
       class="centered"
       *ngIf="type == 'json'"
       color="primary"
       (click)="importJson(file)"
     >
       <mat-icon>library_add</mat-icon>
-      Import Saved Database Items*
+      Import JSON*
     </button>
     <button
       mat-raised-button
+      matTooltip="Cancel import and start over."
       class="centered"
       color="warn"
       (click)="cancelImport()"
@@ -60,11 +77,12 @@
   <button
     *ngIf="!file || !type"
     mat-raised-button
+    matTooltip="Choose a file to upload."
     class="centered"
     color="primary"
     (click)="onClick()"
   >
     <mat-icon>upload</mat-icon>
-    {{ message === "Done!" ? "Upload another file" : "Upload" }}
+    {{ message === "Done!" ? "Choose Another File" : "Choose a File" }}
   </button>
 </div>

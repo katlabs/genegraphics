@@ -1,7 +1,7 @@
-#about-column {
-  width: fit-content;
+.editor-section {
+  min-width: 675px;
+  max-width: 900px;
 }
-
 #about-header {
   position: relative;
 
@@ -22,6 +22,10 @@
   #about-text {
     width: 60%;
     text-align: justify;
+
+    p {
+      margin: 4px 0px;
+    }
   }
   #citation {
     width: 40%;

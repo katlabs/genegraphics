@@ -27,10 +27,13 @@
     </mat-form-field>
     <button
       mat-raised-button
+      matTooltip="Delete the selected Gene Graphic."
+      tooltipClass="tooltip"
       class="centered"
-      color="primary"
+      color="warn"
       (click)="onClickDelete()"
     >
+      <mat-icon>delete_forever</mat-icon>
       Delete
     </button>
   </div>

@@ -8,6 +8,13 @@ import {
 import { DatabaseService } from '@services/database.service';
 import { createId } from '@paralleldrive/cuid2';
 import { liveQuery } from 'dexie';
+import { MatTooltipDefaultOptions } from '@angular/material/tooltip';
+
+export const tooltipDefaults: MatTooltipDefaultOptions = {
+  showDelay: 1000,
+  hideDelay: 1000,
+  touchendHideDelay: 1000,
+};
 
 export const DEFAULT_TEXTPROPS = {
   hide: false,
@@ -120,7 +127,7 @@ export async function createGeneGraphic(db: DatabaseService) {
     name: 'New Gene Graphic',
     nameProps: Object.assign({}, DEFAULT_TEXTPROPS),
     opened: Date.now(),
-    width: window_width - 40,
+    width: window_width - 60,
     featureHeight: 50,
     showScale: true,
     scale_ratio: 0.2,
