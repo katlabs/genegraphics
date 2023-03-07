@@ -45,6 +45,7 @@ export class DataComponent implements OnInit, OnChanges {
   }
 
   onSelect(e: any) {
+    this.sel.deselectAll();
     if (e.value == 0) {
       createGeneGraphic(this.db);
     } else {

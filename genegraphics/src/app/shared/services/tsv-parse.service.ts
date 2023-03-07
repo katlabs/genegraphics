@@ -97,9 +97,8 @@ export class TsvParseService {
   }
 
   async parseAndStore(fileContent: string, currentGeneGraphic?: GeneGraphic) {
-    console.log(currentGeneGraphic);
-    if (!currentGeneGraphic) console.log('creating genegraphic');
-    currentGeneGraphic = await createGeneGraphic(this.db);
+    if (!currentGeneGraphic)
+      currentGeneGraphic = await createGeneGraphic(this.db);
     if (!currentGeneGraphic) throw new Error('Could not create GeneGraphic');
 
     const last_region_pos = currentGeneGraphic.regions.length;

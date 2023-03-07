@@ -8,6 +8,7 @@
       <mat-select [(value)]="editType">
         <mat-option
           *ngFor="let option of editTypeOptions"
+          [disabled]="optionDisabled(option.value)"
           [value]="option.value"
           >{{ option.viewValue }}</mat-option
         >
@@ -98,14 +99,14 @@
   </div>
 </div>
 <edit-regions
-  *ngIf="editType === 'region'"
+  *ngIf="editType === 'region' && !optionDisabled('region')"
   class="editor-section"
   [geneGraphic]="geneGraphic"
   [regions]="getAllRegions()"
 >
 </edit-regions>
 <edit-features
-  *ngIf="editType === 'feature'"
+  *ngIf="editType === 'feature' && !optionDisabled('feature')"
   class="editor-section"
   [geneGraphic]="geneGraphic"
   [features]="getAllFeatures()"

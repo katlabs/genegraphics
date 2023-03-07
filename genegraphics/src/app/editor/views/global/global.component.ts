@@ -75,6 +75,13 @@ export class GlobalComponent implements OnInit, OnChanges {
     return newVals;
   }
 
+  optionDisabled(type: string) {
+    if (type === 'region') return this.geneGraphic.regions.length < 1;
+    else if (type === 'feature') {
+      return this.geneGraphic.regions.flatMap((r) => r.features).length < 1;
+    } else return false;
+  }
+
   getAllRegions() {
     return [...this.geneGraphic.regions];
   }
@@ -128,6 +135,9 @@ export class GlobalComponent implements OnInit, OnChanges {
       this.settingsForm
         .get('laneSettings.gaps')
         ?.setValue(this.geneGraphic.gaps, { emitEvent: false });
+      if (this.optionDisabled('region') || this.optionDisabled('feature')) {
+        this.editType = 'geneGraphic';
+      }
     }
   }
 }
