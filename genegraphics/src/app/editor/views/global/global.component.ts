@@ -60,16 +60,6 @@ export class GlobalComponent implements OnInit, OnChanges {
     let newVals = values;
     if (values['multilane'] === true) {
       newVals['overlap'] = false;
-      newVals['gaps'] = false;
-    } else if (values['overlap'] == true) {
-      newVals['gaps'] = false;
-    }
-    if (
-      prevValues &&
-      prevValues['multilane'] === false &&
-      values['multilane'] === true
-    ) {
-      console.log('change multilane');
       newVals['gaps'] = true;
     }
     return newVals;
@@ -107,6 +97,9 @@ export class GlobalComponent implements OnInit, OnChanges {
                 break;
               case 'laneSettings':
                 update = this.checkLaneSettings(selectedValue, prevValue);
+                formCtl
+                  .get('laneSettings')
+                  ?.setValue(update, { emitEvent: false });
                 updateGeneGraphic(this.db, this.geneGraphic, update);
                 break;
             }

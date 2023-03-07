@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '@services/database.service';
-import { GeneGraphic } from '@models/models';
+import { Feature, GeneGraphic } from '@models/models';
 import { NcbiFetchService } from '@services/ncbi-fetch.service';
 import { SelectionService } from '@services/selection.service';
+import { MouseoverInfoService } from './shared/services/mouseover-info.service';
 import { getCurrentGeneGraphic, getDataFetches } from '@helpers/utils';
 
 @Component({
@@ -12,11 +13,13 @@ import { getCurrentGeneGraphic, getDataFetches } from '@helpers/utils';
 })
 export class AppComponent implements OnInit {
   geneGraphic: GeneGraphic | undefined;
+  mouseOverFeature: Feature | null = null;
 
   constructor(
     private db: DatabaseService,
     private sel: SelectionService,
-    private ncbiFetch: NcbiFetchService
+    private ncbiFetch: NcbiFetchService,
+    private mouse: MouseoverInfoService
   ) {}
 
   fetchIsOld(lastFetch: number) {
@@ -28,6 +31,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.mouse.feature$.subscribe((feature) => {
+      this.mouseOverFeature = feature;
+    });
     getCurrentGeneGraphic(this.db).subscribe((val) => {
       this.geneGraphic = val;
       this.sel.reEmitSelection();

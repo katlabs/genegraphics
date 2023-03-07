@@ -1,11 +1,18 @@
-
-
-
 #genegraphic-container {
   border: 1px solid black;
   width: fit-content;
   height: fit-content;
 }
-app-editor{
-  width:100%;
+app-editor {
+  width: 100%;
+}
+#mouseover-info {
+  position: fixed;
+  background-color: white;
+  z-index: 10;
+  padding: 0.2em;
+  border: 1px solid black;
+  border-radius: 4px;
+  bottom: 0;
+  right: 0;
 }

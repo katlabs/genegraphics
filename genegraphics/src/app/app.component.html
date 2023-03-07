@@ -1,4 +1,13 @@
-<app-editor *ngIf="geneGraphic && geneGraphic.id" [geneGraphic]="geneGraphic"></app-editor>
+<app-editor *ngIf="geneGraphic && geneGraphic.id" [geneGraphic]="geneGraphic">
+</app-editor>
+<ng-container *ngIf="mouseOverFeature !== null">
+  <app-mouseover-info id="mouseover-info" [mouseOverFeature]="mouseOverFeature">
+  </app-mouseover-info>
+</ng-container>
+
 <div id="genegraphic-container">
-  <app-gene-graphic *ngIf="geneGraphic && geneGraphic.id" [geneGraphic]="geneGraphic"></app-gene-graphic>
+  <app-gene-graphic
+    *ngIf="geneGraphic && geneGraphic.id"
+    [geneGraphic]="geneGraphic"
+  ></app-gene-graphic>
 </div>

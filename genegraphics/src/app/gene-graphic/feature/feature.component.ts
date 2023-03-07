@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Feature } from '@models/models';
 import { SelectionService } from '@services/selection.service';
+import { MouseoverInfoService } from '@app/shared/services/mouseover-info.service';
 
 @Component({
   selector: 'svg:g[app-feature]',
@@ -15,7 +16,10 @@ export class FeatureComponent implements OnInit {
 
   isSelected = false;
 
-  constructor(private sel: SelectionService) {}
+  constructor(
+    private sel: SelectionService,
+    private mouse: MouseoverInfoService
+  ) {}
 
   getFeaturePoints() {
     let d = '';
@@ -214,6 +218,14 @@ export class FeatureComponent implements OnInit {
     e.stopPropagation();
     const multi = e.ctrlKey || e.shiftKey || e.metaKey || e.altKey;
     this.sel.selectItem(this.feature.id, 'feature', multi);
+  }
+
+  onMouseoverFeature() {
+    this.mouse.update(this.feature);
+  }
+
+  onMouseoutFeature() {
+    this.mouse.clear();
   }
 
   ngOnInit(): void {

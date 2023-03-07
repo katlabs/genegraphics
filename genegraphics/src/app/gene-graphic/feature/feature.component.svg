@@ -15,7 +15,9 @@
   [attr.fill]="getFill()"
   [attr.stroke]="getStrokeColor()"
   [attr.stroke-width]="getStrokeWidth()"
-  (click)="onClickFeature($event)" />
+  (click)="onClickFeature($event)" 
+  (mouseover)="onMouseoverFeature()"
+  (mouseout)="onMouseoutFeature()"/>
 <svg:text
   *ngIf="!feature.nameProps.hide"
   (click)="onClickFeature($event)"
