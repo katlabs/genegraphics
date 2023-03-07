@@ -108,7 +108,7 @@ export class NcbiFetchComponent implements OnInit {
         .subscribe({
           next: (gbText) => {
             this.loading = false;
-            this.gbParse.parseAndStore(gbText, this.geneGraphic);
+            this.gbParse.parseAndStore(gbText, this.geneGraphic, type_str);
           },
           error: (error) => {
             this.loading = false;

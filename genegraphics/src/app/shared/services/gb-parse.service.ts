@@ -16,7 +16,11 @@ import { createId } from '@paralleldrive/cuid2';
 export class GbParseService {
   constructor(private db: DatabaseService) {}
 
-  async parseAndStore(fileContent: string, currentGeneGraphic?: GeneGraphic) {
+  async parseAndStore(
+    fileContent: string,
+    currentGeneGraphic?: GeneGraphic,
+    inputType?: string
+  ) {
     if (!currentGeneGraphic)
       currentGeneGraphic = await createGeneGraphic(this.db);
     if (!currentGeneGraphic) throw new Error('Could not create GeneGraphic');
@@ -132,9 +136,29 @@ export class GbParseService {
 
     addFeatures.forEach((feature) => {
       if (feature.Product) {
-        [feature.colors[0], feature.nameProps.color] = getColorsFromProduct(
-          feature.Product
-        );
+        feature.colors[0] = getColorsFromProduct(feature.Product);
+      }
+      if (inputType && inputType !== 'Genome Region') {
+        if (inputType === 'Gene ID' && feature.Gene_ID != '')
+          feature.name = feature.Gene_ID;
+        else if (inputType === 'Protein ID' && feature.Protein_ID != '')
+          feature.name = feature.Protein_ID;
+        else if (
+          inputType === 'UniProtKB Accession' &&
+          feature.Uniprot_Acc != ''
+        )
+          feature.name = feature.Uniprot_Acc;
+        else if (
+          inputType === 'Gene Symbol and Genome' &&
+          feature.Gene_Name != ''
+        )
+          feature.name = feature.Gene_Name;
+      }
+      if (feature.name === '') {
+        if (feature.Gene_Name != '') feature.name = feature.Gene_Name;
+        else if (feature.Locus_Tag != '') feature.name = feature.Locus_Tag;
+        else if (feature.Protein_ID != '') feature.name = feature.Protein_ID;
+        else if (feature.Uniprot_Acc != '') feature.name = feature.Uniprot_Acc;
       }
     });
 

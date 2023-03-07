@@ -528,7 +528,7 @@ export function toGrey(color: string) {
   return (R + G + B) / 3;
 }
 
-export function getColorsFromProduct(product: string): [string, string] {
+export function getColorsFromProduct(product: string): string {
   const whiteThreshold = 140;
   const hash = simpleHash128(product);
   let featureColor = '#FFFFFF';
@@ -541,9 +541,7 @@ export function getColorsFromProduct(product: string): [string, string] {
       break;
     }
   }
-  let textColor = '000000';
-  if (toGrey(featureColor) <= whiteThreshold) textColor = '#FFFFFF';
-  return [featureColor, textColor];
+  return featureColor;
 }
 
 export function parseBool(s: string) {

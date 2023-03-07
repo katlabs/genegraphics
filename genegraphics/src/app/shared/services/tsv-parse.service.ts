@@ -56,16 +56,15 @@ export class TsvParseService {
       let stop = item[indexes.stop];
       let product = getFieldOrBlank(item, indexes.product);
       let color = getHexColor(getFieldOrBlank(item, indexes.color));
-      let nameProps = parseFeatureProps(item, header);
       if (color == '' && product !== '') {
-        [color, nameProps.color] = getColorsFromProduct(product);
+        color = getColorsFromProduct(product);
       }
       if (color == '') color = '#FFFFFF';
 
       let feature: Feature = {
         id: createId(),
         name: getFieldOrBlank(item, indexes.feature_name),
-        nameProps: nameProps,
+        nameProps: parseFeatureProps(item, header),
         start: start,
         stop: stop,
         first_bp: 0,
