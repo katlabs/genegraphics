@@ -5,6 +5,7 @@ import genbankParser from 'genbank-parser';
 import {
   createGeneGraphic,
   DEFAULT_TEXTPROPS,
+  getColorsFromProduct,
   saveImportedData,
 } from '@helpers/utils';
 import { createId } from '@paralleldrive/cuid2';
@@ -79,7 +80,6 @@ export class GbParseService {
         let product = feature.notes['product']
           ? feature.notes['product'][0]
           : undefined;
-
         let feature_match = addFeatures.find((f: Feature) => {
           return f.start == start && f.stop == stop;
         });
@@ -129,6 +129,15 @@ export class GbParseService {
         }
       }
     }
+
+    addFeatures.forEach((feature) => {
+      if (feature.Product) {
+        [feature.colors[0], feature.nameProps.color] = getColorsFromProduct(
+          feature.Product
+        );
+      }
+    });
+
     if (addFeatures.length == 0) {
       throw new Error('Unable to parse file.');
     }

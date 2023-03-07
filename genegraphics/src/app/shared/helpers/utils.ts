@@ -504,6 +504,48 @@ export function updateFeatureColors(
   return db.geneGraphics.put(geneGraphic);
 }
 
+export function simpleHash128(string: string) {
+  let i = string.length;
+  let hashes = [5381, 52711, 152351, 1522];
+
+  while (i--) {
+    const chr = string.charCodeAt(i);
+    hashes.forEach((hash, index) => {
+      hashes[index] = (hash * 33) ^ chr;
+    });
+  }
+  return hashes
+    .reduce((acc, curr) => {
+      return acc * 4096 + (curr >>> 0);
+    }, 0)
+    .toString(16);
+}
+
+export function toGrey(color: string) {
+  const R = parseInt(color.slice(1, 3), 16);
+  const G = parseInt(color.slice(3, 5), 16);
+  const B = parseInt(color.slice(5, 7), 16);
+  return (R + G + B) / 3;
+}
+
+export function getColorsFromProduct(product: string): [string, string] {
+  const whiteThreshold = 140;
+  const hash = simpleHash128(product);
+  let featureColor = '#FFFFFF';
+  for (let i = 0; i < hash.length - 6; i++) {
+    featureColor = '#' + hash.substring(i, i + 6);
+    if (
+      toGrey(featureColor) >= whiteThreshold &&
+      toGrey(featureColor) < 256 - 32
+    ) {
+      break;
+    }
+  }
+  let textColor = '000000';
+  if (toGrey(featureColor) <= whiteThreshold) textColor = '#FFFFFF';
+  return [featureColor, textColor];
+}
+
 export function parseBool(s: string) {
   return s.toLowerCase() == 'true'
     ? true
@@ -513,7 +555,7 @@ export function parseBool(s: string) {
 }
 
 export function getHexColor(str: string): string {
-  if (str === '') return '#FFFFFF';
+  if (str === '') return '';
   const hexPattern = new RegExp('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
   if (hexPattern.test(str)) return str;
   let ctx = document.createElement('canvas').getContext('2d');
@@ -521,7 +563,7 @@ export function getHexColor(str: string): string {
     ctx.fillStyle = str;
     return ctx.fillStyle;
   } else {
-    return '#FFFFFF';
+    return '';
   }
 }
 

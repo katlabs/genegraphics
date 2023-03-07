@@ -12,6 +12,7 @@ import {
   getHexColor,
   createGeneGraphic,
   saveImportedData,
+  getColorsFromProduct,
 } from '@helpers/utils';
 
 @Injectable({
@@ -53,13 +54,19 @@ export class TsvParseService {
       if (!get_region) addRegions.push(region);
       let start = item[indexes.start];
       let stop = item[indexes.stop];
+      let product = getFieldOrBlank(item, indexes.product);
+      console.log(product);
       let color = getHexColor(getFieldOrBlank(item, indexes.color));
+      let nameProps = parseFeatureProps(item, header);
+      if (color == '' && product !== '') {
+        [color, nameProps.color] = getColorsFromProduct(product);
+      }
       if (color == '') color = '#FFFFFF';
 
       let feature: Feature = {
         id: createId(),
         name: getFieldOrBlank(item, indexes.feature_name),
-        nameProps: parseFeatureProps(item, header),
+        nameProps: nameProps,
         start: start,
         stop: stop,
         first_bp: 0,
@@ -74,7 +81,7 @@ export class TsvParseService {
         Gene_ID: '',
         Protein_ID: '',
         Uniprot_Acc: '',
-        Product: getFieldOrBlank(item, indexes.product),
+        Product: product,
         PATRIC_Local_Family: getFieldOrBlank(item, indexes.patric_local),
         PATRIC_Global_Family: getFieldOrBlank(item, indexes.patric_global),
         Product_Length: getFieldOrBlank(item, indexes.product_length),
