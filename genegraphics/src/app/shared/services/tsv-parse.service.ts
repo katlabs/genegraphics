@@ -55,7 +55,6 @@ export class TsvParseService {
       let start = item[indexes.start];
       let stop = item[indexes.stop];
       let product = getFieldOrBlank(item, indexes.product);
-      console.log(product);
       let color = getHexColor(getFieldOrBlank(item, indexes.color));
       let nameProps = parseFeatureProps(item, header);
       if (color == '' && product !== '') {
@@ -98,8 +97,9 @@ export class TsvParseService {
   }
 
   async parseAndStore(fileContent: string, currentGeneGraphic?: GeneGraphic) {
-    if (!currentGeneGraphic)
-      currentGeneGraphic = await createGeneGraphic(this.db);
+    console.log(currentGeneGraphic);
+    if (!currentGeneGraphic) console.log('creating genegraphic');
+    currentGeneGraphic = await createGeneGraphic(this.db);
     if (!currentGeneGraphic) throw new Error('Could not create GeneGraphic');
 
     const last_region_pos = currentGeneGraphic.regions.length;
