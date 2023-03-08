@@ -49,12 +49,14 @@ export class EditRegionsComponent implements OnInit, OnChanges {
     let confirmed = confirm(
       'Are you sure you want to delete the selected region(s)?'
     );
-    if (confirmed)
+    if (confirmed) {
+      this.sel.deselectAll();
       deleteRegions(
         this.db,
         this.geneGraphic,
         this.regions.map((r) => r.id)
       );
+    }
   }
 
   selectAllFeatures() {

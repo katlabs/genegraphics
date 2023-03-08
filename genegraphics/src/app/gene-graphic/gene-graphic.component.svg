@@ -7,7 +7,6 @@
   <svg:text
     *ngIf="!geneGraphic.nameProps.hide"
     id="name-text"
-    [attr.width]="geneGraphic.width"
     [attr.font-size]="geneGraphic.nameProps.fontSize"
     [attr.font-family]="geneGraphic.nameProps.fontFamily"
     [attr.font-weight]="geneGraphic.nameProps.bold?'bold':'normal'"
@@ -37,14 +36,12 @@
     </svg:g>
   <svg:g
     id="region-group"
-    [attr.width]="geneGraphic.width"
     [attr.transform]="getRegionsTransform()"
     >
     <svg:g app-region
       *ngFor="let region of geneGraphic.regions"
       [region]="region"
       [geneGraphic]="geneGraphic"
-      [attr.width]="geneGraphic.width"
       [attr.transform]="getRegionTransform(region)"
       />
   </svg:g>

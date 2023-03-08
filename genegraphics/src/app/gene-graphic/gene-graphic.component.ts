@@ -32,9 +32,10 @@ export class GeneGraphicComponent {
   }
 
   getTitleX() {
-    if (this.geneGraphic.nameProps.posHor === 'center') return '50%';
-    else if (this.geneGraphic.nameProps.posHor === 'right') return '100%';
-    else return '0';
+    const paddedWidth = this.geneGraphic.width - 20;
+    if (this.geneGraphic.nameProps.posHor === 'center') return paddedWidth / 2;
+    else if (this.geneGraphic.nameProps.posHor === 'right') return paddedWidth;
+    else return '10';
   }
 
   getTitleAnchor() {
@@ -60,7 +61,7 @@ export class GeneGraphicComponent {
   }
 
   getRegionsTransform() {
-    return `translate(0,${this.getRegionsY()})`;
+    return `translate(10,${this.getRegionsY()})`;
   }
 
   getRegionTransform(region: Region) {
@@ -68,7 +69,7 @@ export class GeneGraphicComponent {
   }
 
   getScaleTransform() {
-    return `translate(0,${this.getScaleY()})`;
+    return `translate(10,${this.getScaleY()})`;
   }
 
   bpToPx(bp: number) {

@@ -2,7 +2,7 @@
   <div class="title-row">
     <span class="title-text">{{ getEditRegionsTitle() }}</span>
   </div>
-  <div id="position-buttons" *ngIf="regions.length === 1" class="row">
+  <div *ngIf="regions.length === 1" class="row inc-dec-row">
     <button [disabled]="upDisabled" (click)="moveRegion('up')">
       <mat-icon>arrow_upward</mat-icon>
     </button>
@@ -37,7 +37,7 @@
 </div>
 <div class="column no-width">
   <div class="column-header delete-button-row">
-    <button mat-raised-button color="warn">
+    <button mat-raised-button (click)="deleteRegions()" color="warn">
       <mat-icon>delete_forever</mat-icon>Delete Region{{
         regions.length > 1 ? "s" : ""
       }}

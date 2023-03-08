@@ -8,13 +8,13 @@
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat.core();
-@import "~@fontsource/open-sans/index.css";
-@import "~@fontsource/roboto/index.css";
-@import "~@fontsource/roboto-mono/index.css";
-@import "~@fontsource/source-code-pro/index.css";
-@import "~@fontsource/raleway/index.css";
-@import "~@fontsource/quicksand/index.css";
-@import "~@fontsource/material-icons/index.css";
+@import "~@fontsource/open-sans/400.css";
+@import "~@fontsource/roboto/400.css";
+@import "~@fontsource/roboto-mono/400.css";
+@import "~@fontsource/source-code-pro/400.css";
+@import "~@fontsource/raleway/400.css";
+@import "~@fontsource/quicksand/400.css";
+@import "~@fontsource/material-icons/400.css";
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -136,6 +136,23 @@ body {
 
 .delete-button-row {
   justify-content: flex-end;
+}
+
+.inc-dec-row {
+  justify-content: center;
+  button {
+    background-color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+
+    mat-icon {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+  }
 }
 
 mat-form-field {

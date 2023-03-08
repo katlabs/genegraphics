@@ -15,7 +15,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <div id="color-number-buttons" class="row">
+  <div class="row inc-dec-row">
     <button [disabled]="getNumColors() <= 1" (click)="addOrRemoveColor(false)">
       <mat-icon>remove</mat-icon>
     </button>
@@ -47,12 +47,7 @@
 </div>
 <div class="column no-width">
   <div class="column-header delete-button-row">
-    <button
-      mat-raised-button
-      class="delete-button"
-      color="warn"
-      (click)="deleteFeatures()"
-    >
+    <button mat-raised-button color="warn" (click)="deleteFeatures()">
       <mat-icon>delete_forever</mat-icon>Delete Feature{{
         features.length > 1 ? "s" : ""
       }}

@@ -320,7 +320,7 @@ export function flipRegionsAndUpdate(
 export function updateScaleRatio(geneGraphic: GeneGraphic) {
   const max_region_size = Math.max(...geneGraphic.regions.map((r) => r.size));
   if (geneGraphic.regions.length > 0 && max_region_size !== 0) {
-    geneGraphic.scale_ratio = geneGraphic.width / max_region_size;
+    geneGraphic.scale_ratio = (geneGraphic.width - 20) / max_region_size;
   } else {
     // Default scale if there are no regions
     geneGraphic.scale_ratio = 0.2;

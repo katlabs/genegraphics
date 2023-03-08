@@ -1,8 +1,9 @@
 <svg:g 
-  [attr.width]="geneGraphic.width" 
   pointer-events="all"
   (click)="onClickRegion($event)">
   <svg:rect
+    x="-10"
+    y="-4"
     [attr.width]="geneGraphic.width"
     [attr.height]="getRegionHeight()"
     stroke="red"
@@ -12,7 +13,6 @@
    </svg:rect>
   <svg:text
     *ngIf="!region.nameProps.hide"
-    [attr.width]="geneGraphic.width"
     [attr.font-size]="region.nameProps.fontSize"
     [attr.font-family]="region.nameProps.fontFamily"
     [attr.font-weight]="region.nameProps.bold?'bold':'normal'"
@@ -25,8 +25,8 @@
     >{{region.name}}</svg:text>
   <svg:line
     *ngFor = "let line of getRegionLines()"
-    [attr.x]="0"
-    [attr.x2]="geneGraphic.width"
+    [attr.x]="10"
+    [attr.x2]="geneGraphic.width-20"
     stroke="black"
     stroke-width="3"
     attr.transform="translate(0,{{line.y}})"

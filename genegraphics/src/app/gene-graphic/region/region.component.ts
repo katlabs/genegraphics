@@ -69,8 +69,9 @@ export class RegionComponent implements OnInit {
   }
 
   getNameX() {
-    if (this.region.nameProps.posHor === 'center') return '50%';
-    else if (this.region.nameProps.posHor === 'right') return '100%';
+    const paddedWidth = this.geneGraphic.width - 20;
+    if (this.region.nameProps.posHor === 'center') return paddedWidth / 2 - 10;
+    else if (this.region.nameProps.posHor === 'right') return paddedWidth;
     else return '0';
   }
 

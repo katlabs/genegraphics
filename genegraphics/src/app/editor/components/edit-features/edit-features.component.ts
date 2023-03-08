@@ -15,6 +15,7 @@ import {
   updateFeatureColors,
   updateFeatureShapes,
 } from '@helpers/utils';
+import { SelectionService } from '@app/shared/services/selection.service';
 
 @Component({
   selector: 'edit-features',
@@ -29,18 +30,22 @@ export class EditFeaturesComponent implements OnChanges, OnInit {
   colors = this.fb.array([] as FormControl[]);
   shapeOptions = ['Arrow', 'Tag', 'Narrow Tag', 'Bar', 'Narrow Bar'];
 
-  constructor(private fb: FormBuilder, private db: DatabaseService) {}
+  constructor(
+    private fb: FormBuilder,
+    private db: DatabaseService,
+    private sel: SelectionService
+  ) {}
 
   deleteFeatures() {
     let confirmed = confirm(
       'Are you sure you want to delete the selected feature(s)?'
     );
-    if (confirmed)
-      deleteFeatures(
-        this.db,
-        this.geneGraphic,
-        this.features.map((f) => f.id)
-      );
+    if (confirmed) this.sel.deselectAll();
+    deleteFeatures(
+      this.db,
+      this.geneGraphic,
+      this.features.map((f) => f.id)
+    );
   }
 
   getEditFeaturesTitle() {
