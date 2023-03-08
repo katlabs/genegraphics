@@ -40,12 +40,14 @@ export class EditFeaturesComponent implements OnChanges, OnInit {
     let confirmed = confirm(
       'Are you sure you want to delete the selected feature(s)?'
     );
-    if (confirmed) this.sel.deselectAll();
-    deleteFeatures(
-      this.db,
-      this.geneGraphic,
-      this.features.map((f) => f.id)
-    );
+    if (confirmed) {
+      this.sel.deselectAll();
+      deleteFeatures(
+        this.db,
+        this.geneGraphic,
+        this.features.map((f) => f.id)
+      );
+    }
   }
 
   getEditFeaturesTitle() {

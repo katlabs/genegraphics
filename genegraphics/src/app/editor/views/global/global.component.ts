@@ -9,7 +9,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { GeneGraphic } from '@models/models';
 import { DatabaseService } from '@services/database.service';
 import { updateGeneGraphic } from '@helpers/utils';
-import { pairwise, startWith } from 'rxjs';
 
 @Component({
   selector: 'editor-global',
@@ -56,10 +55,12 @@ export class GlobalComponent implements OnInit, OnChanges {
 
   constructor(private db: DatabaseService, private fb: FormBuilder) {}
 
-  checkLaneSettings(values: any, prevValues: any) {
+  checkLaneSettings(values: any) {
     let newVals = values;
     if (values['multilane'] === true) {
       newVals['overlap'] = false;
+      newVals['gaps'] = true;
+    } else if (values['overlap'] === true) {
       newVals['gaps'] = true;
     }
     return newVals;
@@ -83,28 +84,26 @@ export class GlobalComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     for (const field in this.settingsForm.controls) {
       const formCtl = this.settingsForm.get(field);
-      formCtl?.valueChanges
-        .pipe(startWith(null), pairwise())
-        .subscribe(([prevValue, selectedValue]) => {
-          if (formCtl.status !== 'INVALID') {
-            let update: { [key: string]: string } = {};
-            switch (field) {
-              case 'width':
-              case 'featureHeight':
-              case 'showScale':
-                update[field] = selectedValue;
-                updateGeneGraphic(this.db, this.geneGraphic, update);
-                break;
-              case 'laneSettings':
-                update = this.checkLaneSettings(selectedValue, prevValue);
-                formCtl
-                  .get('laneSettings')
-                  ?.setValue(update, { emitEvent: false });
-                updateGeneGraphic(this.db, this.geneGraphic, update);
-                break;
-            }
+      formCtl?.valueChanges.subscribe((selectedValue) => {
+        if (formCtl.status !== 'INVALID') {
+          let update: { [key: string]: string } = {};
+          switch (field) {
+            case 'width':
+            case 'featureHeight':
+            case 'showScale':
+              update[field] = selectedValue;
+              updateGeneGraphic(this.db, this.geneGraphic, update);
+              break;
+            case 'laneSettings':
+              update = this.checkLaneSettings(selectedValue);
+              formCtl
+                .get('laneSettings')
+                ?.setValue(update, { emitEvent: false });
+              updateGeneGraphic(this.db, this.geneGraphic, update);
+              break;
           }
-        });
+        }
+      });
     }
   }
 

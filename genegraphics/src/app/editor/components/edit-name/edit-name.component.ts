@@ -10,6 +10,7 @@ import { Feature, GeneGraphic, Region } from '@models/models';
 import { DatabaseService } from '@app/shared/services/database.service';
 import {
   getDefaultProperty,
+  getSharedNameFromData,
   updateName,
   updateNameFromField,
 } from '@app/shared/helpers/utils';
@@ -100,6 +101,12 @@ export class EditNameComponent implements OnChanges, OnInit {
     if (changes['items']) {
       this.nameInput.setValue(
         (getDefaultProperty(this.items, 'name') as string) || '',
+        {
+          emitEvent: false,
+        }
+      );
+      this.nameDataSel.setValue(
+        getSharedNameFromData(this.items as Feature[] | Region[]) || '',
         {
           emitEvent: false,
         }

@@ -373,6 +373,23 @@ export function getDefaultProperty(
   }
 }
 
+export function getSharedNameFromData(items: Feature[] | Region[]) {
+  const firstItem = items[0];
+  const field = Object.keys(firstItem).find((key) => {
+    if (key === 'name') return false;
+    return firstItem.name === firstItem[key as keyof typeof firstItem];
+  });
+  if (!field) {
+    return null;
+  }
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].name !== items[i][field as keyof typeof firstItem]) {
+      return null;
+    }
+  }
+  return field;
+}
+
 export function updateTextProp(
   item: GeneGraphic | Region | Feature,
   field: string,

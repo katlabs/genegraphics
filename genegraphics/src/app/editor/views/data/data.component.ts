@@ -43,8 +43,13 @@ export class DataComponent implements OnInit, OnChanges {
   ) {}
 
   onClickDelete() {
-    this.sel.deselectAll();
-    deleteGeneGraphic(this.db, this.geneGraphic);
+    let confirmed = confirm(
+      'Are you sure you want to delete this Gene Graphic?'
+    );
+    if (confirmed) {
+      this.sel.deselectAll();
+      deleteGeneGraphic(this.db, this.geneGraphic);
+    }
   }
 
   getDateStr(opened: number): Observable<string> {
