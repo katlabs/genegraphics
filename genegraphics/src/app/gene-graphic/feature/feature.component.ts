@@ -42,7 +42,8 @@ export class FeatureComponent implements OnInit {
   }
 
   getFill() {
-    return `url(#${this.fillGradientName()})`;
+    if (this.feature.colors.length === 1) return this.feature.colors[0];
+    else return `url(#${this.fillGradientName()})`;
   }
 
   getStopStyle(color: string) {

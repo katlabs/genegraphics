@@ -1,4 +1,6 @@
- <svg:defs>
+ <svg:defs
+  *ngIf="feature.colors.length>1"
+ >
     <svg:linearGradient [id]="fillGradientName()" >
       <ng-container *ngFor="let color of feature.colors; let i = index;">
         <svg:stop 
