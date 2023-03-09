@@ -15,17 +15,18 @@
   </mat-form-field>
   <button
     mat-raised-button
+    class="centered"
     *ngIf="searchTypeCtrl.value !== null && !loading"
     color="primary"
     (click)="fetchFromNcbi()"
   >
     Import
   </button>
-  <span id="ncbi-import-description" *ngIf="!error_msg && !loading">
+  <span class="description-text" *ngIf="!error_msg && !loading">
     (Queries may not always return the expected results. Results are added to
     the current Gene Graphic.)
   </span>
-  <span id="error-message" *ngIf="error_msg">
+  <span class="error-message" *ngIf="error_msg">
     {{ error_msg }}
   </span>
   <mat-spinner *ngIf="loading"> </mat-spinner>
@@ -35,12 +36,26 @@
   class="column"
   [formGroup]="ncbiForm"
 >
-  <div class="column-header">
-    <span class="info-text"> Info about IDs here </span>
+  <div class="title-row">
+    <a
+      mat-icon-button
+      class="info-button"
+      color="primary"
+      href="https://github.com/katlabs/genegraphics/wiki#ncbi-import"
+      target="_blank"
+      matTooltip="Click to view the wiki page on NCBI import."
+    >
+      <mat-icon>info</mat-icon>
+    </a>
   </div>
   <mat-form-field *ngIf="searchTypeCtrl.value !== 4" appearance="outline">
     <mat-label>{{ getIdentifierLabel(searchTypeCtrl.value) }}</mat-label>
-    <input matInput type="text" formControlName="identifierCtrl" />
+    <input
+      matInput
+      type="text"
+      [placeholder]="getIdentifierPlaceholder(searchTypeCtrl.value)"
+      formControlName="identifierCtrl"
+    />
   </mat-form-field>
   <mat-form-field
     *ngIf="searchTypeCtrl.value === 3 || searchTypeCtrl.value === 4"
@@ -49,6 +64,7 @@
     <mat-label>Oranism Name</mat-label>
     <input
       matInput
+      placeholder="Type for options..."
       type="text"
       formControlName="organismCtrl"
       [matAutocomplete]="auto"
@@ -64,16 +80,25 @@
   </mat-form-field>
   <mat-form-field
     *ngIf="useRegionSize(searchTypeCtrl.value)"
+    matTooltip="Window size in base-pairs. The target gene will be approximately centered in the region."
     appearance="outline"
   >
     <mat-label>Region Size (bp)</mat-label>
     <input matInput type="number" formControlName="regionSizeCtrl" />
   </mat-form-field>
-  <mat-form-field *ngIf="searchTypeCtrl.value === 4" appearance="outline">
+  <mat-form-field
+    *ngIf="searchTypeCtrl.value === 4"
+    matTooltip="The starting position of your target region in base-pairs."
+    appearance="outline"
+  >
     <mat-label>Region Start (bp)</mat-label>
     <input matInput type="number" formControlName="regionStartCtrl" />
   </mat-form-field>
-  <mat-form-field *ngIf="searchTypeCtrl.value === 4" appearance="outline">
+  <mat-form-field
+    *ngIf="searchTypeCtrl.value === 4"
+    matTooltip="The ending position of your target region in base-pairs."
+    appearance="outline"
+  >
     <mat-label>Region End (bp)</mat-label>
     <input matInput type="number" formControlName="regionEndCtrl" />
   </mat-form-field>

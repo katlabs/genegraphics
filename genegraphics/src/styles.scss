@@ -121,16 +121,10 @@ body {
     font-weight: bold;
     padding: 16px;
   }
-}
 
-.column-header {
-  display: flex;
-  justify-content: center;
-  min-height: 52px;
-
-  .info-text {
-    text-align: center;
-    padding-top: 16px;
+  .info-button {
+    position: absolute;
+    right: 0;
   }
 }
 
@@ -162,4 +156,19 @@ mat-form-field {
 
 button.centered {
   align-self: center;
+}
+
+mat-spinner {
+  align-self: center;
+}
+
+span.error-message {
+  color: var(--color-warn);
+  align-self: center;
+  text-align: center;
+}
+
+span.description-text {
+  align-self: center;
+  text-align: center;
 }

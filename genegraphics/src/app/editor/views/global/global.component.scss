@@ -9,3 +9,15 @@
     width: 50%;
   }
 }
+.global-settings-tabs {
+  button {
+    width: 220px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    &.active {
+      background-color: var(--color-primary);
+      color: white;
+    }
+  }
+}

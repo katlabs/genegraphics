@@ -6,6 +6,9 @@
     <mat-form-field appearance="outline">
       <mat-label>Your Saved Selections</mat-label>
       <mat-select [formControl]="selectCtrl">
+        <mat-option disabled *ngIf="savedSelections.length < 1">
+          No Saved Selections...
+        </mat-option>
         <mat-option
           *ngFor="let selection of savedSelections"
           [value]="selection"
@@ -14,6 +17,17 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <span
+      *ngIf="
+        savedSelections.length < 1 &&
+        (selectCtrl.value.type == 'empty' ||
+          selectCtrl.value.type == 'geneGraphic')
+      "
+      class="description-text"
+    >
+      Select Features or Regions and save your selection to easily select them
+      again.
+    </span>
     <mat-form-field
       appearance="outline"
       *ngIf="
@@ -33,6 +47,7 @@
         selectCtrl.value.type !== 'empty'
       "
       color="primary"
+      class="centered"
       type="submit"
       (click)="saveNewSelection()"
     >

@@ -1,14 +1,16 @@
 <div class="column">
   <div class="title-row">
     <span class="title-text">Import from file</span>
-    <button
+    <a
       mat-icon-button
       class="info-button"
       color="primary"
-      matTooltip="Click to view wiki page on file import."
+      href="https://github.com/katlabs/genegraphics/wiki#file-import"
+      target="_blank"
+      matTooltip="Click to view the wiki page on file import."
     >
       <mat-icon>info</mat-icon>
-    </button>
+    </a>
   </div>
   <input
     id="uploader"
@@ -26,8 +28,6 @@
     <button
       mat-raised-button
       *ngIf="type !== 'json'"
-      matTooltip="Import data to the current Gene Graphic."
-      matTooltipPosition="right"
       class="centered"
       color="primary"
       (click)="importFile(true, file, type)"
@@ -38,8 +38,6 @@
     <button
       mat-raised-button
       *ngIf="type !== 'json'"
-      matTooltip="Import data into a new Gene Graphic."
-      matTooltipPosition="right"
       class="centered"
       color="primary"
       (click)="importFile(false, file, type)"
@@ -49,8 +47,6 @@
     </button>
     <button
       mat-raised-button
-      matTooltip="Import previously saved data."
-      matTooltipPosition="right"
       class="centered"
       *ngIf="type == 'json'"
       color="primary"
@@ -61,7 +57,6 @@
     </button>
     <button
       mat-raised-button
-      matTooltip="Cancel import and start over."
       class="centered"
       color="warn"
       (click)="cancelImport()"
@@ -77,7 +72,6 @@
   <button
     *ngIf="!file || !type"
     mat-raised-button
-    matTooltip="Choose a file to upload."
     class="centered"
     color="primary"
     (click)="onClick()"

@@ -3,17 +3,32 @@
     <div class="title-row">
       <span class="title-text">Global Editor</span>
     </div>
-    <mat-form-field appearance="outline">
-      <mat-label>Edit settings for...</mat-label>
-      <mat-select [(value)]="editType">
-        <mat-option
-          *ngFor="let option of editTypeOptions"
-          [disabled]="optionDisabled(option.value)"
-          [value]="option.value"
-          >{{ option.viewValue }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
+    <div class="global-settings-tabs">
+      <button
+        mat-raised-button
+        [ngClass]="{ active: editType === 'geneGraphic' }"
+        (click)="editType = 'geneGraphic'"
+        [disabled]="optionDisabled('geneGraphic')"
+      >
+        Gene Graphic Settings
+      </button>
+      <button
+        mat-raised-button
+        [ngClass]="{ active: editType === 'region' }"
+        (click)="editType = 'region'"
+        [disabled]="optionDisabled('region')"
+      >
+        Global Region Settings
+      </button>
+      <button
+        mat-raised-button
+        [ngClass]="{ active: editType === 'feature' }"
+        (click)="editType = 'feature'"
+        [disabled]="optionDisabled('feature')"
+      >
+        Global Feature Settings
+      </button>
+    </div>
   </div>
 </div>
 <div class="editor-section" *ngIf="editType === 'geneGraphic'">

@@ -20,15 +20,11 @@ import { MatSelect } from '@angular/material/select';
 import { JsonImportService } from '@services/json-import.service';
 import { Observable, of } from 'rxjs';
 import { SelectionService } from '@app/shared/services/selection.service';
-import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
 
 @Component({
   selector: 'editor-data',
   templateUrl: './data.component.html',
   styleUrls: ['./data.component.scss'],
-  providers: [
-    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: tooltipDefaults },
-  ],
 })
 export class DataComponent implements OnInit, OnChanges {
   @Input() geneGraphic!: GeneGraphic;

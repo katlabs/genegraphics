@@ -46,11 +46,6 @@ export class GlobalComponent implements OnInit, OnChanges {
     }),
   });
 
-  editTypeOptions = [
-    { value: 'geneGraphic', viewValue: 'Gene Graphic Settings' },
-    { value: 'region', viewValue: 'Global Region Settings' },
-    { value: 'feature', viewValue: 'Global Feature Settings' },
-  ];
   editType = 'geneGraphic';
 
   constructor(private db: DatabaseService, private fb: FormBuilder) {}

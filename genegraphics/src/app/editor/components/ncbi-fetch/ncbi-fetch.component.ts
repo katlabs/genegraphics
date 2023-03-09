@@ -1,16 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { getDataFetchesObservable } from '@helpers/utils';
+import { getDataFetchesObservable, tooltipDefaults } from '@helpers/utils';
 import { DatabaseService } from '@services/database.service';
 import { GeneGraphic, NCBIGenome } from '@models/models';
 import { Observable, startWith, map, first } from 'rxjs';
 import { NcbiFetchService } from '@services/ncbi-fetch.service';
 import { GbParseService } from '@services/gb-parse.service';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-ncbi-fetch',
   templateUrl: './ncbi-fetch.component.html',
   styleUrls: ['./ncbi-fetch.component.scss'],
+  providers: [
+    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: tooltipDefaults },
+  ],
 })
 export class NcbiFetchComponent implements OnInit {
   @Input() geneGraphic!: GeneGraphic;
@@ -68,6 +72,14 @@ export class NcbiFetchComponent implements OnInit {
     if (type == null) return false;
     else if (type <= 3) return true;
     else return false;
+  }
+
+  getIdentifierPlaceholder(type: number) {
+    if (type === 0) return 'Example: 5325574';
+    else if (type === 1) return 'Example: ABR55064.1';
+    else if (type === 2) return 'Example: A6URE2';
+    else if (type === 3) return 'Example: comB';
+    else return '';
   }
 
   getIdentifierLabel(type: number) {

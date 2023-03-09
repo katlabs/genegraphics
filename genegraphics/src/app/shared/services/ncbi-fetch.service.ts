@@ -1,23 +1,12 @@
 import { Injectable } from '@angular/core';
 import { createId } from '@paralleldrive/cuid2';
 import { Papa, ParseConfig } from 'ngx-papaparse';
-import genbankParser from 'genbank-parser';
 import { NCBIGenome, DataFetch } from '@models/models';
 import { DatabaseService } from '@services/database.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { from, interval, Observable, of, throwError } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  filter,
-  first,
-  map,
-  retry,
-  switchMap,
-  take,
-  timeout,
-} from 'rxjs/operators';
-import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
+import { interval, Observable, of } from 'rxjs';
+import { concatMap, filter, map, switchMap, timeout } from 'rxjs/operators';
+import { XMLParser } from 'fast-xml-parser';
 
 export interface IDFetchResponse {
   fetchID: string;
@@ -223,8 +212,8 @@ export class NcbiFetchService {
     const seqRangeEnd = mid + Math.ceil(seqRange / 2);
     return of({
       fetchID: fetchID,
-      start: seqRangeStart,
-      stop: seqRangeEnd,
+      start: Math.round(seqRangeStart),
+      stop: Math.round(seqRangeEnd),
     } as IDFetchResponse);
   }
 
@@ -251,8 +240,8 @@ export class NcbiFetchService {
     }
     return of({
       fetchID: nuccsource,
-      start: start,
-      stop: end,
+      start: Math.round(start),
+      stop: Math.round(end),
     });
   }
 

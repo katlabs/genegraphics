@@ -1,8 +1,19 @@
 <div class="editor-section">
-  <div class="title-row">
-    <span class="title-text">Export</span>
-  </div>
   <div class="column">
+    <div class="title-row">
+      <span class="title-text">Export</span>
+      <a
+        mat-icon-button
+        class="info-button"
+        color="primary"
+        href="https://github.com/katlabs/genegraphics/wiki#exporting"
+        target="_blank"
+        matTooltip="Click to view the wiki page on Exporting."
+        matTooltipPosition="right"
+      >
+        <mat-icon>info</mat-icon>
+      </a>
+    </div>
     <mat-form-field appearance="fill">
       <mat-label>File Type</mat-label>
       <mat-select [formControl]="exportCtrl">
@@ -17,11 +28,13 @@
     <button
       mat-raised-button
       *ngIf="!loading"
+      class="centered"
       color="primary"
       (click)="onClickExport()"
     >
-      Export
+      <mat-icon>save</mat-icon>Export
     </button>
     <mat-spinner *ngIf="loading"> </mat-spinner>
+    <span *ngIf="error" class="error-message">{{ error }}</span>
   </div>
 </div>

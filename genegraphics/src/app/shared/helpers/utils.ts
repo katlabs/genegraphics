@@ -11,9 +11,9 @@ import { liveQuery } from 'dexie';
 import { MatTooltipDefaultOptions } from '@angular/material/tooltip';
 
 export const tooltipDefaults: MatTooltipDefaultOptions = {
-  showDelay: 1000,
-  hideDelay: 1000,
-  touchendHideDelay: 1000,
+  showDelay: 500,
+  hideDelay: 50,
+  touchendHideDelay: 50,
 };
 
 export const DEFAULT_TEXTPROPS = {
@@ -132,7 +132,7 @@ export async function createGeneGraphic(db: DatabaseService) {
     showScale: true,
     scale_ratio: 0.2,
     multilane: true,
-    gaps: false,
+    gaps: true,
     overlap: false,
     regions: [] as Region[],
     selections: [] as Selection[],

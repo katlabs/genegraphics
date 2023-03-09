@@ -40,8 +40,9 @@ export class SelectionsComponent implements OnChanges, OnInit {
 
   deleteSavedSelection() {
     if (this.geneGraphic.id) {
+      this.sel.deselectAll();
       deleteSelection(this.db, this.geneGraphic, this.selectCtrl.value);
-      this.selectCtrl.setValue(null);
+      this.clearSelection();
     }
   }
 
@@ -63,7 +64,6 @@ export class SelectionsComponent implements OnChanges, OnInit {
   selectAllRegions() {
     let ids_list = this.geneGraphic.regions.map((r) => r.id);
     let selection: Selection = {
-      name: 'All Regions',
       type: 'region',
       ids_list: ids_list,
     };
@@ -75,7 +75,6 @@ export class SelectionsComponent implements OnChanges, OnInit {
       return r.features.flatMap((f) => f.id);
     });
     let selection: Selection = {
-      name: 'All Features',
       type: 'feature',
       ids_list: ids_list,
     };

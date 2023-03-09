@@ -5,17 +5,22 @@ import { saveAs } from 'file-saver';
 import { DatabaseService } from '@services/database.service';
 import { exportDB } from 'dexie-export-import';
 import { GeneGraphic } from '@models/models';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
+
+interface ExportStatus {
+  processing: boolean;
+  error: string | null;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExportService {
-  processing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  status$: Subject<ExportStatus> = new Subject();
   constructor(private db: DatabaseService) {}
 
   savePNG() {
-    this.processing$.next(true);
+    this.status$.next({ processing: true, error: null });
     const svg = document.getElementById('gene-graphic');
     if (svg) {
       toPng(svg, { backgroundColor: '#FFFFFF' })
@@ -23,13 +28,41 @@ export class ExportService {
           saveAs(dataURL, 'new-genegraphic.png');
         })
         .then(() => {
-          this.processing$.next(false);
+          this.status$.next({ processing: false, error: null });
+        })
+        .catch(() => {
+          this.status$.next({
+            processing: false,
+            error: 'Could not export PNG. File may be too large.',
+          });
         });
-    } else throw new Error('Unable to export the SVG');
+    } else
+      this.status$.next({
+        processing: false,
+        error: 'Could not find SVG to export.',
+      });
   }
 
   saveSVG() {
-    this.processing$.next(true);
+    this.status$.next({ processing: true, error: null });
+    const svg = document.getElementById('gene-graphic');
+    if (svg) {
+      let serializer = new XMLSerializer();
+      let svg_uri = serializer.serializeToString(svg);
+      svg_uri =
+        'data:image/svg+xml;charset=utf-8, ' + encodeURIComponent(svg_uri);
+      saveAs(svg_uri, 'new-genegraphic.svg');
+      this.status$.next({ processing: false, error: null });
+    } else {
+      this.status$.next({
+        processing: false,
+        error: 'Could not find SVG to export.',
+      });
+    }
+  }
+
+  saveSVGEmbedFonts() {
+    this.status$.next({ processing: true, error: null });
     const svg = document.getElementById('gene-graphic');
     if (svg) {
       toSvg(svg, { fontEmbedCSS: '' })
@@ -45,11 +78,22 @@ export class ExportService {
             );
           saveAs(svgEdited, 'new-genegraphic.svg');
         })
-        .then(() => this.processing$.next(false));
+        .then(() => {
+          this.status$.next({ processing: false, error: null });
+        })
+        .catch(() => {
+          let errormsg = 'Could not export SVG. The file may be too large.';
+          this.status$.next({ processing: false, error: errormsg });
+        });
+    } else {
+      this.status$.next({
+        processing: false,
+        error: 'Could not find SVG to export.',
+      });
     }
   }
   saveTIFF() {
-    this.processing$.next(true);
+    this.status$.next({ processing: true, error: null });
     const svg = document.getElementById('gene-graphic');
     if (svg) {
       const pixel_ratio = window.devicePixelRatio;
@@ -69,12 +113,18 @@ export class ExportService {
           const blob = new Blob([tiff], { type: 'image/tiff' });
           saveAs(blob, 'new-genegraphic.tiff');
         })
-        .then(() => this.processing$.next(false));
+        .then(() => this.status$.next({ processing: false, error: null }))
+        .catch(() =>
+          this.status$.next({
+            processing: false,
+            error: 'Could not export to TIFF. File may be too large.',
+          })
+        );
     }
   }
 
   async saveJSON(geneGraphic?: GeneGraphic) {
-    this.processing$.next(true);
+    this.status$.next({ processing: true, error: null });
     const blob = await exportDB(this.db, {
       filter: (table: string, value: any, key: any) => {
         if (geneGraphic) {
@@ -90,7 +140,14 @@ export class ExportService {
     let filename = geneGraphic
       ? `${geneGraphic.name}.json`
       : 'all-genegraphics.json';
-    saveAs(blob, filename);
-    this.processing$.next(false);
+    if (blob) {
+      saveAs(blob, filename);
+      this.status$.next({ processing: false, error: null });
+    } else {
+      this.status$.next({
+        processing: false,
+        error: 'Could not save the database.',
+      });
+    }
   }
 }

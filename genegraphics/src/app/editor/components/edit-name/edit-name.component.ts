@@ -11,14 +11,19 @@ import { DatabaseService } from '@app/shared/services/database.service';
 import {
   getDefaultProperty,
   getSharedNameFromData,
+  tooltipDefaults,
   updateName,
   updateNameFromField,
 } from '@app/shared/helpers/utils';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
 
 @Component({
   selector: 'edit-name',
   templateUrl: './edit-name.component.html',
   styleUrls: ['./edit-name.component.scss'],
+  providers: [
+    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: tooltipDefaults },
+  ],
 })
 export class EditNameComponent implements OnChanges, OnInit {
   @Input() items!: GeneGraphic[] | Feature[] | Region[];

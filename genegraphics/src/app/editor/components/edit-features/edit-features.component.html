@@ -15,7 +15,11 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <div class="row inc-dec-row">
+  <div
+    matTooltip="Show domain fusions with 2 or 3 colors."
+    matTooltipPosition="above"
+    class="row inc-dec-row"
+  >
     <button [disabled]="getNumColors() <= 1" (click)="addOrRemoveColor(false)">
       <mat-icon>remove</mat-icon>
     </button>
@@ -46,7 +50,7 @@
   ></edit-name>
 </div>
 <div class="column no-width">
-  <div class="column-header delete-button-row">
+  <div class="delete-button-row row">
     <button mat-raised-button color="warn" (click)="deleteFeatures()">
       <mat-icon>delete_forever</mat-icon>Delete Feature{{
         features.length > 1 ? "s" : ""
