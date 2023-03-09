@@ -36,7 +36,8 @@ export class DatabaseService extends Dexie {
                       geneGraphic.regions[region_index].features[feature_index]
                         .color1;
                     let color2 =
-                      geneGraphic.regions[region_index].color2 || null;
+                      geneGraphic.regions[region_index].features[feature_index]
+                        .color2;
                     geneGraphic.regions[region_index].features[
                       feature_index
                     ].colors = [color1];
