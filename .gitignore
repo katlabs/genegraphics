@@ -7,3 +7,5 @@ updates.md
 
 .env
 docker-compose.override-notraefik.yml
+
+.notes.md

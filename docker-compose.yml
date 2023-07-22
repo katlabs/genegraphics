@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   genegraphics:
-    build: 
+    build:
       context: ./genegraphics
     networks:
       - traefik
@@ -15,3 +15,4 @@ services:
 networks:
   traefik:
     name: web
+    external: true
