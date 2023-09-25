@@ -4,11 +4,11 @@ import {
   Feature,
   TextProps,
   Selection,
-} from '@models/models';
-import { DatabaseService } from '@services/database.service';
-import { createId } from '@paralleldrive/cuid2';
-import { liveQuery } from 'dexie';
-import { MatTooltipDefaultOptions } from '@angular/material/tooltip';
+} from "@models/models";
+import { DatabaseService } from "@services/database.service";
+import { createId } from "@paralleldrive/cuid2";
+import { liveQuery } from "dexie";
+import { MatTooltipDefaultOptions } from "@angular/material/tooltip";
 
 export const tooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 500,
@@ -21,40 +21,40 @@ export const DEFAULT_TEXTPROPS = {
   bold: false,
   italic: false,
   fontSize: 16,
-  fontFamily: 'Arial, sans-serif',
-  color: '#000000',
-  posHor: 'left',
-  posVert: 'above',
+  fontFamily: "Arial, sans-serif",
+  color: "#000000",
+  posHor: "left",
+  posVert: "above",
 };
 
-export const DEFAULT_COLOR = '#FFFFFF';
+export const DEFAULT_COLOR = "#FFFFFF";
 
 export function timeAgo(date: Date) {
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
   let interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
-    return interval + ' years ago';
+    return interval + " years ago";
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
-    return interval + ' months ago';
+    return interval + " months ago";
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {
-    return interval + ' days ago';
+    return interval + " days ago";
   }
   interval = Math.floor(seconds / 3600);
   if (interval > 1) {
-    return interval + ' hours ago';
+    return interval + " hours ago";
   }
   interval = Math.floor(seconds / 60);
   if (interval > 1) {
-    return interval + ' minutes ago';
+    return interval + " minutes ago";
   }
-  if (seconds < 10) return 'just now';
+  if (seconds < 10) return "just now";
 
-  return Math.floor(seconds) + ' seconds ago';
+  return Math.floor(seconds) + " seconds ago";
 }
 
 export async function changeRegionPosition(
@@ -67,27 +67,27 @@ export async function changeRegionPosition(
   let curr_pos_ind = geneGraphic.regions
     .map((r) => r.position)
     .indexOf(curr_pos);
-  if (dir === 'down') {
+  if (dir === "down") {
     let next_pos_ind = geneGraphic.regions
       .map((r) => r.position)
       .indexOf(curr_pos + 1);
     geneGraphic.regions[curr_pos_ind].position = curr_pos + 1;
     geneGraphic.regions[next_pos_ind].position = curr_pos;
-  } else if (dir === 'up') {
+  } else if (dir === "up") {
     let prev_pos_ind = geneGraphic.regions
       .map((r) => r.position)
       .indexOf(curr_pos - 1);
     geneGraphic.regions[curr_pos_ind].position = curr_pos - 1;
     geneGraphic.regions[prev_pos_ind].position = curr_pos;
   }
-  return await db.transaction('rw', db.geneGraphics, async () => {
+  return await db.transaction("rw", db.geneGraphics, async () => {
     await db.geneGraphics.put(geneGraphic);
     return geneGraphic.regions[curr_pos_ind].position;
   });
 }
 
 export function getCurrentGeneGraphic(db: DatabaseService) {
-  return liveQuery(() => db.geneGraphics.orderBy('opened').last());
+  return liveQuery(() => db.geneGraphics.orderBy("opened").last());
 }
 
 export async function getDataFetches(db: DatabaseService) {
@@ -124,7 +124,7 @@ export async function createGeneGraphic(db: DatabaseService) {
   const window_width = window.innerWidth;
   const newGeneGraphic: GeneGraphic = {
     id: createId(),
-    name: 'New Gene Graphic',
+    name: "New Gene Graphic",
     nameProps: Object.assign({}, DEFAULT_TEXTPROPS),
     opened: Date.now(),
     width: window_width - 60,
@@ -137,7 +137,7 @@ export async function createGeneGraphic(db: DatabaseService) {
     regions: [] as Region[],
     selections: [] as Selection[],
   };
-  return await db.transaction('rw', db.geneGraphics, async () => {
+  return await db.transaction("rw", db.geneGraphics, async () => {
     const new_id = await db.geneGraphics.add(newGeneGraphic);
     return await db.geneGraphics.get(new_id);
   });
@@ -147,7 +147,7 @@ export async function deleteGeneGraphic(
   db: DatabaseService,
   geneGraphic: GeneGraphic
 ) {
-  await db.transaction('rw', db.geneGraphics, async () => {
+  await db.transaction("rw", db.geneGraphics, async () => {
     await db.geneGraphics.where({ id: geneGraphic.id }).delete();
     const geneGraphics = await db.geneGraphics.toArray();
     if (geneGraphics.length < 1) {
@@ -162,8 +162,8 @@ export async function updateGeneGraphic(
   update: { [key: string]: string }
 ) {
   Object.assign(geneGraphic, update);
-  const updateScaleOn = ['width'];
-  const updateShiftsOn = ['multilane', 'overlap', 'gaps'];
+  const updateScaleOn = ["width"];
+  const updateShiftsOn = ["multilane", "overlap", "gaps"];
   if (Object.keys(update).some((r) => updateShiftsOn.indexOf(r) >= 0)) {
     applyShifts(geneGraphic);
   } else if (Object.keys(update).some((r) => updateScaleOn.indexOf(r) >= 0)) {
@@ -376,7 +376,7 @@ export function getDefaultProperty(
 export function getSharedNameFromData(items: Feature[] | Region[]) {
   const firstItem = items[0];
   const field = Object.keys(firstItem).find((key) => {
-    if (key === 'name') return false;
+    if (key === "name") return false;
     return firstItem.name === firstItem[key as keyof typeof firstItem];
   });
   if (!field) {
@@ -396,28 +396,28 @@ export function updateTextProp(
   newVal: any
 ) {
   switch (field) {
-    case 'hide':
+    case "hide":
       item.nameProps.hide = newVal;
       break;
-    case 'bold':
+    case "bold":
       item.nameProps.bold = newVal;
       break;
-    case 'italic':
+    case "italic":
       item.nameProps.italic = newVal;
       break;
-    case 'fontSize':
+    case "fontSize":
       item.nameProps.fontSize = newVal;
       break;
-    case 'fontFamily':
+    case "fontFamily":
       item.nameProps.fontFamily = newVal;
       break;
-    case 'color':
+    case "color":
       item.nameProps.color = newVal;
       break;
-    case 'posHor':
+    case "posHor":
       item.nameProps.posHor = newVal;
       break;
-    case 'posVert':
+    case "posVert":
       item.nameProps.posVert = newVal;
   }
 }
@@ -429,17 +429,17 @@ export function updateTextProps(
   ids: any[],
   newVals: Record<string, any>
 ) {
-  if (type === 'geneGraphic') {
+  if (type === "geneGraphic") {
     for (const key in newVals) {
       updateTextProp(geneGraphic, key, newVals[key]);
     }
   } else {
     geneGraphic.regions.forEach((region) => {
-      if (type === 'region' && ids.includes(region.id)) {
+      if (type === "region" && ids.includes(region.id)) {
         for (const key in newVals) {
           updateTextProp(region, key, newVals[key]);
         }
-      } else if (type === 'feature') {
+      } else if (type === "feature") {
         region.features.forEach((feature) => {
           if (ids.includes(feature.id)) {
             for (const key in newVals) {
@@ -460,12 +460,12 @@ export function updateName(
   ids: any[],
   newName: string
 ) {
-  if (type === 'geneGraphic') geneGraphic.name = newName;
+  if (type === "geneGraphic") geneGraphic.name = newName;
   else {
     geneGraphic.regions.forEach((region) => {
-      if (type === 'region' && ids.includes(region.id)) {
+      if (type === "region" && ids.includes(region.id)) {
         region.name = newName;
-      } else if (type === 'feature') {
+      } else if (type === "feature") {
         region.features.forEach((feature) => {
           if (ids.includes(feature.id)) feature.name = newName;
         });
@@ -483,10 +483,10 @@ export function updateNameFromField(
   field: string
 ) {
   geneGraphic.regions.forEach((region) => {
-    if (type === 'region' && ids.includes(region.id)) {
+    if (type === "region" && ids.includes(region.id)) {
       const newName = region[field as keyof typeof region] as string;
       region.name = newName;
-    } else if (type === 'feature') {
+    } else if (type === "feature") {
       region.features.forEach((feature) => {
         if (ids.includes(feature.id)) {
           const newName = feature[field as keyof typeof feature] as string;
@@ -555,9 +555,9 @@ export function toGrey(color: string) {
 export function getColorsFromProduct(product: string): string {
   const whiteThreshold = 140;
   const hash = simpleHash128(product);
-  let featureColor = '#FFFFFF';
+  let featureColor = "#FFFFFF";
   for (let i = 0; i < hash.length - 6; i++) {
-    featureColor = '#' + hash.substring(i, i + 6);
+    featureColor = "#" + hash.substring(i, i + 6);
     if (
       toGrey(featureColor) >= whiteThreshold &&
       toGrey(featureColor) < 256 - 32
@@ -569,32 +569,32 @@ export function getColorsFromProduct(product: string): string {
 }
 
 export function parseBool(s: string) {
-  return s.toLowerCase() == 'true'
+  return s.toLowerCase() == "true"
     ? true
-    : s.toLowerCase() == 'false'
+    : s.toLowerCase() == "false"
     ? false
     : undefined;
 }
 
 export function getHexColor(str: string): string {
-  if (str === '') return '';
-  const hexPattern = new RegExp('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
+  if (str === "") return "";
+  const hexPattern = new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
   if (hexPattern.test(str)) return str;
-  let ctx = document.createElement('canvas').getContext('2d');
+  let ctx = document.createElement("canvas").getContext("2d");
   if (ctx) {
     ctx.fillStyle = str;
     return ctx.fillStyle;
   } else {
-    return '';
+    return "";
   }
 }
 
 export function parseFeatureProps(item: any[], header: string[]): TextProps {
   let nameProps = Object.assign({}, DEFAULT_TEXTPROPS);
-  let namehtml: string | undefined = item[header.indexOf('namehtml')];
+  let namehtml: string | undefined = item[header.indexOf("namehtml")];
   if (namehtml) {
-    nameProps.bold = namehtml.search('<strong>') != -1 ? true : false;
-    nameProps.italic = namehtml.search('<em>') != -1 ? true : false;
+    nameProps.bold = namehtml.search("<strong>") != -1 ? true : false;
+    nameProps.italic = namehtml.search("<em>") != -1 ? true : false;
     let font_size_match = namehtml.match(/font-size: (\d+)[pt]?;/);
     if (font_size_match?.at(1)) {
       nameProps.fontSize = parseInt(font_size_match[1]);
@@ -607,14 +607,14 @@ export function parseFeatureProps(item: any[], header: string[]): TextProps {
     if (text_align_match?.at(1)) {
       nameProps.posHor = text_align_match[1];
     }
-    let labelvertpos = item[header.indexOf('labelvertpos')];
+    let labelvertpos = item[header.indexOf("labelvertpos")];
     nameProps.posVert =
-      labelvertpos === 'top'
-        ? 'above'
-        : labelvertpos === 'middle'
-        ? 'center'
-        : labelvertpos === 'bottom'
-        ? 'below'
+      labelvertpos === "top"
+        ? "above"
+        : labelvertpos === "middle"
+        ? "center"
+        : labelvertpos === "bottom"
+        ? "below"
         : nameProps.posVert;
   }
   return nameProps;
@@ -622,10 +622,10 @@ export function parseFeatureProps(item: any[], header: string[]): TextProps {
 
 export function parseRegionProps(item: any[], header: string[]): TextProps {
   let nameProps = Object.assign({}, DEFAULT_TEXTPROPS);
-  let genomehtml: string | undefined = item[header.indexOf('genomehtml')];
+  let genomehtml: string | undefined = item[header.indexOf("genomehtml")];
   if (genomehtml) {
-    nameProps.bold = genomehtml.search('<strong>') != -1 ? true : false;
-    nameProps.italic = genomehtml.search('<em>') != -1 ? true : false;
+    nameProps.bold = genomehtml.search("<strong>") != -1 ? true : false;
+    nameProps.italic = genomehtml.search("<em>") != -1 ? true : false;
     let font_size_match = genomehtml.match(/font-size: (\d+)[pt]?;/);
     if (font_size_match?.at(1)) {
       nameProps.fontSize = parseInt(font_size_match[1]);
@@ -649,24 +649,24 @@ export function applyGraphSettings(
   let last_row_first_col = data.at(-1)?.at(0);
   let graphSettings;
   if (
-    typeof last_row_first_col == 'string' &&
-    last_row_first_col.startsWith('GraphSettings:')
+    typeof last_row_first_col == "string" &&
+    last_row_first_col.startsWith("GraphSettings:")
   ) {
     graphSettings = JSON.parse(
-      data.pop()?.at(0)?.replace('GraphSettings:', '')
+      data.pop()?.at(0)?.replace("GraphSettings:", "")
     );
   }
   if (graphSettings) {
-    geneGraphic.width = parseInt(graphSettings['graphwidth']);
-    geneGraphic.featureHeight = parseInt(graphSettings['featureheight']);
-    let showScale = parseBool(graphSettings['scaleOn']);
-    if (typeof showScale == 'boolean') geneGraphic.showScale = showScale;
-    let multilane = parseBool(graphSettings['multilane']);
-    if (typeof multilane == 'boolean') geneGraphic.multilane = multilane;
-    let gaps = parseBool(graphSettings['keepgaps']);
-    if (typeof gaps == 'boolean') geneGraphic.gaps = gaps;
-    let overlap = parseBool(graphSettings['shiftgenes']);
-    if (typeof overlap == 'boolean') geneGraphic.overlap = overlap;
+    geneGraphic.width = parseInt(graphSettings["graphwidth"]);
+    geneGraphic.featureHeight = parseInt(graphSettings["featureheight"]);
+    let showScale = parseBool(graphSettings["scaleOn"]);
+    if (typeof showScale == "boolean") geneGraphic.showScale = showScale;
+    let multilane = parseBool(graphSettings["multilane"]);
+    if (typeof multilane == "boolean") geneGraphic.multilane = multilane;
+    let gaps = parseBool(graphSettings["keepgaps"]);
+    if (typeof gaps == "boolean") geneGraphic.gaps = gaps;
+    let overlap = parseBool(graphSettings["shiftgenes"]);
+    if (typeof overlap == "boolean") geneGraphic.overlap = overlap;
     return graphSettings;
   } else {
     return null;
@@ -685,7 +685,7 @@ export function getFieldInd(header: string[], possible_fields: string[]) {
 
 export function getFieldOrBlank(item: any[], index: number): string {
   if (index == -1) {
-    return '';
+    return "";
   } else {
     return item[index];
   }
@@ -694,31 +694,32 @@ export function getFieldOrBlank(item: any[], index: number): string {
 export function getIndexes(header: string[]): {} {
   let header_lower = header.map((f) => f.toLowerCase());
   let indexes = {
-    start: header_lower.indexOf('start'),
-    stop: getFieldInd(header_lower, ['stop', 'end']),
+    start: header_lower.indexOf("start"),
+    stop: getFieldInd(header_lower, ["stop", "end"]),
+    strand: header_lower.indexOf("strand"),
     region_change: getFieldInd(header_lower, [
-      'region number',
-      'genome',
-      'genome id',
+      "region number",
+      "genome",
+      "genome id",
     ]),
-    region_name: getFieldInd(header_lower, ['genome', 'genome id']),
-    feature_name: header_lower.indexOf('name'),
-    genome: header_lower.indexOf('genome'),
-    genome_id: header_lower.indexOf('genome id'),
+    region_name: getFieldInd(header_lower, ["genome", "genome id"]),
+    feature_name: getFieldInd(header_lower, ["gene name", "name"]),
+    genome: header_lower.indexOf("genome"),
+    genome_id: header_lower.indexOf("genome id"),
     length: getFieldInd(header_lower, [
-      'size',
-      'size (nt)',
-      'length',
-      'length (nt)',
+      "size",
+      "size (nt)",
+      "length",
+      "length (nt)",
     ]),
-    color: header_lower.indexOf('color'),
-    BRC_ID: getFieldInd(header_lower, ['feature id', 'id']),
-    product: header_lower.indexOf('function'),
-    patric_global: header_lower.indexOf('patric global family'),
-    patric_local: header_lower.indexOf('patric local family'),
+    color: header_lower.indexOf("color"),
+    BRC_ID: getFieldInd(header_lower, ["feature id", "id"]),
+    product: header_lower.indexOf("function"),
+    patric_global: header_lower.indexOf("patric global family"),
+    patric_local: header_lower.indexOf("patric local family"),
     product_length: getFieldInd(header_lower, [
-      'product length (aa)',
-      'product length',
+      "product length (aa)",
+      "product length",
     ]),
   };
   if (
@@ -726,7 +727,7 @@ export function getIndexes(header: string[]): {} {
     indexes.stop == -1 ||
     indexes.region_change == -1
   ) {
-    throw new Error('File does not include required columns.');
+    throw new Error("File does not include required columns.");
   }
   return indexes;
 }
@@ -742,17 +743,17 @@ export function getLanesSize(region: Region, featureHeight: number) {
   let lane2_bottom_sizes: number[] = [0];
   region.features.forEach((f) => {
     if (f.lane === 1) {
-      if (!f.nameProps.hide && f.nameProps.posVert === 'above') {
+      if (!f.nameProps.hide && f.nameProps.posVert === "above") {
         lane1_top_sizes.push(f.nameProps.fontSize);
       } else lane1_top_sizes.push(0);
-      if (!f.nameProps.hide && f.nameProps.posVert == 'below') {
+      if (!f.nameProps.hide && f.nameProps.posVert == "below") {
         lane1_bottom_sizes.push(f.nameProps.fontSize);
       } else lane1_bottom_sizes.push(0);
     } else if (f.lane === 2) {
-      if (!f.nameProps.hide && f.nameProps.posVert === 'above') {
+      if (!f.nameProps.hide && f.nameProps.posVert === "above") {
         lane2_top_sizes.push(f.nameProps.fontSize);
       } else lane2_top_sizes.push(0);
-      if (!f.nameProps.hide && f.nameProps.posVert == 'below') {
+      if (!f.nameProps.hide && f.nameProps.posVert == "below") {
         lane2_bottom_sizes.push(f.nameProps.fontSize);
       } else lane2_bottom_sizes.push(0);
     }
