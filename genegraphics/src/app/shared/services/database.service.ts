@@ -1,31 +1,31 @@
-import { Injectable } from '@angular/core';
-import Dexie, { Table } from 'dexie';
-import { DataFetch, GeneGraphic, Region, Feature } from '@models/models';
-import { createGeneGraphic } from '@helpers/utils';
+import { Injectable } from "@angular/core";
+import Dexie, { Table } from "dexie";
+import { DataFetch, GeneGraphic, Region, Feature } from "@models/models";
+import { createGeneGraphic } from "@helpers/utils";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class DatabaseService extends Dexie {
   public geneGraphics!: Table<GeneGraphic, string>;
   public dataFetches!: Table<DataFetch, string>;
 
   constructor() {
-    super('GeneGraphicsDB');
+    super("GeneGraphicsDB");
     const db = this;
 
     db.version(1).stores({
-      geneGraphics: '&id, opened',
-      dataFetches: '&id',
+      geneGraphics: "&id, opened",
+      dataFetches: "&id",
     });
     db.version(2)
       .stores({
-        geneGraphics: '&id, opened',
-        dataFetches: '&id',
+        geneGraphics: "&id, opened",
+        dataFetches: "&id",
       })
       .upgrade((trans) => {
         return trans
-          .table('geneGraphics')
+          .table("geneGraphics")
           .toCollection()
           .modify((geneGraphic) => {
             geneGraphic.regions.forEach(
@@ -62,7 +62,20 @@ export class DatabaseService extends Dexie {
             );
           });
       });
-    db.on('populate', () => db.populate());
+    db.version(3)
+      .stores({
+        geneGraphics: "&id, opened",
+        dataFetches: "&id",
+      })
+      .upgrade((trans) => {
+        return trans
+          .table("geneGraphics")
+          .toCollection()
+          .modify((geneGraphic) => {
+            geneGraphic.scaleSize = "1";
+          });
+      });
+    db.on("populate", () => db.populate());
   }
 
   async populate() {

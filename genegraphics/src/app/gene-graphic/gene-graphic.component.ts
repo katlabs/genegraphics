@@ -1,12 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { GeneGraphic, Region } from '@models/models';
-import { SelectionService } from '@services/selection.service';
-import { getRegionTop } from '@helpers/utils';
+import { Component, Input } from "@angular/core";
+import { GeneGraphic, Region } from "@models/models";
+import { SelectionService } from "@services/selection.service";
+import { getRegionTop } from "@helpers/utils";
 
 @Component({
-  selector: 'app-gene-graphic',
-  templateUrl: './gene-graphic.component.svg',
-  styleUrls: ['./gene-graphic.component.scss'],
+  selector: "app-gene-graphic",
+  templateUrl: "./gene-graphic.component.svg",
+  styleUrls: ["./gene-graphic.component.scss"],
 })
 export class GeneGraphicComponent {
   @Input() geneGraphic!: GeneGraphic;
@@ -33,15 +33,15 @@ export class GeneGraphicComponent {
 
   getTitleX() {
     const paddedWidth = this.geneGraphic.width - 20;
-    if (this.geneGraphic.nameProps.posHor === 'center') return paddedWidth / 2;
-    else if (this.geneGraphic.nameProps.posHor === 'right') return paddedWidth;
-    else return '10';
+    if (this.geneGraphic.nameProps.posHor === "center") return paddedWidth / 2;
+    else if (this.geneGraphic.nameProps.posHor === "right") return paddedWidth;
+    else return "10";
   }
 
   getTitleAnchor() {
-    if (this.geneGraphic.nameProps.posHor === 'center') return 'middle';
-    else if (this.geneGraphic.nameProps.posHor === 'right') return 'end';
-    else return 'start';
+    if (this.geneGraphic.nameProps.posHor === "center") return "middle";
+    else if (this.geneGraphic.nameProps.posHor === "right") return "end";
+    else return "start";
   }
 
   getScaleY() {
@@ -77,7 +77,7 @@ export class GeneGraphicComponent {
   }
 
   getScalePoints() {
-    let width = this.bpToPx(1000);
+    let width = this.bpToPx(1000 * this.geneGraphic.scaleSize);
     return `10,10,10,25,${width},25,${width},10`;
   }
 
@@ -85,7 +85,7 @@ export class GeneGraphicComponent {
     e.stopPropagation();
     if (this.geneGraphic.id) {
       const multi = e.ctrlKey || e.metaKey || e.altKey || e.shiftKey;
-      this.sel.selectItem(this.geneGraphic.id, 'geneGraphic', multi);
+      this.sel.selectItem(this.geneGraphic.id, "geneGraphic", multi);
     } else {
       this.sel.deselectAll();
     }

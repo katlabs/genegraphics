@@ -63,6 +63,7 @@ export interface GeneGraphic {
   scale_ratio: number;
   featureHeight: number;
   showScale: boolean;
+  scaleSize: number;
   multilane: boolean;
   gaps: boolean;
   overlap: boolean;

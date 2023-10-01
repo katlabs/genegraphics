@@ -31,7 +31,7 @@
         y="37"
         font-size="12"
         font-style="italic">
-        Scale: 1kB
+        Scale: {{geneGraphic.scaleSize}}kB
       </svg:text>
     </svg:g>
   <svg:g

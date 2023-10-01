@@ -81,7 +81,7 @@ export class TsvParseService {
         colors: [color],
         BRC_ID: getFieldOrBlank(item, indexes.BRC_ID),
         Locus_Tag: "",
-        Gene_Name: "",
+        Gene_Name: getFieldOrBlank(item, indexes.feature_name),
         Gene_ID: "",
         Protein_ID: "",
         Uniprot_Acc: "",

@@ -130,6 +130,7 @@ export async function createGeneGraphic(db: DatabaseService) {
     width: window_width - 60,
     featureHeight: 50,
     showScale: true,
+    scaleSize: 1,
     scale_ratio: 0.2,
     multilane: true,
     gaps: true,
@@ -159,7 +160,7 @@ export async function deleteGeneGraphic(
 export async function updateGeneGraphic(
   db: DatabaseService,
   geneGraphic: GeneGraphic,
-  update: { [key: string]: string }
+  update: { [key: string]: unknown }
 ) {
   Object.assign(geneGraphic, update);
   const updateScaleOn = ["width"];
@@ -659,6 +660,8 @@ export function applyGraphSettings(
   if (graphSettings) {
     geneGraphic.width = parseInt(graphSettings["graphwidth"]);
     geneGraphic.featureHeight = parseInt(graphSettings["featureheight"]);
+    geneGraphic.scaleSize = parseInt(graphSettings["scaleSize"]);
+    if (geneGraphic.scaleSize == 0) geneGraphic.scaleSize = 1;
     let showScale = parseBool(graphSettings["scaleOn"]);
     if (typeof showScale == "boolean") geneGraphic.showScale = showScale;
     let multilane = parseBool(graphSettings["multilane"]);

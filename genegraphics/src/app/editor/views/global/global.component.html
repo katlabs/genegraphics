@@ -68,11 +68,15 @@
     </div>
     <div class="row lane-settings">
       <div class="column no-width">
-        <mat-checkbox
-          [checked]="geneGraphic.showScale"
-          formControlName="showScale"
-          >Show Scale</mat-checkbox
-        >
+        <mat-form-field appearance="fill">
+          <mat-label>Scale Size (kB)</mat-label>
+          <mat-select [formControl]="scaleFormControl">
+            <mat-option *ngFor="let option of scaleOptions" [value]="option">
+              {{ option }}
+              <span *ngIf="option != 'Hidden'">kB</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <div formGroupName="laneSettings">
           <mat-checkbox
             [checked]="geneGraphic.multilane"
